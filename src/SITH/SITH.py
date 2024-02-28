@@ -92,7 +92,7 @@ class SITH:
         self.all_forces = np.array([defo.internal_forces
                                     for defo in self.structures])
         self.dofs_energies = None
-        self.structure_energy = None
+        self.structure_energies = None
         self.energies_percertage = None
         self.delta_q = None
 
@@ -143,9 +143,9 @@ class SITH:
         [1] percentage of error
         """
 
-        assert self.structure_energy is not None, \
+        assert self.structure_energies is not None, \
             "Energy distribution not computed yet."
-        obtainedDE = self.structure_energy
+        obtainedDE = self.structure_energies
         expectedDE = self.structures_scf_energies
 
         errorDE = obtainedDE - expectedDE
@@ -294,7 +294,7 @@ class SITH:
         if self.all_forces is not None:
             self.all_forces = self.all_forces[ini_index: last_index]
         if self.dofs_energies is not None:
-            self.structure_energy = np.sum(self.dofs_energies, axis=1)
+            self.structure_energies = np.sum(self.dofs_energies, axis=1)
 
         return self.structures
     # endregion
@@ -311,8 +311,8 @@ class SITH:
         """
         # Jedi Analysis (ja)
         ja = JediAnalysis(self)
-        self.dofs_energies, self.structure_energy = ja.jedi_analysis()
-        return self.structure_energy, self.dofs_energies
+        self.dofs_energies, self.structure_energies = ja.jedi_analysis()
+        return self.structure_energies, self.dofs_energies
 
     def sith_analysis(self, integration_method: str = 'trapezoid_integration'):
         """Uses the values in 'structures' (:mod:`~SITH.Utilities.Geometry`
@@ -335,6 +335,6 @@ class SITH:
         sa = SithAnalysis(self)
         # transform integration method from string to method
         integration_method = getattr(sa, integration_method)
-        self.dofs_energies, self.structure_energy = integration_method()
-        return self.structure_energy, self.dofs_energies
+        self.dofs_energies, self.structure_energies = integration_method()
+        return self.structure_energies, self.dofs_energies
     # endregion
