@@ -128,7 +128,8 @@ class SITH:
             f"Incompatible dimensions {ref.dims} " +\
             f"{self.structures[-1].dims}"
         assert all([(deformn.dim_indices == ref.dim_indices).all()
-                    for deformn in self.structures]), "Incompatible dimensions"
+                    for deformn in self.structures]), "Incompatible " + \
+                    f"dimensions.\nreference: {ref.dim_indices}\n"
     # endregion
 
     # Error
@@ -249,7 +250,8 @@ class SITH:
         return self.removed_dofs
 
     def rem_first_last(self, rem_first_def=0, rem_last_def=0,
-                       from_last_minimum: bool = False) -> list:
+                       from_last_minimum: bool = False,
+                       from_global_minimum: bool=False) -> list:
         """Removes first and last structure configs and data from all the
         attributes of the Sith object.
 
@@ -270,7 +272,12 @@ class SITH:
         ======
         (list) Deformed Geometry objects. SITH.structures.
         """
-        if from_last_minimum:
+        if from_global_minimum:
+            all_energies = self.structures_scf_energies
+            min_bool = all_energies == min(all_energies)
+            i_min = (np.where(min_bool)[0])[-1]
+            ini_index = max(rem_first_def, i_min)
+        elif from_last_minimum:
             try:
                 dif_ener = self.structures_scf_energies[1:] - \
                     self.structures_scf_energies[:-1] < 0
