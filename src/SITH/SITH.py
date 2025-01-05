@@ -264,7 +264,8 @@ class SITH:
     def rem_first_last(self, rem_first_def=0, rem_last_def=0,
                        from_last_minimum: bool = False,
                        from_global_minimum: bool=False) -> list:
-        """Removes first and last structure configs and data from all the
+        """
+        Removes first and last structure configs and data from all the
         attributes of the Sith object.
 
         Parameters
