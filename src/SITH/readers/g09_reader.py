@@ -52,6 +52,7 @@ class FileReader:
         # Geometry object into which the Extractor loads the extracted fchk
         # data:
         self.geometry = Geometry(self._name)
+        self.geometry.ref_file = str(path)
 
         # dims of DOFS [#DOFS, #lenghts, #angles, #dihedrals]
         self.dims = None

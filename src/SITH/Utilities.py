@@ -59,6 +59,7 @@ class Geometry:
         # refers to the task the reader has to do.
 
         self.name = name  # optional
+        self.ref_file = None  # optional
         self.n_atoms = None  # mandatory
         self.scf_energy = None  # optional
         self.dims = None  # mandatory
