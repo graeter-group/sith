@@ -295,7 +295,6 @@ class FileReader:
         assert len(r_coord) == self.geometry.n_atoms * 3, \
             "Missing coordinates components."
         self.cartesian_coord = r_coord.reshape((self.geometry.n_atoms, 3))
-        self.cartesian_coord *= Bohr
 
         return ith_line, self.cartesian_coord
 
