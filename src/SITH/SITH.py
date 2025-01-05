@@ -143,7 +143,6 @@ class SITH:
         [0] absolute difference
         [1] percentage of error
         """
-
         assert self.structure_energies is not None, \
             "Energy distribution not computed yet."
         obtainedDE = self.structure_energies
@@ -151,9 +150,9 @@ class SITH:
 
         errorDE = obtainedDE - expectedDE
         pErrorDE = (errorDE / expectedDE) * 100
-        if not np.isfinite(pErrorDE[0]):
-            pErrorDE[0] = 100
-        return np.array([errorDE[0], pErrorDE[0]])
+        # by definition the energy at the optimized conf is zero.
+        pErrorDE[0] = 0
+        return np.array([errorDE, pErrorDE])
 
     # region DOFsHomicide
     def remove_extra_dofs(self) -> dict:
