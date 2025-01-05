@@ -6,7 +6,24 @@ from SITH.energy_analysis.jedi_analysis import JediAnalysis
 
 
 class SITH:
-    """A class to calculate and house SITH or JEDI analysis data.
+    """
+    A class to calculate and house SITH or JEDI analysis data.
+
+    Parameters
+    ==========
+    inputfiles: list or str
+        list of paths to the input files (as strings or paths) for the
+        readers. The order of the elements matters according to the energy
+        anaylis aplied. This parameter could also be a string of the path
+        to the a directory containing the fchk files in alphabetic order.
+    reader: str
+        name of the reader. The options so far are:
+        -- G09Reader
+    reference: int (optional)
+        index of the structure to have as a reference for the energy
+        distribution analysis. Default=0
+    kwargs:
+        additional arguments for the selected reader.
 
     Attributes
     ==========
@@ -53,24 +70,6 @@ class SITH:
     def __init__(self, inputfiles: Union[list, str],
                  reader: str = 'G09Reader', reference: int = 0,
                  **kwargs):
-        """Initializes a SITH object
-
-        Parameters
-        ==========
-        inputfiles: list or str
-            list of paths to the input files (as strings or paths) for the
-            readers. The order of the elements matters according to the energy
-            anaylis aplied. This parameter could also be a string of the path
-            to the a directory containing the fchk files in alphabetic order.
-        reader: str
-            name of the reader. The options so far are:
-            -- G09Reader
-        reference: int (optional)
-            index of the structure to have as a reference for the energy
-            distribution analysis. Default=0
-        **kwargs
-            additional arguments for the selected reader.
-        """
         self.removed_dofs = {}
         self.reference = reference
         reader = self._get_reader(reader)(inputfiles, **kwargs)
@@ -97,7 +96,8 @@ class SITH:
         self.delta_q = None
 
     def _get_reader(self, reader: str) -> object:
-        """Import the class of the reader. It depends on the software used by
+        """
+        Import the class of the reader. It depends on the software used by
         the user to compute the energies.
 
         Parameters
@@ -105,8 +105,8 @@ class SITH:
         reader: str
             name of the reader. check SITH.readers
 
-        Returns
-        =======
+        Return
+        ======
         (object) reader to be initialized.
         """
         # {name: modulus}
@@ -116,7 +116,13 @@ class SITH:
 
     # region Validate
     def _validate_geometries(self):
-        """Ensure that all structures are compatible(# atoms, # dofs, etc.)"""
+        """
+        Ensure that all structures are compatible(# atoms, # dofs, etc.)
+
+        Return
+        ======
+        (bool) True if validation works.
+        """
         # TODO: Replace print by logging
         # print("Validating geometries...")
         ref = self.structures[0]
@@ -129,15 +135,17 @@ class SITH:
             f"{self.structures[-1].dims}"
         assert all([(deformn.dim_indices == ref.dim_indices).all()
                     for deformn in self.structures]), "Incompatible dimensions"
+        return True
     # endregion
 
     # Error
     def energies_error(self) -> np.ndarray:
-        """Computes the error of the structure energy computed by the energy
+        """
+        Computes the error of the structure energy computed by the energy
         distribution and the energy obtained from the external software.
 
-        Returns
-        =======
+        Return
+        ======
         (np.array) array of the error given by:
         [0] absolute difference
         [1] percentage of error
@@ -156,9 +164,14 @@ class SITH:
 
     # region DOFsHomicide
     def remove_extra_dofs(self) -> dict:
-        """Takes the structure with the lowest number of DOFs and removes the
+        """
+        Takes the structure with the lowest number of DOFs and removes the
         the DOFs in the other structures until get the same number of DOFs in
         all structures. Ensures that all structures data are compatible.
+
+        Return
+        ======
+        (dict) internal object of  removed dofs. 
         """
         # TODO: change prints for logging
         # print("Removing extra DOFs in the structures... " +
@@ -189,9 +202,9 @@ class SITH:
 
         Parameters
         ==========
-        killAtoms:
+        killAtoms: list. Default=[]
             list of indexes of atoms to be killed
-        killDOFs:
+        killDOFs:list. Default=[]
             list of tuples with the DOFs to be killed
         killElements:
             list of strings with the elements to be killed. So, if you want to
@@ -250,7 +263,8 @@ class SITH:
 
     def rem_first_last(self, rem_first_def=0, rem_last_def=0,
                        from_last_minimum: bool = False) -> list:
-        """Removes first and last structure configs and data from all the
+        """
+        Removes first and last structure configs and data from all the
         attributes of the Sith object.
 
         Parameters
@@ -258,10 +272,10 @@ class SITH:
         rem_first_def: int (optional)
             number of configuration to remove in the first stretched
             configuration. Default=0
-        rem_last_def: int (optional)
+        rem_last_def: int (optional). Default=0
             number of configuration to remove in the last stretching
             configuration. Default=0
-        from_last_minimum: bool (optional)
+        from_last_minimum: bool (optional). Default=False
             set the rem_first_def to the structure of the last minium in the
             total energy if it is larger than current value of rem_first_def.
             Default=False
@@ -301,11 +315,13 @@ class SITH:
 
     # region Energy Analysis
     def jedi_analysis(self):
-        """Uses the values in 'structures' (:mod:`~SITH.Utilities.Geometry`
+        """
+        Uses the values in 'structures' (:mod:`~SITH.Utilities.Geometry`
         of each configuration) and computes the distribution of energies
         using JEDI (Harmonic approximation)
 
         Return
+        ======
         (float, np.array) energy predicted by the method summing up the
         energies of each DOF
         """
@@ -315,19 +331,21 @@ class SITH:
         return self.structure_energy, self.dofs_energies
 
     def sith_analysis(self, integration_method: str = 'trapezoid_integration'):
-        """Uses the values in 'structures' (:mod:`~SITH.Utilities.Geometry`
+        """
+        Uses the values in 'structures' (:mod:`~SITH.Utilities.Geometry`
         of each configuration) and computes the distribution of energies
         using SITH (Numerical integration).
 
         Parameters
         ==========
-        integration_method: str
-           choose one of the next integration methods:
-               - trapezoid_integration (Default)
-               - simpson_integration
-               - rectangle_integration
+        integration_method: str. Default=trapezoid_integration
+            choose one of the next integration methods:
+            - trapezoid_integration (Default)
+            - simpson_integration
+            - rectangle_integration
 
         Return
+        ======
         (float, np.array) energy predicted by the method summing up the
         energies of each DOF
         """

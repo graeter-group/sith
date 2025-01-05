@@ -9,8 +9,19 @@ from typing import Union
 
 
 class FileReader:
-    """Used to read info in a .fchk file and store it into a
+    """
+    Object used to read info in a .fchk file and store it into a
     :mod:`~SITH.Utilities.Geometry` object.
+
+    Parameters
+    ==========
+    path: Path or str
+        Path to the fchk file to extract into a
+        :mod:`~SITH.Utilities.Geometry` object.
+    extract_data: bool
+        Automatically try to extract the data from the .fchk file. If
+        False, the user should run
+        :mod:`~SITH.readers.g09_reader.FileReader._extract`. Defatult=True
 
     Attributes
     ==========
@@ -32,18 +43,6 @@ class FileReader:
         attributes of the class :mod:`~SITH.Utilities.Geometry`.
     """
     def __init__(self, path: Union[Path, str], extract_data: bool = True):
-        """Initializes g09 reader
-
-        Parameters
-        ==========
-        path: Path or str
-            Path to the fchk file to extract into a
-            :mod:`~SITH.Utilities.Geometry` object.
-        extract_data: bool
-            Automatically try to extract the data from the .fchk file. If
-            False, the user should run
-            :mod:`~SITH.readers.g09_reader.FileReader._extract`. Defatult=True
-        """
         if isinstance(path, (Path, str)):
             path = Path(path)
         self._path = path
@@ -69,10 +68,11 @@ class FileReader:
             self._extract()
 
     def _extract(self) -> bool:
-        """Extracts and populates Geometry information from self.__lines
+        """
+        Extracts and populates Geometry information from self.__lines
 
-        Returns
-        =======
+        Return
+        ======
         (bool) True if extracting data is successful.
         """
         #  headers in fchk files from g09
@@ -112,10 +112,11 @@ class FileReader:
         return True
 
     def build_atoms(self) -> Atoms:
-        """Creates a ase.Atoms object of the structure in the fchk file.
+        """
+        Creates a ase.Atoms object of the structure in the fchk file.
 
-        Returns
-        =======
+        Return
+        ======
         (ase.Atoms) Atoms object with the molecular information of the
         structure.
 
@@ -135,13 +136,14 @@ class FileReader:
 
     # region readers
     def _fill_array(self, ith_line: int, dtype=None) -> tuple[np.ndarray, int]:
-        """Fill an array after a given the header of a g09 block.
+        """
+        Fill an array after a given the header of a g09 block.
 
         Parameters
         ==========
         ith_line: int
             Index of the line where the header of the block is.
-        dtype: data-type
+        dtype: data-type. Default=numpy default value.
             The desired data-type for the array. Default= Numpy guess.
 
         Returns
@@ -163,15 +165,16 @@ class FileReader:
         return np.array(filling_list, dtype=dtype), ith_line
 
     def _anum_reader(self, ith_line: int) -> tuple[int, np.ndarray]:
-        """Read the atomic numbers
+        """
+        Read the atomic numbers
 
         Parameters
         ==========
         ith_line: int
             line index where atomic numbers header was found.
 
-        Returns
-        =======
+        Return
+        ======
         (int, np.array) index of the last line of the data block in the file,
         atomic numbers of the molecule with shape (#atoms).
         """
@@ -180,15 +183,16 @@ class FileReader:
         return ith_line, self.atomic_nums
 
     def _scf_energy_reader(self, ith_line: int) -> tuple[int, float]:
-        """Read DFT energy
+        """
+        Read DFT energy
 
         Parameters
         ==========
         ith_line: int
             line index where energy header was found.
 
-        Returns
-        =======
+        Return
+        ======
         (int, float) same index line of the header, DFT energy of the structure
         in Hartrees.
         """
@@ -196,15 +200,16 @@ class FileReader:
         return ith_line, self.geometry.scf_energy
 
     def _dim_reader(self, ith_line: int) -> tuple[int, np.ndarray]:
-        """Read DOFs dimensions
+        """
+        Read DOFs dimensions
 
         Parameters
         ==========
         ith_line: int
             line index where dimensions header was found.
 
-        Returns
-        =======
+        Return
+        ======
         (int, np.array) index of the last line of the data block in the file,
         dimensions given as [#DOFS, #lenghts, #angles, #dihedrals].
         """
@@ -226,15 +231,16 @@ class FileReader:
         return ith_line, dims
 
     def _indices_reader(self, ith_line: int) -> tuple[int, np.ndarray]:
-        """Read DOFs indices
+        """
+        Read DOFs indices
 
         Parameters
         ==========
         ith_line: int
             line index where indices definition header was found.
 
-        Returns
-        =======
+        Return
+        ======
         (int, np.array) index of the last line of the data block in the file,
         indices that define each DOF with shape (#DOFs, 4)
 
@@ -250,15 +256,16 @@ class FileReader:
         return ith_line, self.geometry.dim_indices
 
     def _dof_values_reader(self, ith_line: int) -> tuple[int, np.ndarray]:
-        """Read DOFs values
+        """
+        Read DOFs values
 
         Parameters
         ==========
         ith_line: int
             line index where DOF values header was found.
 
-        Returns
-        =======
+        Return
+        ======
         (int, np.array) index of the last line of the data block in the file,
         values of the DOFs for the given configuration with shape (#DOFs).
         """
@@ -271,15 +278,16 @@ class FileReader:
         return ith_line, dofs
 
     def _apos_reader(self, ith_line: int) -> tuple[int, np.ndarray]:
-        """Read atomic positions (cartesian coordinates).
+        """
+        Read atomic positions (cartesian coordinates).
 
         Parameters
         ==========
         ith_line: int
             line index where coordinates header was found.
 
-        Returns
-        =======
+        Return
+        ======
         (int, np.array) index of the last line of the data block in the file,
         atomic coordinates with shape (#atoms, 3).
         """
@@ -292,15 +300,16 @@ class FileReader:
         return ith_line, self.cartesian_coord
 
     def _hessian_reader(self, ith_line: int) -> tuple[int, np.ndarray]:
-        """Read hessian elements and build the matrix
+        """
+        Read hessian elements and build the matrix
 
         Parameters
         ==========
         ith_line: int
             line index where hessian header was found.
 
-        Returns
-        =======
+        Return
+        ======
         (int, np.array) index of the last line of the data block in the file,
         hessian matrix with shape (#DOFs, #DOFs)
         """
@@ -331,15 +340,16 @@ class FileReader:
         return ith_line, self.geometry.hessian
 
     def _iforces_reader(self, ith_line: int) -> tuple[int, np.ndarray]:
-        """Read internal forces.
+        """
+        Read internal forces.
 
         Parameters
         ==========
         ith_line: int
             line index where internal forces header was found.
 
-        Returns
-        =======
+        Return
+        ======
         (int, np.array) index of the last line of the data block in the file,
         generalized forces in DOFs with shape (#DOFs)
         """
@@ -354,8 +364,17 @@ class FileReader:
 
 
 class G09Reader:
-    """Tool to read a set of fchk files of g09 corresponding to stretched
-    molecules.
+    """
+    Tool to read a set of fchk files of g09 corresponding to stretched
+    molecules. It creates the geometries for each stretched configuration.
+
+    Parameters
+    ==========
+    inputfiles: list or str
+        list of paths to the fchk files (as strings or paths). The order of
+        the elements matters according to the energy anaylis applied. This
+        parameter could be also a string of the path to the a directory
+        containing the fchk files in alphabetic order.
 
     Atributes
     =========
@@ -366,17 +385,6 @@ class G09Reader:
         configuration.
     """
     def __init__(self, inputfiles: Union[list, str]):
-        """"Object that creates the geometries for each stretched
-        configuration.
-
-        Parameters
-        ==========
-        inputfiles: list or str
-            list of paths to the fchk files (as strings or paths). The order of
-            the elements matters according to the energy anaylis applied. This
-            parameter could be also a string of the path to the a directory
-            containing the fchk files in alphabetic order.
-        """
         if isinstance(inputfiles, (str, Path)):
             master_path = Path(inputfiles)
             assert master_path.is_dir(), "Master directory does not exist."
@@ -395,7 +403,8 @@ class G09Reader:
             self.structures.append(read_file.geometry)
 
     def _validate_files(self, files_paths: list) -> bool:
-        """Check that all files exist.
+        """
+        Check that all files exist.
 
         Parameters
         ==========
@@ -403,8 +412,8 @@ class G09Reader:
             list of paths that you want to check if they exist. It raises an
             error in case any of the files does not exist.
 
-        Returns
-        =======
+        Return
+        ======
         (bool) True if it works.
         """
         # TODO: change all prints for logging
