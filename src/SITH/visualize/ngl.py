@@ -917,56 +917,6 @@ class EnergiesNGL(MoleculeNGL):
                              'absolute': False}
         self.view.observe(self.update_frame, names='frame')
 
-    def _analize_energies(self):
-        """
-        Execute JEDI method to obtain the energies of each
-        DOFs
-
-        see: https://doi.org/10.1063/1.4870334
-        """
-        self.sith.extract_data()
-        self.sith.analyze()
-
-    def add_dof(self, dof, **kwargs):
-        """Add the degree of freedom to the molecule image
-
-        Parameters
-        ==========
-
-        dof: tuple
-            label of the degree of freedom according with g09 convention.
-
-        Example
-        =======
-            i=(1, 2) means a bond between atoms 1 and 2
-            i=(1, 2, 3) means an angle between atoms 1, 2 and 3
-            i=(1, 2, 3, 4) means a dihedral angle between atoms 1, 2, 3 and 4
-        """
-
-        types = ["bond", "angle", "dihedral"]
-        type_dof = types[len(dof)-2]
-        type_dof = types[np.count_nonzero(dof) - 2]
-
-        if type_dof == "bond":
-            index1 = dof[0]
-            index2 = dof[1]
-            return self.add_bond(index1, index2, **kwargs)
-
-        elif type_dof == "angle":
-            index1 = dof[0]
-            index2 = dof[1]
-            index3 = dof[2]
-            return self.add_angle(index1, index2, index3, **kwargs)
-
-        elif type_dof == "dihedral":
-            index1 = dof[0]
-            index2 = dof[1]
-            index3 = dof[2]
-            index4 = dof[3]
-            return self.add_dihedral(index1, index2, index3,
-                                     index4, **kwargs)
-        else:
-            raise TypeError(f"{dof} is not an accepted degree of freedom.")
 
     def energies_bonds(self, **kwargs):
         """
