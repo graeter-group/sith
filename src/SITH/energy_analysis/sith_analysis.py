@@ -2,21 +2,29 @@ import numpy as np
 
 
 class SithAnalysis:
-    """Tool to compute the energy distribution analysis using numerical
+    """
+    Tool to compute the energy distribution analysis using numerical
     integration.
+
+    Parameters
+    ==========
+    structures_info: :mom:`SITH.SITH.SITH`
+        object containing the necessary information for the energy analysis.
     """
     def __init__(self, structures_info):
-        """
-        Parameters
-        ==========
-        structures_info: list
-            list of :mom:`SITH.Utilities.Geometry` containing the data obtained
-            with QM.
-        """
         self.structures_info = structures_info
         self.structures_info.delta_q = self.get_sith_dq()
 
     def get_sith_dq(self):
+        """
+        Populates delta_q taking the changes respect to the consecutive
+        strutures.
+
+        Return
+        ======
+        (np.array) change in each degree of freedom respect to the optimized
+        structure.
+        """
         delta_dofs = self.structures_info.all_dofs - \
             np.insert(self.structures_info.all_dofs[:-1], 0,
                       self.structures_info.all_dofs[0], axis=0)
@@ -29,7 +37,8 @@ class SithAnalysis:
         return delta_dofs
 
     def rectangle_integration(self):
-        """Numerical integration using rectangle rule algorithm.
+        """
+        Numerical integration using rectangle rule algorithm.
 
         Return
         ======
@@ -44,7 +53,8 @@ class SithAnalysis:
         return energies, total_ener
 
     def trapezoid_integration(self):
-        """Numerical integration using trapezoid rule algorithm.
+        """
+        Numerical integration using trapezoid rule algorithm.
 
         Return
         ======
@@ -65,7 +75,8 @@ class SithAnalysis:
         return energies, total_ener
 
     def simpson_integration(self):
-        """Numerical integration using Simpson algorithm.
+        """
+        Numerical integration using Simpson algorithm.
 
         Return
         ======

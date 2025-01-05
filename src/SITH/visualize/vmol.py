@@ -10,6 +10,30 @@ from SITH.Utilities import color_distribution, create_colorbar
 
 class EnergiesVMol(VMolecule):
     """
+    Set of tools to visualize a molecule and the distribution of energies
+    in different DOFs.
+
+    Parameters
+    ==========
+    sith_info: SITH
+        sith object with the distribution of energies and structures
+        information.
+    idef: int
+        initial deformation to be considered as reference. Default=0
+    alignment: list
+        3 indexes to fix the correspondig atoms in the xy plane.
+        The first atom is placed in the negative side of the x axis,
+        the second atom is placed in the positive side of the x axis,
+        and the third atom is placed in the positive side of the y axis.
+    show_axis: bool
+        add xyz axis
+    background: rgb list or vpython vector
+        background color. Default=vpython.color.white
+    portion: float
+        percentage of the complete figure to be used to add the canvas. The
+        rest of the space can be used to add a figure. Default=80
+    kwargs: arguments for VMolecule
+
     Attributes
     =========
     atoms: ase.Atoms
@@ -58,31 +82,6 @@ class EnergiesVMol(VMolecule):
                  background: Union[list, vp.color] = vp.color.white,
                  portion: float = 80,
                  **kwargs):
-        r"""
-        Set of tools to visualize a molecule and the distribution of energies
-        in different DOFs.
-
-        Parameters
-        ==========
-        sith_info: SITH
-            sith object with the distribution of energies and structures
-            information.
-        idef: int
-            initial deformation to be considered as reference. Default=0
-        alignment: list
-            3 indexes to fix the correspondig atoms in the xy plane.
-            The first atom is placed in the negative side of the x axis,
-            the second atom is placed in the positive side of the x axis,
-            and the third atom is placed in the positive side of the y axis.
-        show_axis: bool
-            add xyz axis
-        background: rgb list or vpython vector
-            background color. Default=vpython.color.white
-        portion: float
-            percentage of the complete figure to be used to add the canvas. The
-            rest of the space can be used to add a figure. Default=80
-        \*\*kwargs: arguments for VMolecule
-        """
         self.canvaskwargs = kwargs
         self.sith = sith_info
         dims = self.sith.dims
@@ -136,7 +135,20 @@ class EnergiesVMol(VMolecule):
         self.energies_some_dof(dofs, **self.kwargs_edofs)
 
     
-    def create_figure(self, dofs: list, **kwargs):
+    def create_figure(self, dofs: list = 'all', **kwargs):
+        """
+        Creates the Color bar to be displayed at a side.
+
+        Parameters
+        ==========
+        dofs: 
+            DOFs to be displayed in the distribution.
+        kwargs for change_def
+
+        Return
+        ======
+        (list, kwargs) normalized energies, not used kwargs.
+        """
         if 'all' in dofs:
             dofs = self.sith.dim_indices
         else:
@@ -182,7 +194,7 @@ class EnergiesVMol(VMolecule):
         return normalize, kwargs
 
     def energies_bonds(self, **kwargs) -> tuple:
-        r"""
+        """
         Add the bonds with a color scale that represents the distribution of
         energy according to the JEDI method.
 
@@ -190,8 +202,8 @@ class EnergiesVMol(VMolecule):
         ==========
         \*\*kwargs for EnergiesVMol.energies_some_dof
 
-        Returns
-        =======
+        Return
+        ======
         (tuple) DOFs and their computed energies.
         """
         dofs = self.sith.dim_indices[:self.nbonds]
@@ -200,13 +212,17 @@ class EnergiesVMol(VMolecule):
         return out
 
     def energies_angles(self, **kwargs) -> tuple:
-        r"""
+        """
         Add the angles with a color scale that represents the distribution of
         energy according to the JEDI method.
 
         Parameters
         ==========
         \*\* kwargs for EnergiesVMol.energies_some_dof
+
+        Return
+        ======
+        # TODO: add return information
 
         Returns
         =======
@@ -218,7 +234,7 @@ class EnergiesVMol(VMolecule):
         return out
 
     def energies_dihedrals(self, **kwargs) -> tuple:
-        r"""
+        """
         Add the dihedral angles with a color scale that represents the
         distribution of energy according to the JEDI method.
 
@@ -226,8 +242,8 @@ class EnergiesVMol(VMolecule):
         ==========
         \*\* kwargs for EnergiesVMol.energies_some_dof
 
-        Returns
-        =======
+        Return
+        ======
         (tuple) DOFs and their computed energies.
         """
         dofs = self.sith.dim_indices[self.nbonds + self.nangles:]
@@ -244,6 +260,10 @@ class EnergiesVMol(VMolecule):
         ==========
         idef: int
             index of the stretching to be updated to.
+
+        Return
+        ======
+        (None)
         """
         self.idef = idef
         self.frame = idef
@@ -257,7 +277,7 @@ class EnergiesVMol(VMolecule):
             self.energies_some_dof(udofs, **self.kwargs_edofs)
 
     def energies_all_dof(self, **kwargs) -> tuple:
-        r"""
+        """
         Add all DOF with a color scale that represents the distribution of
         energy according to the JEDI method.
 
@@ -265,8 +285,8 @@ class EnergiesVMol(VMolecule):
         ==========
         \*\*kwargs for EnergiesVMol.energies_some_dof
 
-        Returns
-        =======
+        Return
+        ======
         (tuple) DOFs and their computed energies.
         """
         dofs = self.sith.dim_indices
@@ -276,15 +296,15 @@ class EnergiesVMol(VMolecule):
         """
         This functions change the values stored in a dictionary and removes
         each one of the arguments from the kwargs.
-        
+
         Parameters
         ==========
         def_dict: dict
             dictionary with the default values.
         **kwargs: all the arguments you want to change.
 
-        Returns
-        =======
+        Return
+        ======
         (dict, dict) modified dictionary withe the default values and set of
         kwargs without the used keys.
         """
@@ -300,7 +320,7 @@ class EnergiesVMol(VMolecule):
         return def_dict, kwargs
 
     def energies_some_dof(self, dofs, **kwargs) -> tuple:
-        r"""
+        """
         Add the bonds with a color scale that represents the distribution of
         energy according to the JEDI method.
 
@@ -313,8 +333,8 @@ class EnergiesVMol(VMolecule):
             colormap.
         \*\*kwargs of VMolecule.add_dof
 
-        Returns
-        =======
+        Return
+        ======
         (list) VPython objects of the visual representation of DOFs.
         """
         self.kwargs_edofs, kwargs = self.change_def(self.kwargs_edofs,
@@ -335,14 +355,14 @@ class EnergiesVMol(VMolecule):
         ==========
         dof: int.
             index in sith object that corresponds to the dof you want to show.
-        unique: Bool. default False.
+        unique: Bool. default False.. Default=False
             True if you want to remove all the other bonds and only keeping
             these ones.
         color: list[3(int)]. default R G B for angles, distances, dihedrals.
             color that you want to use in this dof.
 
-        Returns
-        =======
+        Return
+        ======
         (dict) all the DOFs in the system. keys -> dof names,
         values -> vpython.objects
         """
@@ -368,9 +388,10 @@ class EnergiesVMol(VMolecule):
         ==========
         dofs: list of tuples.
             list of degrees of freedom defined according with g09 convention.
+        kwargs for add_dof.
 
-        Returns
-        =======
+        Return
+        ======
         (dict) all the DOFs in the system. keys -> dof names,
         values -> vpython.objects
 
@@ -387,6 +408,14 @@ class EnergiesVMol(VMolecule):
         """
         Show the bonds in the molecule.
 
+        Parameters
+        ==========
+        kwargs for add_dof
+
+        Return
+        ======
+        (None)
+
         Notes
         -----
         The color is not related with the JEDI method. It
@@ -399,8 +428,8 @@ class EnergiesVMol(VMolecule):
         """
         Create the buttons to move between stretching configurations.
 
-        Returns
-        =======
+        Return
+        ======
         (vpython.button) Button that shows the index of the stretched
         configuration displayed.
         """

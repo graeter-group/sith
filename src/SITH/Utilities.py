@@ -8,8 +8,15 @@ from matplotlib.transforms import Bbox
 
 
 class Geometry:
-    """Houses data associated with a molecular structure, all public variables
-    are intended for access, not modification.
+    """
+    Geometry object that stores the geometric information of each
+    structure and sith takes to compute the energy distribution analysis.
+
+    Parameters
+    ==========
+    name: str (optional)
+        name of the Geometry object, it is arbitrary. Default defined by
+        reader.
 
     Every sith.readers.<reader> must assing the values of Geometry attributes.
 
@@ -44,15 +51,6 @@ class Geometry:
     Note: All quantities are in units of Hartrees, Angstrom, radians
     """
     def __init__(self, name: str = ''):
-        """Geometry object that stores the geometric information of each
-        structure and sith takes to compute the energy distribution analysis.
-
-        Parameters
-        ==========
-        name: str (optional)
-            name of the Geometry object, it is arbitrary. Default defined by
-            reader.
-        """
         # region Basic Attributes
 
         # Note: All the attributes are marked as "mandatory", "optional". This
@@ -71,15 +69,16 @@ class Geometry:
         # endregion
 
     def __eq__(self, __o: object) -> bool:
-        """Basic method used to compare two Geometry objects
+        """
+        Basic method used to compare two Geometry objects
 
         Parameters
         ==========
         __o: obj
             object to compare
 
-        Returns
-        =======
+        Return
+        ======
         (bool) True if Geometry objects have the same values on the attributes.
         """
         if not isinstance(__o, Geometry):
@@ -101,7 +100,8 @@ class Geometry:
         return b
 
     def kill_dofs(self, dof_indices: list[int]) -> np.array:
-        """Takes in list of indices of degrees of freedom and removes DOFs from
+        """
+        Takes in list of indices of degrees of freedom and removes DOFs from
         dof, dim_indices, internal_forces, and hessian; updates dims
 
         Parameters
@@ -109,8 +109,8 @@ class Geometry:
         dof_indices: list
             list of indices to remove.
 
-        Returns
-        =======
+        Return
+        ======
         (numpy.array) dim_indices of removed dofs.
         """
         # remove repetition
@@ -146,7 +146,7 @@ def color_distribution(sith: SITH, dofs: np.ndarray,
                        cmap: Colormap,
                        absolute: bool = False,
                        div: int = 5):
-    """"
+    """
     Extract the energies of the specified DOFs and deformation structure, and
     the normalization according to a cmap.
 
@@ -161,7 +161,7 @@ def color_distribution(sith: SITH, dofs: np.ndarray,
         index of the structure to extract the energies.
     cmap: Colormap
         colormap to normalize according the number of divisions.
-    absolute: bool
+    absolute: bool. Default=False
         True to define the color bar based on the maximum energy of the all
         the DOFS in all the stretching confs. False to define the color bar
         based on the maximum energy of the all the DOFS in the present
@@ -169,8 +169,8 @@ def color_distribution(sith: SITH, dofs: np.ndarray,
     div: int
         number of sets of colors in which the colorbar is divided.
 
-    Returns
-    =======
+    Return
+    ======
     (np.array, BoundaryNorm) set of energies of DOFs and deformation structure
     and the BoundaryNorm object to get the distribution of colors.
     """
@@ -235,9 +235,11 @@ def create_colorbar(normalize: BoundaryNorm, cmap: Colormap, deci: int,
     height: int
         height (in pixels) of the space that will contain the scene and the
         color bar. Deault=700
+    dpi: Default=100
+        dot per inch. it's a meassurement of resolution.
 
-    Returns
-    =======
+    Return
+    ======
     (plt.fig, widget.Output) Figure containing the colorbar and the widget of
     the figure.
     """

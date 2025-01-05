@@ -2,13 +2,29 @@ import numpy as np
 
 
 class JediAnalysis:
+    """
+    Object that executes JEDI analysis.
+
+    For details about JEDI: T. Stauch and A. Dreuw (2016), Chem. Rev. 116
+
+    Parameters
+    ==========
+    structures_info: :mom:`SITH.SITH.SITH`
+        object containing the necessary information for the energy analysis.
+    """
     def __init__(self, structures_info):
         self.structures_info = structures_info
         self.structures_info.delta_q = self.get_jedi_dq()
 
     def jedi_analysis(self):
-        """Performs the JEDI energy analysis, populates energies, and
+        """
+        Performs the JEDI energy analysis, populates energies, and
         energies_percentage.
+
+        Return
+        ======
+        (tuple) array of energies per structure per dof [#structures, #dofs],
+        array with predicted energy per structure [#structures].
 
         Notes
         -----
@@ -39,8 +55,15 @@ class JediAnalysis:
             self.structures_info.structure_energy
 
     def get_jedi_dq(self) -> np.ndarray:
-        """Populates delta_q taking the changes respect to the reference
-        structure"""
+        """
+        Populates delta_q taking the changes respect to the reference
+        structure.
+
+        Return
+        ======
+        (np.array) change in each degree of freedom respect to the reference
+        structure.
+        """
         # TODO: replace print by logging
         # print("Populating DOF vectors and calculating \u0394q...")
 

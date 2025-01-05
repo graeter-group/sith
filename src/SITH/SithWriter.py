@@ -5,12 +5,17 @@ import os
 
 
 class WriteSITH:
+    """
+    Object that saves the variables used in sith as g09 fchk format. That helps
+    the user to reduce the amount of data store for sith analysis, while still
+    having the posibility to read it and reuse it again.
+
+    Parameters
+    ==========
+    geometry: 
+        Geometry containing the info requiered for energy analysis.
+    """
     def __init__(self, geometry):
-        """Object that set the variables used in sith as g09 fchk format.
-        That helps the user to reduce the amount of data store for sith
-        analysis, while still having the posibility to read it and reuse it
-        again.
-        """
         self.geometry = geometry
 
         # Units in fchk are different:
@@ -46,6 +51,13 @@ class WriteSITH:
                                 self.__hessian_header: 'hessian'}
 
     def _transform_hessian(self):
+        """
+        Change from 2D to 1D data to write it down in the output file.
+
+        Return
+        ======
+        (np.array) 1D form of the Hessian.
+        """
         if self.geometry.hessian is not None:
             n = self.geometry.dims[0]
             row, col = np.tril_indices(n)
@@ -58,7 +70,13 @@ class WriteSITH:
             return None
 
     def _write_atoms(self):
-        """Writes atoms coordinates and atomic numbers"""
+        """
+        Writes atoms coordinates and atomic numbers
+
+        Return
+        ======
+        (str) atoms block.
+        """
         cs = self.geometry.atoms.get_atomic_numbers()
         pos = self.geometry.atoms.positions / Bohr
         lines = self._write_array(self.__atomic_nums_header, cs)
@@ -68,17 +86,18 @@ class WriteSITH:
         return lines
 
     def _write_array(self, header, array):
-        """Writes any array or list in fchk format, namely, flattened
+        """
+        Writes any array or list in fchk format, namely, flattened
         and with the description on the header specifying the number of
         elements
-        
+
         Parameters
         ==========
         header: str
             name of the header
         array:
             array with with any shape to be written
-        
+
         Return
         ======
         (str) lines to be printed
@@ -117,15 +136,16 @@ class WriteSITH:
         return lines
     
     def _write_scalar(self, header, value):
-        """Writes any scalar in fchk format, namely, in the header
-        
+        """
+        Writes any scalar in fchk format, namely, in the header
+
         Parameters
         ==========
         header: str
             name of the header
         value:
             value to be written
-        
+
         Return
         ======
         (str) lines to be printed
@@ -143,14 +163,14 @@ class WriteSITH:
         return line
 
     def write_file(self, outputfile: str = './geometry_data.fchk'):
-        """fills lines attribute and writes the output file
-        
+        """
+        Fills lines attribute and writes the output file.
+
         Parameters
         ==========
-        outputfile: str (optional)
+        outputfile: str. Default=./geometry_data.fchk
             name of the output file. It should have fchk extension.
-            Default=./geometry_data.fchk
-        
+
         Return
         ======
         (str) lines to be printed in the output file.
@@ -180,15 +200,16 @@ class WriteSITH:
         return self.lines
 
 def write_sith_data(sith_obj, outdir: str = './'):
-    """Creates all the fchk files for each structure in a sith object
-    
+    """
+    Creates all the fchk files for each structure in a sith object
+
     Parameters
     ==========
     sith_obj: sith
         sith object with all the information stored in the attributes.
-    outdir: str (optional)
+    outdir: str. Default=./
         directory where to create the subdirectory "sith_data". Default=./
-    
+
     Return
     ======
     (str) name of the subdir
