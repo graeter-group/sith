@@ -1,0 +1,34 @@
+[project]
+name = "SITH"
+version = "0.1.0"
+description = "Stress Induced Traversal of Hessian"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Hits_mbm", email = "mikaela.farrugia@h-its.org" },
+    { name = "Hits_mbm", email = "daniel.sucerquia@h-its.org" }
+]
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License (GPL)",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "ase",
+    "numpy",
+    "ipywidgets",
+    "matplotlib",
+    "sphinx-rtd-theme"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+# Include package data if any (setup.cfg had include_package_data=True)
+# You can add specific patterns here if needed.
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
