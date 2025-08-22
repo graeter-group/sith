@@ -82,6 +82,7 @@ class EnergiesVMol(VMolecule):
                  background: Union[list, vp.color] = vp.color.white,
                  portion: float = 80,
                  **kwargs):
+        self._hook = False
         self.canvaskwargs = kwargs
         self.sith = sith_info
         dims = self.sith.dims
@@ -114,6 +115,9 @@ class EnergiesVMol(VMolecule):
                              'width': "700",
                              'height': "600",
                              'absolute': False}
+        
+        # The next fills the variable dofs with the definition of the degrees
+        # of freedom
         self.normalize, kwargs = self.create_figure(dofs, **kwargs)
 
         if 'img' not in kwargs.keys():
@@ -179,10 +183,10 @@ class EnergiesVMol(VMolecule):
         
         self.energies, normalize = color_distribution(self.sith,
                                                       dofs,
-                                                 self.idef,
-                                                 cmap,
-                                                 absolute,
-                                                 div)
+                                                      self.idef,
+                                                      cmap,
+                                                      absolute,
+                                                      div)
 
         # Colorbar
         self.fig, _ = create_colorbar(normalize, cmap, deci, label, labelsize,
