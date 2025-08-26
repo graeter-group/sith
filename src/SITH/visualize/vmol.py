@@ -102,35 +102,33 @@ class EnergiesVMol(VMolecule):
             height = kwargs['height']
         else:
             height = 500
-            kwargs['height'] = height
+        kwargs['height'] = height
 
         # matplotlib figure for colorbar
         self.fig = None
         self.kwargs_edofs = {'cmap': mpl.cm.get_cmap("Blues"),
-                             'label': "Energy [Ha]",
-                             'labelsize': 20,
+                             'label': r"$\Delta$ Energy [Ha]",
+                             'labelsize': 10,
                              'orientation': "vertical",
                              'div': 5,
                              'deci': 2,
-                             'width': "700",
-                             'height': "600",
-                             'absolute': False}
+                             'width': 700,
+                             'height': 500}
         
         # The next fills the variable dofs with the definition of the degrees
         # of freedom
-        self.normalize, kwargs = self.create_figure(dofs, **kwargs)
-
-        if 'img' not in kwargs.keys():
-            kwargs['img'] = "./tmp_cbar.png"
-
         # Create scene
         VMolecule.__init__(self, atoms,
                            show_axis=show_axis,
                            alignment=alignment,
-                           align='left',
                            frame=idef,
                            portion=portion,
                            **kwargs)
+        self._hook = False
+        
+        # create the list of dofs and color scale
+        dofs = self._create_dofs_list(dofs)
+        self.normalize, kwargs = self.create_figure(dofs, **kwargs)
 
         self.scene.background = self._asvector(background)
         self.traj_buttons()
@@ -138,20 +136,23 @@ class EnergiesVMol(VMolecule):
         # show energies in dofs
         self.energies_some_dof(dofs, **self.kwargs_edofs)
 
-    
-    def create_figure(self, dofs: list = 'all', **kwargs):
+        self._hook = True
+
+    def _create_dofs_list(self, dofs: list) -> None:
         """
-        Creates the Color bar to be displayed at a side.
+        Create the list of dofs to be displayed.
 
         Parameters
         ==========
-        dofs: 
-            DOFs to be displayed in the distribution.
-        kwargs for change_def
+        dofs: list of tuples or str.
+            list of degrees of freedom defined according with g09 convention.
+            It could also be 'all', 'bonds', 'angles' or 'dihedrals' to
+            display all the corresponding DOFs.
 
         Return
         ======
-        (list, kwargs) normalized energies, not used kwargs.
+        (list) list of lists with the dofs to be displayed according to SITH
+        convention.
         """
         if 'all' in dofs:
             dofs = self.sith.dim_indices
@@ -169,33 +170,46 @@ class EnergiesVMol(VMolecule):
                 dihedrals = self.sith.dim_indices[self.ndihedral:]
                 dofs.extend(dihedrals)
                 dofs.remove('dihedrals')
+
+        return dofs
+
+    
+    def create_figure(self, dofs, **kwargs):
+        """
+        Creates the Color bar to be displayed at a side.
+
+        Parameters
+        ==========
+        dofs: 
+            DOFs to be displayed in the distribution.
+        kwargs for change_def
+
+        Return
+        ======
+        (list, kwargs) normalized energies, not used kwargs.
+        """
+
         self.kwargs_edofs, kwargs = self.change_def(self.kwargs_edofs,
                                                     **kwargs)
-        cmap = self.kwargs_edofs['cmap']
-        label = self.kwargs_edofs['label']
-        labelsize = self.kwargs_edofs['labelsize']
-        orientation = self.kwargs_edofs['orientation']
-        div = self.kwargs_edofs['div']
-        deci = self.kwargs_edofs['deci']
-        width = self.kwargs_edofs['width']
-        height = self.kwargs_edofs['height']
-        absolute = self.kwargs_edofs['absolute']
         
-        self.energies, normalize = color_distribution(self.sith,
-                                                      dofs,
-                                                      self.idef,
-                                                      cmap,
-                                                      absolute,
-                                                      div)
+        self.energies, norm = color_distribution(self.sith,
+                                                 dofs,
+                                                 self.idef,
+                                                 self.kwargs_edofs['cmap'],
+                                                 absolute=True,
+                                                 div=self.kwargs_edofs['div'],
+                                                 decimals=self.kwargs_edofs['deci'])
 
         # Colorbar
-        self.fig, _ = create_colorbar(normalize, cmap, deci, label, labelsize,
-                                      orientation, int(width), int(height),
+        # Note that this colorbar 
+        self.fig, _ = create_colorbar(norm, self.kwargs_edofs['label'],
+                                      cmap=self.kwargs_edofs['cmap'],
+                                      deci=self.kwargs_edofs['deci'],
+                                      labelsize=self.kwargs_edofs['labelsize'],
+                                      height=self.kwargs_edofs['height']/300,
                                       dpi=300)
 
-        self.fig.savefig("./tmp_cbar.png", dpi=300)
-
-        return normalize, kwargs
+        return norm, kwargs
 
     def energies_bonds(self, **kwargs) -> tuple:
         """
