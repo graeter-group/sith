@@ -141,11 +141,13 @@ class Geometry:
         return dof_indices2remove
 
 
-def color_distribution(sith: SITH, dofs: np.ndarray,
+def color_distribution(sith: SITH,
+                       dofs: np.ndarray,
                        idef: int,
                        cmap: Colormap,
                        absolute: bool = False,
-                       div: int = 5):
+                       div: int = 5,
+                       decimals: int = 3) -> tuple[np.ndarray, BoundaryNorm]:
     """
     Extract the energies of the specified DOFs and deformation structure, and
     the normalization according to a cmap.
@@ -179,7 +181,6 @@ def color_distribution(sith: SITH, dofs: np.ndarray,
     components = np.full(sith.dims[0], False, dtype=bool)
 
     for dof in dofs:
-
         dofindofs = np.all(dof_ind == dof, axis=1)
         components = np.logical_or(dofindofs, components)
 
@@ -203,7 +204,7 @@ def color_distribution(sith: SITH, dofs: np.ndarray,
         "some DOFs that you are trying to map does not beling to" +\
         "sith.dim_indices"
 
-    boundaries = np.linspace(minval, maxval, div + 1)
+    boundaries = np.linspace(0, round(maxval - minval, decimals), div + 1)
     normalize = BoundaryNorm(boundaries, cmap.N)
 
     return energies, normalize
