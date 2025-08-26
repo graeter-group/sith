@@ -210,52 +210,45 @@ def color_distribution(sith: SITH,
     return energies, normalize
 
 
-def create_colorbar(normalize: BoundaryNorm, cmap: Colormap, deci: int,
-                    label: str, labelsize: float, orientation: str,
-                    width: int, height: int, dpi: int = 100) -> None:
+def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap=None,
+                    deci: int=3, labelsize: float=10,
+                    height: int=1.7,  width=None, dpi: int=300) -> None:
     """
-    Plot the colorbar according to BoundaryNorm.
+    Discrete colorbar according defined by a matplotlib.BoundaryNorm.
 
     Parameters
     ==========
     normalize: BoundaryNorm
         normalization function.
-    cmap: Colormap
-        colormap to normalize according the number of indexes.
-    deci: int
-        number of decimals if the ticks in the colorbar.
     label: str
         label of the color bar.
-    labelsize: int
+    cmap: Colormap. Default=None
+        colormap to of the colorbar. If None, it will be YlGn.
+    deci: int. Default=3
+        number of decimals of the ticks in the colorbar.
+    labelsize: int. Default=10
         size of the labels of the colorbar.
-    orientation: "vertical" or "horizontal".
-            orientation of the color bar. Default: "vertical"
-    width: int
-        width (in pixels) of the space that will contain the scene and the
-        color bar. Deault=700
-    height: int
-        height (in pixels) of the space that will contain the scene and the
-        color bar. Deault=700
-    dpi: Default=100
+    height: int. Default=1.7
+        height (in inches) of the space that will contain the scene and the
+        color bar.
+    width: float. Default=None
+        width (in inches) of the space that will contain the color bar. If
+        None, it will be (3 + deci) * fontsize.
+    dpi: int Default=300
         dot per inch. it's a meassurement of resolution.
 
     Return
     ======
-    (plt.fig, widget.Output) Figure containing the colorbar and the widget of
-    the figure.
+    (plt.fig, ax) Figure and the axis of the colorbar.
     """
-    if orientation == 'v' or orientation == 'vertical':
-        rotation = 0
-    else:
-        rotation = 90
+    if cmap is None:
+        cmap = mpl.cm.YlGn
+    fontsize_inches = labelsize / 72
 
-    # labelsize is given in points, namely 1/72 inches
-    # the width is here defined as 1.16 times the space occupied by
-    # the ticks and labels(see below)
-    width_inches = 0.07*labelsize
-    height_inches = height / dpi  # Convert pixels to inches
-
-    fig, ax = plt.subplots(figsize=(width_inches, height_inches),
+    if width is None:
+        width = (3 + deci) * fontsize_inches
+        
+    fig, ax = plt.subplots(figsize=(width, height),
                            dpi=dpi)
     cbar = fig.colorbar(mpl.cm.ScalarMappable(norm=normalize,
                                               cmap=cmap),
@@ -266,15 +259,14 @@ def create_colorbar(normalize: BoundaryNorm, cmap: Colormap, deci: int,
                    labelpad=0.5 * labelsize)
     cbar.ax.tick_params(labelsize=0.8*labelsize,
                         length=0.2*labelsize,
-                        pad=0.2*labelsize,
-                        rotation=rotation)
-    ax.set_position(Bbox([[0.01, 0.1],
-                          [0.99-0.06*labelsize/width_inches,
-                           0.9]]),
+                        pad=0.2*labelsize)
+    ax.set_position(Bbox([[0.01, fontsize_inches/height/2],
+                          [0.8 * fontsize_inches/width,
+                           1 - fontsize_inches/height/2]]),
                     which='both')
 
     out = Output()
     with out:
         plt.show()
 
-    return fig, out
+    return fig, ax
