@@ -279,6 +279,7 @@ class EnergiesVMol(VMolecule):
         udofs = [dof.indices for dof in self.dofs.values()]
         if len(udofs) != 0:
             self.energies_some_dof(udofs, **self.kwargs_edofs)
+        self.b_counter.text = f"   {self.idef}   "
 
     def energies_all_dof(self, **kwargs) -> tuple:
         """
@@ -444,13 +445,11 @@ class EnergiesVMol(VMolecule):
             frame = vmol.idef
             if frame < len(vmol.trajectory) - 1:
                 vmol.update_stretching(frame + 1)
-                vmol.b_counter.text = f"   {vmol.idef}   "
 
         def go_down(b, vmol=self):
             frame = vmol.idef
             if frame > 0:
                 vmol.update_stretching(frame - 1)
-                vmol.b_counter.text = f"   {vmol.idef}   "
 
         # button to go down
         vp.button(text='\u25C4',
