@@ -12,7 +12,7 @@ class WriteSITH:
 
     Parameters
     ==========
-    geometry: 
+    geometry:
         Geometry containing the info requiered for energy analysis.
     """
     def __init__(self, geometry):
@@ -156,7 +156,8 @@ class WriteSITH:
             valuetype = 'R'
             line = header.ljust(43) + valuetype + str(value).rjust(27) + '\n'
         else:
-            raise ValueError("values in writer only accept integers or reals but the variable is " + str(type(value)))
+            raise ValueError("values in writer only accept integers or reals" +
+                             " but the variable is " + str(type(value)))
 
         self.lines += line
 
@@ -230,6 +231,7 @@ def write_sith_data(sith_obj, outdir: str = './'):
 
     for j, geometry in enumerate(sith_obj.structures):
         geowriter = WriteSITH(geometry)
-        geowriter.write_file(outputfile=final_output / 'structure_{:03d}.fchk'.format(j))
+        geowriter.write_file(outputfile=final_output /
+                             'structure_{:03d}.fchk'.format(j))
 
     return final_output

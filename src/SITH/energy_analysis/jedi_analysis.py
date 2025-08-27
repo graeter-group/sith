@@ -3,9 +3,8 @@ import numpy as np
 
 class JediAnalysis:
     """
-    Object that executes JEDI analysis.
-
-    For details about JEDI: T. Stauch and A. Dreuw (2016), Chem. Rev. 116
+    Object that executes JEDI analysis. For details about JEDI: T. Stauch
+    and A. Dreuw (2016), Chem. Rev. 116
 
     Parameters
     ==========

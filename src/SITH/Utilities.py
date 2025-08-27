@@ -10,15 +10,14 @@ from matplotlib.transforms import Bbox
 class Geometry:
     """
     Geometry object that stores the geometric information of each
-    structure and sith takes to compute the energy distribution analysis.
+    structure and sith takes to compute the energy distribution analysis. Every
+    sith.readers.<reader> must assing the values of Geometry attributes.
 
     Parameters
     ==========
     name: str (optional)
         name of the Geometry object, it is arbitrary. Default defined by
         reader.
-
-    Every sith.readers.<reader> must assing the values of Geometry attributes.
 
     Attributes
     ==========
@@ -170,6 +169,8 @@ def color_distribution(sith: SITH,
         stretching conf.
     div: int
         number of sets of colors in which the colorbar is divided.
+    decimals: Default=3
+        number of decimals of the ticks of the colorbar.
 
     Return
     ======

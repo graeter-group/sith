@@ -18,7 +18,7 @@ class FileReader:
     path: Path or str
         Path to the fchk file to extract into a
         :mod:`~SITH.Utilities.Geometry` object.
-    extract_data: bool
+    extract_data: bool. Default=True
         Automatically try to extract the data from the .fchk file. If
         False, the user should run
         :mod:`~SITH.readers.g09_reader.FileReader._extract`. Defatult=True
@@ -37,10 +37,11 @@ class FileReader:
         dictionary with the header and the respective reader that stores the
         values in :mod:`~SITH.Utilities.Geometry`.
 
-    Note:
-        This class should be used only for developers. Use this as a template
-        to create other readers. Readers should assign the values to the
-        attributes of the class :mod:`~SITH.Utilities.Geometry`.
+    Note
+    ----
+    This class should be used only for developers. Use this as a template to
+    create other readers. Readers should assign the values to the attributes of
+    the class :mod:`~SITH.Utilities.Geometry`.
     """
     def __init__(self, path: Union[Path, str], extract_data: bool = True):
         if isinstance(path, (Path, str)):
@@ -147,8 +148,8 @@ class FileReader:
         dtype: data-type. Default=numpy default value.
             The desired data-type for the array. Default= Numpy guess.
 
-        Returns
-        =======
+        Return
+        ======
         (np.array, int) read data, the jth-line where the data
         finished in the file.
 

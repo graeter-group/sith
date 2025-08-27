@@ -171,7 +171,7 @@ class SITH:
 
         Return
         ======
-        (dict) internal object of  removed dofs. 
+        (dict) internal object of  removed dofs.
         """
         # TODO: change prints for logging
         # print("Removing extra DOFs in the structures... " +
@@ -280,6 +280,9 @@ class SITH:
             set the rem_first_def to the structure of the last minium in the
             total energy if it is larger than current value of rem_first_def.
             Default=False
+        from_global_minimum: Default=False
+            True to set the rem_first_def to the structure of the global
+            minium.
 
         Return
         ======
@@ -344,11 +347,9 @@ class SITH:
 
         Parameters
         ==========
-        integration_method: str. Default=trapezoid_integration
-            choose one of the next integration methods:
-            - trapezoid_integration (Default)
-            - simpson_integration
-            - rectangle_integration
+        integration_method: str. Default='trapezoid_integration'
+            choose one of the next integration methods: trapezoid_integration,
+            simpson_integration, rectangle_integration.
 
         Return
         ======

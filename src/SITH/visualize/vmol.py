@@ -10,70 +10,7 @@ from SITH.Utilities import color_distribution, create_colorbar
 
 class EnergiesVMol(VMolecule):
     """
-    Set of tools to visualize a molecule and the distribution of energies
-    in different DOFs.
-
-    Parameters
-    ==========
-    sith_info: SITH
-        sith object with the distribution of energies and structures
-        information.
-    idef: int
-        initial deformation to be considered as reference. Default=0
-    alignment: list
-        3 indexes to fix the correspondig atoms in the xy plane.
-        The first atom is placed in the negative side of the x axis,
-        the second atom is placed in the positive side of the x axis,
-        and the third atom is placed in the positive side of the y axis.
-    show_axis: bool
-        add xyz axis
-    background: rgb list or vpython vector
-        background color. Default=vpython.color.white
-    portion: float
-        percentage of the complete figure to be used to add the canvas. The
-        rest of the space can be used to add a figure. Default=80
-    kwargs: arguments for VMolecule
-
-    Attributes
-    =========
-    atoms: ase.Atoms
-        Atoms object with the molecule structure
-    ax: plt.Axes
-        matplotlib Axes that contains the colorbar.
-    b_counter: vpython.button
-        button counter that sets the stretching.
-    color_scheme: dict
-        color scheme of the atoms. Default = jml_colors
-    canvaskwargs: dict
-        set the values of the attributes in the escene.
-    fig: plt.figure
-        Matplotlib Figure that contains the colorbar.
-    frame: int
-        frame of the trajectory that is displayed
-    hidden_objs: dict
-        vpython does not delete objects, only hide them. This dictionary
-        contains the deleted objects.
-    idef: int
-        index of the stretched structure.
-    kwargs_edofs:
-        set the parameters of the energies in dofs: cmap, label, labelsize,
-        orientation, div, deci, width, height, absolute.
-    master: vpython
-        vpython that the user can use to add new objects.
-    nangles: int
-        number of angles.
-    nbonds: int
-        number of bonds.
-    ndihedral: int
-        number of dihedrals.
-    scene: vpython.canvas
-        canvas displaying the molecule.
-    sith: SITH.SITH
-        sith object with the energy distribution analysis.
-    trajectory: list
-        set of stretched configurations listed as ase.Atoms objects.
-    vatoms: list
-        set of spheres that represents the atoms in the displayed scene.
+    # TODO: Add definition
     """
     def __init__(self, sith_info: SITH, dofs: list,
                  idef: int = 0,
@@ -240,10 +177,6 @@ class EnergiesVMol(VMolecule):
 
         Return
         ======
-        # TODO: add return information
-
-        Returns
-        =======
         (tuple) DOFs and their computed energies.
         """
         dofs = self.sith.dim_indices[self.nbonds:self.nbonds +

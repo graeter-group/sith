@@ -14,7 +14,7 @@ class MoleculeNGL:
     ==========
     atoms: ase.Atoms
         Atoms object to be visualized
-    alignment: list[int]. Defatult=None
+    alignment: list[int]. Default=None
         list of three indexes corresponding to the
         indexes of the atoms in the xy plane. the first
         two atoms are set to the x axis.
@@ -131,10 +131,10 @@ class MoleculeNGL:
 
         Parameters
         ==========
-        atom1indexes: int
+        atoms1indexes: int
             Indexes of the atoms to be connected according with g09
             convention.
-        atom2indexes: int
+        atoms2indexes: int
             Indexes of the atoms to be connected according with g09
             convention.
         colors: list of color lists. Default all gray([0.5, 0.5, 0.5])
@@ -209,9 +209,9 @@ class MoleculeNGL:
 
         Parameters
         ==========
-        atom1indexes: list[int]
+        atoms1indexes: list[int]. Default=None
             Indexes of the atoms that are connected.
-        atom2indexes: list[int]
+        atoms2indexes: list[int]. Default=None
             Indexes of the atoms that are connected.
 
         Return
@@ -309,7 +309,7 @@ class MoleculeNGL:
             number of intermedia points to add in the arc of
             the angle.
 
-        Output
+        Return
         ======
         (list) list of meshes forming the angle.
         """
@@ -570,7 +570,7 @@ class MoleculeNGL:
             label of the degree of freedom according with g09 convention.
         color: color format. Default=[0.5, 0.5, 0.5]
             Color of the DOF in the visual representation.
-        kwargs: 
+        kwargs:
             arguments for the function add_bond, add_angle or add_dihedral,
             according to the case.
 
@@ -659,9 +659,9 @@ class MoleculeNGL:
 
         Parameters
         ==========
-        args: 
+        args:
             args for the function nglview.view.download_image.
-        kwargs: 
+        kwargs:
             kwargs for the function nglview.view.download_image.
 
         Return
@@ -797,7 +797,7 @@ class MoleculeNGL:
         ==========
         atoms: ase.Atoms
             Atoms object to be transformed.
-        trans: 
+        trans:
             3x3 matrix containing the transformation.
         indexes: Default=None (namely, all atoms)
             indexes of atoms to apply the transformation.
@@ -829,11 +829,11 @@ class MoleculeNGL:
         ==========
         atoms: ase.Atoms
             Atoms to be transformed.
-        atom1index: int
+        index1: int
             first atom to go in the x axis.
-        atom2index: int
+        index2: int
             second atom to go to the x axis.
-        atom3index: int
+        index3: int
             atom to go in the xy plane.
 
         Return
@@ -870,10 +870,10 @@ class EnergiesNGL(MoleculeNGL):
     ==========
     sith_info:
         sith object or sith.utilities.ReadSummary object
-    idef: int
+    idef: int. Default='all'
         number of the deformation to be analized. Default=None, that means,
         all the structures are displayed as a trajectory.
-    alignment: list
+    alignment: list. Default=None
         3 indexes to fix the correspondig atoms in the xy plane.
         The first atom is placed in the negative side of the x axis,
         the second atom is placed in the positive side of the x axis,
@@ -882,6 +882,8 @@ class EnergiesNGL(MoleculeNGL):
         add xyz axis
     background: color
         background color. Default: '#ffc'
+    kwargs: 
+        kwargs of MoleculeNGL
     """
     def __init__(self, sith_info, idef='all', alignment=None, axis=False,
                  background='#FFFFFF', **kwargs):
@@ -895,7 +897,7 @@ class EnergiesNGL(MoleculeNGL):
             self.idef = idef
             atoms = self.sith.structures[self.idef].atoms
 
-        MoleculeNGL.__init__(self, atoms, alignment, axis)
+        MoleculeNGL.__init__(self, atoms, alignment, axis, **kwargs)
 
         if self.idef is None:
             self.idef = self.view.frame
@@ -925,7 +927,7 @@ class EnergiesNGL(MoleculeNGL):
 
         Parameters
         ==========
-        kwargs: 
+        kwargs:
             of internal method energies_some_dof.
 
         Return
@@ -944,7 +946,7 @@ class EnergiesNGL(MoleculeNGL):
 
         Parameters
         ==========
-        kwargs: 
+        kwargs:
             of internal method energies_some_dof.
 
         Return
@@ -964,7 +966,7 @@ class EnergiesNGL(MoleculeNGL):
 
         Parameters
         ==========
-        kwargs: 
+        kwargs:
             of internal method energies_some_dof.
 
         Return
@@ -1000,7 +1002,7 @@ class EnergiesNGL(MoleculeNGL):
 
         Parameters
         ==========
-        kwargs: 
+        kwargs:
             of internal method energies_some_dof.
 
         Return
@@ -1022,8 +1024,8 @@ class EnergiesNGL(MoleculeNGL):
         kwargs:
             all the arguments you want to change.
 
-        Returns
-        =======
+        Return
+        ======
         (dict, dict) modified dictionary withe the default values and set of
         kwargs without the used keys.
         """
@@ -1047,7 +1049,7 @@ class EnergiesNGL(MoleculeNGL):
         ==========
         dofs: list of tuples.
             list of degrees of freedom defined according with g09 convention.
-        kwargs: 
+        kwargs:
             optional kwargs of internal method change_def
 
         Return
