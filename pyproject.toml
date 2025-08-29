@@ -1,12 +1,12 @@
 [project]
 name = "SITH"
-version = "0.1.0"
-description = "Stress Induced Traversal of Hessian"
+version = "1.0.0"
+description = "Stretched Intramolecular Tension via Hypersurfaces"
 readme = "README.md"
 license = { text = "MIT" }
 authors = [
-    { name = "Hits_mbm", email = "mikaela.farrugia@h-its.org" },
     { name = "Hits_mbm", email = "daniel.sucerquia@h-its.org" }
+    { name = "Hits_mbm", email = "mikaela.farrugia@h-its.org" },
 ]
 requires-python = ">=3.9"
 classifiers = [
@@ -17,7 +17,6 @@ classifiers = [
 dependencies = [
     "ase",
     "numpy",
-    "ipywidgets",
     "matplotlib",
     "sphinx-rtd-theme"
 ]
@@ -32,3 +31,6 @@ where = ["src"]
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[project.scripts]
+sith = "SITH.cli.main:main"
