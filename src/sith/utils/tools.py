@@ -68,7 +68,7 @@ def change_distance(inp, out, file_cons, deltad, charge, method):
         charge in e to create the g09 input file. The multiplicity is assumed.
         to be one.
     method: str
-        method defined in myutils.ase_utils.tools. So far, the methods already
+        method defined in sith.ase_utils.tools. So far, the methods already
         implemented are: 'scale_distance', 'increase_distance',
         'increase_distance_with_constraints'.
 
@@ -80,7 +80,7 @@ def change_distance(inp, out, file_cons, deltad, charge, method):
                'increase_distance_with_constraints']
     if method not in methods:
         raise ValueError("Non-recognized stretching method. To see the "
-                         "options, check 'myutils change_distance -h'")
+                         "options, check 'sith change_distance -h'")
 
     deltad = float(deltad)
     # Read previus file
@@ -115,7 +115,7 @@ def extract_bonds(readable_file):
     (list) [#bonds x 2(int)] Bonds in the molecule.
 
     E.g.
-    myutils extract_bonds optimization.xyz
+    sith extract_bonds optimization.xyz
     """
     atoms = read(readable_file)
     ana = Analysis(atoms)
@@ -196,8 +196,8 @@ def conf2pdb(confile, pdbtemplate, pdboutput=None):
         file, this file only would change the coordinates.
 
     E.g.
-    myutils optimization.log template.pdb
-    myutils optimization.xyz template.pdb
+    sith optimization.log template.pdb
+    sith optimization.xyz template.pdb
     """
     if pdboutput is None:
         pdboutput = confile.split('.')[0] + '.pdb'
@@ -243,7 +243,7 @@ def all_xyz2pdb(template, output_patern=None, xyzdir=''):
         file, this file only would change the coordinates.
 
     E.g.
-    cd dir_with_xyz_files ; myutils all_xyz2pdb
+    cd dir_with_xyz_files ; sith all_xyz2pdb
     """
     configs = glob.glob(xyzdir + '*.xyz')
     configs.sort()
@@ -303,7 +303,7 @@ def distance(file, index1, index2):
     index2.
 
     E.g.
-    myutils distance optimization.log 1 20
+    sith distance optimization.log 1 20
     """
     index1 = int(index1)
     index2 = int(index2)

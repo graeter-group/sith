@@ -506,33 +506,3 @@ class PCAMatcher:
                   np.where(correspondence == -1)[0])
 
         return correspondence
-
-
-def vmd_connectivity(mol):
-    raw = output_terminal(f'myutils extract_bonds_vmd {mol} |' +
-                          ' grep -v "Info)" | tail -n +4 | head -n -1',
-                          print_output=False).split('\n')
-    connectivity = [[int(i) for i in line.split()] for line in raw[:-1]]
-
-    return connectivity
-
-
-def vmd_connectivity_unique(mol):
-    redundant = vmd_connectivity(mol)
-    unique = []
-    for i, connections in enumerate(redundant):
-        i_row = []
-        for j in connections:
-            if j > i:
-                i_row.append(j)
-        unique.append(i_row)
-    return unique
-
-
-def vmd_connectivity_matrix(mol):
-    redundant = vmd_connectivity(mol)
-    matrix = np.zeros((len(redundant), len(redundant)))
-    for i, connections in enumerate(redundant):
-        for j in connections:
-            matrix[i][j] = 1
-    return matrix
