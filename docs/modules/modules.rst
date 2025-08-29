@@ -7,4 +7,3 @@ Modules
    SITH
    SithWriter
    Utilities
-   Visualization
