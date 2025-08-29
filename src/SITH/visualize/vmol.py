@@ -1,5 +1,4 @@
 from typing import Union
-import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
 from vmol.view import VMolecule
@@ -10,14 +9,33 @@ from SITH.Utilities import color_distribution, create_colorbar
 
 class EnergiesVMol(VMolecule):
     """
-    # TODO: Add definition
+    Set of graphic tools to visualize the distribution of energies in the
+    different degrees of freedom (lengths, angles, dihedrals). Wrap to VMol.
+
+    Parameters
+    ==========
+    sith_info: SITH object.
+        SITH object with the information of the system.
+    dofs: list
+        list of degrees of freedom defined according with g09 convention.
+        It could also be 'all', 'bonds', 'angles' or 'dihedrals' to
+        display all the corresponding DOFs.
+    idef: int. default 0.
+        index of the stretching to be displayed.
+    alignment: list, tuple or np.ndarray. Default=None.
+        indexes for the alignment of the molecule. See VMolecule.xy_alignment
+        for more details.
+    show_axis: bool. Default=False.
+        True if you want to show the axis in the scene.
+    background: list or vp.color. Default=vp.color.white.
+        color of the background of the scene.
+    \*\*kwargs: other arguments of VMolecule.
     """
     def __init__(self, sith_info: SITH, dofs: list,
                  idef: int = 0,
                  alignment: Union[list, tuple, np.ndarray] = None,
                  show_axis: bool = False,
                  background: Union[list, vp.color] = vp.color.white,
-                 portion: float = 80,
                  **kwargs):
         self._hook = False
         self.canvaskwargs = kwargs
@@ -59,7 +77,6 @@ class EnergiesVMol(VMolecule):
                            show_axis=show_axis,
                            alignment=alignment,
                            frame=idef,
-                           portion=portion,
                            **kwargs)
         self._hook = False
         
