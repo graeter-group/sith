@@ -29,7 +29,7 @@ class WriteSITH:
 
         self._transform_hessian()
 
-        self.lines = f'This file was created using SITH.SithWriter. All ' +\
+        self.lines = f'This file was created using sith.SithWriter. All ' +\
             'the units of quantities are in Hartrees, Angstroms or Radians.\n'
 
         #  headers in fchk files in g09 format

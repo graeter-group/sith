@@ -10,19 +10,19 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-    "deploy": "gh-pages -d html/SITH"
+    "deploy": "gh-pages -d html/sith"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hits-mbm-dev/SITH.git"
+    "url": "git+https://github.com/hits-mbm-dev/sith.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hits-mbm-dev/SITH/issues"
+    "url": "https://github.com/hits-mbm-dev/sith/issues"
   },
-  "homepage": "https://github.com/hits-mbm-dev/SITH#readme",
+  "homepage": "https://github.com/hits-mbm-dev/sith#readme",
   "devDependencies": {
     "gh-pages": "^6.0.0"
   }

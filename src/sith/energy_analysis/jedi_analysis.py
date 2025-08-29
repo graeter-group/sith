@@ -8,7 +8,7 @@ class JediAnalysis:
 
     Parameters
     ==========
-    structures_info: :mom:`SITH.SITH.SITH`
+    structures_info: :mom:`sith.SITH`
         object containing the necessary information for the energy analysis.
     """
     def __init__(self, structures_info):

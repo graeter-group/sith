@@ -3,8 +3,8 @@ import matplotlib as mpl
 import numpy as np
 from vmol.view import VMolecule
 import vpython as vp
-from SITH.SITH import SITH
-from SITH.Utilities import color_distribution, create_colorbar
+from sith.SITH import SITH
+from sith.Utilities import color_distribution, create_colorbar
 
 
 class EnergiesVMol(VMolecule):

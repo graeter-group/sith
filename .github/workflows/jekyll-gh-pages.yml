@@ -43,7 +43,7 @@ jobs:
     # - name: Commit documentation changes
     #   run: |
     #     git clone https://github.com/ammaraskar/sphinx-action-test.git --branch gh-pages --single-branch gh-pages
-    #     cp -r html/SITH/* gh-pages/
+    #     cp -r html/sith/* gh-pages/
     #     cd gh-pages
     #     touch .nojekyll
     #     git config --local user.email "action@github.com"
@@ -96,7 +96,7 @@ jobs:
   #     - name: Build with Jekyll
   #       uses: actions/jekyll-build-pages@v1
   #       with:
-  #         source: ../../html/SITH/index.html
+  #         source: ../../html/sith/index.html
   #         destination: ./_site
   #     - name: Upload artifact
   #       uses: actions/upload-pages-artifact@v2

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from ipywidgets import HBox
 import numpy as np
-from SITH.Utilities import color_distribution, create_colorbar
+from sith.Utilities import color_distribution, create_colorbar
 
 
 class MoleculeNGL:

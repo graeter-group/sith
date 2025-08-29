@@ -1,8 +1,8 @@
 import numpy as np
 import importlib
 from typing import Union
-from SITH.energy_analysis.sith_analysis import SithAnalysis
-from SITH.energy_analysis.jedi_analysis import JediAnalysis
+from sith.energy_analysis.sith_analysis import SithAnalysis
+from sith.energy_analysis.jedi_analysis import JediAnalysis
 
 
 class SITH:
@@ -12,13 +12,12 @@ class SITH:
     Parameters
     ==========
     inputfiles: list or str
-        list of paths to the input files (as strings or paths) for the
-        readers. The order of the elements matters according to the energy
-        anaylis aplied. This parameter could also be a string of the path
-        to the a directory containing the fchk files in alphabetic order.
+        list of paths to the input files (as strings or paths) for the readers.
+        The order of the elements matters according to the energy anaylis
+        applied. This parameter could also be a string of the path to the a
+        directory containing the fchk files in alphabetic order.
     reader: str
-        name of the reader. The options so far are:
-        -- G09Reader
+        name of the reader. The options so far are: G09Reader.
     reference: int (optional)
         index of the structure to have as a reference for the energy
         distribution analysis. Default=0
@@ -30,7 +29,7 @@ class SITH:
     reference: int
         Index of the structure to have as reference as a minimim energy.
     structures: list
-        :mom:`SITH.Utilities.Geometry` s objects for each structure.
+        `sith.Utilities.Geometry` s objects for each structure.
     n_structures: list
         Number of structures to include in the analysis.
     dims: np.array
@@ -103,14 +102,14 @@ class SITH:
         Parameters
         ==========
         reader: str
-            name of the reader. check SITH.readers
+            name of the reader. check sith.readers
 
         Return
         ======
         (object) reader to be initialized.
         """
         # {name: modulus}
-        readers_objs = {'G09Reader': 'SITH.readers.g09_reader'}
+        readers_objs = {'G09Reader': 'sith.readers.g09_reader'}
         module = importlib.import_module(readers_objs[reader])
         return getattr(module, reader)
 
@@ -175,7 +174,7 @@ class SITH:
         """
         # TODO: change prints for logging
         # print("Removing extra DOFs in the structures... " +
-        #      "(check SITH.removed_dofs)")
+        #      "(check sith.removed_dofs)")
         n_dimensions = [defo.dims[0] for defo in self.structures]
         ref_index = n_dimensions.index(min(n_dimensions))
         min_n_dim = n_dimensions[ref_index]
@@ -286,7 +285,7 @@ class SITH:
 
         Return
         ======
-        (list) Deformed Geometry objects. SITH.structures.
+        (list) Deformed Geometry objects. sith.structures.
         """
         if from_global_minimum:
             all_energies = self.structures_scf_energies
@@ -325,7 +324,7 @@ class SITH:
     # region Energy Analysis
     def jedi_analysis(self):
         """
-        Uses the values in 'structures' (:mod:`~SITH.Utilities.Geometry`
+        Uses the values in 'structures' (:mod:`~sith.Utilities.Geometry`
         of each configuration) and computes the distribution of energies
         using JEDI (Harmonic approximation)
 
@@ -341,7 +340,7 @@ class SITH:
 
     def sith_analysis(self, integration_method: str = 'trapezoid_integration'):
         """
-        Uses the values in 'structures' (:mod:`~SITH.Utilities.Geometry`
+        Uses the values in 'structures' (:mod:`~sith.Utilities.Geometry`
         of each configuration) and computes the distribution of energies
         using SITH (Numerical integration).
 

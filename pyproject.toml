@@ -1,12 +1,12 @@
 [project]
-name = "SITH"
+name = "sith"
 version = "1.0.0"
 description = "Stretched Intramolecular Tension via Hypersurfaces"
 readme = "README.md"
 license = { text = "MIT" }
 authors = [
-    { name = "Hits_mbm", email = "daniel.sucerquia@h-its.org" }
-    { name = "Hits_mbm", email = "mikaela.farrugia@h-its.org" },
+    { name = "Hits_mbm", email = "daniel.sucerquia@h-its.org" },
+    { name = "Hits_mbm", email = "mikaela.farrugia@h-its.org" }
 ]
 requires-python = ">=3.9"
 classifiers = [
@@ -33,4 +33,4 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
-sith = "SITH.cli.main:main"
+sith = "sith.cli.main:main"

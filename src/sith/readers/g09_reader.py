@@ -4,24 +4,24 @@ import numpy as np
 from ase import Atoms
 from ase.units import Bohr
 from ase.data import chemical_symbols
-from SITH.Utilities import Geometry
+from sith.Utilities import Geometry
 from typing import Union
 
 
 class FileReader:
     """
     Object used to read info in a .fchk file and store it into a
-    :mod:`~SITH.Utilities.Geometry` object.
+    :mod:`~sith.Utilities.Geometry` object.
 
     Parameters
     ==========
     path: Path or str
         Path to the fchk file to extract into a
-        :mod:`~SITH.Utilities.Geometry` object.
+        :mod:`~sith.Utilities.Geometry` object.
     extract_data: bool. Default=True
         Automatically try to extract the data from the .fchk file. If
         False, the user should run
-        :mod:`~SITH.readers.g09_reader.FileReader._extract`. Defatult=True
+        :mod:`~sith.readers.g09_reader.FileReader._extract`. Defatult=True
 
     Attributes
     ==========
@@ -31,17 +31,17 @@ class FileReader:
         [1] Number of distances
         [2] Number of angles
         [3] Number of dihedrals
-    geometry: SITH.Utilities.Geometry
+    geometry: sith.Utilities.Geometry
         object where the info is stored.
     block_readers: dict
         dictionary with the header and the respective reader that stores the
-        values in :mod:`~SITH.Utilities.Geometry`.
+        values in :mod:`~sith.Utilities.Geometry`.
 
     Note
     ----
     This class should be used only for developers. Use this as a template to
     create other readers. Readers should assign the values to the attributes of
-    the class :mod:`~SITH.Utilities.Geometry`.
+    the class :mod:`~sith.Utilities.Geometry`.
     """
     def __init__(self, path: Union[Path, str], extract_data: bool = True):
         if isinstance(path, (Path, str)):
@@ -382,7 +382,7 @@ class G09Reader:
     inputfiles: list[Path]
         paths to the fchk files.
     structures: list[Geometry]
-        list of :mod:`SITH.Utilities.Geometry`s for each deformed
+        list of :mod:`sith.Utilities.Geometry`s for each deformed
         configuration.
     """
     def __init__(self, inputfiles: Union[list, str]):
