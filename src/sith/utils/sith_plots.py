@@ -6,7 +6,7 @@ import matplotlib as mpl
 import matplotlib.patches as mpatches
 from sith.SITH import SITH
 from typing import Union, Tuple
-from sith.g09_stretching.analysis import SithAnalysis
+from sith.utils.analysis import SithAnalysis
 import cmocean as cmo
 from matplotlib.colors import TwoSlopeNorm
 
