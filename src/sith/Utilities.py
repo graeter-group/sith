@@ -270,4 +270,4 @@ def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap=None,
     with out:
         plt.show()
 
-    return fig, ax
+    return fig, ax, out

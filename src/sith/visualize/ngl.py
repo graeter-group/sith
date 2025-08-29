@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import matplotlib as mpl
 from ipywidgets import HBox
 import numpy as np
@@ -909,14 +908,12 @@ class EnergiesNGL(MoleculeNGL):
         self.nangles = dims[2]
         self.ndihedral = dims[3]
         self.kwargs_edofs = {'cmap': mpl.cm.get_cmap("Blues"),
-                             'label': "Energy [Ha]",
-                             'labelsize': 20,
-                             'orientation': "vertical",
+                             'label': r"$\Delta$ Energy [Ha]",
+                             'labelsize': 10,
                              'div': 5,
                              'deci': 2,
                              'width': 700,
-                             'height': 600,
-                             'absolute': False}
+                             'height': 500}
         self.view.observe(self.update_frame, names='frame')
 
 
@@ -1061,19 +1058,18 @@ class EnergiesNGL(MoleculeNGL):
         cmap = self.kwargs_edofs['cmap']
         label = self.kwargs_edofs['label']
         labelsize = self.kwargs_edofs['labelsize']
-        orientation = self.kwargs_edofs['orientation']
         div = self.kwargs_edofs['div']
         deci = self.kwargs_edofs['deci']
         width = self.kwargs_edofs['width']
         height = self.kwargs_edofs['height']
-        absolute = self.kwargs_edofs['absolute']
 
         energies, normalize = color_distribution(self.sith,
                                                  dofs,
                                                  self.idef,
                                                  cmap,
-                                                 absolute,
-                                                 div)
+                                                 absolute=True,
+                                                 div=div,
+                                                 decimals=deci)
 
         for i, dof in enumerate(dofs):
             color = cmap(normalize(energies[self.idef][i]))[:3]
@@ -1083,9 +1079,12 @@ class EnergiesNGL(MoleculeNGL):
         self.view._remote_call("setSize",
                                targe="Widget",
                                args=[width, height])
-        self.fig, cbarwdg = create_colorbar(normalize, cmap, deci, label,
-                                            labelsize, orientation, width,
-                                            height)
+        self.fig, self.ax, cbarwdg = create_colorbar(normalize,
+                                                     label,
+                                                     cmap,
+                                                     deci, 
+                                                     labelsize,
+                                                     height/300)
 
         self.box = HBox([self.view, cbarwdg])
 

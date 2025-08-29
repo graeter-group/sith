@@ -156,12 +156,12 @@ class EnergiesVMol(VMolecule):
 
         # Colorbar
         # Note that this colorbar 
-        self.fig, _ = create_colorbar(norm, self.kwargs_edofs['label'],
-                                      cmap=self.kwargs_edofs['cmap'],
-                                      deci=self.kwargs_edofs['deci'],
-                                      labelsize=self.kwargs_edofs['labelsize'],
-                                      height=self.kwargs_edofs['height']/300,
-                                      dpi=300)
+        self.fig, _, _ = create_colorbar(norm, self.kwargs_edofs['label'],
+                                        cmap=self.kwargs_edofs['cmap'],
+                                        deci=self.kwargs_edofs['deci'],
+                                        labelsize=self.kwargs_edofs['labelsize'],
+                                        height=self.kwargs_edofs['height']/300,
+                                        dpi=300)
 
         return norm, kwargs
 
