@@ -32,7 +32,6 @@ method=0
 n_processors=8
 restart='false'
 size=0.2
-retake='true'
 verbose='false'
 while getopts 'b:p:m:rs:vh' flag; do
   case "${flag}" in
@@ -111,11 +110,12 @@ then
   # searching incomplete optimization trials
   nameiplusone=$(printf "%02d" "$(( i + 1 ))")
 
-  # searching advances in i+1
-  $retake && \
-    sith log2xyz "$pep-stretched${nameiplusone}.log" 2> /dev/null && \
-    create_bck "$pep-stretched${nameiplusone}."* &&
-    lastone=$( search_last_bck $pep-stretched${nameiplusone} ) &&
+  # searching advances in i+1.
+  # retake='true' means that the last configuration was not taken from an
+  # incomplete job. In the next block, we search for advances in i+1 and if it
+  # finds one, it restarts from there and sets retake='false' as a consecuence,
+  # this variable is used later in the loop.
+  retake='true'
     if [ $(( lastone )) -gt 2 ]; then fail "this optimization was" \
       "restarted more than 3 times and didn't converged."; fi &&
     echo "coping $pep-stretched${nameiplusone}-bck_$lastone.xyz" &&
