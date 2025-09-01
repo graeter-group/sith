@@ -1,5 +1,13 @@
 #!/bin/bash
 
+#SBATCH -N 1                   # number of nodes
+#SBATCH -n 9
+#SBATCH --cpus-per-task=1
+#SBATCH -t 24:00:00
+#SBATCH --output=%x-%j.o
+#SBATCH --error=%x-%j.e
+#SBATCH --exclusive
+
 # ----- definition of functions starts ----------------------------------------
 print_help() {
 echo "
@@ -34,10 +42,12 @@ restart='false'
 size=0.2
 verbose='false'
 level='bmk,6-31+g'
-while getopts 'b:i:p:l:m:rs:vh' flag; do
+while getopts 'b:ce:i:p:l:m:rs:vh' flag; do
   case "${flag}" in
     b) breakages=${OPTARG} ;;
-    c) change_method=${OPTARG} ;;
+    c) cluster='true' ;;
+    e) extend_method=${OPTARG} ;;
+    m) mol=${OPTARG} ;;
     l) level=${OPTARG} ;;
     r) restart='true' ;;
     s) size=${OPTARG} ;;
@@ -50,6 +60,13 @@ done
 
 source "$(sith basics -path)" STRETCHING $verbose
 
+n_processors=8
+if $cluster
+then
+  load_modules
+  n_processors=$SLURM_CPUS_ON_NODE
+fi
+
 # starting information
 verbose "JOB information"
 echo " * Date:"
@@ -58,7 +75,7 @@ echo " * Command:"
 echo "$0" "$@"
 
 # stretching method
-if [[ "$change_method" -eq 0 ]]
+if [[ "$extend_method" -eq 0 ]]
 then
   if [ "$breakages" -eq 1 ]
   then
@@ -77,28 +94,21 @@ basis_set=$(echo $level | cut -d ',' -f 2)
 ase -h &> /dev/null || fail "This code needs ASE"
 command -V g09 &> /dev/null || fail "This code needs gaussian"
 
-# C-CAP indexes in g09 convention
-index1=$( grep ACE "$pep-stretched00.pdb" | grep CH3 | awk '{print $2}' )
-index2=$( grep NME "$pep-stretched00.pdb" | grep CH3 | awk '{print $2}' )
-# check that the indexes were read properly:
-[[ "$index1" -eq 0 && "$index2" -eq 0 ]] && fail "Not recognized indexes"
-[[ "$index1" -eq 1 && "$index2" -eq 1 ]] && fail "Not recognized indexes"
-if ! [[ -f 'frozen_dofs.dat' ]]
-then
-  echo "$index1 $index2 F" > frozen_dofs.dat
-fi
-verbose "This code will stretch the atoms with the indexes $index1 $index2
-  (g09 convention)"
 
 # ----- set up finishes -------------------------------------------------------
 
 # ---- BODY -------------------------------------------------------------------
-# ----- checking restart starts -----------------------------------------------
+# ----- checking restart ------------------------------------------------------
 if $restart
 then
+  [[ -f 'frozen_dofs.dat' ]] || fail "frozen_dofs.dat doesn't exist"
+
   # extracting last i with xyz file already created
-  mapfile -t previous < <( find . -maxdepth 1 -type f -name "*$pep*.xyz" \
-                          -not -name "*bck*" | sort )
+  mapfile -t previous < <( find . -maxdepth 1 -type f -name "*$mol*.xyz" \
+                                  -not -name "*bck*" | sort )
+  
+  [ ${#previous} -eq 0 ] && fail "Non previous xyz files were found"
+
   wext=${previous[-1]}
   last=${wext%.*}
   if [ "${last: -1}" == 'a' ]
@@ -130,8 +140,32 @@ then
 
   # if i+1 trial doesn't exist
   $retake && \
-      warning "The stretching of peptide $pep will be restarted from $i"
+      warning "The stretching of molecule $mol will be restarted from $i"
 else
+  # C-CAP indexes in g09 convention
+  if [ -z "$indexes" ]
+  then
+    # reading indexes from pdb file
+    index1=$( grep ACE "$mol-stretched00.pdb" | grep CH3 | awk '{print $2}' )
+    index2=$( grep NME "$mol-stretched00.pdb" | grep CH3 | awk '{print $2}' )
+  else
+    # reading indexes from user input
+    index1=$( echo "$indexes" | cut -d ',' -f 1 )
+    index2=$( echo "$indexes" | cut -d ',' -f 2 )
+  fi
+
+  # check that the indexes were read properly:
+  [[ "$index1" -eq 0 && "$index2" -eq 0 ]] && fail "Not recognized indexes"
+  [[ "$index1" -eq 1 && "$index2" -eq 1 ]] && fail "Not recognized indexes"
+
+  if ! [[ -f 'frozen_dofs.dat' ]]
+  then
+    echo "$index1 $index2 F" > frozen_dofs.dat
+  fi
+
+  verbose "This code will stretch the atoms with the indexes $index1 $index2
+  (g09 convention)"
+
   # in case of not restarting
   i=-1
 fi
