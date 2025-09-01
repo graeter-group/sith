@@ -36,8 +36,7 @@ verbose='false'
 while getopts 'b:p:m:rs:vh' flag; do
   case "${flag}" in
     b) breakages=${OPTARG} ;;
-    p) pep=${OPTARG} ;;
-    m) method=${OPTARG} ;;
+    c) change_method=${OPTARG} ;;
     r) restart='true' ;;
     s) size=${OPTARG} ;;
     
@@ -56,11 +55,8 @@ date
 echo " * Command:"
 echo "$0" "$@"
 
-# ---- set up ends ------------------------------------------------------------
-
-# ---- BODY -------------------------------------------------------------------
 # stretching method
-if [[ "$method" -eq 0 ]]
+if [[ "$change_method" -eq 0 ]]
 then
   if [ "$breakages" -eq 1 ]
   then
