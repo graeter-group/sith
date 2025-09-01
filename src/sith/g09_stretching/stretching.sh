@@ -11,19 +11,21 @@
 # ----- definition of functions starts ----------------------------------------
 print_help() {
 echo "
-This tool obtains the stretched configurations of a peptide by increasing the
-distance between carbons of the capping groups, constraining and optimizing
-using BMK exchange-correlation.
+This tool obtains the stretched configurations of a molecule by increasing the
+distance between two atoms, constraining and optimizing at every step
 
-  -b  <number of breakages=1> The simulation will run until get this number of
+  -b  <number_of_breakages=1> The simulation will run until get this number of
       ruptures.
-  -p  <peptide> One letter code of the amino acids forming the peptides. In
-      this directory, a file called <peptide>-stretched00.pdb has to exist.
-  -m  <method=0> index of stretching method. To see the options, use
+  -e  <extend_method=0> index of stretching method. To see the options, use
       'sith change_distance -h' to see the order.
+      carbons of the capping groups
+  -i  <index1,index2> indexes of the atoms to use for increasing the distance.
+  -m  <molecule> One letter code of the amino acids forming the molecules. In
+      this directory, a file called <molecule>-stretched00.pdb has to exist.
+  -l  <xc,base=bmk,6-31+g> evel of DFT theory.
   -r  restart stretching. In this case, this conde must be executed from
-      the peptide's directory.
-  -s  <size[A]=0.2> of the step that increases the distances.
+      the molecule's directory.
+  -s  <size[A]=0.2> Size of the step that increases the distances at each step.
 
   -v  verbose
   -h  prints this message.
@@ -37,16 +39,17 @@ exit 0
 # General variables
 breakages=1
 method=0
-n_processors=8
 restart='false'
 size=0.2
 verbose='false'
+indexes=''
 level='bmk,6-31+g'
-while getopts 'b:ce:i:p:l:m:rs:vh' flag; do
+while getopts 'b:ce:i:l:m:rs:vh' flag; do
   case "${flag}" in
     b) breakages=${OPTARG} ;;
     c) cluster='true' ;;
     e) extend_method=${OPTARG} ;;
+    i) indexes=${OPTARG} ;;
     m) mol=${OPTARG} ;;
     l) level=${OPTARG} ;;
     r) restart='true' ;;
@@ -116,8 +119,8 @@ then
     last=${last::-2}
   fi
   i=$(( 10#${last:0-2} ))
-  verbose "Restarting $pep, searching last optimization, $i is the last
-           stretching detected"
+  verbose "Restarting $mol, searching last optimization, $i is the last
+           stretching step detected"
 
   # searching incomplete optimization trials
   nameiplusone=$(printf "%02d" "$(( i + 1 ))")
@@ -128,14 +131,17 @@ then
   # finds one, it restarts from there and sets retake='false' as a consecuence,
   # this variable is used later in the loop.
   retake='true'
+  sith log2xyz "$mol-stretched${nameiplusone}.log" 2> /dev/null && \
+    create_bck "$mol-stretched${nameiplusone}."* &&
+    lastone=$( search_last_bck $mol-stretched${nameiplusone} ) &&
     if [ $(( lastone )) -gt 2 ]; then fail "this optimization was" \
       "restarted more than 3 times and didn't converged."; fi &&
-    echo "coping $pep-stretched${nameiplusone}-bck_$lastone.xyz" &&
-    sith change_distance "$pep-stretched${nameiplusone}-bck_$lastone.xyz" \
-      "$pep-stretched${nameiplusone}" frozen_dofs.dat 0 0 \
+    echo "coping $mol-stretched${nameiplusone}-bck_$lastone.xyz" &&
+    sith change_distance "$mol-stretched${nameiplusone}-bck_$lastone.xyz" \
+      "$mol-stretched${nameiplusone}" frozen_dofs.dat 0 0 "$method" \
       --xc $xc_functional --basis $basis_set && \
     retake='false' && \
-    warning "The stretching of peptide $pep will be restarted
+    warning "The stretching of molecule $mol will be restarted
       from $(( i + 1 ))"
 
   # if i+1 trial doesn't exist
@@ -172,7 +178,7 @@ fi
 # ----- checking restart finishes ---------------------------------------------
 
 # ----- stretching starts -----------------------------------------------------
-verbose "Stretching of $pep starts and will run until getting $breakages
+verbose "Stretching of $mol starts and will run until getting $breakages
   ruptures"
 
 while [[ "$( wc -l < "frozen_dofs.dat" )" -le "$breakages" ]]
@@ -188,39 +194,42 @@ do
   then
     # initial g09 optimization
     verbose "The first g09 process is an optimization"
+    sith change_distance "$mol-stretched00.pdb" \
+      "$mol-stretched00" frozen_dofs.dat 0 0 "$method" \
       --xc $xc_functional --basis $basis_set || \
       fail "Preparating the input of gaussian"
-    sed -i  '/^TV  /d' "$pep-stretched00.com"
-    sed -i "/opt/d" "$pep-stretched00.com"
+    sed -i  '/^TV  /d' "$mol-stretched00.com"
+    sed -i "/opt/d" "$mol-stretched00.com"
   else
     if "$retake"
     then
+      # if the last configuration was not taken from an incomplete job
       sith change_distance \
-        "$pep-stretched$namei.xyz" "$pep-stretched${nameiplusone}" \
+        "$mol-stretched$namei.xyz" "$mol-stretched${nameiplusone}" \
         frozen_dofs.dat "$size" 0 "$method" \
         --xc $xc_functional --basis $basis_set\
         || fail "Preparating g09 input"
     fi
     retake='true'
-    sed -i '$d' "$pep-stretched${nameiplusone}.com"
+    sed -i '$d' "$mol-stretched${nameiplusone}.com"
     # add constrains
     cat frozen_dofs.dat >> \
-    "$pep-stretched${nameiplusone}.com"  
+    "$mol-stretched${nameiplusone}.com"  
   fi
-  sed -i "1a %NProcShared=$n_processors" "$pep-stretched${nameiplusone}.com"
-  sed -i "/#P/a opt(modredun,calcfc)" "$pep-stretched${nameiplusone}.com"
+  sed -i "1a %NProcShared=$n_processors" "$mol-stretched${nameiplusone}.com"
+  sed -i "/#P/a opt(modredun,calcfc)" "$mol-stretched${nameiplusone}.com"
 
   # run gaussian
   verbose "Running optmization of stretching ${nameiplusone}"
-  g09 "$pep-stretched${nameiplusone}.com" \
-      "$pep-stretched${nameiplusone}.log" || \
+  g09 "$mol-stretched${nameiplusone}.com" \
+      "$mol-stretched${nameiplusone}.log" || \
     { if [ "$(grep -c "Atoms too close." \
-            "$pep-stretched${nameiplusone}.log")" \
+            "$mol-stretched${nameiplusone}.log")" \
             -eq 1 ]; then fail "Atoms too close for ${nameiplusone}" ; \
       fi ; }
 
   # check convergence from output
-  output=$(grep -i optimized "$pep-stretched${nameiplusone}.log" | \
+  output=$(grep -i optimized "$mol-stretched${nameiplusone}.log" | \
            grep -c -i Non )
   if [ "$output" -ne 0 ]
   then
@@ -229,61 +238,58 @@ do
     # structure. As a second chance to converge.
     verbose "Optimization did not converge with distance $(( i + 1 )) *
       $size . Then, a new trial will start now"
-    sith log2xyz "$pep-stretched${nameiplusone}.log" || fail "
+    sith log2xyz "$mol-stretched${nameiplusone}.log" || fail "
       Transforming log file to xyz in second trial of optimization"
     sith change_distance \
-            "$pep-stretched${nameiplusone}.xyz" \
-            "$pep-stretched${nameiplustwo}" frozen_dofs.dat 0 0 \
+            "$mol-stretched${nameiplusone}.xyz" \
+            "$mol-stretched${nameiplustwo}" frozen_dofs.dat 0 0 "$method" \
             --xc $xc_functional --basis $basis_set || fail "changing distance"
     # save the failed files in ...-stretched<number>a.*
-    create_bck "$pep-stretched${nameiplusone}"*
+    create_bck "$mol-stretched${nameiplusone}"*
     # then restart the optimization
-    mv "$pep-stretched${nameiplustwo}.com" "$pep-stretched${nameiplusone}.com"
+    mv "$mol-stretched${nameiplustwo}.com" "$mol-stretched${nameiplusone}.com"
     sed -i "s/stretched${nameiplustwo}/stretched${nameiplusone}/g" \
-      "$pep-stretched${nameiplusone}.com"
-    sed -i "1a %NProcShared=$n_processors" "$pep-stretched${nameiplusone}.com"
-    sed -i "/#P/a opt(modredun,calcfc)" "$pep-stretched${nameiplusone}.com"
-    sed -i '$d' "$pep-stretched${nameiplusone}.com"
+      "$mol-stretched${nameiplusone}.com"
+    sed -i "1a %NProcShared=$n_processors" "$mol-stretched${nameiplusone}.com"
+    sed -i "/#P/a opt(modredun,calcfc)" "$mol-stretched${nameiplusone}.com"
+    sed -i '$d' "$mol-stretched${nameiplusone}.com"
     cat frozen_dofs.dat >> \
-      "$pep-stretched${nameiplusone}.com"
+      "$mol-stretched${nameiplusone}.com"
     # run optimization
     verbose "Re-running optimization"
-    g09 "$pep-stretched${nameiplusone}.com" \
-        "$pep-stretched${nameiplusone}.log"
+    g09 "$mol-stretched${nameiplusone}.com" \
+        "$mol-stretched${nameiplusone}.log"
   fi
 
   # check the output again
-  output=$(grep -i optimized "$pep-stretched${nameiplusone}.log" | \
+  output=$(grep -i optimized "$mol-stretched${nameiplusone}.log" | \
            grep -c -i Non )
   [ "$output" -ne 0 ] && failed "Optimization when the stretched distance was
       $(( i + 1 ))*0.2 didn't converge. No more stretching will be applied"
 
-  # Testing DOFs
+  # ==== Testing DOFs
   verbose "Testing dofs"
-  sith log2xyz "$pep-stretched${nameiplusone}.log" || fail "Transforming
+  sith log2xyz "$mol-stretched${nameiplusone}.log" || fail "Transforming
     log file to xyz"
   
   if [ "$i" -eq -1 ]
   then
     extrad=".."
   else
-    # Add extra values to frozen
-    extrad=$( sith diff_bonds "$pep-stretched${namei}.xyz" \
-              "$pep-stretched${nameiplusone}.xyz" )
+    # check the bonds in 'i' that are not in 'i+1'. If any, they are added to
+    # frozen_dofs.dat
+    extrad=$( sith diff_bonds "$mol-stretched${namei}.xyz" \
+              "$mol-stretched${nameiplusone}.xyz" )
   fi
 
   if [ ${#extrad} -ne 2 ]
   then
-    # if a rupture is detected, this dof is detected and a new state 
+    # create bck in rupture directory in case it already exists
     verbose "rupture found in $extrad, this bond will be frozen"
-    if ! [[ -d rupture ]]
-    then
-      mkdir rupture
-    fi
-    cd rupture || fail "rupture directory not found"
-    create_bck "$pep-stretched${nameiplusone}"
-    cd .. || fail "moving to back directory"
-    mv "$pep-stretched${nameiplusone}"* rupture/
+    mkdir -p rupture ; cd rupture
+    create_bck "$mol-stretched${nameiplusone}"
+    cd .. 
+    mv "$mol-stretched${nameiplusone}"* rupture/
   else
      verbose "Non-rupture detected in stretched ${nameiplusone}"
   fi
@@ -291,11 +297,11 @@ do
   verbose "Stretched ${nameiplusone} finished"
 
   # creating fchk file
-  formchk -3 "$pep-stretched${nameiplusone}.chk" || fail "Creating fchk file"
+  formchk -3 "$mol-stretched${nameiplusone}.chk" || fail "Creating fchk file"
   # next i
   i=$(( i + 1 ))
 done
 
 # ----- stretching finishes ---------------------------------------------------
 
-finish "$pep finished"
+finish "$mol finished"
