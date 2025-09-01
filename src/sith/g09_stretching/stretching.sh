@@ -33,10 +33,12 @@ n_processors=8
 restart='false'
 size=0.2
 verbose='false'
-while getopts 'b:p:m:rs:vh' flag; do
+level='bmk,6-31+g'
+while getopts 'b:i:p:l:m:rs:vh' flag; do
   case "${flag}" in
     b) breakages=${OPTARG} ;;
     c) change_method=${OPTARG} ;;
+    l) level=${OPTARG} ;;
     r) restart='true' ;;
     s) size=${OPTARG} ;;
     
@@ -66,6 +68,10 @@ then
   fi
 fi
 verbose "The stretching method will be '$method'"
+
+# level of theory
+xc_functional=$(echo $level | cut -d ',' -f 1)
+basis_set=$(echo $level | cut -d ',' -f 2)
 
 # check dependencies
 ase -h &> /dev/null || fail "This code needs ASE"
@@ -117,7 +123,7 @@ then
     echo "coping $pep-stretched${nameiplusone}-bck_$lastone.xyz" &&
     sith change_distance "$pep-stretched${nameiplusone}-bck_$lastone.xyz" \
       "$pep-stretched${nameiplusone}" frozen_dofs.dat 0 0 \
-      "$method" && \
+      --xc $xc_functional --basis $basis_set && \
     retake='false' && \
     warning "The stretching of peptide $pep will be restarted
       from $(( i + 1 ))"
@@ -148,8 +154,7 @@ do
   then
     # initial g09 optimization
     verbose "The first g09 process is an optimization"
-    sith change_distance "$pep-stretched00.pdb" \
-      "$pep-stretched00" frozen_dofs.dat 0 0 "$method" || \
+      --xc $xc_functional --basis $basis_set || \
       fail "Preparating the input of gaussian"
     sed -i  '/^TV  /d' "$pep-stretched00.com"
     sed -i "/opt/d" "$pep-stretched00.com"
@@ -159,6 +164,7 @@ do
       sith change_distance \
         "$pep-stretched$namei.xyz" "$pep-stretched${nameiplusone}" \
         frozen_dofs.dat "$size" 0 "$method" \
+        --xc $xc_functional --basis $basis_set\
         || fail "Preparating g09 input"
     fi
     retake='true'
@@ -194,7 +200,7 @@ do
     sith change_distance \
             "$pep-stretched${nameiplusone}.xyz" \
             "$pep-stretched${nameiplustwo}" frozen_dofs.dat 0 0 \
-            "$method" || fail "changing distance"
+            --xc $xc_functional --basis $basis_set || fail "changing distance"
     # save the failed files in ...-stretched<number>a.*
     create_bck "$pep-stretched${nameiplusone}"*
     # then restart the optimization
