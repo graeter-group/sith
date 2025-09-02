@@ -95,9 +95,25 @@ lines showed in the option 1, before sourcing sith. For example:
     g16 < $1 > $output
   }
 
-Once this is done, use sith with the flag -c
-(:code:`$(sith <function> -path) -c ...`), for example:
+Once this is done, you can use sith with the flag -c
+(:code:`sith <function> -c ...`), for example:
+
+.. code-block:: bash
+
+  sith stretching -c -p 8 -i 1,37 -m molecule.pdb
+
+Or you can even submit the sith command directly as a slurm job:
 
 .. code-block:: bash
 
   sbatch -n 8 -J test $(sith stretching -path) -c -i 1,37 -m molecule.pdb
+
+
+.. attention::
+
+  We designed sith to run in
+  `slurm workload manager <https://slurm.schedmd.com/documentation.html>`_. To
+  check the predefined options, run :code:`head -n 8 $(sith <function> -path)`.
+  If you use any other queue manager, you should not submit sith directly as a
+  job, but rather define your options in your job script and add the line
+  :code:`sith <function> -c ...` as shown before.
