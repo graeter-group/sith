@@ -272,8 +272,8 @@ def all_hydrogen_atoms(mol):
 
     Return
     ======
-    (list) [#h_atoms(int)] Indexes corresponding to Hydrogen atoms in g09
-        convention.
+    (list) [#h_atoms(int)] Indexes corresponding to Hydrogen atoms in 1-based
+    index.
     """
     if type(mol) is str:
         mol = read(mol)

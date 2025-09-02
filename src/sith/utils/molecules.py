@@ -229,7 +229,7 @@ class MoleculeSetter:
         constraints:
             constraints with the shape (n, 2), where n is the number of
             constraints and the first pair is the one to increase the
-            distance.
+            distance. 1-based numbering.
         deltad: float
             amount to add to the distance between atoms.
 
@@ -259,10 +259,10 @@ class MoleculeSetter:
 
         new_positions = []
         for i, atom in enumerate(self.atoms):
-            if i in right:
+            if i in np.array(right) - 1:
                 deltapos = np.array([deltad / 2, 0, 0])
                 new_positions.append(atom.position + deltapos)
-            elif i in left:
+            elif i in np.array(left) - 1:
                 deltapos = np.array([-deltad / 2, 0, 0])
                 new_positions.append(atom.position + deltapos)
             else:

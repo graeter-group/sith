@@ -17,7 +17,7 @@ class EnergiesVMol(VMolecule):
     sith_info: SITH object.
         SITH object with the information of the system.
     dofs: list
-        list of degrees of freedom defined according with g09 convention.
+        list of degrees of freedom defined according with 1-based indexing.
         It could also be 'all', 'bonds', 'angles' or 'dihedrals' to
         display all the corresponding DOFs.
     idef: int. default 0.
@@ -99,7 +99,7 @@ class EnergiesVMol(VMolecule):
         Parameters
         ==========
         dofs: list of tuples or str.
-            list of degrees of freedom defined according with g09 convention.
+            list of degrees of freedom defined according with 1-based indexing.
             It could also be 'all', 'bonds', 'angles' or 'dihedrals' to
             display all the corresponding DOFs.
 
@@ -296,7 +296,7 @@ class EnergiesVMol(VMolecule):
         Parameters
         ==========
         dofs: list of tuples.
-            list of degrees of freedom defined according with g09 convention.
+            list of degrees of freedom defined according with 1-based indexing.
         normalize:
             normalization of colors acording to the range of energies and the
             colormap.
@@ -363,7 +363,7 @@ class EnergiesVMol(VMolecule):
         Parameters
         ==========
         dofs: list of tuples.
-            list of degrees of freedom defined according with g09 convention.
+            list of degrees of freedom defined according with 1-based indexing.
         kwargs for add_dof.
 
         Return

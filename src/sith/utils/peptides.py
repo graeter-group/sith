@@ -60,13 +60,13 @@ class PepSetter(MoleculeSetter):
         Parameters
         ==========
         atom1index: int
-            index of the atom 1 in g09 convention (starting from 1).
+            index of the atom 1 in 1-based convention.
         atom2index: int
-            index of the atom 2 in g09 convention (starting from 1).
+            index of the atom 2 in 1-based convention.
         atom3index: int
-            index of the atom 3 in g09 convention (starting from 1).
+            index of the atom 3 in 1-based convention.
         atom4index: int
-            index of the atom 4 in g09 convention (starting from 1).
+            index of the atom 4 in 1-based convention.
         structure: ase.Atoms. Default=None
             Structure to obtain the dihedrals. This has to be the same peptide
             chemistry than the basis.
@@ -122,11 +122,11 @@ class PepSetter(MoleculeSetter):
         Parameters
         ==========
         atom1index: int
-            index of the atom 1 in g09 convention (starting from 1).
+            index of the atom 1 in 1-based convention.
         atom2index: int
-            index of the atom 2 in g09 convention (starting from 1).
+            index of the atom 2 in 1-based convention.
         atom3index: int
-            index of the atom 3 in g09 convention (starting from 1).
+            index of the atom 3 in 1-based convention.
         structure: ase.Atoms. Default=None
             Structure to obtain the dihedrals. This has to be the same peptide
             chemistry than the basis.

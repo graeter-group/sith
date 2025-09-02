@@ -85,11 +85,9 @@ class MoleculeNGL:
         Parameters
         ==========
         atom1index: int
-            Indexes of the atoms to be connected according with g09
-            convention.
+            Indexes of the atoms to be connected using 1-based indexing.
         atom2index: int
-            Indexes of the atoms to be connected according with g09
-            convention.
+            Indexes of the atoms to be connected using 1-based indexing.
         color: list. Default=gray([0.5, 0.5, 0.5])
             RGB triplet.
         radius: float. Default=0.1
@@ -131,11 +129,9 @@ class MoleculeNGL:
         Parameters
         ==========
         atoms1indexes: int
-            Indexes of the atoms to be connected according with g09
-            convention.
+            Indexes of the atoms to be connected using 1-based indexing.
         atoms2indexes: int
-            Indexes of the atoms to be connected according with g09
-            convention.
+            Indexes of the atoms to be connected using 1-based indexing.
         colors: list of color lists. Default all gray([0.5, 0.5, 0.5])
             RGB triplets for each of the bonds. It can be one a triplet
             in case of just one color in all bonds.
@@ -566,7 +562,7 @@ class MoleculeNGL:
         Parameters
         ==========
         dof: tuple
-            label of the degree of freedom according with g09 convention.
+            label of the degree of freedom using 1-based indexing.
         color: color format. Default=[0.5, 0.5, 0.5]
             Color of the DOF in the visual representation.
         kwargs:
@@ -1045,7 +1041,7 @@ class EnergiesNGL(MoleculeNGL):
         Parameters
         ==========
         dofs: list of tuples.
-            list of degrees of freedom defined according with g09 convention.
+            list of degrees of freedom defined using 1-based indexing.
         kwargs:
             optional kwargs of internal method change_def
 
@@ -1129,7 +1125,7 @@ class EnergiesNGL(MoleculeNGL):
         Parameters
         ==========
         dofs: list of tuples.
-            list of degrees of freedom defined according with g09 convention.
+            list of degrees of freedom defined using 1-based indexing.
         kwargs for add_dof
 
         Return

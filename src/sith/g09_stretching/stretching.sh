@@ -174,7 +174,7 @@ else
   fi
 
   verbose "This code will stretch the atoms with the indexes $index1 $index2
-  (g09 convention)"
+  (1-based indexing)"
 
   # in case of not restarting
   i=-1
