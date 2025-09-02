@@ -74,6 +74,7 @@ pymodules = {
 }
 
 sh_executers = {
+    'basics': './utils/basics.sh',
     'workflow': './g09_stretching/workflow.sh',
     'swap_atoms_in_com': './g09_stretching/swap_atoms_in_com.sh',
     'stretching': './g09_stretching/stretching.sh',
@@ -137,7 +138,7 @@ def _read_arguments():
 
 def main():
     """
-    This function run each time sith is called from the terminal.
+    This function run each time pkgdeveloper is called from the terminal.
 
     Return
     ======
@@ -152,7 +153,7 @@ def main():
         print("\n"
               "This package contains a set of tools you can use for different"
               "functions. \n To use any function from the terminal, use"
-              "    sith <function> <arg1> <arg2> ... "
+              "    pkgdeveloper <function> <arg1> <arg2> ... "
               "where <function> can be one of the next options:")
         for function in functions:
             print("    -   " + function)
@@ -211,7 +212,7 @@ def main():
     # Not recognized keyword
     else:
         print(f"ERROR: keyword {sys.argv[1]} not recognized as part of"
-              " sith. Use 'sith -h' to see the options you can use.")
+              " pkgdeveloper. Use 'pkgdeveloper -h' to see the options you can use.")
 
 
 if __name__ == "__main__":
