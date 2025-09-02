@@ -3,10 +3,10 @@
 # ----- definition of functions starts ----------------------------------------
 print_help() {
 echo "
-Creates the com files from the xyz structures extracted from a g09 log file and
+Creates the com files from the xyz structures extracted from a gaussian log file and
 submit the corresponding jobs to compute the forces.
 
-  -l  <log_file> optimization g09 logfile.
+  -l  <log_file> optimization gaussian logfile.
   -n  <name> standard name. Usually pep name.
 
   -h  prints this message.
@@ -58,7 +58,7 @@ sith extr_dofs -f $name-continuous > /dev/null || \
 sith reduce_structs "." ${name}-continuous > /dev/null || \
   fail "reducing structures"
 
-# ==== Create com g09 files
+# ==== Create com gaussian files
 # Create com file template
 sith opt_from_xyzs -d . -n ${name}-continuous000 -p ../${name}-stretched00.pdb \
   > /dev/null|| fail "creating com files using forces_from_xyz"

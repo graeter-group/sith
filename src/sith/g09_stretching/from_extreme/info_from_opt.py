@@ -14,13 +14,13 @@ import glob
 # add2executable
 def info_from_opt(logfile, pdb_reference, pattern):
     """
-    Extracts configurations from a g09 optimization trajectory and removes
+    Extracts configurations from a gaussian optimization trajectory and removes
     those outliers in the total energy.
 
     Parameters
     ==========
     logfile: str
-        g09 log file.
+        gaussian log file.
     pdb_reference: str
         pdb with the information of the peptide.
     pattern: str

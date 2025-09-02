@@ -131,7 +131,7 @@ def change_prolines_dofs(comfile, molecule, pdb_template, option):
     Parameters
     ==========
     comfile: str
-        g09 input comfile that you want to modify.
+        gaussian input comfile that you want to modify.
     molecule: str
         xyz file representing the molecule.
     pdb_template: str

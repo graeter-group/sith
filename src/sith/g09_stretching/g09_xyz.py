@@ -41,7 +41,7 @@ def _getEnergy(structure):
 
     Return
     ======
-    (float) DFT energy found by g09. Otherwise, it returns 1000.0
+    (float) DFT energy found by gaussian. Otherwise, it returns 1000.0
     """
     for line in structure.split("\n"):
         if line.startswith(" SCF Done:"):

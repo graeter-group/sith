@@ -51,7 +51,7 @@ fi
 # ----- BODY ------------------------------------------------------------------
 verbose "submit constrained optimization $file"
 grep -q "%mem" $file.com || sed -i "1a %mem=60000MB" $file.com
-g09 "$file.com" "$file.log"
+gaussian "$file.com" "$file.log"
 
 if $(grep -q "NtrErr Called from FileIO." "$file.log")
 then

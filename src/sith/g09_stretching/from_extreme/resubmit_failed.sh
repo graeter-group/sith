@@ -3,9 +3,9 @@
 # ----- definition of functions -----------------------------------------------
 print_help() {
 echo "
-Takes the g09 log files given by -l flag, and if the log file does not report
-a proper termination, a new job is resubmitted (creating a backup first) using
-the command given by the flag -e.
+Takes the gaussian log files given by -l flag, and if the log file does not
+report a proper termination, a new job is resubmitted (creating a backup first)
+using the command given by the flag -e.
 
   -d  <path='./'> directory where the log and com files are.
   -e  <exec='$( sith single_g09 -path ) -c -f '> execution command to be
@@ -92,7 +92,7 @@ sith shake_except $file $frozen_file
 sith change_distance \
   $file ${file%.xyz} \
   "nofile" 0 0 "scale_distance" \
-  || fail "Preparating g09 input"
+  || fail "Preparating gaussian input"
 sith find_blocks -f ${file%.xyz}.com -s "^$"
 mv tmp_first-block.com $comfile
 echo "" >> $comfile

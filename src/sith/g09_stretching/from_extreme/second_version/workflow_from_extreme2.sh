@@ -86,7 +86,7 @@ fi
 xyz=${ref##*/}
 name=${xyz%-*}
 
-verbose "The first g09 process is an optimization starting from $ref"
+verbose "The first gaussian process is an optimization starting from $ref"
 
 if [[ "$restart" == "false" ]]
 then
@@ -109,7 +109,7 @@ verbose "Running optmization of stretching ${nameiplusone}"
 
 if ! grep -q "Normal termination" "$name-optext.log"
 then
-  g09 "$name-optext.com" "$name-optext.log" || \
+  gaussian "$name-optext.com" "$name-optext.log" || \
     { if [ "$(grep -c "Atoms too close." \
            "$name-optext.com")" \
            -eq 1 ]; then fail "Atoms too close for ${nameiplusone}" ; \

@@ -309,8 +309,9 @@ class MoleculeSetter:
     def create_gaussian_input(self, out=None, charge=0, xc='bmk',
                               basis='6-31+g'):
         """
-        Creates a g09 .com file without specifing the kind of calculus to run
-        (optimization, ab-initio md, frequencies...). You would have to add it.
+        Creates a gaussian .com file without specifing the kind of calculus to
+        run (optimization, ab-initio md, frequencies...). You would have to add
+        it.
 
         Parameters
         ==========

@@ -122,7 +122,7 @@ then
 fi
 
 ase -h &> /dev/null || fail "This code needs ASE"
-command -V g09 &> /dev/null || fail "This code needs gaussian"
+command -V gaussian &> /dev/null || fail "This code needs gaussian"
 gmx -h &> /dev/null || fail "This code needs gmx"
 sith -h &> /dev/null || fail "This code needs sith"
 perl -E "say '+' x 80"

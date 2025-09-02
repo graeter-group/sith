@@ -3,9 +3,9 @@
 # ----- definition of functions starts ----------------------------------------
 print_help() {
 echo "
-Extract the forces and indexes of the DOFs from the log files (g09). The output
+Extract the forces and indexes of the DOFs from the log files (gaussian). The output
 is a set of files called <pep>-forces<n_stretching>.fchk containing the
-information in fchk g09 format.
+information in fchk gaussian format.
 
   -d  <path>. directory where forces_files.log are located. Default ./forces
 

@@ -99,7 +99,6 @@ basis_set=$(echo $level | cut -d ',' -f 2)
 
 # check dependencies
 ase -h &> /dev/null || fail "This code needs ASE"
-command -V g09 &> /dev/null || fail "This code needs gaussian"
 
 
 # ----- set up finishes -------------------------------------------------------
@@ -152,7 +151,7 @@ then
   $retake && \
       warning "The stretching of molecule $mol will be restarted from $i"
 else
-  # C-CAP indexes in g09 convention
+  # C-CAP indexes in gaussian convention
   if [ -z "$indexes" ]
   then
     # reading indexes from pdb file
@@ -193,11 +192,11 @@ do
   nameiplustwo=$(printf "%02d" $(( i + 2)))
 
   verbose "Stretched ${nameiplusone} starts"
-  # Creates g09 input file
+  # Creates gaussian input file
   if [ $(( i + 1)) -eq 0 ]
   then
-    # initial g09 optimization
-    verbose "The first g09 process is an optimization"
+    # initial gaussian optimization
+    verbose "The first gaussian process is an optimization"
     sith change_distance "$mol-stretched00.pdb" \
       "$mol-stretched00" frozen_dofs.dat 0 0 "$method" \
       --xc $xc_functional --basis $basis_set || \
@@ -212,7 +211,7 @@ do
         "$mol-stretched$namei.xyz" "$mol-stretched${nameiplusone}" \
         frozen_dofs.dat "$size" 0 "$method" \
         --xc $xc_functional --basis $basis_set\
-        || fail "Preparating g09 input"
+        || fail "Preparating gaussian input"
     fi
     retake='true'
     sed -i '$d' "$mol-stretched${nameiplusone}.com"
@@ -225,7 +224,7 @@ do
 
   # run gaussian
   verbose "Running optmization of stretching ${nameiplusone}"
-  g09 "$mol-stretched${nameiplusone}.com" \
+  gaussian "$mol-stretched${nameiplusone}.com" \
       "$mol-stretched${nameiplusone}.log" || \
     { if [ "$(grep -c "Atoms too close." \
             "$mol-stretched${nameiplusone}.log")" \
@@ -261,7 +260,7 @@ do
       "$mol-stretched${nameiplusone}.com"
     # run optimization
     verbose "Re-running optimization"
-    g09 "$mol-stretched${nameiplusone}.com" \
+    gaussian "$mol-stretched${nameiplusone}.com" \
         "$mol-stretched${nameiplusone}.log"
   fi
 

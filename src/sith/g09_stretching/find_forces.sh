@@ -32,8 +32,8 @@ compute_forces () {
   newzmat -ichk -ozmat -rebuildzmat -bmodel "$1" forces.com || fail "
     Error creating the matrix"
   sed -i "s/#P bmk\/6-31+g opt(modredun,calcfc)/%NProcShared=8\n#P bmk\/6-31+g force/g" forces.com
-  verbose "executes g09 computation of forces for $1"
-  g09 forces.com || fail "computing forces"
+  verbose "executes gaussian computation of forces for $1"
+  gaussian forces.com || fail "computing forces"
 }
 
 # ----- definition of functions finishes --------------------------------------

@@ -65,8 +65,8 @@ def change_distance(inp, out, file_cons, deltad, charge, method):
     deltad: float
         amount to add to the distance between atoms.
     charge: int
-        charge in e to create the g09 input file. The multiplicity is assumed.
-        to be one.
+        charge in electron charge units to create the gaussian input file. The
+        multiplicity is assumed to be one.
     method: str
         method defined in sith.ase_utils.tools. So far, the methods already
         implemented are: 'scale_distance', 'increase_distance',
