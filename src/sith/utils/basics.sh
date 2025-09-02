@@ -50,7 +50,7 @@ done
 array_bfnames=( "$1" "${array_bfnames[@]}" )
 basic_functions_name=${array_bfnames[0]}
 
-if [ ${#2} == 0 ]
+if [[ "$2" == "false" ]]
 then
   eval "BASICVERBOSE_${basic_functions_name[0]}=false"
 else
@@ -174,7 +174,6 @@ load_modules() {
   echo "$SLURM_JOB_NODELIST"
 
   source $HOME/sw/load_modules.sh
-  load_modules_sith
 }
 
 wait_until_next_file_exist() {

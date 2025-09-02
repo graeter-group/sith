@@ -34,9 +34,14 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 #remote_theme: rundocs/jekyll-rtd-theme
 html_static_path = ['_static']
 html_favicon = '_static/favicon.ico'
-html_title = "SITH"
+html_title = "sith"
 
 html_theme_options = {
     'display_version' : True,
     'style_external_links' : True
 }
+
+# Add custom CSS file
+html_css_files = [
+    'custom.css',  # Ensure the file path is correct
+]
