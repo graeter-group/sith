@@ -47,11 +47,11 @@ def shake_except(xyz_file, file_cons, modify_input=True, stdev=0.05):
 
 
 # add2executable
-def change_distance(inp, out, file_cons, deltad, charge, method):
+def change_distance(inp, out, file_cons, deltad, charge, method, **kwargs):
     """
-    Take a configuration and increase the distance between two atoms. With the
+    Takes a configuration and increase the distance between two atoms. With the
     new structure, it creates a gaussian file without specifing the kind of
-    calculus to run (optimization, ab-initio md, frequencies...).
+    calculation to run (optimization, ab-initio md, frequencies...).
 
     Parameters
     ==========
@@ -60,8 +60,8 @@ def change_distance(inp, out, file_cons, deltad, charge, method):
     out: str
         name of the gaussian file (.com) without extension.
     file_cons: str
-        file with the constraints sorted in the first two columns. The first
-        pair is the one to change the distance.
+        file with the constraints sorted in the first two columns. The two
+        atoms in the first row are the selected to change the distance.
     deltad: float
         amount to add to the distance between atoms.
     charge: int
@@ -74,7 +74,7 @@ def change_distance(inp, out, file_cons, deltad, charge, method):
 
     Return
     ======
-    (str) name of the output.
+    (str) name of the output file.
     """
     methods = ['scale_distance', 'increase_distance',
                'increase_distance_with_constraints']
@@ -94,7 +94,7 @@ def change_distance(inp, out, file_cons, deltad, charge, method):
         manipulator.xy_alignment(cons[0][0], cons[0][1], center=cons[0][0])
         eval(f'manipulator.{method}(cons, deltad)')
 
-    manipulator.create_gaussian_input(out=out, charge=charge)
+    manipulator.create_gaussian_input(out=out, charge=charge, **kwargs)
 
     return f"{out}.com"
 

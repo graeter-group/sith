@@ -1,7 +1,6 @@
 from ase.calculators.gaussian import Gaussian
 import numpy as np
 from ase import Atom
-from sith.utils.miscellaneous import output_terminal
 
 
 class MoleculeSetter:
@@ -197,7 +196,7 @@ class MoleculeSetter:
 
     def increase_distance(self, constraints, deltad):
         """
-        increase the distance between two atoms by moving them and keeping the
+        Increases the distance between two atoms by moving them and keeping the
         rest of the atoms in the same place.
 
         Parameters
@@ -220,7 +219,7 @@ class MoleculeSetter:
 
     def increase_distance_with_constraints(self, constraints, deltad):
         """
-        Take a configuration and increase the distance between two atoms by
+        Takes a configuration and increase the distance between two atoms by
         moving those atoms and all constraints containing them and keeping
         the rest of the atoms in the same place.
 

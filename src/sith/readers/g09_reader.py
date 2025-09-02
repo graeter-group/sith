@@ -139,7 +139,7 @@ class FileReader:
     # region readers
     def _fill_array(self, ith_line: int, dtype=None) -> tuple[np.ndarray, int]:
         """
-        Fill an array after a given the header of a g09 block.
+        Fill an array after a given header line of a g09 block.
 
         Parameters
         ==========
