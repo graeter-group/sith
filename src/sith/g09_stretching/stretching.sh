@@ -25,7 +25,7 @@ distance between two atoms, constraining and optimizing at every step.
   -l  <xc,base=bmk,6-31+g> evel of DFT theory.
   -m  <molecule> molecule name. In this directory, a file called
       <molecule>-stretched00.pdb must exist.
-  -p  <processors=8> number of processors per gaussian job.
+  -p  <processors=1> number of processors per gaussian job.
   -r  restart stretching. In this case, this code must be executed from
       the molecule's directory.
   -s  <size[A]=0.2> Size of the step that increases the distances at each step.
@@ -48,6 +48,7 @@ verbose='false'
 indexes=''
 level='bmk,6-31+g'
 cluster='false'
+n_processors=1
 while getopts 'b:ce:i:l:m:p:rs:vh' flag; do
   case "${flag}" in
     b) breakages=${OPTARG} ;;
