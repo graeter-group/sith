@@ -5,7 +5,6 @@
 #SBATCH -t 24:00:00
 #SBATCH --output=%x-%j.o
 #SBATCH --error=%x-%j.e
-#SBATCH --exclusive
 
 # ----- definition of functions starts ----------------------------------------
 print_help() {
@@ -22,7 +21,7 @@ distance between two atoms, constraining and optimizing at every step.
       'sith change_distance -h' to see the order.
       carbons of the capping groups
   -i  <index1,index2> indexes of the atoms to use for increasing the distance.
-  -l  <xc,base=bmk,6-31+g> evel of DFT theory.
+  -l  <xc,base="'bmk','6-31+g'"> evel of DFT theory.
   -m  <molecule> molecule name. In this directory, a file called
       <molecule>-stretched00.pdb must exist.
   -p  <processors=1> number of processors per gaussian job.
@@ -46,9 +45,10 @@ restart='false'
 size=0.2
 verbose='false'
 indexes=''
-level='bmk,6-31+g'
+level="'bmk','6-31+g'"
 cluster='false'
 n_processors=1
+retake='true'
 while getopts 'b:ce:i:l:m:p:rs:vh' flag; do
   case "${flag}" in
     b) breakages=${OPTARG} ;;
@@ -101,7 +101,8 @@ basis_set=$(echo $level | cut -d ',' -f 2)
 # check dependencies
 ase -h &> /dev/null || fail "This code needs ASE"
 
-
+mol_file=$mol
+mol=${mol_file%.*}
 # ----- set up finishes -------------------------------------------------------
 
 # ---- BODY -------------------------------------------------------------------
@@ -111,7 +112,7 @@ then
   [[ -f 'frozen_dofs.dat' ]] || fail "frozen_dofs.dat doesn't exist"
 
   # extracting last i with xyz file already created
-  mapfile -t previous < <( find . -maxdepth 1 -type f -name "*$mol*.xyz" \
+  mapfile -t previous < <( find . -maxdepth 1 -type f -name "$mol*.xyz" \
                                   -not -name "*bck*" | sort )
   
   [ ${#previous} -eq 0 ] && fail "Non previous xyz files were found"
@@ -134,7 +135,6 @@ then
   # incomplete job. In the next block, we search for advances in i+1 and if it
   # finds one, it restarts from there and sets retake='false' as a consecuence,
   # this variable is used later in the loop.
-  retake='true'
   sith log2xyz "$mol-stretched${nameiplusone}.log" 2> /dev/null && \
     create_bck "$mol-stretched${nameiplusone}."* &&
     lastone=$( search_last_bck $mol-stretched${nameiplusone} ) &&
@@ -153,11 +153,11 @@ then
       warning "The stretching of molecule $mol will be restarted from $i"
 else
   # C-CAP indexes in gaussian convention
-  if [ -z "$indexes" ]
+  if [ -z "$indexes" ] && [[ "${mol_file%.*}" == 'pdb' ]]
   then
     # reading indexes from pdb file
-    index1=$( grep ACE "$mol-stretched00.pdb" | grep CH3 | awk '{print $2}' )
-    index2=$( grep NME "$mol-stretched00.pdb" | grep CH3 | awk '{print $2}' )
+    index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
+    index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
   else
     # reading indexes from user input
     index1=$( echo "$indexes" | cut -d ',' -f 1 )
@@ -167,6 +167,7 @@ else
   # check that the indexes were read properly:
   [[ "$index1" -eq 0 && "$index2" -eq 0 ]] && fail "Not recognized indexes"
   [[ "$index1" -eq 1 && "$index2" -eq 1 ]] && fail "Not recognized indexes"
+  [[ "$index1" == "$index2" ]] && fail "Not recognized indexes"
 
   if ! [[ -f 'frozen_dofs.dat' ]]
   then
@@ -198,7 +199,7 @@ do
   then
     # initial gaussian optimization
     verbose "The first gaussian process is an optimization"
-    sith change_distance "$mol-stretched00.pdb" \
+    sith change_distance "$mol_file" \
       "$mol-stretched00" frozen_dofs.dat 0 0 "$method" \
       --xc $xc_functional --basis $basis_set || \
       fail "Preparating the input of gaussian"
