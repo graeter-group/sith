@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stretching a Molecule &mdash; sith</title>
+  <title>Energies Distribution in TriAlanine &mdash; sith</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -49,7 +49,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Stretching a Molecule</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Energies Distribution in TriAlanine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-your-system">Prepare your System</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -69,7 +72,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="tutorials.html">Tutorials</a></li>
-      <li class="breadcrumb-item active">Stretching a Molecule</li>
+      <li class="breadcrumb-item active">Energies Distribution in TriAlanine</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/tutorials/tutorial_stretching.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -79,14 +82,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="stretching-a-molecule">
-<h1>Stretching a Molecule<a class="headerlink" href="#stretching-a-molecule" title="Link to this heading"></a></h1>
+  <section id="energies-distribution-in-trialanine">
+<span id="tutorial-stretching"></span><h1>Energies Distribution in TriAlanine<a class="headerlink" href="#energies-distribution-in-trialanine" title="Link to this heading"></a></h1>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>To use the tools of sith that are part of this tutorial, you have to
 import g09 as described in <a class="reference internal" href="../install.html#load-modules"><span class="std std-ref">load-modules</span></a>.</p>
 </div>
-<p>Compute sith energy distribution analysis</p>
+<p>In this tutorial, we are going to extend a trialanine up to generate a rupture
+in a bond. The extension is done by increasing the distance between two atoms,
+fix the distance between those atoms and reoptimize. The process is repeated
+with the optimized configuration. After obtaining each optimized configuration
+we compute the forces in a set of internal degrees of freedom. With those
+forces we compute the distribution of energies.</p>
+<section id="prepare-your-system">
+<h2>Prepare your System<a class="headerlink" href="#prepare-your-system" title="Link to this heading"></a></h2>
+<p>Before you stretch your molecule using sith, you have to identify your molecule
+and select the atoms that you want to use for the stretching. In this case we,
+we are going to take a trialaline with ACE and NME capping groups. For the
+stretching, we select the carbons of the methyl group in the capping ends. With
+a visualization tool, we check the index of those atoms (1-based indexing) and
+obtained that our indexes are then 5, 4</p>
+</section>
 </section>
 
 

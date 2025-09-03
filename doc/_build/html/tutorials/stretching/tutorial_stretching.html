@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Energies Distribution in TriAlanine &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Tutorials" href="../tutorials.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            sith
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Energies Distribution in TriAlanine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#prepare-your-system">Prepare your System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stretching">Stretching</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../tutorials.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Energies Distribution in TriAlanine</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorials/stretching/tutorial_stretching.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="energies-distribution-in-trialanine">
+<span id="tutorial-stretching"></span><h1>Energies Distribution in TriAlanine<a class="headerlink" href="#energies-distribution-in-trialanine" title="Link to this heading"></a></h1>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>To use the tools of sith that are part of this tutorial, you have to
+import g09 as described in <a class="reference internal" href="../../install.html#load-modules"><span class="std std-ref">load-modules</span></a>.</p>
+</div>
+<p>In this tutorial, we are going to extend a trialanine up to generate a rupture
+in a bond. The extension is done by increasing the distance between two atoms,
+fix the distance between those atoms and reoptimize. The process is repeated
+with the optimized configuration. After obtaining each optimized configuration
+we compute the forces in a set of internal degrees of freedom. With those
+forces we compute the distribution of energies.</p>
+<section id="prepare-your-system">
+<h2>Prepare your System<a class="headerlink" href="#prepare-your-system" title="Link to this heading"></a></h2>
+<p>Before you stretch your molecule using sith, you have to identify your molecule
+and select the atoms that you want to use for the stretching. In this case we,
+we are going to take a trialaline with ACE and NME capping groups. For the
+stretching, we select the carbons of the methyl group in the capping ends. With
+a visualization tool, you can check the index of those atoms (1-based indexing)
+and see for yourself the indexes of the desired atoms are 1 and 16.
+Alternatively, you can check these indexes by reading the pdb and looking for
+the ‘CH3’ carbon atoms in the ACE and NME groups.</p>
+<a class="reference internal image-reference" href="../../_images/selection.png"><img alt="Selection of the atoms to be pulled apart." class="align-center" src="../../_images/selection.png" style="width: 640px;" /></a>
+</section>
+<section id="stretching">
+<h2>Stretching<a class="headerlink" href="#stretching" title="Link to this heading"></a></h2>
+<p>Once you have your molecule and you know which atoms you want to pull apart,
+you generate the pulling with the tool <code class="code docutils literal notranslate"><span class="pre">sith</span> <span class="pre">stretching</span></code>,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sith<span class="w"> </span>stretching<span class="w"> </span>-c<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>,16<span class="w"> </span>-m<span class="w"> </span>G.pdb
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For a whole description of stretching options, check <strong>check</strong> !!!</p>
+</div>
+<p>In 16 cores, this should take around 15 minutes to finish. The stretching
+finishes after the cleavage of a bond. The broken molecule is stored in a
+directory called rupture. In our case, the rupture happened between the methyl
+group of the ACE capping and the rest of the molecule.</p>
+<a class="reference internal image-reference" href="../../_images/rupture.png"><img alt="Broken molecule." class="align-center" src="../../_images/rupture.png" style="width: 640px;" /></a>
+<p>The outcome of the simulation is:</p>
+<ul class="simple">
+<li><p>A file called frozen_dofs.dat containing in the first row the atoms that
+used to pull the molecule with an F in front (in our case ‘1 16 F’) and in
+the next line the atoms involved in the first rupture (in this case ‘1 5 F’)</p></li>
+<li><p>A set of files called G-stretched&lt;n&gt;.&lt;ext&gt;, where &lt;n&gt; corresponds to the
+stretching step. &lt;n&gt;=0 means a free optimization without constraints. &lt;ext&gt;
+is:</p>
+<ul>
+<li><p>chk: checkpoint file used by gaussian.</p></li>
+<li><p>com: input file of the gaussian calculation. Notice that in the last line,
+the instruction of constraining the distance between the atoms is defined.</p></li>
+<li><p>fchk: a human-readable chk file containing the final information of the
+optimization.</p></li>
+<li><p>log: Gaussian log file.</p></li>
+<li><p>xyz: coordinates of the optimized configurations.</p></li>
+</ul>
+</li>
+<li><p>A directory called rupture containing the files of the molecule with the
+cleavage (the one showed above).</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorials.html" class="btn btn-neutral float-left" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

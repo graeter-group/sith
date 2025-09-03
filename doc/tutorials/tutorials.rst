@@ -4,4 +4,4 @@ Tutorials
 .. toctree::
    :maxdepth: 1
 
-   tutorial_stretching
+   stretching/tutorial_stretching

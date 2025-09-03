@@ -1,0 +1,158 @@
+++++++++ STRETCHING: VERBOSE STARTS Wed Sep  3 14:14:12 CEST 2025 +++++++++++++
+ * This JOB will be run in the Node:
+slurm-orbit-cpu1
+load orca in sucerqdl@slurm-orbit-cpu1
+++++++++ STRETCHING: VERBOSE JOB information Wed Sep  3 14:14:12 CEST 2025 ++++
+ * Date:
+Wed Sep  3 14:14:12 CEST 2025
+ * Command:
+/var/spool/slurmd/job01777/slurm_script -c -i 1,16 -m G.pdb
+++++++++ STRETCHING: VERBOSE The stretching method will be 'scale_distance' Wed
+ Sep  3 14:14:12 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE This code will stretch the atoms with the indexes 
+1 16 (1-based indexing) Wed Sep  3 14:14:13 CEST 2025 +++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretching of G starts and will run until getting 
+1 ruptures Wed Sep  3 14:14:13 CEST 2025 ++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretched 00 starts Wed Sep  3 14:14:13 CEST 2025 
+++++++++ STRETCHING: VERBOSE The first gaussian process is an optimization Wed 
+Sep  3 14:14:13 CEST 2025 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+G-stretched00.com
+++++++++ STRETCHING: VERBOSE Running optmization of stretching 00 Wed Sep  3 14
+:14:16 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Testing dofs Wed Sep  3 14:15:22 CEST 2025 +++++++
+Atoms(symbols='CH3CONHCH2CONHCH3', pbc=False)
+++++++++ STRETCHING: VERBOSE Non-rupture detected in stretched 00 Wed Sep  3 14
+:15:22 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretched 00 finished Wed Sep  3 14:15:23 CEST 202
+5 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Read checkpoint file G-stretched00.chk
+ Write formatted file G-stretched00.fchk
+ FChkPn:  Coordinates translated and rotated.
+ FChkPn:  Coordinates match /B/ after translation and rotation.
+++++++++ STRETCHING: VERBOSE Stretched 01 starts Wed Sep  3 14:15:23 CEST 2025 
+G-stretched01.com
+++++++++ STRETCHING: VERBOSE Running optmization of stretching 01 Wed Sep  3 14
+:15:25 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Testing dofs Wed Sep  3 14:16:30 CEST 2025 +++++++
+Atoms(symbols='CH3CONHCH2CONHCH3', pbc=False)
+++++++++ STRETCHING: VERBOSE Non-rupture detected in stretched 01 Wed Sep  3 14
+:16:33 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretched 01 finished Wed Sep  3 14:16:33 CEST 202
+5 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Read checkpoint file G-stretched01.chk
+ Write formatted file G-stretched01.fchk
+ FChkPn:  Coordinates translated and rotated.
+ FChkPn:  Coordinates match /B/ after translation and rotation.
+++++++++ STRETCHING: VERBOSE Stretched 02 starts Wed Sep  3 14:16:33 CEST 2025 
+G-stretched02.com
+++++++++ STRETCHING: VERBOSE Running optmization of stretching 02 Wed Sep  3 14
+:16:35 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Testing dofs Wed Sep  3 14:19:09 CEST 2025 +++++++
+Atoms(symbols='CH3CONHCH2CONHCH3', pbc=False)
+++++++++ STRETCHING: VERBOSE Non-rupture detected in stretched 02 Wed Sep  3 14
+:19:12 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretched 02 finished Wed Sep  3 14:19:12 CEST 202
+5 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Read checkpoint file G-stretched02.chk
+ Write formatted file G-stretched02.fchk
+ FChkPn:  Coordinates translated and rotated.
+ FChkPn:  Coordinates match /B/ after translation and rotation.
+++++++++ STRETCHING: VERBOSE Stretched 03 starts Wed Sep  3 14:19:12 CEST 2025 
+G-stretched03.com
+++++++++ STRETCHING: VERBOSE Running optmization of stretching 03 Wed Sep  3 14
+:19:15 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Testing dofs Wed Sep  3 14:20:05 CEST 2025 +++++++
+Atoms(symbols='CH3CONHCH2CONHCH3', pbc=False)
+++++++++ STRETCHING: VERBOSE Non-rupture detected in stretched 03 Wed Sep  3 14
+:20:08 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretched 03 finished Wed Sep  3 14:20:08 CEST 202
+5 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Read checkpoint file G-stretched03.chk
+ Write formatted file G-stretched03.fchk
+ FChkPn:  Coordinates translated and rotated.
+ FChkPn:  Coordinates match /B/ after translation and rotation.
+++++++++ STRETCHING: VERBOSE Stretched 04 starts Wed Sep  3 14:20:08 CEST 2025 
+G-stretched04.com
+++++++++ STRETCHING: VERBOSE Running optmization of stretching 04 Wed Sep  3 14
+:20:10 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Testing dofs Wed Sep  3 14:21:00 CEST 2025 +++++++
+Atoms(symbols='CH3CONHCH2CONHCH3', pbc=False)
+++++++++ STRETCHING: VERBOSE Non-rupture detected in stretched 04 Wed Sep  3 14
+:21:03 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretched 04 finished Wed Sep  3 14:21:03 CEST 202
+5 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Read checkpoint file G-stretched04.chk
+ Write formatted file G-stretched04.fchk
+ FChkPn:  Coordinates translated and rotated.
+ FChkPn:  Coordinates match /B/ after translation and rotation.
+++++++++ STRETCHING: VERBOSE Stretched 05 starts Wed Sep  3 14:21:03 CEST 2025 
+G-stretched05.com
+++++++++ STRETCHING: VERBOSE Running optmization of stretching 05 Wed Sep  3 14
+:21:06 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Testing dofs Wed Sep  3 14:21:51 CEST 2025 +++++++
+Atoms(symbols='CH3CONHCH2CONHCH3', pbc=False)
+++++++++ STRETCHING: VERBOSE Non-rupture detected in stretched 05 Wed Sep  3 14
+:21:53 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretched 05 finished Wed Sep  3 14:21:53 CEST 202
+5 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Read checkpoint file G-stretched05.chk
+ Write formatted file G-stretched05.fchk
+ FChkPn:  Coordinates translated and rotated.
+ FChkPn:  Coordinates match /B/ after translation and rotation.
+++++++++ STRETCHING: VERBOSE Stretched 06 starts Wed Sep  3 14:21:53 CEST 2025 
+G-stretched06.com
+++++++++ STRETCHING: VERBOSE Running optmization of stretching 06 Wed Sep  3 14
+:21:56 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Testing dofs Wed Sep  3 14:22:40 CEST 2025 +++++++
+Atoms(symbols='CH3CONHCH2CONHCH3', pbc=False)
+++++++++ STRETCHING: VERBOSE Non-rupture detected in stretched 06 Wed Sep  3 14
+:22:43 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretched 06 finished Wed Sep  3 14:22:43 CEST 202
+5 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Read checkpoint file G-stretched06.chk
+ Write formatted file G-stretched06.fchk
+ FChkPn:  Coordinates translated and rotated.
+ FChkPn:  Coordinates match /B/ after translation and rotation.
+++++++++ STRETCHING: VERBOSE Stretched 07 starts Wed Sep  3 14:22:43 CEST 2025 
+G-stretched07.com
+++++++++ STRETCHING: VERBOSE Running optmization of stretching 07 Wed Sep  3 14
+:22:45 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Testing dofs Wed Sep  3 14:23:30 CEST 2025 +++++++
+Atoms(symbols='CH3CONHCH2CONHCH3', pbc=False)
+++++++++ STRETCHING: VERBOSE Non-rupture detected in stretched 07 Wed Sep  3 14
+:23:33 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretched 07 finished Wed Sep  3 14:23:33 CEST 202
+5 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Read checkpoint file G-stretched07.chk
+ Write formatted file G-stretched07.fchk
+ FChkPn:  Coordinates translated and rotated.
+ FChkPn:  Coordinates match /B/ after translation and rotation.
+++++++++ STRETCHING: VERBOSE Stretched 08 starts Wed Sep  3 14:23:33 CEST 2025 
+G-stretched08.com
+++++++++ STRETCHING: VERBOSE Running optmization of stretching 08 Wed Sep  3 14
+:23:35 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Testing dofs Wed Sep  3 14:24:25 CEST 2025 +++++++
+Atoms(symbols='CH3CONHCH2CONHCH3', pbc=False)
+++++++++ STRETCHING: VERBOSE Non-rupture detected in stretched 08 Wed Sep  3 14
+:24:28 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretched 08 finished Wed Sep  3 14:24:28 CEST 202
+5 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Read checkpoint file G-stretched08.chk
+ Write formatted file G-stretched08.fchk
+ FChkPn:  Coordinates translated and rotated.
+ FChkPn:  Coordinates match /B/ after translation and rotation.
+++++++++ STRETCHING: VERBOSE Stretched 09 starts Wed Sep  3 14:24:28 CEST 2025 
+G-stretched09.com
+++++++++ STRETCHING: VERBOSE Running optmization of stretching 09 Wed Sep  3 14
+:24:30 CEST 2025 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Testing dofs Wed Sep  3 14:26:05 CEST 2025 +++++++
+Atoms(symbols='CH3CONHCH2CONHCH3', pbc=False)
+++++++++ STRETCHING: VERBOSE rupture found in [[1, np.int32(5)]], this bond wil
+l be frozen Wed Sep  3 14:26:08 CEST 2025 +++++++++++++++++++++++++++++++++++++
+++++++++ STRETCHING: VERBOSE Stretched 09 finished Wed Sep  3 14:26:08 CEST 202
+5 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Read checkpoint file G-stretched09.chk
+ Write formatted file G-stretched09.fchk
+ Missing data for FChkPn.
+ Error termination via Lnk1e at Wed Sep  3 14:26:08 2025.
+++++++++ STRETCHING: ERROR Creating fchk file Wed Sep  3 14:26:08 CEST 2025 +++
