@@ -1,0 +1,18 @@
+.bash-script-title {
+    border-top: 3px solid #265a23;
+    background-color: #c9d7c7;
+    padding-left: 10px;
+    margin: 0;
+    line-height: 1;
+    padding-top: 1px;
+}
+
+.bash-script-doc {
+    padding-left: 20px;
+    margin: 0;
+    line-height: 1;
+}
+
+.bash-script-title + .bash-script-doc {
+    margin-top: -20px;
+}

@@ -10,8 +10,9 @@ Contents
    :name: contents
    
    intro
+   install
    workflow/workflow
-   modules/modules
+   tutorials/tutorials
 
 
 Indices and tables
