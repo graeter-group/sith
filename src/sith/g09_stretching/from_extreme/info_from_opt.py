@@ -113,13 +113,13 @@ def info_from_opt(logfile, pdb_reference, pattern):
 # add2executable
 def reduce_structs(dir, pattern):
     """
-    Check all the *-dofs.dat files and remove those files that represent
+    Check all the <all>-dofs.dat files and remove those files that represent
     irrelevant changes. It creates intermedias to guarantee continuous dofs.
 
     Parameters
     ==========
     dir: str
-        path to the directory containing all the *-dofs.dat files.
+        path to the directory containing all the <all>-dofs.dat files.
     pattern: str
         pattern for the output files, all of them will be then
         <pattern><i>.dat

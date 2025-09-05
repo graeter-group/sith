@@ -47,7 +47,8 @@ you generate the pulling with the tool :code:`sith stretching`,
 
 .. note::
 
-    For a whole description of stretching options, check **check** !!!
+    For a whole description of stretching options, check :ref:`sith-g09_stretching-stretching`
+    **check** !!!
 
 In 16 cores, this should take around 15 minutes to finish. The stretching
 finishes after the cleavage of a bond. The broken molecule is stored in a

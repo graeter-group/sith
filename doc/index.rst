@@ -12,6 +12,7 @@ Contents
    intro
    install
    workflow/workflow
+   modules/sith
    tutorials/tutorials
 
 

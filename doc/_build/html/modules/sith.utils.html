@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.utils package &mdash; sith</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="basics" href="bash_rsts_doc/basics.html" />
+    <link rel="prev" title="sith.readers package" href="sith.readers.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="sith.html">Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="sith.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html">sith.g09_stretching package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.readers.html">sith.readers package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">sith.utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-sith.utils.analysis">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-sith.utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sith.visualize.html">sith.visualize package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sith.html#module-sith.SITH">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sith.html#module-sith">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="sith.html">Modules</a></li>
+      <li class="breadcrumb-item active">sith.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/sith.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sith-utils-package">
+<h1>sith.utils package<a class="headerlink" href="#sith-utils-package" title="Link to this heading"></a></h1>
+<section id="module-sith.utils.analysis">
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-sith.utils.analysis" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="sith.utils.analysis.DataSetAnalysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">DataSetAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inner_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_prolines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdb_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'stretched00'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">struc_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'forces*.fchk'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.DataSetAnalysis" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Creates the objects of to do the analysis of a bunch of peptides in a
+data set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inner_steps</strong> (<em>function. Default=None</em>) – <p>function with the operations to apply to every sith object -its
+unique argument- after initialized. Note that it has to have the
+analysis you want to apply. For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">inner_steps</span><span class="p">(</span><span class="n">sith</span><span class="p">):</span>
+    <span class="n">sith</span><span class="o">.</span><span class="n">rem_first_last</span><span class="p">(</span><span class="n">from_last_minimum</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sith</span><span class="o">.</span><span class="n">sith_analysis</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">sith</span>
+</pre></div>
+</div>
+</p></li>
+<li><p><strong>sith</strong> (<em>**kwargs for initializing</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.analysis.DataSetAnalysis.amino_freq">
+<span class="sig-name descname"><span class="pre">amino_freq</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.DataSetAnalysis.amino_freq" title="Link to this definition"></a></dt>
+<dd><p>Extract the name of the peptides in one-letter-convention for
+the amino acids.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(numpy.array) set of names.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.analysis.DataSetAnalysis.dof_vs_energy">
+<span class="sig-name descname"><span class="pre">dof_vs_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aa_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">naas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.DataSetAnalysis.dof_vs_energy" title="Link to this definition"></a></dt>
+<dd><p>Extract the values of the dofs and the associated dofs energies
+for a set all the molecules of data set. Check
+sith.sith.analysis.SithAnalysis.le_dof_amino</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>aa_names</strong> (<em>list</em>) – Atom names forming the DOF.</p></li>
+<li><p><strong>naas</strong> (<em>list</em><em> or </em><em>int. Default=3</em>) – index of the residue from which each atoms belongs to. In case of
+only an integer, all the atoms are assumed to belong to the same
+residue.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(tuple) list of arrays  with dof values and dof energies in the</em></p></li>
+<li><p><em>extension trajectory of each molecule in the dataset.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function returns the absolute value of the DOF, to obtain the
+same but computing the change in the DOF in respect to the optimized
+configuration of see
+sith.sith.analysis.DataSetAnalysis.dofs_vs_energy_rescaled</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.analysis.DataSetAnalysis.dof_vs_energy_rescaled">
+<span class="sig-name descname"><span class="pre">dof_vs_energy_rescaled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aa_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">naas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.DataSetAnalysis.dof_vs_energy_rescaled" title="Link to this definition"></a></dt>
+<dd><p>Extract the values of the delta dofs in respect to the optimized
+configuration and the associated dofs energies for a set all the
+molecules of data set. Check
+sith.sith.analysis.SithAnalysis.le_dof_amino</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>aa_names</strong> (<em>list</em>) – Atom names forming the DOF.</p></li>
+<li><p><strong>naas</strong> (<em>list</em><em> or </em><em>int. Default=3</em>) – index of the residue from which each atoms belongs to. In case of
+only an integer, all the atoms are assumed to belong to the same
+residue.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(tuple) list of arrays with delta dof values and dof energies in the</em></p></li>
+<li><p><em>extension trajectory in respect to the optimized configuration of each</em></p></li>
+<li><p><em>molecule in the dataset.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.analysis.DataSetAnalysis.plot_DFT_ener">
+<span class="sig-name descname"><span class="pre">plot_DFT_ener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.DataSetAnalysis.plot_DFT_ener" title="Link to this definition"></a></dt>
+<dd><p>Plots the DFT energy of the extension process</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>plt.Axes Default=None</em>) – Axes to plot in. If Nonne, a new axis is created.</p></li>
+<li><p><strong>sp</strong> (<em>StandardPlotter. Default=None</em>) – sith.plotters.StandardPlotter</p></li>
+<li><p><strong>lw</strong> (<em>float. Default=1</em>) – line width.</p></li>
+<li><p><strong>ms</strong> (<em>float. Default=1</em>) – marker size.</p></li>
+<li><p><strong>StandardPlotters.</strong> (<em>kwargs for</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(StandardPlotter, list, list) Standard plotter, all dofs values,</em></p></li>
+<li><p><em>all energy values used for the plot.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.analysis.DataSetAnalysis.test">
+<span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.DataSetAnalysis.test" title="Link to this definition"></a></dt>
+<dd><p>check that the first sith has the basic variables. It assumes that
+the rest also has it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(None)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sith.utils.analysis.SithAnalysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">SithAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepinfo</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.SithAnalysis" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Set of tools to anayze the data extracted from SITH.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sith</strong> (<em>sith.SITH</em>) – SITH object with all the information inside.</p></li>
+<li><p><strong>pepinfo</strong> (<em>dict</em>) – Information of the peptide. Like amino acids, atoms, and so. It is an
+attribute of sith.utils.peptides.PepSetter.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.analysis.SithAnalysis.index_dof">
+<span class="sig-name descname"><span class="pre">index_dof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.SithAnalysis.index_dof" title="Link to this definition"></a></dt>
+<dd><p>Search the index of a specific dof.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>target</strong> (<em>np.ndarray</em>) – degree of freedom.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(int) index of the DOF.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.analysis.SithAnalysis.le_dof_amino">
+<span class="sig-name descname"><span class="pre">le_dof_amino</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aminos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.SithAnalysis.le_dof_amino" title="Link to this definition"></a></dt>
+<dd><p>Value and the change of the energy of a DOF.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a_names</strong> (<em>list</em>) – atom names of the atoms forminf the DOF.</p></li>
+<li><p><strong>aminos</strong> (<em>list</em><em> or </em><em>int</em>) – index of the residue from which each atoms belongs to. In case of
+only an integer, all the atoms are assumed to belong to the same
+residue.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(tuple) array of dof values and change dof energies in the extension</em></p></li>
+<li><p><em>trajectory in respect to the optimized configuration.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.analysis_energy_dof">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">analysis_energy_dof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsa</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.analysis_energy_dof" title="Link to this definition"></a></dt>
+<dd><p>Create a list of distributions per each one of the positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dsa</strong> (<a class="reference internal" href="#sith.utils.analysis.DataSetAnalysis" title="sith.utils.analysis.DataSetAnalysis"><em>DataSetAnalysis</em></a>) – object that contains the information of the molecules in the dataset.</p></li>
+<li><p><strong>es</strong> (<em>list</em><em> of </em><em>arrays</em>) – list of energies to be analyzed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(duple) list of distribution of energies, mean and std per position.</em></p></li>
+<li><p><em>Namely, the first element of the first element of the output is the list of</em></p></li>
+<li><p><em>energies of the amino acid at the first position.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.closest_indices">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">closest_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.closest_indices" title="Link to this definition"></a></dt>
+<dd><p>Find the indexes of the points after and before certain value</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ref</strong> (<em>numpy.array</em>) – list contaning the data.</p></li>
+<li><p><strong>value</strong> (<em>float</em>) – threshold value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(list) indexes of the next-lower and the next-upper elements in the list.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.construct_neigh_dic">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">construct_neigh_dic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsa</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.construct_neigh_dic" title="Link to this definition"></a></dt>
+<dd><p>Creates a dictionary with all the combination of two amino acids and stores
+in each combitation, a list of energies of the peptides with the first
+amino acid in the middle and the second in any side of the peptide.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dsa</strong> (<a class="reference internal" href="#sith.utils.analysis.DataSetAnalysis" title="sith.utils.analysis.DataSetAnalysis"><em>DataSetAnalysis</em></a>) – object that contains the information of the molecules in the dataset.</p></li>
+<li><p><strong>es</strong> (<em>list</em><em> of </em><em>arrays</em>) – list of energies to be analyzed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>(dict) keys</strong> (<em>Amino combination, values: list of energies appearing in</em>)</p></li>
+<li><p><em>peptides with those combinations.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p># if energies per peptides are
+peptides = {‘ABC’: 1.5, ‘GBA’: 2.3}
+# neigh dictionary would be
+combi_neigh = {‘BC’: [1.5, 2.3]}</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.cross_val">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">cross_val</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.cross_val" title="Link to this definition"></a></dt>
+<dd><p>Finds the crossing of a linearly interpolated curve with certain value in
+the y data (horizontal line).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy.array</em>) – x-data of the curve.</p></li>
+<li><p><strong>y</strong> (<em>numpy.array</em>) – y-data of the curve.</p></li>
+<li><p><strong>val</strong> (<em>float</em>) – threshold value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(float) x value where the interpolated curve crosses the specified value.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to interpolate to a value of x (vertical line), just change x
+by y when you pass the arguments.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.dof_classificator_all">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">dof_classificator_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dofs_indexes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms_per_aminoacids</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.dof_classificator_all" title="Link to this definition"></a></dt>
+<dd><p>Separates all degrees of freedom defined by atoms (all) of a residue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dofs_indexes</strong> (<em>list</em><em> of </em><em>duples</em>) – sith.structures[n].dim_indices containing definition of the degrees of
+freedom in term of the atomic indexes.</p></li>
+<li><p><strong>atoms_per_aminoacids</strong> (<em>dict</em>) – Atoms in each residue. The keys are the number of the residues, values
+should be the indexes of the atoms belonging to the residue of the key.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>(dict) [keys</strong> (<em>Residues (int), values: (array) [#DOFsPerResidue (int)]]</em>)</p></li>
+<li><p><em>Indexes of the degrees of freedom containing all atoms of each residue.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>atoms_per_aminoacids can be obtained from
+sith.utils.peptides.PepSetter.atom_indexes</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.dof_classificator_one">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">dof_classificator_one</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dofs_indexes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms_per_aminoacids</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.dof_classificator_one" title="Link to this definition"></a></dt>
+<dd><p>Separates all degrees of freedom defined by atoms (at least one) of a
+residue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dofs_indexes</strong> (<em>list</em><em> of </em><em>duples</em>) – sith.structures[n].dim_indices containing definition of the degrees of
+freedom in term of the atomic indexes.</p></li>
+<li><p><strong>atoms_per_aminoacids</strong> (<em>dict</em>) – Atoms in each residue. The keys are the number of the residues, values
+should be the indexes of the atoms belonging to the residue of the key.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>(dict) [keys</strong> (<em>Residues (str), values: (array) [#DOFsPerResidue (int)]]</em>)</p></li>
+<li><p><em>Indexes of the degrees of freedom containing at least one atom of each</em></p></li>
+<li><p><em>residue.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>atoms_per_aminoacids can be obtained from
+sith.utils.peptides.PepSetter.atom_indexes</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.le_same_aminoacids">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">le_same_aminoacids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">peptides_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom_types</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind_amino</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.le_same_aminoacids" title="Link to this definition"></a></dt>
+<dd><p>Return distances between two atom types in the same type of amino acid and
+the energy associated with these DOF as the molecule is stretched.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sith</strong> (<em>sith object</em>) – sith object containing the distribution of energies. That implies to
+have the class variable ‘energies’ with the energies per deformed
+configuration and and per DOF.</p></li>
+<li><p><strong>peptides_info</strong> – object with the info of the peptide.</p></li>
+<li><p><strong>atom_types</strong> (<em>str</em>) – name of the atoms inside the aminoacid that will be studied,
+example [‘CA’, ‘CB’].</p></li>
+<li><p><strong>kind_amino</strong> (<em>(</em><em>list</em><em>) </em><em>[</em><em>(</em><em>str</em><em>)</em><em>]</em>) – name of the amino acids.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(list) [#kindAmino x [2 x #Def (float)]] values of the DOF and energies</em></p></li>
+<li><p><em>associate with those DOFs per deformed configuration in the selected amino.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>peptides_info can be obtained from
+sith.utils.peptides.PepSetter</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.length_energy">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">length_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aminos_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom_types</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.length_energy" title="Link to this definition"></a></dt>
+<dd><p>Return distances between two atom types in one amino acid and the
+energy associated with this DOF as the molecule is stretched.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sith</strong> (<em>sith object</em>) – sith object containing the distribution of energies. That implies to
+have the class variable ‘energies’ with the energies per deformed
+configuration and and per DOF.</p></li>
+<li><p><strong>aminos_info</strong> (<em>dic</em>) – name of the atoms of one amino acid associated with the index.</p></li>
+<li><p><strong>atom_types</strong> (<em>str</em>) – name of the atoms inside the aminoacid that will be studied,
+example [‘CA’, ‘CB’].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(list) [2 x #Def (float)] values of the DOF and energies associate with</em></p></li>
+<li><p><em>those DOFs per deformed configuration in the selected amino.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>aminos_info can be obtained from
+sith.utils.peptides.PepSetter.amino_info[n] where n is the selected amino
+acid.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.mean_n_std">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">mean_n_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distri</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.mean_n_std" title="Link to this definition"></a></dt>
+<dd><p>Extract the mean and standard deviation of a set of values associated to an
+amino acid in distri.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>distri</strong> (<em>dict</em>) – keys amino acid, values list of values to obtain mean and standard
+deviation.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(tuple) dictionary of mean, dictionary of standard deviation. Both</em></p></li>
+<li><p><strong>dictionaries have the shape keys</strong> (<em>amino acid; values: mean/std</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.pep_per_x">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">pep_per_x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dsa</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.pep_per_x" title="Link to this definition"></a></dt>
+<dd><p>Separate the value of x in which y crosses a certain value, identifying it
+with an specific peptide.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xs</strong> (<em>numpy.array</em>) – x-data of the curve.</p></li>
+<li><p><strong>ys</strong> (<em>numpy.array</em>) – y-data of the curve.</p></li>
+<li><p><strong>value</strong> (<em>float</em>) – threshold value.</p></li>
+<li><p><strong>dsa</strong> (<a class="reference internal" href="#sith.utils.analysis.DataSetAnalysis" title="sith.utils.analysis.DataSetAnalysis"><em>DataSetAnalysis</em></a>) – object containing the analysis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(dict) The name of the peptide as key and the x-value as dict value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.reduce_data">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">reduce_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.reduce_data" title="Link to this definition"></a></dt>
+<dd><p>Reduces the data to the range of maximum minimum xs (highest of the lowest)
+and minumim maximum xs (lowest of the highest). Returns a new list of xs
+and ys where all the minum/maximum xs are the same and the ys of the
+minumum/maximum xs are found by interpolation. Also makes the
+transformation new_y -= new_y[:, 0]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xs</strong> (<em>list</em><em> of </em><em>arrays</em>) – set of xs data.</p></li>
+<li><p><strong>ys</strong> (<em>list</em><em> of </em><em>arrays</em>) – set of xs data.</p></li>
+<li><p><strong>defmin</strong> (<em>float. Default=-100</em>) – first guest of the minimum.</p></li>
+<li><p><strong>defmax</strong> (<em>float. Default=100</em>) – first guest of the maximum.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(tuple) list of new xs and new ys</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>if defmin/defmax is higher/lower than the real minimum/maximum, this code
+would not recognize the proper values. Be sure that defmin/defmax is
+lower/higher than the lowest/highest of xs.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.separate_by_position">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">separate_by_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dsa</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.separate_by_position" title="Link to this definition"></a></dt>
+<dd><p>Stores the last values of “es” that correspond to an amino acid in a
+specific position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dsa</strong> (<a class="reference internal" href="#sith.utils.analysis.DataSetAnalysis" title="sith.utils.analysis.DataSetAnalysis"><em>DataSetAnalysis</em></a>) – object that contains the information of the molecules in the dataset.</p></li>
+<li><p><strong>es</strong> (<em>list</em><em> of </em><em>arrays</em>) – list of energies to be analyzed.</p></li>
+<li><p><strong>pos</strong> (<em>int</em>) – position to be extracted.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>(dict) keys</strong> (<em>amino acid in the asked position; values: list of energies to</em>)</p></li>
+<li><p><em>be analyzed.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.set_hes_from_ref">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">set_hes_from_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">geo_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sith_tar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.set_hes_from_ref" title="Link to this definition"></a></dt>
+<dd><p>Set the hessian in in a target sith taken from a geometry of reference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>geo_ref</strong> (<a class="reference internal" href="sith.html#sith.Utilities.Geometry" title="sith.Utilities.Geometry"><em>sith.Utilities.Geometry</em></a>) – sith object that contains the atribute you want to redefine.</p></li>
+<li><p><strong>sith_tar</strong> (<em>sith.SITH</em>) – sith object that will change its property.</p></li>
+<li><p><strong>structure</strong> (<em>int</em>) – index of the deformed structure to set the hessian.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(sith.SITH) returns the sith_tar with the hessian in the defined structure.</em></p></li>
+<li><p><strong>Note</strong> (<em>All the sith.sith.structures are Geometry objects with all the</em>)</p></li>
+<li><p><em>information of the structure.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.analysis.statistics">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ener_per_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aminos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.statistics" title="Link to this definition"></a></dt>
+<dd><p>Compute the p-value and F-statistic between distributions of the amino
+acids in the dataset for a given position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ener_per_pos</strong> (<em>list</em>) – set of energy data per position, per amino acid.</p></li>
+<li><p><strong>pos</strong> (<em>int</em>) – position to be analyzed.</p></li>
+<li><p><strong>aminos</strong> (<em>list</em>) – list of amino acids in the data set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(tuple) arrays in shape of sqared matrices containing pval and fstat</em></p></li>
+<li><p><em>matrix.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function" id="module-sith.utils.compare_siths">
+<dt class="sig sig-object py" id="sith.utils.compare_siths.extract_common">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.compare_siths.</span></span><span class="sig-name descname"><span class="pre">extract_common</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sith2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.compare_siths.extract_common" title="Link to this definition"></a></dt>
+<dd><p>Finds the DOfs that are in common in both sith objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sith1</strong> (<em>sith.SITH</em>) – obtject of reference.</p></li>
+<li><p><strong>sith2</strong> (<em>sith.SITH</em>) – object to be compared.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(tuple), list of indexes in sith1 that are in sith2, organized list.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.compare_siths.extract_diff">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.compare_siths.</span></span><span class="sig-name descname"><span class="pre">extract_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sith2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.compare_siths.extract_diff" title="Link to this definition"></a></dt>
+<dd><p>Finds the indexes of the DOfs that are in sith1 that are not in sith2 and
+the other way around.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sith1</strong> (<em>sith.SITH</em>) – object to compare.</p></li>
+<li><p><strong>sith2</strong> (<em>sith.SITH</em>) – object to compare.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(tuple), list of indexes in sith1 that are in sith2, organized list.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.compare_siths.index_dof">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.compare_siths.</span></span><span class="sig-name descname"><span class="pre">index_dof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.compare_siths.index_dof" title="Link to this definition"></a></dt>
+<dd><p>Search the index of a specific dof.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sith</strong> (<em>sith.SITH</em>) – SITH object.</p></li>
+<li><p><strong>target</strong> (<em>np.ndarray</em>) – degree of freedom.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(int) index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.compare_siths.organize_lengths">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.compare_siths.</span></span><span class="sig-name descname"><span class="pre">organize_lengths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sith2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.compare_siths.organize_lengths" title="Link to this definition"></a></dt>
+<dd><p>sort the distances in sith1 such that they fit with sith2.
+# TODO: confirm that the description is correct and it is
+# not the other way arround</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sith1</strong> (<em>sith.SITH</em>) – obtject of reference.</p></li>
+<li><p><strong>sith2</strong> (<em>sith.SITH</em>) – object to be compared.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(numpy.array) set of sorted indexes that makes the distance of sith2 to</em></p></li>
+<li><p><em>coincide with the distances of sith1.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function" id="module-sith.utils.miscellaneous">
+<dt class="sig sig-object py" id="sith.utils.miscellaneous.output_terminal">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.miscellaneous.</span></span><span class="sig-name descname"><span class="pre">output_terminal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_cmd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.miscellaneous.output_terminal" title="Link to this definition"></a></dt>
+<dd><p>Runs a command in a terminal and save the output in a list
+of strings</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmd</strong> (<em>str</em>) – bash command to be executed in the terminal.</p></li>
+<li><p><strong>print_output</strong> (<em>bool. Default=True</em>) – True for printing the output besides of returning it. Default False.</p></li>
+<li><p><strong>skip_error</strong> (<em>bool. Default=False</em>) – True for continuing running although the command fails. Default False.</p></li>
+<li><p><strong>**kwargs</strong> – additional options for subprocess.Popen</p></li>
+<li><p><strong>print_cmd</strong> (<em>Default=False</em>) – print the command that was just executed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(list) [#linesStr] output of the executed command, line by line.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class" id="module-sith.utils.molecules">
+<dt class="sig sig-object py" id="sith.utils.molecules.Alignment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.utils.molecules.</span></span><span class="sig-name descname"><span class="pre">Alignment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.Alignment" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Set of tools to apply the necessary transformations for aligning a the
+three first eigenvectors of PCA with the x, y, z axis, in that order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>atoms</strong> (<em>ase.Atoms</em>) – molecule to be aligned.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.Alignment.align_with_components">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">align_with_components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.Alignment.align_with_components" title="Link to this definition"></a></dt>
+<dd><p>Aligns the coordinates x, y, z axis with the main vectors (in that
+order).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>atoms</strong> (<em>ase.Atoms</em>) – Molecule to be aligned.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ase.Atoms) rotated and shifted molecule.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.Alignment.center_geo">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">center_geo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.Alignment.center_geo" title="Link to this definition"></a></dt>
+<dd><p>Moves the coordinates origin to the geometrical center atoms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>atoms</strong> (<em>ase.Atoms</em>) – Molecule to be moved.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ase.Atoms) Transformed atoms</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.Alignment.pca_vectors">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pca_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.Alignment.pca_vectors" title="Link to this definition"></a></dt>
+<dd><p>Find the eigen vectors in the Principal Component Analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>ase.Atoms</em>) – molecule to be analyzed.</p></li>
+<li><p><strong>indexes</strong> (<em>Default=&quot;all&quot;</em>) – subset of atoms to be included in the pca analysis. numbering
+convention starting from 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(array) principal components.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.utils.molecules.</span></span><span class="sig-name descname"><span class="pre">MoleculeSetter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Tool to edit or extract information from a molecule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>atoms</strong> (<em>ase.Atoms</em>) – molecule to be analyzed.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.align_axis">
+<span class="sig-name descname"><span class="pre">align_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.align_axis" title="Link to this definition"></a></dt>
+<dd><p>Apply the necessary rotations to set a vector aligned with positive x
+axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vector</strong> (<em>array</em>) – vector to be aligned.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(numpy.array) [3float x 3float] Transformation matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.align_plane">
+<span class="sig-name descname"><span class="pre">align_plane</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.align_plane" title="Link to this definition"></a></dt>
+<dd><p>Rotation around x axis to set a vector in the xy plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vector</strong> (<em>array</em>) – vector to be rotated to be in the xy plane.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(numpy.array) [3float x 3float] Transformation matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.apply_trans">
+<span class="sig-name descname"><span class="pre">apply_trans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trans</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shift</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.apply_trans" title="Link to this definition"></a></dt>
+<dd><p>Apply a transformation to all vector positions of some atoms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trans</strong> (<em>array</em><em> (</em><em>3x3</em><em>)</em>) – transformation matrix to be applied to all atom positions.</p></li>
+<li><p><strong>indexes</strong> (<em>list</em><em> or </em><em>array. Defatult=None</em>) – indexes of the atoms to apply the transformation. Default None
+that means the transformation is applied to the positions of all
+the atoms.</p></li>
+<li><p><strong>shift</strong> (<em>list. Default=None</em>) – vector to apply a translation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>changes the positions of the internal atoms object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(numpy.array)[#natoms x 3float] new xyz positions of the N atoms. It</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.create_gaussian_input">
+<span class="sig-name descname"><span class="pre">create_gaussian_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bmk'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'6-31+g'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.create_gaussian_input" title="Link to this definition"></a></dt>
+<dd><p>Creates a gaussian .com file without specifing the kind of calculus to
+run (optimization, ab-initio md, frequencies…). You would have to add
+it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>out</strong> (<em>str. Defatult=None</em>) – name of the gaussian file (.com) without extension. Default
+chemical formula.</p></li>
+<li><p><strong>charge</strong> (<em>int. Default=0</em>) – charge of the molecule in electron units. Default 0.</p></li>
+<li><p><strong>xc</strong> (<em>str. Default='bmk'</em>) – exchange correlation functional used in gaussian. Default bmk</p></li>
+<li><p><strong>basis</strong> (<em>str. Default='6-31+g'</em>) – basis set used in gaussian. Default 6-31+g</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ase.calculator.Gaussian) Calculator used to create the input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.increase_distance">
+<span class="sig-name descname"><span class="pre">increase_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constraints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deltad</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.increase_distance" title="Link to this definition"></a></dt>
+<dd><p>Increases the distance between two atoms by moving them and keeping the
+rest of the atoms in the same place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>constraints</strong> – constraints with the shape (n, 2), where n is the number of
+constraints and the first pair is the one to increase the
+distance.</p></li>
+<li><p><strong>deltad</strong> (<em>float</em>) – amount to add to the distance between atoms.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ase.Atoms) Internal Atoms object with the corresponding modification.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.increase_distance_with_constraints">
+<span class="sig-name descname"><span class="pre">increase_distance_with_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constraints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deltad</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.increase_distance_with_constraints" title="Link to this definition"></a></dt>
+<dd><p>Takes a configuration and increase the distance between two atoms by
+moving those atoms and all constraints containing them and keeping
+the rest of the atoms in the same place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>constraints</strong> – constraints with the shape (n, 2), where n is the number of
+constraints and the first pair is the one to increase the
+distance. 1-based numbering.</p></li>
+<li><p><strong>deltad</strong> (<em>float</em>) – amount to add to the distance between atoms.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ase.Atoms) Internal Atoms object with the corresponding modification.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.rot_x">
+<span class="sig-name descname"><span class="pre">rot_x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.rot_x" title="Link to this definition"></a></dt>
+<dd><p>Rotation matrix around x axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>angle</strong> (<em>float</em><em>[</em><em>radians</em><em>]</em>) – angle to rotate around the x axis</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(numpy.array) [3float x 3float] Rotation matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.rot_y">
+<span class="sig-name descname"><span class="pre">rot_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.rot_y" title="Link to this definition"></a></dt>
+<dd><p>Retuns the rotation matrix around y axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>angle</strong> (<em>float</em><em>[</em><em>radians</em><em>]</em>) – angle to rotate around the y axis</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(numpy.array) [3float x 3float] Rotation matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.rot_z">
+<span class="sig-name descname"><span class="pre">rot_z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.rot_z" title="Link to this definition"></a></dt>
+<dd><p>Retuns the rotation matrix around z axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>angle</strong> (<em>float</em><em>[</em><em>radians</em><em>]</em>) – angle to rotate around the z axis</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(numpy.array) [3float x 3float] Rotation matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.scale_distance">
+<span class="sig-name descname"><span class="pre">scale_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constraints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deltad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.scale_distance" title="Link to this definition"></a></dt>
+<dd><p>Increase the distance between two atoms by aligning those atoms with
+the x axis and scaling the x-coordinate of all intermedia atoms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>constraints</strong> (<em>list</em>) – constraints with the shape (n, 2), where n is the number of
+constraints and the first pair is the one to increase the
+distance.</p></li>
+<li><p><strong>deltad</strong> (<em>float</em>) – amount to add to the distance between atoms.</p></li>
+<li><p><strong>index3</strong> (<em>int. Default=None</em>) – The atom with index 3 would be in the xy plane in case to be given.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ase.Atoms) Internal Atoms object with the corresponding modification.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.xy_alignment">
+<span class="sig-name descname"><span class="pre">xy_alignment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.xy_alignment" title="Link to this definition"></a></dt>
+<dd><p>Transform the positions of the atoms such that the atoms of indexes1
+and index2 are aligned in the x axis. The atom with index3 would be in
+the xy plane in case to be given.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index2</strong> (<em>index1 and</em>) – indexes of the atoms to be aligned with the x-axis. The positive
+direction of x would go from atom 1 to atom 2.</p></li>
+<li><p><strong>index3</strong> (<em>int. Default=None</em>) – The atom with index 3 would be in the xy plane in case to be given.</p></li>
+<li><p><strong>Center</strong> (<em>int. Default=None</em>) – It must be index1 or index2, that means the atom with this index
+will be placed in the origin. In case center=None (default), the
+origin would be in the geometrical center between atoms with index1
+and index2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>changes the positions of the internal atoms object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(numpy.array)[#natoms x 3float] new xyz positions of the N atoms. It</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sith.utils.molecules.PCAMatcher">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.utils.molecules.</span></span><span class="sig-name descname"><span class="pre">PCAMatcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_compare</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.PCAMatcher" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Tools to align two molecules with their PCA main vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reference</strong> (<em>ase.Atoms</em>) – reference of the molecule to be matched.</p></li>
+<li><p><strong>to_compare</strong> (<em>ase.Atoms</em>) – molecule to be compared to the reference.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.PCAMatcher.align_molecules">
+<span class="sig-name descname"><span class="pre">align_molecules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.PCAMatcher.align_molecules" title="Link to this definition"></a></dt>
+<dd><p>Align each molecule with their own main PCA vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(tuple) aligned reference and molecule to compare.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.molecules.PCAMatcher.matching">
+<span class="sig-name descname"><span class="pre">matching</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.PCAMatcher.matching" title="Link to this definition"></a></dt>
+<dd><p>Finds the order of the indices of the molecule which fit with the atoms
+of the reference. So, if the outcome of this function is “out”, then
+PCAMatcher.to_compare[out[i]] == PCAMatcher.reference[i] should be
+true.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>(numpy.array) indices of the molecule that match the indices of the</em></p></li>
+<li><p><em>reference.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>align before using this function</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-sith.utils.peptides">
+<dt class="sig sig-object py" id="sith.utils.peptides.PepSetter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.utils.peptides.</span></span><span class="sig-name descname"><span class="pre">PepSetter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pdb_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.peptides.PepSetter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sith.utils.molecules.MoleculeSetter" title="sith.utils.molecules.MoleculeSetter"><code class="xref py py-class docutils literal notranslate"><span class="pre">MoleculeSetter</span></code></a></p>
+<p>The equivalent to but used specifically for proteins.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pdb_file</strong> (<em>str</em><em> or </em><em>path</em>) – path to the pdb file containing the information of the protein.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.peptides.PepSetter.build_proline_state">
+<span class="sig-name descname"><span class="pre">build_proline_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">aminoacid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.peptides.PepSetter.build_proline_state" title="Link to this definition"></a></dt>
+<dd><p>Takes a defined peptide with prolines and changes the prolines to endo
+or exo states.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>aminoacid</strong> (<em>int</em>) – number of the aminoacid to modify. It has to correspond with a
+proline aminoacid.</p></li>
+<li><p><strong>state</strong> (<em>str</em>) – ‘endo’ or ‘exo’. States of the proline.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>atoms</strong> – Atoms object with the modified structure.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ase.Atoms object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.peptides.PepSetter.compute_angle">
+<span class="sig-name descname"><span class="pre">compute_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom1index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom2index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom3index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.peptides.PepSetter.compute_angle" title="Link to this definition"></a></dt>
+<dd><p>Compute the angle between 3 atoms. Consider the nexts facts:</p>
+<ul class="simple">
+<li><p>The index 2 should correspond to the atom in the vertex.</p></li>
+<li><p>The angle is always positive and its range is [0, pi].</p></li>
+<li><p>The atoms do not have to be bonded.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atom1index</strong> (<em>int</em>) – index of the atom 1 in 1-based convention.</p></li>
+<li><p><strong>atom2index</strong> (<em>int</em>) – index of the atom 2 in 1-based convention.</p></li>
+<li><p><strong>atom3index</strong> (<em>int</em>) – index of the atom 3 in 1-based convention.</p></li>
+<li><p><strong>structure</strong> (<em>ase.Atoms. Default=None</em>) – Structure to obtain the dihedrals. This has to be the same peptide
+chemistry than the basis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(float) Angle as defined in the description in radians.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.peptides.PepSetter.compute_dihedrals">
+<span class="sig-name descname"><span class="pre">compute_dihedrals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom1index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom2index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom3index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom4index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.peptides.PepSetter.compute_dihedrals" title="Link to this definition"></a></dt>
+<dd><p>Compute the dihedral angle between 4 atoms. Consider the nexts facts:</p>
+<ul class="simple">
+<li><p>The dihedral is defined here as the angle between the projection of
+the vector 2-&gt;1 and 3-&gt;4 in the plane generated by the normal vector
+3-&gt;2.</p></li>
+<li><p>The zero of the angle is set at the projection of 2-&gt;1.</p></li>
+<li><p>The positive direction of the angle is clock-wise (left-hand-rule
+respect to the normal vector) and its range is [-pi, pi].</p></li>
+<li><p>The atoms do not have to be bonded.</p></li>
+<li><p>vmd also meassures dihedrals as it is explained here.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atom1index</strong> (<em>int</em>) – index of the atom 1 in 1-based convention.</p></li>
+<li><p><strong>atom2index</strong> (<em>int</em>) – index of the atom 2 in 1-based convention.</p></li>
+<li><p><strong>atom3index</strong> (<em>int</em>) – index of the atom 3 in 1-based convention.</p></li>
+<li><p><strong>atom4index</strong> (<em>int</em>) – index of the atom 4 in 1-based convention.</p></li>
+<li><p><strong>structure</strong> (<em>ase.Atoms. Default=None</em>) – Structure to obtain the dihedrals. This has to be the same peptide
+chemistry than the basis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>dihedral</strong> – dihedral angle as defined in the description in radians.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.peptides.PepSetter.endo_exo_proline">
+<span class="sig-name descname"><span class="pre">endo_exo_proline</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.peptides.PepSetter.endo_exo_proline" title="Link to this definition"></a></dt>
+<dd><p>Computes the dihedral angles a1=(N, Ca, Cb, Cg) and a2=(Cb, Ca, N, Cd)
+in proline amino acids of the peptide. This angles meassure the
+endo-exo states, which must be given by the combination
+[a1 positive, a2 approx 0] for exo, or [a1 negative, a2 approx 0] for
+endo. ‘a’, ‘b’, ‘g’, and ‘d’ means ‘aplha’, ‘beta’, ‘gamma’ and ‘delta’
+respectively.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>(numpy.ndarray) [#prolines x (angle1, angle2)] set of angles 1 and 2 in</em></p></li>
+<li><p><em>each proline.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.peptides.PepSetter.rama_phi_psi">
+<span class="sig-name descname"><span class="pre">rama_phi_psi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.peptides.PepSetter.rama_phi_psi" title="Link to this definition"></a></dt>
+<dd><p>Compute ramachandran angles of the peptide in degrees. It assumes
+there are ACE and NME capping atoms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>traj</strong> (<em>array-like. Default=None</em>) – chain of ase.Atoms.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(array) [#CA x 2float] dihedral angles per alpha carbon for</em></p></li>
+<li><p><em>Ramachandran plot.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-sith.utils.sith_plots">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.SithPlotter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.utils.sith_plots.</span></span><span class="sig-name descname"><span class="pre">SithPlotter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sith.html#sith.SITH.SITH" title="sith.SITH.SITH"><span class="pre">SITH</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdb_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.sith_plots.SithPlotter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sith.utils.peptides.PepSetter" title="sith.utils.peptides.PepSetter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PepSetter</span></code></a>, <a class="reference internal" href="#sith.utils.analysis.SithAnalysis" title="sith.utils.analysis.SithAnalysis"><code class="xref py py-class docutils literal notranslate"><span class="pre">SithAnalysis</span></code></a></p>
+<p>Object that plots the main graphs to analyze sith outcomes.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.SithPlotter.add_color_per_amino">
+<span class="sig-name descname"><span class="pre">add_color_per_amino</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#sith.utils.sith_plots.SithPlotter.add_color_per_amino" title="Link to this definition"></a></dt>
+<dd><p>Add an colored rectangle in the background for every DOF belonging to
+an aminoacid.</p>
+<section id="paramenters">
+<h3>Paramenters<a class="headerlink" href="#paramenters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>ax: plt.Axes</dt><dd><p>Axes of the graphics to add the colors</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">rtype<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(dict) colors patches per amino acid labeled by indices.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.SithPlotter.create_blocks">
+<span class="sig-name descname"><span class="pre">create_blocks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classified</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.sith_plots.SithPlotter.create_blocks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.SithPlotter.plot_angles">
+<span class="sig-name descname"><span class="pre">plot_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Colormap</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_pref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#sith.utils.sith_plots.SithPlotter.plot_angles" title="Link to this definition"></a></dt>
+<dd><p>Plot values of angles and changes during the deformations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cmap</strong> (<em>Colormap</em>) – colormap to the increasing changes.</p></li>
+<li><p><strong>step</strong> (<em>int</em>) – steps between radius ticks.</p></li>
+<li><p><strong>sp_pref</strong> (<em>dict</em>) – dictionary with kwargs for StandardPlotter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(StandardPlotter) Standard plotter.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.SithPlotter.plot_energies_in_DOFs">
+<span class="sig-name descname"><span class="pre">plot_energies_in_DOFs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jump_stretching</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#sith.utils.sith_plots.SithPlotter.plot_energies_in_DOFs" title="Link to this definition"></a></dt>
+<dd><p>Plot of distribution of energies in all degrees of freedom and in each
+kind. Namely, distances, angles, dihedrals. Then, it creates a 2x2
+plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>steps</strong> (<em>list. Default=</em><em>[</em><em>1</em><em>, </em><em>1</em><em>, </em><em>1</em><em>, </em><em>1</em><em>]</em>) – size of steps separating the labels of the degrees of freedom.</p></li>
+<li><p><strong>**kwargs</strong> – SithPlotter.plot_data arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>plt.figure.Figure, plt.Axes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.SithPlotter.plot_error">
+<span class="sig-name descname"><span class="pre">plot_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classical</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_pref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#sith.utils.sith_plots.SithPlotter.plot_error" title="Link to this definition"></a></dt>
+<dd><p>Plot the error between the expected value (DFT) and the computed using
+sith.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classical</strong> (<em>array-like</em>) – set of classical energies of each deformation computed with
+amber99.</p></li>
+<li><p><strong>sp_pref</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(np.ndarray, np.ndarray, list) energies, distances and sp.axes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.SithPlotter.plot_hessian">
+<span class="sig-name descname"><span class="pre">plot_hessian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deci</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vertical'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ticks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.sith_plots.SithPlotter.plot_hessian" title="Link to this definition"></a></dt>
+<dd><p>Function that plots the a matrix using a divergent colormap to separate
+the negative from the positive values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hessian</strong> (<em>NxN numpy.array</em>) – matrix to be ploted</p></li>
+<li><p><strong>ax</strong> (<em>plt.Axes</em>) – Axis to add the plot. Default: None, in this case, the function
+creates a new Axis.</p></li>
+<li><p><strong>deci</strong> (<em>int</em>) – number of decimals in the colorbar.</p></li>
+<li><p><strong>orientation</strong> (<em>str</em>) – orientation of the colorbar. Default: ‘vertical’.</p></li>
+<li><p><strong>cbar</strong> (<em>Bool</em>) – True to show the colorbar. Default: True</p></li>
+<li><p><strong>ticks</strong> (<em>float</em>) – ticks size.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>PathCollection</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.SithPlotter.plot_ramachandran">
+<span class="sig-name descname"><span class="pre">plot_ramachandran</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker_size_polar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">marker_size_rama</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_dots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Amino\nAcids'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.sith_plots.SithPlotter.plot_ramachandran" title="Link to this definition"></a></dt>
+<dd><p>Shows the evolution of each phi-psi angle of each aminoacid in a polar
+and Ramachandran plot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.SithPlotter.plot_sith">
+<span class="sig-name descname"><span class="pre">plot_sith</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dofs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e_dofs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">StandardPlotter</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Colormap</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pstyle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'-o'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'$\\Delta$E$_{\\rm{\\bf</span> <span class="pre">i}}$[Ha]'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jump_stretching</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_amino_legends</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax_pref</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp_pref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pad_cbar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#sith.utils.sith_plots.SithPlotter.plot_sith" title="Link to this definition"></a></dt>
+<dd><p>This function plots the energies per degrees of freedom from
+SithPlotter.sith.energies</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>e_dofs</strong> (<em>array</em>) – labels of the degrees of freedom.</p></li>
+<li><p><strong>dofs</strong> (<em>array</em>) – energies per degree of freedom. Usually a matrix where each
+component contains the energies for each DOF for each deformed
+config:
+dofdeformed     0 1  2  3 …
+0             [[              ]]
+1             [[              ]]
+2             [[              ]]
+.
+.
+.</p></li>
+<li><p><strong>xlabel</strong> (<em>str</em>) – label of the xlabel indicating the represented DOFS.</p></li>
+<li><p><strong>sp</strong> (<em>StandardPlotter</em>) – plotter object. if not given. It creates a new object with one
+graph.</p></li>
+<li><p><strong>cmap</strong> (<em>plt.color.Colormap. Default: cmocean.cm.algae</em><em> or </em><em>'vidris'.</em>) – Color map for the deformations.</p></li>
+<li><p><strong>cbar</strong> (<em>bool. Default=False</em>) – True to show the color bar.</p></li>
+<li><p><strong>step</strong> (<em>int. Default 1</em>) – size of steps separating the labels of the degrees of freedom.</p></li>
+<li><p><strong>pstryle</strong> (<em>str. Default='-o'</em>) – style of the lines of energies</p></li>
+<li><p><strong>ylabel</strong> (<em>str. Default={r'$Delta$E$_{rm{f i}}$' + f'Ha'}</em>) – label in the y axis.</p></li>
+<li><p><strong>jump_stretching</strong> (<em>int. Default=1</em>) – jumps from one stretching to the other starting from the optimized
+one.</p></li>
+<li><p><strong>show_amino_legends</strong> (<em>bool. Default=False</em>) – True to show the name of the aminoacids painting the background.</p></li>
+<li><p><strong>ax_pref</strong> (<em>dict</em>) – axes preferences. See StandardPlotter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(plt.Figure, plt.Axes) plotting objects used to create the figure.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.plot_averages_per_pos">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.sith_plots.</span></span><span class="sig-name descname"><span class="pre">plot_averages_per_pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ener_per_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_per_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdr_per_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aminos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.sith_plots.plot_averages_per_pos" title="Link to this definition"></a></dt>
+<dd><p>Plot the mean value with error bars (std) per position (rows), per
+amino acids (x axis). It also shows the data points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ener_per_pos</strong> (<em>list</em>) – set of energy data per position, per amino acid.</p></li>
+<li><p><strong>mean_per_pos</strong> (<em>list</em>) – set of means per position, per amino acid.</p></li>
+<li><p><strong>stdr_per_pos</strong> (<em>list</em>) – set of std per position, per amino acid.</p></li>
+<li><p><strong>aminos</strong> (<em>list</em>) – list of amino acids in the data set.</p></li>
+<li><p><strong>ylabel</strong> (<em>str</em>) – label of the y axis.</p></li>
+<li><p><strong>ylim</strong> (<em>list</em><em> or </em><em>tuple</em>) – min and max value of the y axis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(StandardPlot) sith.plotters.StandardPlot object.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The three first arguments can be obtained using analysis_energy_per_dof</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.plot_matrix">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.sith_plots.</span></span><span class="sig-name descname"><span class="pre">plot_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_per_ele</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.sith_plots.plot_matrix" title="Link to this definition"></a></dt>
+<dd><p>Plot a matrix as a heatmap and show a value per combination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>matrix</strong> (<em>numpy.array</em>) – squared matrix as a shape of matrix of dimension 2.</p></li>
+<li><p><strong>labels</strong> (<em>list</em>) – label of the components of the matrix.</p></li>
+<li><p><strong>n_per_ele</strong> (<em>numpy.array</em>) – value to be displayed on the box of the matrix. For example, the number
+of samples.</p></li>
+<li><p><strong>cbar_label</strong> (<em>str</em>) – label of the color bar.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(StandardPlot) sith.plotters.StandardPlot object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.plot_matrix2">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.sith_plots.</span></span><span class="sig-name descname"><span class="pre">plot_matrix2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.sith_plots.plot_matrix2" title="Link to this definition"></a></dt>
+<dd><p>Plot a matrix as a heatmap. The colormap is plt.get_cmap(‘coolwarm’) and is
+divergent, with 0.05 in the middle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>matrix</strong> (<em>numpy.array</em>) – squared matrix as a shape of matrix of dimension 2.</p></li>
+<li><p><strong>labels</strong> (<em>list</em>) – label of the components of the matrix.</p></li>
+<li><p><strong>cbar_label</strong> (<em>str</em>) – label of the color bar.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(StandardPlot) sith.plotters.StandardPlot object.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Usually applied to show p-values.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.sith_plots.plot_matrix3">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.sith_plots.</span></span><span class="sig-name descname"><span class="pre">plot_matrix3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.sith_plots.plot_matrix3" title="Link to this definition"></a></dt>
+<dd><p>Plot a matrix as a heatmap and show a value per combination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>matrix</strong> (<em>numpy.array</em>) – squared matrix as a shape of matrix of dimension 2.</p></li>
+<li><p><strong>labels</strong> (<em>list</em>) – label of the components of the matrix.</p></li>
+<li><p><strong>n_per_ele</strong> (<em>numpy.array</em>) – value to be displayed on the box of the matrix. For example, the number
+of samples.</p></li>
+<li><p><strong>cbar_label</strong> (<em>str</em>) – label of the color bar.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(StandardPlot) sith.plotters.StandardPlot object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function" id="module-sith.utils.tools">
+<dt class="sig sig-object py" id="sith.utils.tools.F_max_stretch">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">F_max_stretch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pep</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'frozen_dofs.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.F_max_stretch" title="Link to this definition"></a></dt>
+<dd><p>Compute the force in the end atoms of the configuration of
+maximum stretching.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ds</strong> (<em>str</em>) – path to the directory containing the peptide.</p></li>
+<li><p><strong>pep</strong> (<em>str</em>) – name of the peptide on one letter amino acid code.</p></li>
+<li><p><strong>fd</strong> (<em>str. Default=frozen_dofs.dat</em>) – name of the file containing the constrained atoms in the first
+line.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(float) Force applied at the extremes of the peptide for the</em></p></li>
+<li><p><em>maximum stretched configuration.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.tools.F_stretch">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">F_stretch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.F_stretch" title="Link to this definition"></a></dt>
+<dd><p>Extracts the magnitud of the force applied to an atoms of the configuration
+of maximum stretching.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logfile</strong> – file containing the optmimization or force calculation info.</p></li>
+<li><p><strong>index</strong> – index of the atom that you want to extract the force. 1-based (like
+gaussian).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(float) Force applied at the selected atom.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.tools.all_hydrogen_atoms">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">all_hydrogen_atoms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.all_hydrogen_atoms" title="Link to this definition"></a></dt>
+<dd><p>Finds the indexes of all the hydrogen atoms in the peptide from Atoms
+object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mol</strong> (<em>string to config file</em><em> or </em><em>ase.Atoms object</em>) – ASE.Atoms object to extract the hydrogen indexes.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(list) [#h_atoms(int)] Indexes corresponding to Hydrogen atoms in 1-based</em></p></li>
+<li><p><em>index.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.tools.all_xyz2pdb">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">all_xyz2pdb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_patern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xyzdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.all_xyz2pdb" title="Link to this definition"></a></dt>
+<dd><p>Transform all xyz files of the directory where it is executed into a pdb
+using a pdb file as template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pdbtemplate</strong> (<em>str</em>) – path to the pdb template for the output.</p></li>
+<li><p><strong>output_patern</strong> (<em>str. Default=None</em>) – the name of the output will be &lt;this string&gt;-&lt;n&gt;.pdb, where is is an
+increasing index, from 1 to the number of xyz files.</p></li>
+<li><p><strong>xyzdir</strong> (<em>str. Default=&quot;&quot;</em>) – directory containing all the xyz files you want to transform.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(str) The name of the outputs of each pdb file.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>the pdb file must contain the same atoms in the same order than the xyz
+file, this file only would change the coordinates.</p>
+</div>
+<p>E.g.
+cd dir_with_xyz_files ; sith all_xyz2pdb</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.tools.change_distance">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">change_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_cons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deltad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.change_distance" title="Link to this definition"></a></dt>
+<dd><p>Takes a configuration and increase the distance between two atoms. With the
+new structure, it creates a gaussian file without specifing the kind of
+calculation to run (optimization, ab-initio md, frequencies…).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inp</strong> (<em>str</em>) – input file containing the structure to modify.</p></li>
+<li><p><strong>out</strong> (<em>str</em>) – name of the gaussian file (.com) without extension.</p></li>
+<li><p><strong>file_cons</strong> (<em>str</em>) – file with the constraints sorted in the first two columns. The two
+atoms in the first row are the selected to change the distance.</p></li>
+<li><p><strong>deltad</strong> (<em>float</em>) – amount to add to the distance between atoms.</p></li>
+<li><p><strong>charge</strong> (<em>int</em>) – charge in electron charge units to create the gaussian input file. The
+multiplicity is assumed to be one.</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – method defined in sith.ase_utils.tools. So far, the methods already
+implemented are: ‘scale_distance’, ‘increase_distance’,
+‘increase_distance_with_constraints’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(str) name of the output file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.tools.conf2pdb">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">conf2pdb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdbtemplate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdboutput</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.conf2pdb" title="Link to this definition"></a></dt>
+<dd><p>Transform a configuration in a file (xyz, log…) into a pdb using a pdb
+file as template.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>confile</strong> (<em>str</em>) – path to the config file to be transformed to pdb.</p></li>
+<li><p><strong>pdbtemplate</strong> (<em>str</em>) – path to the pdb template for the output.</p></li>
+<li><p><strong>pdboutput</strong> (<em>str. Default=None</em>) – name of trasnformed config file with pdb format. The default name is
+the same than the confile but with pdb extension.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(str) The name of the output pdb file.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>the pdb file must contain the same atoms in the same order than the xyz
+file, this file only would change the coordinates.</p>
+</div>
+<p>E.g.
+sith optimization.log template.pdb
+sith optimization.xyz template.pdb</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.tools.diff_bonds">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">diff_bonds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">conf1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conf2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frozen_dofs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'frozen_dofs.dat'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.diff_bonds" title="Link to this definition"></a></dt>
+<dd><p>This function returns the bonds that are in one conf but not in the other.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>conf11</strong> (<em>str</em>) – first configuration file to be compared.</p></li>
+<li><p><strong>conf2</strong> (<em>str</em>) – second configuration file to be compared.</p></li>
+<li><p><strong>frozen_dofs</strong> (<em>str. Default=&quot;frozen_dofs.dat&quot;</em>) – file with the frozen DOFs. If a rupture is obtained, it will be
+added to this file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(list) [#brocken_bonds x 2(int)] pair of brocken bonds</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The comparison is only in one direction, namely, this function does not
+find the bonds in conf2 that are not in conf1.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.tools.distance">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.distance" title="Link to this definition"></a></dt>
+<dd><p>Computes the distance between two atoms in the last configuration
+of a trajectory file (e.g. .log file from gaussian).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>str</em>) – name of the file that contains the trajectory.</p></li>
+<li><p><strong>index1</strong> (<em>int</em>) – index of the first atom to compute distances</p></li>
+<li><p><strong>index2</strong> (<em>int</em>) – index of the second atom to compute distances</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(float)  Distance between atoms corresponding with atom with index1 and</em></p></li>
+<li><p><em>index2.</em></p></li>
+<li><p><em>E.g.</em></p></li>
+<li><p><em>sith distance optimization.log 1 20</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.tools.extract_bonds">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">extract_bonds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">readable_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.extract_bonds" title="Link to this definition"></a></dt>
+<dd><p>Guesses the bonds in a molecule according to
+ase.neighborlist.natural_cutoffs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>readable_file</strong> (<em>str</em>) – string to the configuration file in any of the ASE readable formats.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(list) [#bonds x 2(int)] Bonds in the molecule.</em></p></li>
+<li><p><em>E.g.</em></p></li>
+<li><p><em>sith extract_bonds optimization.xyz</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.utils.tools.shake_except">
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">shake_except</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xyz_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_cons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modify_input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.shake_except" title="Link to this definition"></a></dt>
+<dd><p>Modify a xyz file by adding random noise to the position of the atoms
+except for those listed in the first line of a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xyz_file</strong> (<em>int</em>) – original xyz file to be modified.</p></li>
+<li><p><strong>file_cons</strong> – file containing the atoms to avoid to be modified by the shaking.</p></li>
+<li><p><strong>modify_input</strong> (<em>bool. Defatuly=True</em>) – True to modify the input file.</p></li>
+<li><p><strong>scale</strong> (<em>float. Default=0.05</em>) – max magnitud of the noise to be added in each coordinate of each atom
+in Angstrom.</p></li>
+<li><p><strong>Retuns</strong> – </p></li>
+<li><p><strong>======</strong> – </p></li>
+<li><p><strong>positions.</strong> (<em>(</em><em>ase.Atoms</em><em>) </em><em>new object atoms with the modified</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-sith.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-sith.utils" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+</div>
+<section id="basics">
+<h3>basics<a class="headerlink" href="#basics" title="Link to this heading"></a></h3>
+<div class="bash-script-title docutils container">
+<p><a class="reference internal" href="bash_rsts_scripts/basics.html#basics"><span class="std std-ref">[script]</span></a> <strong>sith/utils/basics.sh</strong></p>
+</div>
+<div class="bash-script-doc docutils container">
+<div class="line-block">
+<div class="line">This script contains basics tools for other bash scripts. With the code in</div>
+<div class="line">here, you can use the next functions</div>
+<div class="line"><br /></div>
+<div class="line">- &lt;first_argument&gt; Add a label in every output of each bash script by giving</div>
+<div class="line-block">
+<div class="line">it as a first argument.</div>
+</div>
+<div class="line">- &lt;second_argument&gt; Add anything in order to have verbose printing in the</div>
+<div class="line-block">
+<div class="line">output. otherwise, the your script will ignore all the verbose.</div>
+</div>
+<div class="line">- adjust &lt;text&gt;: add the label and print what &lt;text&gt; in an adjusted column of</div>
+<div class="line-block">
+<div class="line">80 characters.</div>
+</div>
+<div class="line">- verbose &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</div>
+<div class="line-block">
+<div class="line">begining of &lt;text&gt; and print the adjusted text.</div>
+</div>
+<div class="line">- warning &lt;text&gt;: besides of the label, it adds the keyword WARNING in to the</div>
+<div class="line-block">
+<div class="line">begining of &lt;text&gt; and print the adjusted text.</div>
+</div>
+<div class="line">- finish &lt;text&gt;: besides of the label, it use verbose to print &lt;text&gt; of the</div>
+<div class="line-block">
+<div class="line">word finish if &lt;text&gt; is not given. It also stops the script with ‘exit 0’</div>
+</div>
+<div class="line">- fail &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</div>
+<div class="line-block">
+<div class="line">begining of &lt;text&gt; and print the adjusted text. It also print the message</div>
+<div class="line">in the std_error and stops the script with ‘exit 1’</div>
+</div>
+<div class="line">- create_bck [&lt;name1&gt; &lt;name2&gt; …]: function that moves an existing file or</div>
+<div class="line-block">
+<div class="line">directory to &lt;basic_functions_name&gt;-bck_[n][.ext] where n is the number of</div>
+<div class="line">the backup with 3 digits (leading zeros if necessary) and ext is</div>
+<div class="line">automatically extracted from the original file.</div>
+</div>
+<div class="line">- search_last_bck &lt;name&gt;: finds the last [n] created by the function</div>
+<div class="line-block">
+<div class="line">create_bck.</div>
+</div>
+<div class="line">- load_modules: loads the modules I need in my codes when running in a cluster.</div>
+<div class="line">- wait_until_next_file_exist &lt;file_name&gt;: literaly waits untils &lt;file_name&gt;</div>
+<div class="line-block">
+<div class="line">appears after executing ls. This is important for some file systems that</div>
+<div class="line">take a little while to recognize files created in a script.</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sith.readers.html" class="btn btn-neutral float-left" title="sith.readers package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bash_rsts_doc/basics.html" class="btn btn-neutral float-right" title="basics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

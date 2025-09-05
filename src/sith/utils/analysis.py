@@ -615,37 +615,18 @@ class DataSetAnalysis:
 
     Parameters
     ==========
-    data_dir: str or Path
-        directory containing the peptides you want to analyse. HeadUP: this
-        directory has to contain a set of directories with the name of all
-        the peptides (expected as amino code) and nothing else. Note that each
-        one of the these peptides directories can contain subdirectories, which
-        is set with the argument "subdir".
-    subdir: str. Default=""
-        subdirectory (if the case) in each one of the directories in data_dir
-        where the data is stored.
-    exclude_prolines: Bool. Default=True
-        False to include peptides with prolines.
-    pdb_pattern: str. Default='stretched00'
-        every peptide directory has to contain one and only one pdb file
-        containing the molecular information. This code will look for
-        "<data_dir>/<peptide>/*pattern*.pdb".
-    struc_pattern: str. Default='forces'
-        every peptide directory has to contain a set of files containing
-        the structure information requiered by 'sith'. This code will look
-        for files named as "<data_dir>/<peptide>/*pattern*". It will be
-        assumed that the files are organized alphabetically in the order of
-        stretched structure.
     inner_steps: function. Default=None
         function with the operations to apply to every sith object -its
         unique argument- after initialized. Note that it has to have the
         analysis you want to apply. For example,
-        ```python
-        def inner_steps(sith):
-            sith.rem_first_last(from_last_minimum=True)
-            sith.sith_analysis()
-            return sith
-        ```
+
+        .. code-block:: python
+
+            def inner_steps(sith):
+                sith.rem_first_last(from_last_minimum=True)
+                sith.sith_analysis()
+                return sith
+
     **kwargs for initializing sith
     """
 

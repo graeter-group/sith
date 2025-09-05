@@ -377,12 +377,12 @@ class G09Reader:
         parameter could be also a string of the path to the a directory
         containing the fchk files in alphabetic order.
 
-    Atributes
-    =========
+    Attributes
+    ==========
     inputfiles: list[Path]
         paths to the fchk files.
     structures: list[Geometry]
-        list of :mod:`sith.Utilities.Geometry`s for each deformed
+        list of :mod:`sith.Utilities.Geometry`\s for each deformed
         configuration.
     """
     def __init__(self, inputfiles: Union[list, str]):

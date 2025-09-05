@@ -1,0 +1,9 @@
+{% extends "!layout.html" %}
+
+{% block home_link %}
+  <a href="{{ pathto(master_doc) }}">
+    <img src="{{ pathto('_static/favicon.ico', 1) }}"
+         alt="Home"
+         style="height:20px; width:20px; vertical-align:middle;">
+  </a>
+{% endblock %}

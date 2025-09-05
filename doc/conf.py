@@ -38,6 +38,7 @@ html_title = "sith"
 html_logo = '_static/favicon.ico'
 
 html_theme_options = {
+    "style_nav_header_background": "#3434348D",
     'logo_only': True,
     'display_version' : True,
     'style_external_links' : True

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script of sith continuous_path &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="sith.g09_stretching.from_extreme package" href="../sith.g09_stretching.from_extreme.html" />
+    <link rel="prev" title="continuous_path" href="../bash_rsts_doc/continuous_path.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../sith.html">Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../bash_rsts_doc/workflow_from_extreme2.html">workflow_from_extreme2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="workflow_from_extreme2.html">Script of sith workflow_from_extreme2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../bash_rsts_doc/continuous_path.html">continuous_path</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Script of sith continuous_path</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.utils.html">sith.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../sith.html">Modules</a></li>
+          <li class="breadcrumb-item"><a href="../sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
+      <li class="breadcrumb-item active">Script of sith continuous_path</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/bash_rsts_scripts/continuous_path.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="script-of-sith-continuous-path">
+<span id="continuous-path"></span><h1>Script of sith continuous_path<a class="headerlink" href="#script-of-sith-continuous-path" title="Link to this heading"></a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># ----- definition of functions starts ----------------------------------------</span>
+print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">Creates the com files from the xyz structures extracted from a gaussian log file and</span>
+<span class="s2">submit the corresponding jobs to compute the forces.</span>
+
+<span class="s2">  -l  &lt;log_file&gt; optimization gaussian logfile.</span>
+<span class="s2">  -n  &lt;name&gt; standard name. Usually pep name.</span>
+
+<span class="s2">  -h  prints this message.</span>
+<span class="s2">&quot;</span>
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+<span class="c1"># ----- definition of functions finishes --------------------------------------</span>
+
+<span class="c1"># ----- set up starts ---------------------------------------------------------</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;n:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>n<span class="o">)</span><span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>
+<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">  </span><span class="k">esac</span>
+<span class="k">done</span>
+
+<span class="nb">source</span><span class="w"> </span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span><span class="s2">&quot;AfterOpt2&quot;</span><span class="w"> </span><span class="nv">$verbose</span>
+
+load_modules
+<span class="c1"># ---- BODY -------------------------------------------------------------------</span>
+
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$name</span>
+
+mkdir<span class="w"> </span>continuous
+
+cp<span class="w"> </span>*stretched*.xyz<span class="w"> </span>continuous
+<span class="nb">cd</span><span class="w"> </span>continuous
+<span class="k">for</span><span class="w"> </span>xyz_file<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.xyz
+<span class="k">do</span>
+<span class="w">  </span>mv<span class="w"> </span><span class="nv">$xyz_file</span><span class="w"> </span><span class="si">${</span><span class="nv">xyz_file</span><span class="p">//stretched/continuous</span><span class="si">}</span>
+<span class="k">done</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">name</span><span class="p">: 0: 2</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;./&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="k">then</span>
+<span class="w">  </span><span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">name</span><span class="p">#./</span><span class="si">}</span>
+<span class="k">fi</span>
+<span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">name</span><span class="p">%/</span><span class="si">}</span>
+
+<span class="c1"># This is created from the stretching process</span>
+<span class="c1"># Extract the dofs from the created xyzs. out; &lt;name&gt;-continuous-dofs.dat</span>
+sith<span class="w"> </span>extr_dofs<span class="w"> </span>-f<span class="w"> </span><span class="nv">$name</span>-continuous<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;extracting dofs from xyzs&quot;</span>
+<span class="c1"># reduce irrelevant changes, store the new subset in a dir called subset</span>
+sith<span class="w"> </span>reduce_structs<span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-continuous<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;reducing structures&quot;</span>
+
+<span class="c1"># ==== Create com gaussian files</span>
+<span class="c1"># Create com file template</span>
+sith<span class="w"> </span>opt_from_xyzs<span class="w"> </span>-d<span class="w"> </span>.<span class="w"> </span>-n<span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-continuous000<span class="w"> </span>-p<span class="w"> </span>../<span class="si">${</span><span class="nv">name</span><span class="si">}</span>-stretched00.pdb<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&gt;<span class="w"> </span>/dev/null<span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;creating com files using forces_from_xyz&quot;</span>
+<span class="c1"># clean files: only leaves the template</span>
+mv<span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-continuous000.com<span class="w"> </span>template.com
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>template.com
+rm<span class="w"> </span>*continuous*
+
+<span class="c1"># import xyz files of the subset</span>
+mv<span class="w"> </span>subset/*<span class="w"> </span>.
+rm<span class="w"> </span>-r<span class="w"> </span>subset
+
+<span class="c1"># Create .com files</span>
+verbose<span class="w"> </span><span class="s2">&quot;Create com files.&quot;</span>
+<span class="nv">str_index</span><span class="o">=</span><span class="m">0</span>
+<span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-continuous*.dat
+<span class="k">do</span>
+<span class="w">  </span><span class="nv">struct_name</span><span class="o">=</span><span class="si">${</span><span class="nv">file</span><span class="p">%.dat</span><span class="si">}</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$struct_name</span>
+<span class="w">  </span>sith<span class="w"> </span>find_blocks<span class="w"> </span>-f<span class="w"> </span>template.com<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;Variables:&quot;</span><span class="w"> </span>-o<span class="w"> </span>tmp<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+<span class="w">  </span>mv<span class="w"> </span>tmp_001.out<span class="w">  </span><span class="nv">$struct_name</span>.com
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;     Variables:&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$struct_name</span>.com
+<span class="w">  </span>cat<span class="w"> </span><span class="nv">$file</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$struct_name</span>.com
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$struct_name</span>.com
+<span class="w">  </span>sith<span class="w"> </span>find_blocks<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;\^\$&quot;</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\^\$&quot;</span><span class="w"> </span>-f<span class="w"> </span>template.com<span class="w"> </span>-o<span class="w"> </span>tmp<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+<span class="w">  </span>cat<span class="w"> </span>tmp_001.out<span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$struct_name</span>.com
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;/chk=/c %chk=</span><span class="nv">$struct_name</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$struct_name</span>.com
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>whoami<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;hits_&quot;</span>*<span class="w"> </span><span class="o">]]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">single_part</span><span class="o">=</span><span class="s2">&quot;--partition=cpu-single&quot;</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="nv">single_part</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="w">  </span><span class="k">fi</span>
+
+<span class="w">  </span><span class="c1"># This one can sbatch each job</span>
+<span class="w">  </span>sbatch<span class="w"> </span>-J<span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}${</span><span class="nv">str_index</span><span class="si">}</span>cons<span class="w"> </span><span class="nv">$single_part</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>opt_and_forces<span class="w"> </span>-path<span class="w"> </span><span class="k">)</span><span class="w"> </span>-f<span class="w"> </span><span class="nv">$struct_name</span><span class="w"> </span>-c<span class="w"> </span>-v
+<span class="w">  </span><span class="nv">str_index</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="m">10#</span><span class="nv">$str_index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
+<span class="k">done</span>
+
+rm<span class="w"> </span>tmp_001.out
+rm<span class="w"> </span>template.com
+rm<span class="w"> </span>*.dat
+rm<span class="w"> </span>*.pdb
+
+finish
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../bash_rsts_doc/continuous_path.html" class="btn btn-neutral float-left" title="continuous_path" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../sith.g09_stretching.from_extreme.html" class="btn btn-neutral float-right" title="sith.g09_stretching.from_extreme package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

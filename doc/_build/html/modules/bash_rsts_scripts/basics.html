@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script of sith basics &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="sith.visualize package" href="../sith.visualize.html" />
+    <link rel="prev" title="basics" href="../bash_rsts_doc/basics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../sith.html">Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../sith.utils.html">sith.utils package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../sith.utils.html#module-sith.utils.analysis">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.utils.html#module-sith.utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../sith.html">Modules</a></li>
+          <li class="breadcrumb-item"><a href="../sith.utils.html">sith.utils package</a></li>
+      <li class="breadcrumb-item active">Script of sith basics</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/bash_rsts_scripts/basics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="script-of-sith-basics">
+<span id="basics"></span><h1>Script of sith basics<a class="headerlink" href="#script-of-sith-basics" title="Link to this heading"></a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">This script contains basics tools for other bash scripts. With the code in</span>
+<span class="s2">here, you can use the next functions</span>
+
+<span class="s2">- &lt;first_argument&gt; Add a label in every output of each bash script by giving</span>
+<span class="s2">  it as a first argument.</span>
+<span class="s2">- &lt;second_argument&gt; Add anything in order to have verbose printing in the</span>
+<span class="s2">  output. otherwise, the your script will ignore all the verbose.</span>
+<span class="s2">- adjust &lt;text&gt;: add the label and print what &lt;text&gt; in an adjusted column of</span>
+<span class="s2">  80 characters.</span>
+<span class="s2">- verbose &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</span>
+<span class="s2">  begining of &lt;text&gt; and print the adjusted text.</span>
+<span class="s2">- warning &lt;text&gt;: besides of the label, it adds the keyword WARNING in to the</span>
+<span class="s2">  begining of &lt;text&gt; and print the adjusted text.</span>
+<span class="s2">- finish &lt;text&gt;: besides of the label, it use verbose to print &lt;text&gt; of the</span>
+<span class="s2">  word &quot;</span>finish<span class="s2">&quot; if &lt;text&gt; is not given. It also stops the script with &#39;exit 0&#39;</span>
+<span class="s2">- fail &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</span>
+<span class="s2">  begining of &lt;text&gt; and print the adjusted text. It also print the message</span>
+<span class="s2">  in the std_error and stops the script with &#39;exit 1&#39;</span>
+<span class="s2">- create_bck [&lt;name1&gt; &lt;name2&gt; ...]: function that moves an existing file or</span>
+<span class="s2">  directory to &lt;basic_functions_name&gt;-bck_[n][.ext] where n is the number of</span>
+<span class="s2">  the backup with 3 digits (leading zeros if necessary) and ext is</span>
+<span class="s2">  automatically extracted from the original file.</span>
+<span class="s2">- search_last_bck &lt;name&gt;: finds the last [n] created by the function</span>
+<span class="s2">  create_bck.</span>
+<span class="s2">- load_modules: loads the modules I need in my codes when running in a cluster.</span>
+<span class="s2">- wait_until_next_file_exist &lt;file_name&gt;: literaly waits untils &lt;file_name&gt;</span>
+<span class="s2">  appears after executing ls. This is important for some file systems that</span>
+<span class="s2">  take a little while to recognize files created in a script. </span>
+<span class="s2">&quot;</span>
+
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;h&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: myutils &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">  </span><span class="k">esac</span>
+<span class="k">done</span>
+
+
+<span class="c1"># Definition functions and variables that are used along the whole package.</span>
+
+<span class="c1"># ------ variables ------------------------------------------------------------</span>
+<span class="nv">array_bfnames</span><span class="o">=(</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">array_bfnames</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">)</span>
+<span class="nv">basic_functions_name</span><span class="o">=</span><span class="si">${</span><span class="nv">array_bfnames</span><span class="p">[0]</span><span class="si">}</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;false&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="k">then</span>
+<span class="w">  </span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;BASICVERBOSE_</span><span class="si">${</span><span class="nv">basic_functions_name</span><span class="p">[0]</span><span class="si">}</span><span class="s2">=false&quot;</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;BASICVERBOSE_</span><span class="si">${</span><span class="nv">basic_functions_name</span><span class="p">[0]</span><span class="si">}</span><span class="s2">=true&quot;</span>
+<span class="k">fi</span>
+
+<span class="c1"># ------ functions ------------------------------------------------------------</span>
+<span class="c1"># Function that adjustes the text to 80 characters</span>
+adjust<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="nv">text</span><span class="o">=</span><span class="s2">&quot;++++++++ </span><span class="si">${</span><span class="nv">basic_functions_name</span><span class="p">[0]</span><span class="si">}</span><span class="s2">: </span><span class="nv">$*</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nv">addchar</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="si">${#</span><span class="nv">text</span><span class="si">}</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="k">))</span>
+<span class="w">  </span><span class="nv">text</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$text</span><span class="s2"> </span><span class="k">$(</span><span class="w"> </span>perl<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;say &#39;+&#39; x </span><span class="nv">$addchar</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nv">nlines</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="si">${#</span><span class="nv">text</span><span class="si">}</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="k">))</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="o">((</span><span class="w"> </span><span class="nv">w</span><span class="o">=</span><span class="m">0</span><span class="p">;</span><span class="w"> </span>w&lt;<span class="o">=</span>nlines-1<span class="p">;</span><span class="w"> </span>w++<span class="w"> </span><span class="o">))</span>
+<span class="w">  </span><span class="k">do</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">text</span><span class="p">:</span><span class="k">$((</span><span class="w"> </span><span class="nv">w</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">79</span><span class="w"> </span><span class="k">))</span><span class="p">:</span><span class="nv">79</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="k">done</span>
+<span class="o">}</span>
+
+<span class="c1"># prints some text adjusted to 80 characters per line, filling empty spaces</span>
+<span class="c1"># with +</span>
+verbose<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;echo \$BASICVERBOSE_</span><span class="si">${</span><span class="nv">basic_functions_name</span><span class="p">[0]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="c1"># shellcheck disable=SC2068</span>
+<span class="w">    </span>adjust<span class="w"> </span><span class="s2">&quot;VERBOSE&quot;</span><span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>date<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="o">}</span>
+
+warning<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="c1"># shellcheck disable=SC2068</span>
+<span class="w">  </span>adjust<span class="w"> </span><span class="s2">&quot;WARNING&quot;</span><span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>date<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="o">}</span>
+
+finish<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$#</span><span class="s2">&quot;</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="c1"># shellcheck disable=SC2068</span>
+<span class="w">    </span>verbose<span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>date<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span>verbose<span class="w"> </span>finish<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>date<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span><span class="nb">echo</span>
+<span class="w">  </span><span class="nv">array_bfnames</span><span class="o">=(</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">array_bfnames</span><span class="p">[@]:</span><span class="nv">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">)</span>
+<span class="w">  </span><span class="nv">basic_functions_name</span><span class="o">=</span><span class="si">${</span><span class="nv">array_bfnames</span><span class="p">[0]</span><span class="si">}</span>
+<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+<span class="c1"># Function that returns the error message and stops the run if something fails.</span>
+fail<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="c1"># shellcheck disable=SC2068</span>
+<span class="w">  </span>adjust<span class="w"> </span><span class="s2">&quot;ERROR&quot;</span><span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>date<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="c1"># shellcheck disable=SC2068</span>
+<span class="w">  </span>finish<span class="w"> </span><span class="s2">&quot;ERROR&quot;</span><span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>date<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="o">}</span>
+
+<span class="c1"># function that moves an existing file or directory to </span>
+<span class="c1"># &lt;basic_functions_name&gt;-bck_n[.ext] where n is the number of the backup and</span>
+<span class="c1"># ext is automatically extracted from the original file</span>
+create_bck<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span>to_bck<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="k">do</span>
+<span class="w">    </span><span class="c1"># in case creating backup directory</span>
+<span class="w">    </span><span class="nv">bck</span><span class="o">=</span><span class="nv">$to_bck</span>-bck_001
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$to_bck</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="nv">bck_i</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%03d&quot;</span><span class="w"> </span><span class="m">2</span><span class="k">)</span>
+<span class="w">      </span><span class="k">while</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$bck</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="w">      </span><span class="k">do</span>
+<span class="w">        </span><span class="nv">bck</span><span class="o">=</span><span class="nv">$to_bck</span>-bck_<span class="nv">$bck_i</span>
+<span class="w">        </span><span class="nv">bck_i</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%03d&quot;</span><span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="m">10#</span><span class="nv">$bck_i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="w"> </span><span class="k">)</span>
+<span class="w">      </span><span class="k">done</span>
+<span class="w">      </span>warning<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$to_bck</span><span class="s2"> directory already exist. This directory will be</span>
+<span class="s2">        backed up in </span><span class="nv">$bck</span><span class="s2">&quot;</span>
+<span class="w">      </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$to_bck</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$bck</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span><span class="c1"># in case creating backup file</span>
+<span class="w">    </span><span class="nv">new_fil</span><span class="o">=</span><span class="si">${</span><span class="nv">to_bck</span><span class="p">%.*</span><span class="si">}</span><span class="w"> </span><span class="c1"># file name</span>
+<span class="w">    </span><span class="nv">ext</span><span class="o">=</span><span class="si">${</span><span class="nv">to_bck</span><span class="p">##*.</span><span class="si">}</span><span class="w">    </span><span class="c1"># file extension</span>
+<span class="w">    </span><span class="nv">bck</span><span class="o">=</span><span class="nv">$new_fil</span>-bck_001.<span class="nv">$ext</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$to_bck</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="nv">bck_i</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%03d&quot;</span><span class="w"> </span><span class="m">2</span><span class="k">)</span>
+<span class="w">      </span><span class="k">while</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$bck</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="w">      </span><span class="k">do</span>
+<span class="w">        </span><span class="nv">bck</span><span class="o">=</span><span class="nv">$new_fil</span>-bck_<span class="nv">$bck_i</span>.<span class="nv">$ext</span>
+<span class="w">        </span><span class="nv">bck_i</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%03d&quot;</span><span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="m">10#</span><span class="nv">$bck_i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="w"> </span><span class="k">)</span>
+<span class="w">      </span><span class="k">done</span>
+<span class="w">      </span>warning<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$to_bck</span><span class="s2"> file already exist. This directory will be</span>
+<span class="s2">        backed up in </span><span class="nv">$bck</span><span class="s2">&quot;</span>
+<span class="w">      </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$to_bck</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$bck</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">  </span><span class="k">done</span>
+<span class="o">}</span>
+
+search_last_bck<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="nv">name_file</span><span class="o">=</span><span class="nv">$1</span>
+<span class="w">  </span>mapfile<span class="w"> </span>-t<span class="w"> </span>all_bcks<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span><span class="w"> </span>ls<span class="w"> </span>-1<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>-bck_???.*<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="o">)</span>
+<span class="w">  </span><span class="nv">last_woext</span><span class="o">=</span><span class="si">${</span><span class="nv">all_bcks</span><span class="p">[-1]%.*</span><span class="si">}</span>
+<span class="w">  </span><span class="c1"># prints the number of the last config</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">last_woext</span><span class="p">:</span><span class="nv">0</span><span class="p">-3</span><span class="si">}</span>
+<span class="w">  </span><span class="nv">name_file</span><span class="o">=</span><span class="nv">$1</span>
+<span class="w">  </span>mapfile<span class="w"> </span>-t<span class="w"> </span>all_bcks<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span><span class="w"> </span>ls<span class="w"> </span>-1<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>-bck_???.*<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="o">)</span>
+<span class="w">  </span><span class="nv">last_woext</span><span class="o">=</span><span class="si">${</span><span class="nv">all_bcks</span><span class="p">[-1]%.*</span><span class="si">}</span>
+<span class="w">  </span><span class="c1"># prints the number of the last config</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">last_woext</span><span class="p">:</span><span class="nv">0</span><span class="p">-3</span><span class="si">}</span>
+
+<span class="o">}</span>
+
+load_modules<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="c1"># This function load the modules softwares needed for the different</span>
+<span class="w">  </span><span class="c1"># calculations.</span>
+<span class="w">  </span><span class="nv">args</span><span class="o">=</span><span class="nv">$@</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="si">${#</span><span class="nv">args</span><span class="si">}</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span>resubmit<span class="w"> </span><span class="nv">$args</span><span class="w"> </span><span class="p">&amp;</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot; * This JOB will be run in the Node:&quot;</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_JOB_NODELIST</span><span class="s2">&quot;</span>
+
+<span class="w">  </span><span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/sw/load_modules.sh
+<span class="o">}</span>
+
+wait_until_next_file_exist<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span>!<span class="w"> </span>ls<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="nv">$1</span>
+<span class="w">  </span><span class="k">do</span>
+<span class="w">    </span><span class="k">continue</span>
+<span class="w">  </span><span class="k">done</span>
+<span class="o">}</span><span class="w">  </span>
+
+verbose<span class="w"> </span><span class="s2">&quot;STARTS&quot;</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../bash_rsts_doc/basics.html" class="btn btn-neutral float-left" title="basics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../sith.visualize.html" class="btn btn-neutral float-right" title="sith.visualize package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

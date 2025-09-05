@@ -24,8 +24,8 @@ def shake_except(xyz_file, file_cons, modify_input=True, stdev=0.05):
         max magnitud of the noise to be added in each coordinate of each atom
         in Angstrom.
 
-    Retun
-    =====
+    Retuns
+    ======
     (ase.Atoms) new object atoms with the modified positions.
     """
     atoms = read(xyz_file)
