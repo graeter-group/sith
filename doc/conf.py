@@ -48,3 +48,31 @@ html_theme_options = {
 html_css_files = [
     'custom.css',  # Ensure the file path is correct
 ]
+
+from docutils import nodes
+from docutils.parsers.rst import roles
+
+def bashscript_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+    """
+    Custom role :bashscript:`display <target-label>` to render a boxed ref link.
+    """
+    env = inliner.document.settings.env
+
+    parts = text.split('.')
+    target = 'modules/' + '.'.join(parts[:-1])
+    ref = '#' + text.replace('.', '-')
+    ref = ref.replace('_', '-')
+    display_text = text.replace('.', '/') + '.sh'
+
+
+    # Generate relative URI correctly using positional args
+    refuri = env.app.builder.get_relative_uri(env.docname, target) + ref
+
+    # Create reference node
+    refnode = nodes.reference(rawtext, display_text, refuri=refuri)
+    refnode['classes'].append('bashscript')
+
+    return [refnode], []
+
+# Register the role
+roles.register_local_role('bashscript', bashscript_role)

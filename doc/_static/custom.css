@@ -16,3 +16,19 @@
 .bash-script-title + .bash-script-doc {
     margin-top: -20px;
 }
+
+.bashscript {
+    display: inline-block;
+    padding: 0px 5px;
+    border: 1px solid #c2c2c2;
+    background-color: #ffffff;
+    color: #000000;
+    text-decoration: none;
+    font-family: monospace; /* optional: makes it look like code */
+    font-weight: bold;       /* makes text bold */
+    font-size: 0.75em
+}
+
+.bashscript .headerlink {
+    display: none !important;
+}
