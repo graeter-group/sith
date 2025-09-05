@@ -35,8 +35,10 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_static_path = ['_static']
 html_favicon = '_static/favicon.ico'
 html_title = "sith"
+html_logo = '_static/favicon.ico'
 
 html_theme_options = {
+    'logo_only': True,
     'display_version' : True,
     'style_external_links' : True
 }
