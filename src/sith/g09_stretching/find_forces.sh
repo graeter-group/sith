@@ -31,6 +31,7 @@ compute_forces () {
     Error creating the matrix"
   sed -i "1i %NProcShared=$n_processors" forces.com
   sed -i "1i %mem=60GB" forces.com
+  sed -i "1i %chk=forces" forces.com
   sed -i "s/opt(modredun,calcfc)/force/g" forces.com
   verbose "executes gaussian computation of forces for $1"
   gaussian forces.com || fail "computing forces"
@@ -78,11 +79,13 @@ cd "$directory" || fail "moving to $directory"
 verbose "Finding forces in the directory $( pwd )" 
 echo "Create forces directory and extracting forces"
 create_bck forces
-mkdir forces
-mkdir bck
+mkdir -p forces
+mkdir -p bck
 mv ./*-bck*.* bck
 
 mapfile -t chks < <(ls "$pattern"*.chk)
+
+echo ${chks[@]}
 
 for chkfile in "${chks[@]}"
 do
@@ -92,8 +95,9 @@ do
   verbose "Moving result to forces/${name%.*}.log"
   for fil in forces.*
   do
-    mv $fil "forces/${name%.*}.${fil%.*}" || fail "moving results to forces
+    mv $fil "forces/${name%.*}.${fil##*.}" || fail "moving results to forces
     directory."
+  done
 done
 
 mv forces.com forces/input_template.com || fail "moving template to forces
