@@ -30,7 +30,6 @@ compute_forces () {
   newzmat -ichk -ozmat -rebuildzmat -bmodel "$1" forces.com || fail "
     Error creating the matrix"
   sed -i "1i %NProcShared=$n_processors" forces.com
-  sed -i "1i %mem=60GB" forces.com
   sed -i "1i %chk=forces" forces.com
   sed -i "s/opt(modredun,calcfc)/force/g" forces.com
   verbose "executes gaussian computation of forces for $1"
@@ -100,8 +99,7 @@ do
   done
 done
 
-mv forces.com forces/input_template.com || fail "moving template to forces
-  directory"
+cp forces/*00.com input_template.com || fail "copy template"
 
 sith extract_forces
 

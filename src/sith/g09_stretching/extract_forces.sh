@@ -55,12 +55,13 @@ write_int_vector(){
 # ----- set up starts ---------------------------------------------------------
 # General variables
 forces_directory="./forces"
-
+cluster='false'
 verbose='false'
-while getopts 'd:vh' flag;
+while getopts 'cd:vh' flag;
 do
   case "${flag}" in
     d) forces_directory=${OPTARG} ;;
+    c) cluster='true';;
 
     v)  verbose='true' ;;
     h) print_help ;;
@@ -69,7 +70,10 @@ do
 done
 
 source "$(sith basics -path)" EXTR_FORCES $verbose
-
+if "$cluster"
+then
+  load_modules
+fi
 # ---- BODY -------------------------------------------------------------------
 verbose "Extracting forces starts"
 
@@ -93,12 +97,12 @@ do
   fi
   if [ $fchk_file = false ] && [ -f "${file%.*}.chk" ]
   then
-    formchk -3 "${file%.*}.chk"
+    formchk -3 "${file%.*}.chk" || fail "fchk based on ${file%.*}.chk"
     mv "${file%.*}.fchk" tmp.fchk
     fchk_file='true'
   fi
 
-  # same name than the log file but with fchk extension
+  # same name as the log file but with fchk extension
   output=${file%.*}.fchk
   verbose "Creating $output"
   echo "Forces extracted from log file ($file)" > $output
@@ -179,9 +183,8 @@ do
   then
     sith find_blocks -f tmp.fchk -s \"Internal Forces\" \
       -e \"Internal Force Constants\" -o tmp
-    for i in $(cat tmp_001.out ); do echo $i; done > tmp1.txt
+    for i in $(cat tmp_000.out ); do echo $i; done > tmp1.txt
   else
-    echo "and here"
     awk '{if( $3 ){ printf "%f\n", $4 }}' tmp2.txt > tmp1.txt
     awk '{if( $6 ){ printf "%f\n", $7 }}' tmp2.txt >> tmp1.txt
     awk '{if( $9 ){ printf "%f\n", $10 }}' tmp2.txt >> tmp1.txt
