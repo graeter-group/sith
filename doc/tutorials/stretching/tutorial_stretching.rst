@@ -39,7 +39,8 @@ Stretching
 ----------
 
 Once you have your molecule and you know which atoms you want to pull apart,
-you generate the pulling with the tool :code:`sith stretching`,
+you generate the pulling with the tool
+:bashscript:`sith.g09_stretching.stretching`
 
 .. code-block:: bash
 
