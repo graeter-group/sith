@@ -1,11 +1,9 @@
 #!/bin/bash
 
 #SBATCH -N 1                   # number of nodes
-#SBATCH -n 8
 #SBATCH -t 24:00:00
 #SBATCH --output=%x-%j.o
 #SBATCH --error=%x-%j.e
-#SBATCH --exclusive
 
 
 # ----- definition of functions starts ----------------------------------------
@@ -31,7 +29,9 @@ compute_forces () {
   verbose "construct Z-matrix for $1"
   newzmat -ichk -ozmat -rebuildzmat -bmodel "$1" forces.com || fail "
     Error creating the matrix"
-  sed -i "s/#P bmk\/6-31+g opt(modredun,calcfc)/%NProcShared=8\n#P bmk\/6-31+g force/g" forces.com
+  sed -i "1i %NProcShared=$n_processors" forces.com
+  sed -i "1i %mem=60GB" forces.com
+  sed -i "s/opt(modredun,calcfc)/force/g" forces.com
   verbose "executes gaussian computation of forces for $1"
   gaussian forces.com || fail "computing forces"
 }
@@ -43,10 +43,12 @@ cascade='false'
 directory='./'
 pattern=''
 verbose='false'
-while getopts 'd:cp:vh' flag; do
+n_processors=1
+while getopts 'd:cn:p:vh' flag; do
   case "${flag}" in
     c) cascade='true' ;;
     d) directory=${OPTARG} ;;
+    n) n_processors=${OPTARG} ;;
     p) pattern=${OPTARG} ;;
 
     v) verbose='true' ;;
@@ -66,6 +68,7 @@ echo "$0" "$@"
 if $cascade
 then
   load_modules
+  n_processors=$SLURM_CPUS_ON_NODE
 fi
 
 # ---- set-up ends ------------------------------------------------------------
