@@ -74,6 +74,7 @@ pymodules = {
 }
 
 sh_executers = {
+    'find_blocks': './utils/find_blocks.sh',
     'basics': './utils/basics.sh',
     'workflow': './g09_stretching/workflow.sh',
     'swap_atoms_in_com': './g09_stretching/swap_atoms_in_com.sh',
