@@ -90,7 +90,7 @@ for chkfile in "${chks[@]}"
 do
   echo "$chkfile"
   compute_forces "$chkfile"
-  name=${chkfile//stretched/force}
+  name=${chkfile//stretched/forces}
   verbose "Moving result to forces/${name%.*}.log"
   for fil in forces.*
   do
