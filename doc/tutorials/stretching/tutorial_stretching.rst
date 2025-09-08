@@ -1,20 +1,25 @@
 .. _tutorial-stretching:
 
 ======================================
-Energies Distribution in Triglycine
+Energies Distribution in Glycine
 ======================================
+
+.. figure:: G-distribution.png
+  :align: center
+
+  **Figure 1.** Distribution of energies in a Glycine with ACE and NME capping
+  groups pulled by an external force.
 
 .. attention::
 
     To use the tools of sith that are part of this tutorial, you have to
     import g09 as described in :ref:`load-modules`.
 
-In this tutorial, we are going to extend a triglycine peptide from the carbon atoms in
-the ends of the peptide up to generate a
-rupture
-in a bond. The extension is done by increasing the distance between two atoms,
-fix the distance between those atoms and reoptimize. The process is repeated
-with the optimized configuration. After obtaining each optimized configuration,
+In this tutorial, we are going to stretch a glycine amino acid with ACE and NME
+capping groups from the carbon atoms in the ends of the peptide up to generate a
+rupture in a bond (Figure 1). The extension is done by increasing the distance between two atoms,
+fixing the distance between those atoms and reoptimizing. The process is repeated
+with the optimized configuration. After obtaining each stretched configuration,
 we compute the forces in a set of internal degrees of freedom. With those
 forces we compute the distribution of energies.
 
@@ -59,7 +64,7 @@ group of the ACE capping and the rest of the molecule (Figure 2).
 .. figure:: rupture.png
   :align: center
 
-  **Figure 2.** Molecule after clivage.
+  **Figure 2.** Molecule after cleavage.
 
 The outcome of the simulation is:
 
@@ -81,8 +86,49 @@ The outcome of the simulation is:
 - A directory called rupture containing the files of the molecule with the
   cleavage (the one showed in the Figure 2).
 
+--------------
+Extract forces
+--------------
+
+You just computed the optimized the stretched structures; you went through the
+hardest part. Now you just need to compute the forces and set them in a proper
+way that sith can read it. For this porpuse, use first
+:bashscript:`sith.g09_stretching.find_forces`.
+
+.. code-block:: bash
+
+  sith find_forces -c -p "G-stretched" -v
+
+This tool creates a directory called forces which contains a set of files
+called G-forces<n>.<ext>, where <n> is the same as expained before and <ext> in
+this case is com, log and chk (as described before). Finally, to have a proper
+set of files that sith can read, we need to use 
+:bashscript:`sith.g09_stretching.extract_forces`.
 
 
+.. code-block:: bash
 
+  sith extract_forces -c -d "forces"
 
+This last step creates the set of fchk files which contain the information that
+sith needs to compute the distribution of forces formated in according to
+:mod:`sith.readers.g09_reader`. These fchk files are the outcome of the
+gaussian :code:`formchk -3 G-force<n>.chk` and the log file.
 
+-------------
+SITH Analysis
+-------------
+
+You have now all the ingridients to cook your SITH analysis! Load the data and
+compute the distribution of energies with your desired method.
+
+.. code-block:: python
+
+  from sith.SITH import SITH
+
+  sith = SITH('./forces')
+  sith.sith_analysis();
+
+Then, the :class:`sith.SITH.SITH` object will contain all the necessary
+information for further analysis. You could find thorough details of sith
+analysis in the tutorial :ref:`tutorial-SithAnalysis`.

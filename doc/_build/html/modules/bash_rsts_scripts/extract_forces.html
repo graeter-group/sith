@@ -111,7 +111,7 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="s2">is a set of files called &lt;pep&gt;-forces&lt;n_stretching&gt;.fchk containing the</span>
 <span class="s2">information in fchk gaussian format.</span>
 
-<span class="s2">  -d  &lt;path&gt;. directory where forces_files.log are located. Default ./forces</span>
+<span class="s2">  -d  &lt;path=&quot;</span>./forces<span class="s2">&quot;&gt;. directory where forces_files.log are located.</span>
 
 <span class="s2">  -v  verbose.</span>
 <span class="s2">  -h   prints this message.</span>
@@ -159,12 +159,13 @@ write_int_vector<span class="o">(){</span>
 <span class="c1"># ----- set up starts ---------------------------------------------------------</span>
 <span class="c1"># General variables</span>
 <span class="nv">forces_directory</span><span class="o">=</span><span class="s2">&quot;./forces&quot;</span>
-
+<span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
 <span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
-<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;d:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;cd:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
 <span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
 <span class="w">    </span>d<span class="o">)</span><span class="w"> </span><span class="nv">forces_directory</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">;;</span>
 
 <span class="w">    </span>v<span class="o">)</span><span class="w">  </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
@@ -173,7 +174,10 @@ write_int_vector<span class="o">(){</span>
 <span class="k">done</span>
 
 <span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>EXTR_FORCES<span class="w"> </span><span class="nv">$verbose</span>
-
+<span class="k">if</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cluster</span><span class="s2">&quot;</span>
+<span class="k">then</span>
+<span class="w">  </span>load_modules
+<span class="k">fi</span>
 <span class="c1"># ---- BODY -------------------------------------------------------------------</span>
 verbose<span class="w"> </span><span class="s2">&quot;Extracting forces starts&quot;</span>
 
@@ -197,12 +201,12 @@ mapfile<span class="w"> </span>-t<span class="w"> </span>log_files<span class="w
 <span class="w">  </span><span class="k">fi</span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$fchk_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.chk&quot;</span><span class="w"> </span><span class="o">]</span>
 <span class="w">  </span><span class="k">then</span>
-<span class="w">    </span>formchk<span class="w"> </span>-3<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.chk&quot;</span>
+<span class="w">    </span>formchk<span class="w"> </span>-3<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.chk&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;fchk based on </span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.chk&quot;</span>
 <span class="w">    </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.fchk&quot;</span><span class="w"> </span>tmp.fchk
 <span class="w">    </span><span class="nv">fchk_file</span><span class="o">=</span><span class="s1">&#39;true&#39;</span>
 <span class="w">  </span><span class="k">fi</span>
 
-<span class="w">  </span><span class="c1"># same name than the log file but with fchk extension</span>
+<span class="w">  </span><span class="c1"># same name as the log file but with fchk extension</span>
 <span class="w">  </span><span class="nv">output</span><span class="o">=</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span>.fchk
 <span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Creating </span><span class="nv">$output</span><span class="s2">&quot;</span>
 <span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Forces extracted from log file (</span><span class="nv">$file</span><span class="s2">)&quot;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$output</span>
@@ -283,9 +287,8 @@ mapfile<span class="w"> </span>-t<span class="w"> </span>log_files<span class="w
 <span class="w">  </span><span class="k">then</span>
 <span class="w">    </span>sith<span class="w"> </span>find_blocks<span class="w"> </span>-f<span class="w"> </span>tmp.fchk<span class="w"> </span>-s<span class="w"> </span><span class="se">\&quot;</span>Internal<span class="w"> </span>Forces<span class="se">\&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">      </span>-e<span class="w"> </span><span class="se">\&quot;</span>Internal<span class="w"> </span>Force<span class="w"> </span>Constants<span class="se">\&quot;</span><span class="w"> </span>-o<span class="w"> </span>tmp
-<span class="w">    </span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>tmp_001.out<span class="w"> </span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$i</span><span class="p">;</span><span class="w"> </span><span class="k">done</span><span class="w"> </span>&gt;<span class="w"> </span>tmp1.txt
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>tmp_000.out<span class="w"> </span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$i</span><span class="p">;</span><span class="w"> </span><span class="k">done</span><span class="w"> </span>&gt;<span class="w"> </span>tmp1.txt
 <span class="w">  </span><span class="k">else</span>
-<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;and here&quot;</span>
 <span class="w">    </span>awk<span class="w"> </span><span class="s1">&#39;{if( $3 ){ printf &quot;%f\n&quot;, $4 }}&#39;</span><span class="w"> </span>tmp2.txt<span class="w"> </span>&gt;<span class="w"> </span>tmp1.txt
 <span class="w">    </span>awk<span class="w"> </span><span class="s1">&#39;{if( $6 ){ printf &quot;%f\n&quot;, $7 }}&#39;</span><span class="w"> </span>tmp2.txt<span class="w"> </span>&gt;&gt;<span class="w"> </span>tmp1.txt
 <span class="w">    </span>awk<span class="w"> </span><span class="s1">&#39;{if( $9 ){ printf &quot;%f\n&quot;, $10 }}&#39;</span><span class="w"> </span>tmp2.txt<span class="w"> </span>&gt;&gt;<span class="w"> </span>tmp1.txt

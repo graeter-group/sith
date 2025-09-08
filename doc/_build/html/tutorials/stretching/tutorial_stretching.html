@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Energies Distribution in TriAlanine &mdash; sith</title>
+  <title>Energies Distribution in Glycine &mdash; sith</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
@@ -21,6 +21,7 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SITH Analysis" href="../tutorial_SithAnalysis.html" />
     <link rel="prev" title="Tutorials" href="../tutorials.html" /> 
 </head>
 
@@ -51,11 +52,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../modules/sith.html">Modules</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html">Tutorials</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Energies Distribution in TriAlanine</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Energies Distribution in Glycine</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#prepare-your-system">Prepare your System</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#stretching">Stretching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extract-forces">Extract forces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sith-analysis">SITH Analysis</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_SithAnalysis.html">SITH Analysis</a></li>
 </ul>
 </li>
 </ul>
@@ -75,7 +79,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../tutorials.html">Tutorials</a></li>
-      <li class="breadcrumb-item active">Energies Distribution in TriAlanine</li>
+      <li class="breadcrumb-item active">Energies Distribution in Glycine</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/tutorials/stretching/tutorial_stretching.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -85,51 +89,68 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="energies-distribution-in-trialanine">
-<span id="tutorial-stretching"></span><h1>Energies Distribution in TriAlanine<a class="headerlink" href="#energies-distribution-in-trialanine" title="Link to this heading"></a></h1>
+  <section id="energies-distribution-in-glycine">
+<span id="tutorial-stretching"></span><h1>Energies Distribution in Glycine<a class="headerlink" href="#energies-distribution-in-glycine" title="Link to this heading"></a></h1>
+<figure class="align-center" id="id1">
+<img alt="../../_images/G-distribution.png" src="../../_images/G-distribution.png" />
+<figcaption>
+<p><span class="caption-text"><strong>Figure 1.</strong> Distribution of energies in a Glycine with ACE and NME capping
+groups pulled by an external force.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>To use the tools of sith that are part of this tutorial, you have to
 import g09 as described in <a class="reference internal" href="../../install.html#load-modules"><span class="std std-ref">Load-modules</span></a>.</p>
 </div>
-<p>In this tutorial, we are going to extend a trialanine up to generate a rupture
-in a bond. The extension is done by increasing the distance between two atoms,
-fix the distance between those atoms and reoptimize. The process is repeated
-with the optimized configuration. After obtaining each optimized configuration
+<p>In this tutorial, we are going to stretch a glycine amino acid with ACE and NME
+capping groups from the carbon atoms in the ends of the peptide up to generate a
+rupture in a bond (Figure 1). The extension is done by increasing the distance between two atoms,
+fixing the distance between those atoms and reoptimizing. The process is repeated
+with the optimized configuration. After obtaining each stretched configuration,
 we compute the forces in a set of internal degrees of freedom. With those
 forces we compute the distribution of energies.</p>
 <section id="prepare-your-system">
 <h2>Prepare your System<a class="headerlink" href="#prepare-your-system" title="Link to this heading"></a></h2>
 <p>Before you stretch your molecule using sith, you have to identify your molecule
-and select the atoms that you want to use for the stretching. In this case we,
-we are going to take a trialaline with ACE and NME capping groups. For the
-stretching, we select the carbons of the methyl group in the capping ends. With
+and select the atoms that you want to use for the stretching. In this case,
+we are going to take a triglycine with ACE and NME capping groups. For the
+stretching, we select the carbons of the methyl group in the capping ends
+(Figure 1). With
 a visualization tool, you can check the index of those atoms (1-based indexing)
-and see for yourself the indexes of the desired atoms are 1 and 16.
-Alternatively, you can check these indexes by reading the pdb and looking for
+and proof for yourself that the indexes of the desired atoms are 1 and 16.
+Alternatively, you can check these indexes by reading the pdb file and looking for
 the ‘CH3’ carbon atoms in the ACE and NME groups.</p>
-<a class="reference internal image-reference" href="../../_images/selection.png"><img alt="Selection of the atoms to be pulled apart." class="align-center" src="../../_images/selection.png" style="width: 640px;" /></a>
+<figure class="align-center" id="id2">
+<img alt="../../_images/selection.png" src="../../_images/selection.png" />
+<figcaption>
+<p><span class="caption-text"><strong>Figure 1.</strong> Illustration of the triglycine and the atoms used for the
+stretching.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 </section>
 <section id="stretching">
 <h2>Stretching<a class="headerlink" href="#stretching" title="Link to this heading"></a></h2>
 <p>Once you have your molecule and you know which atoms you want to pull apart,
-you generate the pulling with the tool <code class="code docutils literal notranslate"><span class="pre">sith</span> <span class="pre">stretching</span></code>,</p>
+you generate the pulling with the tool
+<a class="bashscript reference external" href="../../modules/sith.g09_stretching.html#sith-g09-stretching-stretching">sith/g09_stretching/stretching.sh</a></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sith<span class="w"> </span>stretching<span class="w"> </span>-c<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>,16<span class="w"> </span>-m<span class="w"> </span>G.pdb
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>For a whole description of stretching options, check <a class="reference internal" href="../../modules/sith.g09_stretching.html#sith-g09-stretching-stretching"><span class="std std-ref">stretching</span></a>
-<strong>check</strong> !!!</p>
-</div>
-<p>In 16 cores, this should take around 15 minutes to finish. The stretching
+<p>In 16 cores, this should take around 15 minutes to finish; in one core it might
+take around 2 hours. The stretching
 finishes after the cleavage of a bond. The broken molecule is stored in a
 directory called rupture. In our case, the rupture happened between the methyl
-group of the ACE capping and the rest of the molecule.</p>
-<a class="reference internal image-reference" href="../../_images/rupture.png"><img alt="Broken molecule." class="align-center" src="../../_images/rupture.png" style="width: 640px;" /></a>
+group of the ACE capping and the rest of the molecule (Figure 2).</p>
+<figure class="align-center" id="id3">
+<img alt="../../_images/rupture.png" src="../../_images/rupture.png" />
+<figcaption>
+<p><span class="caption-text"><strong>Figure 2.</strong> Molecule after cleavage.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
 <p>The outcome of the simulation is:</p>
 <ul class="simple">
-<li><p>A file called frozen_dofs.dat containing in the first row the atoms that
+<li><p>A file called frozen_dofs.dat containing in the first row the atoms
 used to pull the molecule with an F in front (in our case ‘1 16 F’) and in
 the next line the atoms involved in the first rupture (in this case ‘1 5 F’)</p></li>
 <li><p>A set of files called G-stretched&lt;n&gt;.&lt;ext&gt;, where &lt;n&gt; corresponds to the
@@ -137,8 +158,8 @@ stretching step. &lt;n&gt;=0 means a free optimization without constraints. &lt;
 is:</p>
 <ul>
 <li><p>chk: checkpoint file used by gaussian.</p></li>
-<li><p>com: input file of the gaussian calculation. Notice that in the last line,
-the instruction of constraining the distance between the atoms is defined.</p></li>
+<li><p>com: input file of the gaussian calculation. Notice the instruction of
+constraining the distance between the atoms is defined in the last line.</p></li>
 <li><p>fchk: a human-readable chk file containing the final information of the
 optimization.</p></li>
 <li><p>log: Gaussian log file.</p></li>
@@ -146,8 +167,44 @@ optimization.</p></li>
 </ul>
 </li>
 <li><p>A directory called rupture containing the files of the molecule with the
-cleavage (the one showed above).</p></li>
+cleavage (the one showed in the Figure 2).</p></li>
 </ul>
+</section>
+<section id="extract-forces">
+<h2>Extract forces<a class="headerlink" href="#extract-forces" title="Link to this heading"></a></h2>
+<p>You just computed the optimized the stretched structures; you went through the
+hardest part. Now you just need to compute the forces and set them in a proper
+way that sith can read it. For this porpuse, use first
+<a class="bashscript reference external" href="../../modules/sith.g09_stretching.html#sith-g09-stretching-find-forces">sith/g09_stretching/find_forces.sh</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sith<span class="w"> </span>find_forces<span class="w"> </span>-c<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;G-stretched&quot;</span><span class="w"> </span>-v
+</pre></div>
+</div>
+<p>This tool creates a directory called forces which contains a set of files
+called G-forces&lt;n&gt;.&lt;ext&gt;, where &lt;n&gt; is the same as expained before and &lt;ext&gt; in
+this case is com, log and chk (as described before). Finally, to have a proper
+set of files that sith can read, we need to use
+<a class="bashscript reference external" href="../../modules/sith.g09_stretching.html#sith-g09-stretching-extract-forces">sith/g09_stretching/extract_forces.sh</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sith<span class="w"> </span>extract_forces<span class="w"> </span>-c<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;forces&quot;</span>
+</pre></div>
+</div>
+<p>This last step creates the set of fchk files which contain the information that
+sith needs to compute the distribution of forces formated in according to
+<a class="reference internal" href="../../modules/sith.readers.html#module-sith.readers.g09_reader" title="sith.readers.g09_reader"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sith.readers.g09_reader</span></code></a>. These fchk files are the outcome of the
+gaussian <code class="code docutils literal notranslate"><span class="pre">formchk</span> <span class="pre">-3</span> <span class="pre">G-force&lt;n&gt;.chk</span></code> and the log file.</p>
+</section>
+<section id="sith-analysis">
+<h2>SITH Analysis<a class="headerlink" href="#sith-analysis" title="Link to this heading"></a></h2>
+<p>You have now all the ingridients to cook your SITH analysis! Load the data and
+compute the distribution of energies with your desired method.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sith.SITH</span> <span class="kn">import</span> <span class="n">SITH</span>
+
+<span class="n">sith</span> <span class="o">=</span> <span class="n">SITH</span><span class="p">(</span><span class="s1">&#39;./forces&#39;</span><span class="p">)</span>
+<span class="n">sith</span><span class="o">.</span><span class="n">sith_analysis</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Then, the <a class="reference internal" href="../../modules/sith.html#sith.SITH.SITH" title="sith.SITH.SITH"><code class="xref py py-class docutils literal notranslate"><span class="pre">sith.SITH.SITH</span></code></a> object will contain all the necessary
+information for further analysis. You could find thorough details of sith
+analysis in the tutorial <a class="reference internal" href="../tutorial_SithAnalysis.html#tutorial-sithanalysis"><span class="std std-ref">SITH Analysis</span></a>.</p>
 </section>
 </section>
 
@@ -156,6 +213,7 @@ cleavage (the one showed above).</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../tutorials.html" class="btn btn-neutral float-left" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial_SithAnalysis.html" class="btn btn-neutral float-right" title="SITH Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

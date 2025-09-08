@@ -105,11 +105,9 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1">#SBATCH -N 1                   # number of nodes</span>
-<span class="c1">#SBATCH -n 8</span>
 <span class="c1">#SBATCH -t 24:00:00</span>
 <span class="c1">#SBATCH --output=%x-%j.o</span>
 <span class="c1">#SBATCH --error=%x-%j.e</span>
-<span class="c1">#SBATCH --exclusive</span>
 
 
 <span class="c1"># ----- definition of functions starts ----------------------------------------</span>
@@ -135,7 +133,9 @@ compute_forces<span class="w"> </span><span class="o">()</span><span class="w"> 
 <span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;construct Z-matrix for </span><span class="nv">$1</span><span class="s2">&quot;</span>
 <span class="w">  </span>newzmat<span class="w"> </span>-ichk<span class="w"> </span>-ozmat<span class="w"> </span>-rebuildzmat<span class="w"> </span>-bmodel<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span>forces.com<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;</span>
 <span class="s2">    Error creating the matrix&quot;</span>
-<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/#P bmk\/6-31+g opt(modredun,calcfc)/%NProcShared=8\n#P bmk\/6-31+g force/g&quot;</span><span class="w"> </span>forces.com
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1i %NProcShared=</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span>forces.com
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1i %chk=forces&quot;</span><span class="w"> </span>forces.com
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/opt(modredun,calcfc)/force/g&quot;</span><span class="w"> </span>forces.com
 <span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;executes gaussian computation of forces for </span><span class="nv">$1</span><span class="s2">&quot;</span>
 <span class="w">  </span>gaussian<span class="w"> </span>forces.com<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;computing forces&quot;</span>
 <span class="o">}</span>
@@ -147,10 +147,12 @@ compute_forces<span class="w"> </span><span class="o">()</span><span class="w"> 
 <span class="nv">directory</span><span class="o">=</span><span class="s1">&#39;./&#39;</span>
 <span class="nv">pattern</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
-<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;d:cp:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="nv">n_processors</span><span class="o">=</span><span class="m">1</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;d:cn:p:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
 <span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cascade</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>d<span class="o">)</span><span class="w"> </span><span class="nv">directory</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>n<span class="o">)</span><span class="w"> </span><span class="nv">n_processors</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>p<span class="o">)</span><span class="w"> </span><span class="nv">pattern</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 
 <span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
@@ -170,6 +172,7 @@ date
 <span class="k">if</span><span class="w"> </span><span class="nv">$cascade</span>
 <span class="k">then</span>
 <span class="w">  </span>load_modules
+<span class="w">  </span><span class="nv">n_processors</span><span class="o">=</span><span class="nv">$SLURM_CPUS_ON_NODE</span>
 <span class="k">fi</span>
 
 <span class="c1"># ---- set-up ends ------------------------------------------------------------</span>
@@ -179,24 +182,28 @@ date
 verbose<span class="w"> </span><span class="s2">&quot;Finding forces in the directory </span><span class="k">$(</span><span class="w"> </span><span class="nb">pwd</span><span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Create forces directory and extracting forces&quot;</span>
 create_bck<span class="w"> </span>forces
-mkdir<span class="w"> </span>forces
-mkdir<span class="w"> </span>bck
+mkdir<span class="w"> </span>-p<span class="w"> </span>forces
+mkdir<span class="w"> </span>-p<span class="w"> </span>bck
 mv<span class="w"> </span>./*-bck*.*<span class="w"> </span>bck
 
 mapfile<span class="w"> </span>-t<span class="w"> </span>chks<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span>ls<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pattern</span><span class="s2">&quot;</span>*.chk<span class="o">)</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">chks</span><span class="p">[@]</span><span class="si">}</span>
 
 <span class="k">for</span><span class="w"> </span>chkfile<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">chks</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="k">do</span>
 <span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$chkfile</span><span class="s2">&quot;</span>
 <span class="w">  </span>compute_forces<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$chkfile</span><span class="s2">&quot;</span>
-<span class="w">  </span><span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">chkfile</span><span class="p">//stretched/force</span><span class="si">}</span>
+<span class="w">  </span><span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">chkfile</span><span class="p">//stretched/forces</span><span class="si">}</span>
 <span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Moving result to forces/</span><span class="si">${</span><span class="nv">name</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.log&quot;</span>
-<span class="w">  </span>mv<span class="w"> </span>forces.log<span class="w"> </span><span class="s2">&quot;forces/</span><span class="si">${</span><span class="nv">name</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;moving results to forces</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span>fil<span class="w"> </span><span class="k">in</span><span class="w"> </span>forces.*
+<span class="w">  </span><span class="k">do</span>
+<span class="w">    </span>mv<span class="w"> </span><span class="nv">$fil</span><span class="w"> </span><span class="s2">&quot;forces/</span><span class="si">${</span><span class="nv">name</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">fil</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;moving results to forces</span>
 <span class="s2">    directory.&quot;</span>
+<span class="w">  </span><span class="k">done</span>
 <span class="k">done</span>
 
-mv<span class="w"> </span>forces.com<span class="w"> </span>forces/input_template.com<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;moving template to forces</span>
-<span class="s2">  directory&quot;</span>
+cp<span class="w"> </span>forces/*00.com<span class="w"> </span>input_template.com<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;copy template&quot;</span>
 
 sith<span class="w"> </span>extract_forces
 
