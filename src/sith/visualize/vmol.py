@@ -291,7 +291,7 @@ class EnergiesVMol(VMolecule):
 
     def energies_some_dof(self, dofs, **kwargs) -> tuple:
         """
-        Add the bonds with a color scale that represents the distribution of
+        Add the dofs with a color scale that represents the distribution of
         energy according to the SITH method.
 
         Parameters
@@ -311,17 +311,21 @@ class EnergiesVMol(VMolecule):
         self.kwargs_edofs, kwargs = self.change_def(self.kwargs_edofs,
                                                     **kwargs)
         cmap = self.kwargs_edofs['cmap']
+        
+        inner_energies = {}
         for dof in dofs:
             i = np.where(np.all(self.sith.dim_indices == dof, axis=1))[0]
             if len(i) != 1:
                 raise ValueError(f"Dof {dof} not found or defined more than" +
                                  " once in the sith object.")
-            color = cmap(self.normalize(self.energies[self.idef][i[0]]))[:3]
-            self.add_dof(dof, color=color, **kwargs)
-        inner_dofs = self.dofs
+            energy = self.energies[self.idef][i[0]]
+            color = cmap(self.normalize(energy))[:3]
+            dof = self.add_dof(dof, color=color, **kwargs)
+            inner_energies[dof.name] = [energy, dof]
+
         self._hook = True
 
-        return inner_dofs, kwargs
+        return inner_energies
 
     def show_bonds_of_DOF(self, dof: list, unique: bool = False,
                           color: list = None) -> dict:
