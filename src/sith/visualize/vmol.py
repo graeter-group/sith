@@ -40,6 +40,7 @@ class EnergiesVMol(VMolecule):
         self._hook = False
         self.canvaskwargs = kwargs
         self.sith = sith_info
+        self.energies = self.sith.dofs_energies
         dims = self.sith.dims
         self.nbonds = dims[1]
         self.nangles = dims[2]
@@ -146,13 +147,13 @@ class EnergiesVMol(VMolecule):
         self.kwargs_edofs, kwargs = self.change_def(self.kwargs_edofs,
                                                     **kwargs)
         
-        self.energies, norm = color_distribution(self.sith,
-                                                 dofs,
-                                                 self.idef,
-                                                 self.kwargs_edofs['cmap'],
-                                                 absolute=True,
-                                                 div=self.kwargs_edofs['div'],
-                                                 decimals=self.kwargs_edofs['deci'])
+        _, norm = color_distribution(self.sith,
+                                     dofs,
+                                     self.idef,
+                                     self.kwargs_edofs['cmap'],
+                                     absolute=True,
+                                     div=self.kwargs_edofs['div'],
+                                     decimals=self.kwargs_edofs['deci'])
 
         # Colorbar
         # Note that this colorbar 
