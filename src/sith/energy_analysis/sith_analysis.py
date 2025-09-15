@@ -8,7 +8,7 @@ class SithAnalysis:
 
     Parameters
     ==========
-    structures_info: :mom:`sith.SITH`
+    structures_info: :class:`sith.SITH`
         object containing the necessary information for the energy analysis.
     """
     def __init__(self, structures_info):
@@ -18,7 +18,8 @@ class SithAnalysis:
     def get_sith_dq(self):
         """
         Populates delta_q taking the changes respect to the consecutive
-        strutures.
+        strutures. Namely :math:`\Delta q_i = q_i - q_{i-1}` and
+        :math:`\Delta q_0 = 0`.
 
         Return
         ======

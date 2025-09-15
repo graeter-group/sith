@@ -18,9 +18,9 @@ class SITH:
         directory containing the fchk files in alphabetic order.
     reader: str
         name of the reader. The options so far are: G09Reader.
-    reference: int (optional)
+    reference: int (optional). Default=0
         index of the structure to have as a reference for the energy
-        distribution analysis. Default=0
+        distribution analysis.
     kwargs:
         additional arguments for the selected reader.
 
@@ -42,13 +42,16 @@ class SITH:
         energies computed by the external software, e.g. DFT energies.
     all_dofs: np.array
         DOF values of the structures geometry with shape (#structures, #DOFs)
+    all_forces: np.array
+        Forces in each Degree of freedom per stretched structure with shape
+        (#structures, #DOFs)
     delta_q: np.array
         Changes in DOF values computed and defined according to the analysis
-        executed.
+        executed with shape (#structures, #DOFs).
     all_hessians: np.array[float]
         Hessian matrixes of all the structures geometries with shape
         (#strucures, #DOFs, #DOFs)
-    dof_energies: np.array
+    dofs_energies: np.array
         Stress energy associated to all DOFs for all structures with shape
         (#structures, #DOFs)
     structure_energies: np.array
@@ -360,5 +363,12 @@ class SITH:
         # transform integration method from string to method
         integration_method = getattr(sa, integration_method)
         self.dofs_energies, self.structure_energies = integration_method()
+        zero_tot = self.structure_energies == 0
+        copy_energies = self.structure_energies.copy()
+        copy_energies[zero_tot] = 0.1 # this is done to avoid ZeroDivisionError
+        self.energies_percertage = self.dofs_energies.T/copy_energies * 100
+        self.energies_percertage = self.energies_percertage.T
+        self.energies_percertage[zero_tot] = 0
+
         return self.structure_energies, self.dofs_energies
     # endregion

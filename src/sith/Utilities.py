@@ -184,7 +184,6 @@ def color_distribution(sith: SITH,
     for dof in dofs:
         dofindofs = np.all(dof_ind == dof, axis=1)
         components = np.logical_or(dofindofs, components)
-
     energies = sith.dofs_energies[:, components]
 
     if absolute:
@@ -202,7 +201,7 @@ def color_distribution(sith: SITH,
     assert len(dofs) == len(energies[idef]), "The number of DOFs " + \
         f"({len(dofs)}) does not correspond with the number of " + \
         f"energies ({len(energies)}). This could happen because " + \
-        "some DOFs that you are trying to map does not beling to" +\
+        "some DOFs that you are trying to map does not belong to" +\
         "sith.dim_indices"
 
     boundaries = np.linspace(0, round(maxval - minval, decimals), div + 1)

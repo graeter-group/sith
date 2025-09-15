@@ -16,7 +16,7 @@ class EnergiesVMol(VMolecule):
     ==========
     sith_info: SITH object.
         SITH object with the information of the system.
-    dofs: list
+    dofs: list. Default=None
         list of degrees of freedom defined according with 1-based indexing.
         It could also be 'all', 'bonds', 'angles' or 'dihedrals' to
         display all the corresponding DOFs.
@@ -31,7 +31,8 @@ class EnergiesVMol(VMolecule):
         color of the background of the scene.
     \*\*kwargs: other arguments of VMolecule.
     """
-    def __init__(self, sith_info: SITH, dofs: list,
+    def __init__(self, sith_info: SITH,
+                 dofs: list = None,
                  idef: int = 0,
                  alignment: Union[list, tuple, np.ndarray] = None,
                  show_axis: bool = False,
@@ -81,17 +82,23 @@ class EnergiesVMol(VMolecule):
                            **kwargs)
         self._hook = False
         
-        # create the list of dofs and color scale
-        dofs = self._create_dofs_list(dofs)
-        self.normalize, kwargs = self.create_figure(dofs, **kwargs)
+        self.inner_dofs = {}
+        if dofs is not None:
+            self.sith_inDOFs(dofs, **kwargs)
+
 
         self.scene.background = self._asvector(background)
         self.traj_buttons()
-
-        # show energies in dofs
-        self.energies_some_dof(dofs, **self.kwargs_edofs)
-
         self._hook = True
+    
+    def sith_inDOFs(self, dofs, **kwargs):
+        # create the list of dofs and color scale
+        dofs = self._create_dofs_list(dofs)
+        self.normalize, kwargs = self.create_figure(dofs, **kwargs)
+        # show energies in dofs
+        inner_energies = self.energies_some_dof(dofs, **self.kwargs_edofs)
+
+        return inner_energies
 
     def _create_dofs_list(self, dofs: list) -> None:
         """
@@ -109,26 +116,24 @@ class EnergiesVMol(VMolecule):
         (list) list of lists with the dofs to be displayed according to SITH
         convention.
         """
+        dofs = list(dofs)
+        selected_dofs = []
         if 'all' in dofs:
-            dofs = self.sith.dim_indices
+            selected_dofs = self.sith.dim_indices
         else:
             if 'bonds' in dofs:
                 bonds = self.sith.dim_indices[:self.nbonds]
-                dofs.extend(bonds)
-                dofs.remove('bonds')
-            elif 'angles' in dofs:
+                selected_dofs.extend(bonds)
+            if 'angles' in dofs:
                 angles = self.sith.dim_indices[self.nbonds:self.nbonds +
-                                                   self.nangles]
-                dofs.extend(angles)
-                dofs.remove('angles')
-            elif 'dihedrals' in dofs:
-                dihedrals = self.sith.dim_indices[self.ndihedral:]
-                dofs.extend(dihedrals)
-                dofs.remove('dihedrals')
+                                               self.nangles]
+                selected_dofs.extend(angles)
+            if 'dihedrals' in dofs:
+                dihedrals = self.sith.dim_indices[-self.ndihedral:]
+                selected_dofs.extend(dihedrals)
 
-        return dofs
+        return selected_dofs
 
-    
     def create_figure(self, dofs, **kwargs):
         """
         Creates the Color bar to be displayed at a side.
@@ -241,7 +246,7 @@ class EnergiesVMol(VMolecule):
         for i, atom in enumerate(self.vatoms):
             atom.pos = vp.vector(*self.atoms[i].position)
 
-        udofs = [dof.indices for dof in self.dofs.values()]
+        udofs = [dof.indices for dof in self.inner_dofs.values()]
         if len(udofs) != 0:
             self.energies_some_dof(udofs, **self.kwargs_edofs)
         self.b_counter.text = f"   {self.idef}   "
@@ -321,6 +326,7 @@ class EnergiesVMol(VMolecule):
             energy = self.energies[self.idef][i[0]]
             color = cmap(self.normalize(energy))[:3]
             dof = self.add_dof(dof, color=color, **kwargs)
+            self.inner_dofs[dof.name] = dof
             inner_energies[dof.name] = [energy, dof]
 
         self._hook = True
