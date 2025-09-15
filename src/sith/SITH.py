@@ -94,7 +94,7 @@ class SITH:
                                     for defo in self.structures])
         self.dofs_energies = None
         self.structure_energies = None
-        self.energies_percertage = None
+        self.energies_percentage = None
         self.delta_q = None
 
     def _get_reader(self, reader: str) -> object:
@@ -366,9 +366,9 @@ class SITH:
         zero_tot = self.structure_energies == 0
         copy_energies = self.structure_energies.copy()
         copy_energies[zero_tot] = 0.1 # this is done to avoid ZeroDivisionError
-        self.energies_percertage = self.dofs_energies.T/copy_energies * 100
-        self.energies_percertage = self.energies_percertage.T
-        self.energies_percertage[zero_tot] = 0
+        self.energies_percentage = self.dofs_energies.T/copy_energies * 100
+        self.energies_percentage = self.energies_percentage.T
+        self.energies_percentage[zero_tot] = 0
 
         return self.structure_energies, self.dofs_energies
     # endregion
