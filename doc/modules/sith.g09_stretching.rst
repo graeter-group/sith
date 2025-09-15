@@ -47,25 +47,16 @@ Module contents
 .. toctree::
    :hidden:
 
-   bash_rsts_doc/workflow
    bash_rsts_scripts/workflow
-   bash_rsts_doc/compute_forces
    bash_rsts_scripts/compute_forces
-   bash_rsts_doc/find_forces
    bash_rsts_scripts/find_forces
-   bash_rsts_doc/clean_ds
    bash_rsts_scripts/clean_ds
-   bash_rsts_doc/proline_mod
    bash_rsts_scripts/proline_mod
-   bash_rsts_doc/extract_forces
    bash_rsts_scripts/extract_forces
-   bash_rsts_doc/swap_atoms_in_com
    bash_rsts_scripts/swap_atoms_in_com
-   bash_rsts_doc/stretching
    bash_rsts_scripts/stretching
 
 
-.. _sith-g09_stretching-stretching:
 
 .. include:: bash_rsts_doc/stretching.rst
 

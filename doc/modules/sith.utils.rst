@@ -57,9 +57,12 @@ Module contents
 .. toctree::
    :hidden:
 
-   bash_rsts_doc/basics
+   bash_rsts_scripts/find_blocks
    bash_rsts_scripts/basics
 
 
 
 .. include:: bash_rsts_doc/basics.rst
+
+
+.. include:: bash_rsts_doc/find_blocks.rst

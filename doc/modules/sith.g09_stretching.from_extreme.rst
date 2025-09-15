@@ -21,21 +21,13 @@ Module contents
 .. toctree::
    :hidden:
 
-   bash_rsts_doc/prepare_and_submit
    bash_rsts_scripts/prepare_and_submit
-   bash_rsts_doc/extr_dofs
    bash_rsts_scripts/extr_dofs
-   bash_rsts_doc/resubmit_failed
    bash_rsts_scripts/resubmit_failed
-   bash_rsts_doc/opt_and_forces
    bash_rsts_scripts/opt_and_forces
-   bash_rsts_doc/rearange_files
    bash_rsts_scripts/rearange_files
-   bash_rsts_doc/workflow_from_extreme
    bash_rsts_scripts/workflow_from_extreme
-   bash_rsts_doc/opt_from_xyzs
    bash_rsts_scripts/opt_from_xyzs
-   bash_rsts_doc/after_optimization
    bash_rsts_scripts/after_optimization
 
 

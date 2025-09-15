@@ -16,7 +16,7 @@ resubmit_failed
       using the command given by the flag -e.
       
         -d  <path='./'> directory where the log and com files are.
-        -e  <exec='ERROR: keyword single_g09 not recognized as part of pkgdeveloper. Use 'pkgdeveloper -h' to see the options you can use. -c -f '> execution command to be
+        -e  <exec='ERROR: keyword single_g09 not recognized as part of sith. Use 'sith -h' to see the options you can use. -c -f '> execution command to be
             resubmitted. This command is very important to be given inside of " such
             that it is understood as only one value.
         -f  <frozen=''> line to freeze dofs. eg: '2 5 F'.
