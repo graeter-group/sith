@@ -50,12 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/workflow.html">Workflow</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="sith.html">Modules</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="sith.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html">sith.g09_stretching package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.readers.html">sith.readers package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.utils.html">sith.utils package</a></li>
@@ -87,7 +88,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="sith.html">Modules</a></li>
+          <li class="breadcrumb-item"><a href="sith.html">sith package</a></li>
       <li class="breadcrumb-item active">sith.visualize package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/modules/sith.visualize.rst.txt" rel="nofollow"> View page source</a>
@@ -767,7 +768,7 @@ x axis</p>
 
 <dl class="py class" id="module-sith.visualize.vmol">
 <dt class="sig sig-object py" id="sith.visualize.vmol.EnergiesVMol">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.visualize.vmol.</span></span><span class="sig-name descname"><span class="pre">EnergiesVMol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith_info:</span> <span class="pre">~sith.SITH.SITH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dofs:</span> <span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idef:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alignment:</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">tuple</span> <span class="pre">|</span> <span class="pre">~numpy.ndarray</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background:</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">~vpython.vpython.color</span> <span class="pre">=</span> <span class="pre">&lt;1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.visualize.vmol.EnergiesVMol" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.visualize.vmol.</span></span><span class="sig-name descname"><span class="pre">EnergiesVMol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith_info:</span> <span class="pre">~sith.SITH.SITH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dofs:</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idef:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alignment:</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">tuple</span> <span class="pre">|</span> <span class="pre">~numpy.ndarray</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background:</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">~vpython.vpython.color</span> <span class="pre">=</span> <span class="pre">&lt;1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.visualize.vmol.EnergiesVMol" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">VMolecule</span></code></p>
 <p>Set of graphic tools to visualize the distribution of energies in the
 different degrees of freedom (lengths, angles, dihedrals). Wrap to VMol.</p>
@@ -775,7 +776,7 @@ different degrees of freedom (lengths, angles, dihedrals). Wrap to VMol.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>sith_info</strong> (<em>SITH object.</em>) – SITH object with the information of the system.</p></li>
-<li><p><strong>dofs</strong> (<em>list</em>) – list of degrees of freedom defined according with 1-based indexing.
+<li><p><strong>dofs</strong> (<em>list. Default=None</em>) – list of degrees of freedom defined according with 1-based indexing.
 It could also be ‘all’, ‘bonds’, ‘angles’ or ‘dihedrals’ to
 display all the corresponding DOFs.</p></li>
 <li><p><strong>idef</strong> (<em>int. default 0.</em>) – index of the stretching to be displayed.</p></li>
@@ -889,7 +890,7 @@ distribution of energy according to the JEDI method.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sith.visualize.vmol.EnergiesVMol.energies_some_dof">
 <span class="sig-name descname"><span class="pre">energies_some_dof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dofs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#sith.visualize.vmol.EnergiesVMol.energies_some_dof" title="Link to this definition"></a></dt>
-<dd><p>Add the bonds with a color scale that represents the distribution of
+<dd><p>Add the dofs with a color scale that represents the distribution of
 energy according to the SITH method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -969,6 +970,11 @@ these ones.</p></li>
 <p>The color is not related with the JEDI method. It
 could be changed with the kwarg color=rgb list.</p>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.visualize.vmol.EnergiesVMol.sith_inDOFs">
+<span class="sig-name descname"><span class="pre">sith_inDOFs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dofs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.visualize.vmol.EnergiesVMol.sith_inDOFs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sith.visualize.vmol.EnergiesVMol.traj_buttons">

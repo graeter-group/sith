@@ -47,7 +47,7 @@
 <li class="toctree-l1"><a class="reference internal" href="intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow/workflow.html">Workflow</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules/sith.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/sith.html">sith package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/tutorials.html">Tutorials</a></li>
 </ul>
 
@@ -143,6 +143,8 @@
       <li><a href="modules/sith.utils.html#sith.utils.molecules.Alignment">Alignment (class in sith.utils.molecules)</a>
 </li>
       <li><a href="modules/sith.html#sith.SITH.SITH.all_dofs">all_dofs (sith.SITH.SITH attribute)</a>
+</li>
+      <li><a href="modules/sith.html#sith.SITH.SITH.all_forces">all_forces (sith.SITH.SITH attribute)</a>
 </li>
       <li><a href="modules/sith.html#sith.SITH.SITH.all_hessians">all_hessians (sith.SITH.SITH attribute)</a>
 </li>
@@ -266,11 +268,11 @@
 </li>
       <li><a href="modules/sith.utils.html#sith.utils.analysis.dof_classificator_one">dof_classificator_one() (in module sith.utils.analysis)</a>
 </li>
-      <li><a href="modules/sith.html#sith.SITH.SITH.dof_energies">dof_energies (sith.SITH.SITH attribute)</a>
-</li>
       <li><a href="modules/sith.utils.html#sith.utils.analysis.DataSetAnalysis.dof_vs_energy">dof_vs_energy() (sith.utils.analysis.DataSetAnalysis method)</a>
 </li>
       <li><a href="modules/sith.utils.html#sith.utils.analysis.DataSetAnalysis.dof_vs_energy_rescaled">dof_vs_energy_rescaled() (sith.utils.analysis.DataSetAnalysis method)</a>
+</li>
+      <li><a href="modules/sith.html#sith.SITH.SITH.dofs_energies">dofs_energies (sith.SITH.SITH attribute)</a>
 </li>
       <li><a href="modules/sith.visualize.html#sith.visualize.ngl.MoleculeNGL.download_image">download_image() (sith.visualize.ngl.MoleculeNGL method)</a>
 </li>
@@ -358,11 +360,15 @@
 </li>
       <li><a href="modules/sith.g09_stretching.html#sith.g09_stretching.sith_tools.gen_randpep">gen_randpep() (in module sith.g09_stretching.sith_tools)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/sith.html#sith.Utilities.Geometry">Geometry (class in sith.Utilities)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/sith.readers.html#sith.readers.g09_reader.FileReader.geometry">geometry (sith.readers.g09_reader.FileReader attribute)</a>
+</li>
+      <li><a href="modules/sith.energy_analysis.html#sith.energy_analysis.jedi_analysis.JediAnalysis.get_jedi_dq">get_jedi_dq() (sith.energy_analysis.jedi_analysis.JediAnalysis method)</a>
+</li>
+      <li><a href="modules/sith.energy_analysis.html#sith.energy_analysis.sith_analysis.SithAnalysis.get_sith_dq">get_sith_dq() (sith.energy_analysis.sith_analysis.SithAnalysis method)</a>
 </li>
       <li><a href="modules/sith.g09_stretching.html#sith.g09_stretching.protonate.Protonize.glu">glu() (sith.g09_stretching.protonate.Protonize method)</a>
 </li>
@@ -406,7 +412,15 @@
 <h2 id="J">J</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules/sith.html#sith.SITH.SITH.jedi_analysis">jedi_analysis() (sith.SITH.SITH method)</a>
+      <li><a href="modules/sith.energy_analysis.html#sith.energy_analysis.jedi_analysis.JediAnalysis.jedi_analysis">jedi_analysis() (sith.energy_analysis.jedi_analysis.JediAnalysis method)</a>
+
+      <ul>
+        <li><a href="modules/sith.html#sith.SITH.SITH.jedi_analysis">(sith.SITH.SITH method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/sith.energy_analysis.html#sith.energy_analysis.jedi_analysis.JediAnalysis">JediAnalysis (class in sith.energy_analysis.jedi_analysis)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -453,6 +467,12 @@
 
       <ul>
         <li><a href="modules/sith.html#module-sith">sith</a>
+</li>
+        <li><a href="modules/sith.energy_analysis.html#module-sith.energy_analysis">sith.energy_analysis</a>
+</li>
+        <li><a href="modules/sith.energy_analysis.html#module-sith.energy_analysis.jedi_analysis">sith.energy_analysis.jedi_analysis</a>
+</li>
+        <li><a href="modules/sith.energy_analysis.html#module-sith.energy_analysis.sith_analysis">sith.energy_analysis.sith_analysis</a>
 </li>
         <li><a href="modules/sith.g09_stretching.html#module-sith.g09_stretching">sith.g09_stretching</a>
 </li>
@@ -591,6 +611,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/sith.utils.html#sith.utils.peptides.PepSetter.rama_phi_psi">rama_phi_psi() (sith.utils.peptides.PepSetter method)</a>
 </li>
+      <li><a href="modules/sith.energy_analysis.html#sith.energy_analysis.sith_analysis.SithAnalysis.rectangle_integration">rectangle_integration() (sith.energy_analysis.sith_analysis.SithAnalysis method)</a>
+</li>
       <li><a href="modules/sith.utils.html#sith.utils.analysis.reduce_data">reduce_data() (in module sith.utils.analysis)</a>
 </li>
       <li><a href="modules/sith.g09_stretching.from_extreme.html#sith.g09_stretching.from_extreme.info_from_opt.reduce_structs">reduce_structs() (in module sith.g09_stretching.from_extreme.info_from_opt)</a>
@@ -609,10 +631,10 @@
 </li>
       <li><a href="modules/sith.visualize.html#sith.visualize.ngl.MoleculeNGL.remove_axis">remove_axis() (sith.visualize.ngl.MoleculeNGL method)</a>
 </li>
-      <li><a href="modules/sith.visualize.html#sith.visualize.ngl.MoleculeNGL.remove_bond">remove_bond() (sith.visualize.ngl.MoleculeNGL method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules/sith.visualize.html#sith.visualize.ngl.MoleculeNGL.remove_bond">remove_bond() (sith.visualize.ngl.MoleculeNGL method)</a>
+</li>
       <li><a href="modules/sith.visualize.html#sith.visualize.ngl.MoleculeNGL.remove_bonds">remove_bonds() (sith.visualize.ngl.MoleculeNGL method)</a>
 </li>
       <li><a href="modules/sith.visualize.html#sith.visualize.ngl.MoleculeNGL.remove_dihedral">remove_dihedral() (sith.visualize.ngl.MoleculeNGL method)</a>
@@ -685,6 +707,8 @@
         <li><a href="modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.show_dof">(sith.visualize.vmol.EnergiesVMol method)</a>
 </li>
       </ul></li>
+      <li><a href="modules/sith.energy_analysis.html#sith.energy_analysis.sith_analysis.SithAnalysis.simpson_integration">simpson_integration() (sith.energy_analysis.sith_analysis.SithAnalysis method)</a>
+</li>
       <li>
     sith
 
@@ -694,6 +718,27 @@
       </ul></li>
       <li><a href="modules/sith.html#sith.SITH.SITH">SITH (class in sith.SITH)</a>
 </li>
+      <li>
+    sith.energy_analysis
+
+      <ul>
+        <li><a href="modules/sith.energy_analysis.html#module-sith.energy_analysis">module</a>
+</li>
+      </ul></li>
+      <li>
+    sith.energy_analysis.jedi_analysis
+
+      <ul>
+        <li><a href="modules/sith.energy_analysis.html#module-sith.energy_analysis.jedi_analysis">module</a>
+</li>
+      </ul></li>
+      <li>
+    sith.energy_analysis.sith_analysis
+
+      <ul>
+        <li><a href="modules/sith.energy_analysis.html#module-sith.energy_analysis.sith_analysis">module</a>
+</li>
+      </ul></li>
       <li>
     sith.g09_stretching
 
@@ -750,6 +795,8 @@
         <li><a href="modules/sith.readers.html#module-sith.readers">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     sith.readers.g09_reader
 
@@ -757,8 +804,6 @@
         <li><a href="modules/sith.readers.html#module-sith.readers.g09_reader">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     sith.SITH
 
@@ -859,8 +904,14 @@
       </ul></li>
       <li><a href="modules/sith.html#sith.SITH.SITH.sith_analysis">sith_analysis() (sith.SITH.SITH method)</a>
 </li>
-      <li><a href="modules/sith.utils.html#sith.utils.analysis.SithAnalysis">SithAnalysis (class in sith.utils.analysis)</a>
+      <li><a href="modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.sith_inDOFs">sith_inDOFs() (sith.visualize.vmol.EnergiesVMol method)</a>
 </li>
+      <li><a href="modules/sith.energy_analysis.html#sith.energy_analysis.sith_analysis.SithAnalysis">SithAnalysis (class in sith.energy_analysis.sith_analysis)</a>
+
+      <ul>
+        <li><a href="modules/sith.utils.html#sith.utils.analysis.SithAnalysis">(class in sith.utils.analysis)</a>
+</li>
+      </ul></li>
       <li><a href="modules/sith.utils.html#sith.utils.sith_plots.SithPlotter">SithPlotter (class in sith.utils.sith_plots)</a>
 </li>
       <li><a href="modules/sith.utils.html#sith.utils.analysis.statistics">statistics() (in module sith.utils.analysis)</a>
@@ -883,11 +934,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/sith.utils.html#sith.utils.analysis.DataSetAnalysis.test">test() (sith.utils.analysis.DataSetAnalysis method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.test_dofs">test_dofs() (in module sith.g09_stretching.change_dofs)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.traj_buttons">traj_buttons() (sith.visualize.vmol.EnergiesVMol method)</a>
+</li>
+      <li><a href="modules/sith.energy_analysis.html#sith.energy_analysis.sith_analysis.SithAnalysis.trapezoid_integration">trapezoid_integration() (sith.energy_analysis.sith_analysis.SithAnalysis method)</a>
 </li>
   </ul></td>
 </tr></table>

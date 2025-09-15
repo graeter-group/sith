@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modules &mdash; sith</title>
+  <title>sith package &mdash; sith</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -50,12 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/workflow.html">Workflow</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Modules</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">sith package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html">sith.g09_stretching package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.readers.html">sith.readers package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.utils.html">sith.utils package</a></li>
@@ -70,9 +71,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.SITH.dims"><code class="docutils literal notranslate"><span class="pre">SITH.dims</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.SITH.structures_scf_energies"><code class="docutils literal notranslate"><span class="pre">SITH.structures_scf_energies</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.SITH.all_dofs"><code class="docutils literal notranslate"><span class="pre">SITH.all_dofs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sith.SITH.SITH.all_forces"><code class="docutils literal notranslate"><span class="pre">SITH.all_forces</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.SITH.delta_q"><code class="docutils literal notranslate"><span class="pre">SITH.delta_q</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.SITH.all_hessians"><code class="docutils literal notranslate"><span class="pre">SITH.all_hessians</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#sith.SITH.SITH.dof_energies"><code class="docutils literal notranslate"><span class="pre">SITH.dof_energies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sith.SITH.SITH.dofs_energies"><code class="docutils literal notranslate"><span class="pre">SITH.dofs_energies</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.SITH.structure_energies"><code class="docutils literal notranslate"><span class="pre">SITH.structure_energies</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.SITH.energies_percentage"><code class="docutils literal notranslate"><span class="pre">SITH.energies_percentage</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.SITH.removed_dofs"><code class="docutils literal notranslate"><span class="pre">SITH.removed_dofs</span></code></a></li>
@@ -135,7 +137,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Modules</li>
+      <li class="breadcrumb-item active">sith package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/modules/sith.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -145,8 +147,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="modules">
-<h1>Modules<a class="headerlink" href="#modules" title="Link to this heading"></a></h1>
+  <section id="sith-package">
+<h1>sith package<a class="headerlink" href="#sith-package" title="Link to this heading"></a></h1>
 <section id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
@@ -172,6 +174,25 @@
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#prepare-and-submit">prepare_and_submit</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sith.energy_analysis.html">sith.energy_analysis package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sith.energy_analysis.html#module-sith.energy_analysis.jedi_analysis">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sith.energy_analysis.html#sith.energy_analysis.jedi_analysis.JediAnalysis"><code class="docutils literal notranslate"><span class="pre">JediAnalysis</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="sith.energy_analysis.html#sith.energy_analysis.jedi_analysis.JediAnalysis.get_jedi_dq"><code class="docutils literal notranslate"><span class="pre">JediAnalysis.get_jedi_dq()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sith.energy_analysis.html#sith.energy_analysis.jedi_analysis.JediAnalysis.jedi_analysis"><code class="docutils literal notranslate"><span class="pre">JediAnalysis.jedi_analysis()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sith.energy_analysis.html#sith.energy_analysis.sith_analysis.SithAnalysis"><code class="docutils literal notranslate"><span class="pre">SithAnalysis</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="sith.energy_analysis.html#sith.energy_analysis.sith_analysis.SithAnalysis.get_sith_dq"><code class="docutils literal notranslate"><span class="pre">SithAnalysis.get_sith_dq()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sith.energy_analysis.html#sith.energy_analysis.sith_analysis.SithAnalysis.rectangle_integration"><code class="docutils literal notranslate"><span class="pre">SithAnalysis.rectangle_integration()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sith.energy_analysis.html#sith.energy_analysis.sith_analysis.SithAnalysis.simpson_integration"><code class="docutils literal notranslate"><span class="pre">SithAnalysis.simpson_integration()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sith.energy_analysis.html#sith.energy_analysis.sith_analysis.SithAnalysis.trapezoid_integration"><code class="docutils literal notranslate"><span class="pre">SithAnalysis.trapezoid_integration()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sith.energy_analysis.html#module-sith.energy_analysis">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sith.g09_stretching.html">sith.g09_stretching package</a><ul>
@@ -337,6 +358,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="sith.utils.html#module-sith.utils">Module contents</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="sith.utils.html#basics">basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.utils.html#find-blocks">find_blocks</a></li>
 </ul>
 </li>
 </ul>
@@ -396,6 +418,7 @@
 <li class="toctree-l4"><a class="reference internal" href="sith.visualize.html#sith.visualize.vmol.EnergiesVMol.show_bonds"><code class="docutils literal notranslate"><span class="pre">EnergiesVMol.show_bonds()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="sith.visualize.html#sith.visualize.vmol.EnergiesVMol.show_bonds_of_DOF"><code class="docutils literal notranslate"><span class="pre">EnergiesVMol.show_bonds_of_DOF()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="sith.visualize.html#sith.visualize.vmol.EnergiesVMol.show_dof"><code class="docutils literal notranslate"><span class="pre">EnergiesVMol.show_dof()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sith.visualize.html#sith.visualize.vmol.EnergiesVMol.sith_inDOFs"><code class="docutils literal notranslate"><span class="pre">EnergiesVMol.sith_inDOFs()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="sith.visualize.html#sith.visualize.vmol.EnergiesVMol.traj_buttons"><code class="docutils literal notranslate"><span class="pre">EnergiesVMol.traj_buttons()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="sith.visualize.html#sith.visualize.vmol.EnergiesVMol.update_stretching"><code class="docutils literal notranslate"><span class="pre">EnergiesVMol.update_stretching()</span></code></a></li>
 </ul>
@@ -423,8 +446,8 @@ The order of the elements matters according to the energy anaylis
 applied. This parameter could also be a string of the path to the a
 directory containing the fchk files in alphabetic order.</p></li>
 <li><p><strong>reader</strong> (<em>str</em>) – name of the reader. The options so far are: G09Reader.</p></li>
-<li><p><strong>reference</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em>) – index of the structure to have as a reference for the energy
-distribution analysis. Default=0</p></li>
+<li><p><strong>reference</strong> (<em>int</em><em> (</em><em>optional</em><em>)</em><em>. Default=0</em>) – index of the structure to have as a reference for the energy
+distribution analysis.</p></li>
 <li><p><strong>kwargs</strong> – additional arguments for the selected reader.</p></li>
 </ul>
 </dd>
@@ -500,10 +523,22 @@ distribution analysis. Default=0</p></li>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="sith.SITH.SITH.all_forces">
+<span class="sig-name descname"><span class="pre">all_forces</span></span><a class="headerlink" href="#sith.SITH.SITH.all_forces" title="Link to this definition"></a></dt>
+<dd><p>Forces in each Degree of freedom per stretched structure with shape
+(#structures, #DOFs)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="sith.SITH.SITH.delta_q">
 <span class="sig-name descname"><span class="pre">delta_q</span></span><a class="headerlink" href="#sith.SITH.SITH.delta_q" title="Link to this definition"></a></dt>
 <dd><p>Changes in DOF values computed and defined according to the analysis
-executed.</p>
+executed with shape (#structures, #DOFs).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.array</p>
@@ -524,8 +559,8 @@ executed.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sith.SITH.SITH.dof_energies">
-<span class="sig-name descname"><span class="pre">dof_energies</span></span><a class="headerlink" href="#sith.SITH.SITH.dof_energies" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="sith.SITH.SITH.dofs_energies">
+<span class="sig-name descname"><span class="pre">dofs_energies</span></span><a class="headerlink" href="#sith.SITH.SITH.dofs_energies" title="Link to this definition"></a></dt>
 <dd><p>Stress energy associated to all DOFs for all structures with shape
 (#structures, #DOFs)</p>
 <dl class="field-list simple">

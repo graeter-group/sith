@@ -21,7 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="basics" href="bash_rsts_doc/basics.html" />
+    <link rel="next" title="Script of sith find_blocks" href="bash_rsts_scripts/find_blocks.html" />
     <link rel="prev" title="sith.readers package" href="sith.readers.html" /> 
 </head>
 
@@ -50,12 +50,13 @@
 <li class="toctree-l1"><a class="reference internal" href="../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/workflow.html">Workflow</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="sith.html">Modules</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="sith.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html">sith.g09_stretching package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.readers.html">sith.readers package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">sith.utils package</a><ul>
@@ -87,7 +88,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="sith.html">Modules</a></li>
+          <li class="breadcrumb-item"><a href="sith.html">sith package</a></li>
       <li class="breadcrumb-item active">sith.utils package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/modules/sith.utils.rst.txt" rel="nofollow"> View page source</a>
@@ -1733,6 +1734,41 @@ in Angstrom.</p></li>
 </div>
 </div>
 </section>
+<section id="find-blocks">
+<h3>find_blocks<a class="headerlink" href="#find-blocks" title="Link to this heading"></a></h3>
+<div class="bash-script-title docutils container">
+<p><a class="reference internal" href="bash_rsts_scripts/find_blocks.html#find-blocks"><span class="std std-ref">[script]</span></a> <strong>sith/utils/find_blocks.sh</strong></p>
+</div>
+<div class="bash-script-doc docutils container">
+<div class="line-block">
+<div class="line">This code extracts the sections in a file starting and finishing with specific</div>
+<div class="line">patterns without including the lines containing those patterns. Check the next</div>
+<div class="line">options:</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">-f  &lt;file&gt; file that shows</div>
+<div class="line">-s  &lt;pattern&gt; pattern that defines the beginning of the block. This line is</div>
+<div class="line-block">
+<div class="line">not included in the block.</div>
+</div>
+<div class="line">-e  &lt;pattern&gt; pattern that defines the end of the block. This line is not</div>
+<div class="line-block">
+<div class="line">included in the block.</div>
+</div>
+<div class="line">-i  use this flag if the start and the end are indexes</div>
+<div class="line">-o  &lt;output=’output’&gt; ‘terminal’ or the name of the output without extension.</div>
+<div class="line-block">
+<div class="line">In the later case, the output will be stored in files called</div>
+<div class="line">&lt;output&gt;_&lt;n&gt;.dat, where n is the number of appearence of the block in the</div>
+<div class="line">file with 3-digits format (leading zeros); n starts in 001.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">-v  verbose of what’s the code doing.</div>
+<div class="line">-h  prints this message.</div>
+</div>
+</div>
+</div>
+</section>
 </section>
 </section>
 
@@ -1741,7 +1777,7 @@ in Angstrom.</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="sith.readers.html" class="btn btn-neutral float-left" title="sith.readers package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="bash_rsts_doc/basics.html" class="btn btn-neutral float-right" title="basics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="bash_rsts_scripts/find_blocks.html" class="btn btn-neutral float-right" title="Script of sith find_blocks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
