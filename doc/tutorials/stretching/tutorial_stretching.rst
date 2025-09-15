@@ -1,7 +1,7 @@
 .. _tutorial-stretching:
 
 ======================================
-Energy Distribution in Glycine
+Stretching Molecule Tutorial
 ======================================
 
 .. figure:: G-distribution.png
