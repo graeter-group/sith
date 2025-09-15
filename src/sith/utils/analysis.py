@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Union, Callable
 from scipy.stats import f_oneway
 import matplotlib.pyplot as plt
-from PlotterTool import StandardPlotter
+from PlottingTool import StandardPlotter
 
 
 # region AnalyseData
@@ -393,7 +393,6 @@ def dof_classificator_one(dofs_indexes, atoms_per_aminoacids):
     return list_aminos
 
 
-# Deprecated
 def length_energy(sith, aminos_info, atom_types):
     """
     Return distances between two atom types in one amino acid and the

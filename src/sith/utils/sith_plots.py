@@ -1,4 +1,4 @@
-from PlotterTool import StandardPlotter
+from PlottingTool import StandardPlotter
 from sith.utils.peptides import PepSetter
 import numpy as np
 import matplotlib.pyplot as plt
@@ -590,22 +590,28 @@ class SithPlotter(PepSetter, SithAnalysis):
         fig, axes = plt.subplots(2, 2)
         sp = StandardPlotter(fig=fig, ax=axes, **sp_pref)
         scale = 0.03
+        # polar plots
         sp.set_polar(ax=1, r_ticks=rs[0][::step],
                      r_lims=[-rs[0][-1] * scale, rs[0][-1] * (1 + scale)])
         sp.set_polar(ax=3, r_ticks=rs[0][::step],
                      r_lims=[-rs[0][-1] * scale, rs[0][-1] * (1 + scale)])
+        sp.plot_data(sith.all_dofs[:, distances:].T,
+                     rs,
+                     pstyle='-', ax=1)
+        sp.plot_data(sith.delta_q[:, distances:].T,
+                     rs,
+                     pstyle='-', ax=3)
         sp.spaces[0].set_axis(rows_cols=(2, 2),
                               borders=[[0.1, 0.08], [0.97, 0.97]],
                               spaces=(0.05, 0.1), axes=sp.ax)
 
+        # Plot values in cartesian
         if cmap is None:
             try:
                 import cmocean as cmo
                 cmap = cmo.cm.algae
             except ImportError:
                 cmap = mpl.colormaps['viridis']
-
-        # Plot values in cartesian
         deformations = np.arange(1, n_deformed + 1, 1)
         normalize = mpl.colors.BoundaryNorm(deformations + 0.5, cmap.N)
         colors = [cmap(normalize(i + 0.5))[:3] for i in deformations]
@@ -615,23 +621,16 @@ class SithPlotter(PepSetter, SithAnalysis):
         sp.axis_setter(ax=2, xlabel='Angle index', ylabel='Changes[rad]')
 
         # Add limits at pi and -pi
-        [sp.plot_data([0, n_angles + 1], [[np.pi, np.pi], [-np.pi, -np.pi]],
+        [sp.plot_data([distances + 1, distances + n_angles], [[np.pi, np.pi], [-np.pi, -np.pi]],
                       pstyle='--', color_plot='gray', ax=i)
          for i in [0, 2]]
 
-        sp.plot_data(np.arange(1, n_angles + 1),
+        sp.plot_data(np.arange(distances +  1, distances + n_angles + 1),
                      sith.all_dofs[:, distances:], pstyle='s',
                      markersize=3, color_plot=colors)
-        sp.plot_data(np.arange(1, n_angles + 1),
+        sp.plot_data(np.arange(distances +  1, distances + n_angles + 1),
                      sith.delta_q[:, distances:], pstyle='s',
                      markersize=3, ax=2, color_plot=colors)
-
-        sp.plot_data(sith.all_dofs[:, distances:].T,
-                     rs,
-                     pstyle='-', ax=1)
-        sp.plot_data(sith.delta_q[:, distances:].T,
-                     rs,
-                     pstyle='-', ax=3)
 
         # Fix location
         ho = 0.6
@@ -710,14 +709,14 @@ class SithPlotter(PepSetter, SithAnalysis):
                        xticks=[], xminor=ticks,
                        mingrid=True, xlim=[-ws, ticks[-1] + ws])
         sp.axis_setter(ax=1,
-                       ylabel='$\Delta$E$_{SITH}$ - $\Delta$E$_{BMK}$ [Ha]',
+                       ylabel='$\Delta$E$_{SITH}$ - $\Delta$E$_{DFT}$ [Ha]',
                        xticks=[], xminor=ticks,
                        mingrid=True, xlim=[-ws, ticks[-1] + ws])
-        sp.axis_setter(ax=2, ylabel='Error [%]', xlabel='$\Delta$d[Å]',
+        sp.axis_setter(ax=2, ylabel='Error [%]', xlabel='$\Delta$ End-to-end distance [Å]',
                        xticks=ticks, xminor=ticks - 0.0001,
                        mingrid=True, xlim=[-ws, ticks[-1] + ws])
         # plot axis 1
-        sp.plot_data(distances, e[1], ax=0, data_label='BMK', pstyle='-')
+        sp.plot_data(distances, e[1], ax=0, data_label='DFT', pstyle='-')
         sp.plot_data(distances, e[0], ax=0, data_label='SITH', pstyle='o',
                      fillstyle='none', ms=5)
         if classical is not None:
