@@ -9,12 +9,10 @@
 # ----- definition of functions starts ----------------------------------------
 print_help() {
 echo "
-This tool computes the forces in all chk files and store them in a directory
-called forces.
+This tool computes the forces from a chk files that contains a given structure.
 
   -c  run in cascade.
-  -d  <dir=./> directory containging the chk files of the
-      stretching-optimization process.
+  -f  <file> chk file.
   -p  <pattern> pattern present in the chk files that will be used.
 
   -v  verbose.
@@ -26,14 +24,23 @@ exit 0
 }
 
 compute_forces () {
-  verbose "construct Z-matrix for $1"
-  newzmat -ichk -ozmat -rebuildzmat -bmodel "$1" forces.com || fail "
-    Error creating the matrix"
-  sed -i "1i %NProcShared=$n_processors" forces.com
-  sed -i "1i %chk=forces" forces.com
-  sed -i "s/opt(modredun,calcfc)/force/g" forces.com
-  verbose "executes gaussian computation of forces for $1"
-  gaussian forces.com || fail "computing forces"
+  chk_name=$1
+  for_name=${chk_name//${pattern}/forces}
+  for_name=${for_name%.chk}
+  verbose "construct Z-matrix for $1 into $for_name"
+  echo newzmat -ichk -ozmat -rebuildzmat -bmodel "$1" $for_name.com
+  newzmat -ichk -ozmat -rebuildzmat -bmodel "$1" $for_name.com || \
+    {
+      lnbck=$(search_last_bck ${1%.chk}) ; \
+      newzmat -ichk -ozmat -rebuildzmat -bmodel "${1%.chk}-bck_$lnbck.chk" \
+      $for_name.com || fail "Creating the matrix"
+    }
+  sed -i "1i %NProcShared=$n_processors" $for_name.com
+  sed -i "1i %chk=$for_name" $for_name.com
+  sed -i "s/opt(modredun,calcfc)/force/g" $for_name.com
+  verbose "Executes gaussian computation of forces for $1"
+  gaussian $for_name.com || fail "computing forces"
+  sith extract_forces -f $for_name.log -c -v
 }
 
 # ----- definition of functions finishes --------------------------------------
@@ -44,10 +51,10 @@ directory='./'
 pattern=''
 verbose='false'
 n_processors=1
-while getopts 'd:cn:p:vh' flag; do
+while getopts 'cf:n:p:vh' flag; do
   case "${flag}" in
     c) cascade='true' ;;
-    d) directory=${OPTARG} ;;
+    f) chkfile=${OPTARG} ;;
     n) n_processors=${OPTARG} ;;
     p) pattern=${OPTARG} ;;
 
@@ -74,33 +81,19 @@ fi
 # ---- set-up ends ------------------------------------------------------------
 
 # ---- BODY -------------------------------------------------------------------
-cd "$directory" || fail "moving to $directory"
-verbose "Finding forces in the directory $( pwd )" 
-echo "Create forces directory and extracting forces"
+verbose "Create forces directory and extracting forces from $chkfile"
 create_bck forces
 mkdir -p forces
 mkdir -p bck
 mv ./*-bck*.* bck
 
-mapfile -t chks < <(ls "$pattern"*.chk)
-
-echo ${chks[@]}
-
-for chkfile in "${chks[@]}"
+compute_forces "$chkfile"
+name=${chkfile//${pattern}/forces}
+verbose "Moving result to forces/${name%.*}.*"
+for fil in ${name%.chk}.*
 do
-  echo "$chkfile"
-  compute_forces "$chkfile"
-  name=${chkfile//stretched/forces}
-  verbose "Moving result to forces/${name%.*}.log"
-  for fil in forces.*
-  do
-    mv $fil "forces/${name%.*}.${fil##*.}" || fail "moving results to forces
+  mv $fil "forces/${name%.*}.${fil##*.}" || fail "moving results to forces
     directory."
-  done
 done
 
-cp forces/*00.com input_template.com || fail "copy template"
-
-sith extract_forces
-
-finish "finished"
+finish
