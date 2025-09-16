@@ -34,7 +34,10 @@ Prepare Your System
 -------------------
 
 Before stretching, identify your molecule and select the atoms to pull apart.  
-In this example, we use a glycine capped with ACE and NME groups.  
+In this example, we use a glycine capped with ACE and NME groups
+(`G.pdb <https://raw.githubusercontent.com/Sucerquia/Gdata4tut/refs/heads/main/data/G.pdb>`_
+file from the repository `<https://github.com/Sucerquia/Gdata4tut>`_ that you can
+use as a reference).  
 
 For stretching, we select the carbon atoms from the methyl groups at both capping ends (Figure 2).  
 Using a molecular visualization tool, you can check their atom indices (1-based indexing).  
@@ -90,25 +93,28 @@ This tool will produce the next outcomes:
 Extract Forces
 --------------
 
-With stretched structures computed, the next step is to extract the forces in a format readable by `sith`.
-
-First, calculate the forces with:
+With stretched structures computed, the next step is to extract the forces in a
+format readable by `sith`. You can do this using
+:bashscript:`sith.g09_stretching.find_forces` for each structure:
 
 .. code-block:: bash
 
-  sith find_forces -c -p "G-stretched" -v
+  sith find_forces -c -f "G-stretched<n>.chk" -p stretched -v
 
 This creates a **forces/** directory containing `G-forces<n>.<ext>` files,  
-with `<ext>` = `com`, `log`, `chk`.  
+with `<ext>` = `com`, `log`, `chk` and `fchk`. The fchk includes
+the necessary information for energy distribution analysis.  
+Internally, these are generated using :code:`formchk -3 G-force<n>.chk`  and
+the corresponding Gaussian log file formatted according to :mod:`sith.readers.g09_reader`.
 
-Next, extract the forces into a format for `sith`:
+Instead of doing it one by one, you can compute all at once in parallel using:
 
 .. code-block:: bash
 
-  sith extract_forces -c -d "forces"
-
-This produces `.fchk` files, which include the necessary information for energy distribution analysis.  
-Internally, these are generated using :code:`formchk -3 G-force<n>.chk`  and the corresponding Gaussian log file formatted according to :mod:`sith.readers.g09_reader`.
+  for i in G-stretched*.chk
+  do
+    sith find_forces -c -f $i -p stretched -v &
+  done
 
 -----------------
 Run SITH Analysis
