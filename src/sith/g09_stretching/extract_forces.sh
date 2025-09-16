@@ -217,6 +217,8 @@ line+=$(printf "%12s" "${#dof_val[@]}")
 echo "$line" >> $output
 write_float_vector "${dof_val[@]}" >> $output
 echo "dofs values"
+
+sleep 1 # just to allow buffer to print.
 rm tmp-${file%.*}*
 # endregion
 
