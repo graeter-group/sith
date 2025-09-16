@@ -11,13 +11,12 @@ find_forces
 
    .. line-block::
       
-      This tool computes the forces in all chk files and store them in a directory
-      called forces.
+      This tool computes the forces from a chk files that contains a given structure.
       
         -c  run in cascade.
-        -d  <dir=./> directory containging the chk files of the
-            stretching-optimization process.
-        -p  <pattern> pattern present in the chk files that will be used.
+        -f  <file> chk file.
+        -p  <pattern> pattern present in the chk files that will be replaced with the
+            word 'forces'.
       
         -v  verbose.
         -h  prints this message.

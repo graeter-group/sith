@@ -13,7 +13,8 @@ This tool computes the forces from a chk files that contains a given structure.
 
   -c  run in cascade.
   -f  <file> chk file.
-  -p  <pattern> pattern present in the chk files that will be used.
+  -p  <pattern> pattern present in the chk files that will be replaced with the
+      word 'forces'.
 
   -v  verbose.
   -h  prints this message.

@@ -11,9 +11,12 @@ swap_atoms_in_com
 
    .. line-block::
       
-      # TODO: repair
+      Permutes the incides of two atoms in com file where the molecule is defined as
+      a z-matrix.
       
-      Use this template to create your scripts with a standard structure
+        -a  <atom1> index of one of the atoms to be permuted. 
+        -b  <atom2> index of the other atom to be permuted.
+        -f  <file.com> input gaussian file with the z-matrix already defined.
       
         -v  verbose.
         -h  prints this message.

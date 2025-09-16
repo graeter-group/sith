@@ -11,11 +11,13 @@ extract_forces
 
    .. line-block::
       
-      Extract the forces and indexes of the DOFs from the log files (gaussian). The output
-      is a set of files called <pep>-forces<n_stretching>.fchk containing the
-      information in fchk gaussian format.
+      Extract the forces and indexes of the DOFs from a log file (gaussian) and fchk
+      file (or chk) when it exists. The output is a set of files called
+      <pep>-forces<n_stretching>.fchk containing the information in fchk gaussian
+      format.
       
-        -d  <path=./forces>. directory where forces_files.log are located.
+        -f  <file.log> log file created by gaussian, chk file of this file should
+            have the same name but different extension. 
       
         -v  verbose.
         -h   prints this message.
