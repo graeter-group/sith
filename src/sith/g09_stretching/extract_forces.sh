@@ -84,14 +84,14 @@ fi
 fchk_file=false
 if [ -f "${file%.*}.fchk" ]
 then
-  grep -q "Gaussian input prepared by ASE" "${file%.*}.fchk" && \
-    { mv "${file%.*}.fchk" tmp.fchk ; fchk_file=true ; }
+  grep -q "Forces extracted from log file" "${file%.*}.fchk" || \
+    { mv "${file%.*}.fchk" tmp-${file%.*}.fchk ; fchk_file=true ; }
 fi
 
 if [ "$fchk_file" == 'false' ] && [ -f "${file%.*}.chk" ]
 then
   formchk -3 "${file%.*}.chk" || fail "fchk based on ${file%.*}.chk"
-  mv "${file%.*}.fchk" tmp.fchk
+  mv "${file%.*}.fchk" tmp-${file%.*}.fchk
   fchk_file='true'
 fi
 
@@ -103,16 +103,16 @@ echo "Forces extracted from log file $file using sith extract_forces ${@}" > $ou
 # region AtomicNumbers_n_coords
 number=$( grep -n "Center     Atomic      Atomic" "$file" \
   | tail -n 1 | cut -d ":" -f 1 )
-awk -v num=$(( number + 3 )) 'NR >= num { print $0 }' "$file" > tmp1.txt
+awk -v num=$(( number + 3 )) 'NR >= num { print $0 }' "$file" > tmp-${file%.*}1.txt
 
 # find the end of the block of the internal forces
-number=$( grep -n "\-\-\-\-\-\-\-\-" tmp1.txt| head -n 1 | cut -d ":" -f 1 )
-head -n $(( number - 1 )) tmp1.txt > tmp2.txt
+number=$( grep -n "\-\-\-\-\-\-\-\-" tmp-${file%.*}1.txt| head -n 1 | cut -d ":" -f 1 )
+head -n $(( number - 1 )) tmp-${file%.*}1.txt > tmp-${file%.*}2.txt
 
 # store atomic numbers in an array
-mapfile -t atomic_nums < <(awk '{ print $2 }' tmp2.txt)
+mapfile -t atomic_nums < <(awk '{ print $2 }' tmp-${file%.*}2.txt)
 mapfile -t coords < \
-  <(awk '{ printf "%f \n %f \n %f \n", $4, $5, $6 }' tmp2.txt)
+  <(awk '{ printf "%f \n %f \n %f \n", $4, $5, $6 }' tmp-${file%.*}2.txt)
 
 # write atomic numbers in the file
 line=$(printf "%-43s" "Atomic numbers")
@@ -134,13 +134,13 @@ echo "coordinates"
 # region dofs_indexes
 # find the begining of the block of the internal forces
 number=$( grep -n "Internal Coordinate Forces" "$file" | cut -d ":" -f 1 )
-awk -v num=$(( number + 3 )) 'NR >= num { print $0 }' "$file" > tmp1.txt
-number=$( grep -n "\-\-\-\-\-\-\-\-" tmp1.txt| head -n 1 | cut -d ":" -f 1 )
-head -n $(( number - 1 )) tmp1.txt > tmp2.txt
-sed -i "s/)//g ; s/(//g"  tmp2.txt
-dist=$(awk 'BEGIN{count=0;}{if( $3 ){count+=1}}END{print count}' tmp2.txt)
-angl=$(awk 'BEGIN{count=0;}{if( $6 ){count+=1}}END{print count}' tmp2.txt)
-dihe=$(awk 'BEGIN{count=0;}{if( $9 ){count+=1}}END{print count}' tmp2.txt)
+awk -v num=$(( number + 3 )) 'NR >= num { print $0 }' "$file" > tmp-${file%.*}1.txt
+number=$( grep -n "\-\-\-\-\-\-\-\-" tmp-${file%.*}1.txt| head -n 1 | cut -d ":" -f 1 )
+head -n $(( number - 1 )) tmp-${file%.*}1.txt > tmp-${file%.*}2.txt
+sed -i "s/)//g ; s/(//g"  tmp-${file%.*}2.txt
+dist=$(awk 'BEGIN{count=0;}{if( $3 ){count+=1}}END{print count}' tmp-${file%.*}2.txt)
+angl=$(awk 'BEGIN{count=0;}{if( $6 ){count+=1}}END{print count}' tmp-${file%.*}2.txt)
+dihe=$(awk 'BEGIN{count=0;}{if( $9 ){count+=1}}END{print count}' tmp-${file%.*}2.txt)
 ndof=$(( dist + angl + dihe ))
 dim=( $ndof $dist $angl $dihe )
 
@@ -155,12 +155,12 @@ echo "dimensions"
 
 # region dofs_indexes
 # find the begining of the block of the internal forces
-awk '{if( $3 ){ printf "%d\n%d\n0\n0\n", $3, $1 }}' tmp2.txt > tmp1.txt
-awk '{if( $6 ){ printf "%d\n%d\n%d\n0\n", $6, $3, $1 }}' tmp2.txt >> tmp1.txt
-awk '{if( $9 ){ printf "%d\n%d\n%d\n%d\n", $9, $6, $3, $1 }}' tmp2.txt \
-  >> tmp1.txt
+awk '{if( $3 ){ printf "%d\n%d\n0\n0\n", $3, $1 }}' tmp-${file%.*}2.txt > tmp-${file%.*}1.txt
+awk '{if( $6 ){ printf "%d\n%d\n%d\n0\n", $6, $3, $1 }}' tmp-${file%.*}2.txt >> tmp-${file%.*}1.txt
+awk '{if( $9 ){ printf "%d\n%d\n%d\n%d\n", $9, $6, $3, $1 }}' tmp-${file%.*}2.txt \
+  >> tmp-${file%.*}1.txt
 
-mapfile -t indexes < tmp1.txt
+mapfile -t indexes < tmp-${file%.*}1.txt
 
 # write indices of internal coordinates in the file
 line=$(printf "%-43s" "Redundant internal coordinate indices")
@@ -174,17 +174,17 @@ echo "indices of dofs"
 # region forces
 if $fchk_file
 then
-  sith find_blocks -f tmp.fchk -s \"Internal Forces\" \
-    -e \"Internal Force Constants\" -o tmp
-  for i in $(cat tmp_000.out ); do echo $i; done > tmp1.txt
+  sith find_blocks -f tmp-${file%.*}.fchk -s \"Internal Forces\" \
+    -e \"Internal Force Constants\" -o tmp-${file%.*}
+  for i in $(cat tmp-${file%.*}_000.out ); do echo $i; done > tmp-${file%.*}1.txt
 else
-  awk '{if( $3 ){ printf "%f\n", $4 }}' tmp2.txt > tmp1.txt
-  awk '{if( $6 ){ printf "%f\n", $7 }}' tmp2.txt >> tmp1.txt
-  awk '{if( $9 ){ printf "%f\n", $10 }}' tmp2.txt >> tmp1.txt
+  awk '{if( $3 ){ printf "%f\n", $4 }}' tmp-${file%.*}2.txt > tmp-${file%.*}1.txt
+  awk '{if( $6 ){ printf "%f\n", $7 }}' tmp-${file%.*}2.txt >> tmp-${file%.*}1.txt
+  awk '{if( $9 ){ printf "%f\n", $10 }}' tmp-${file%.*}2.txt >> tmp-${file%.*}1.txt
 fi
 
 unset forces
-mapfile -t forces < <( cat tmp1.txt )
+mapfile -t forces < <( cat tmp-${file%.*}1.txt )
 
 # write indices of internal coordinates in the file
 line=$(printf "%-43s" "Internal Forces")
@@ -217,7 +217,7 @@ line+=$(printf "%12s" "${#dof_val[@]}")
 echo "$line" >> $output
 write_float_vector "${dof_val[@]}" >> $output
 echo "dofs values"
-rm tmp*
+rm tmp-${file%.*}*
 # endregion
 
 finish
