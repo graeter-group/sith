@@ -48,7 +48,6 @@ Module contents
    :hidden:
 
    bash_rsts_scripts/workflow
-   bash_rsts_scripts/compute_forces
    bash_rsts_scripts/find_forces
    bash_rsts_scripts/clean_ds
    bash_rsts_scripts/proline_mod
@@ -74,9 +73,6 @@ Module contents
 
 
 .. include:: bash_rsts_doc/find_forces.rst
-
-
-.. include:: bash_rsts_doc/compute_forces.rst
 
 
 .. include:: bash_rsts_doc/workflow.rst
