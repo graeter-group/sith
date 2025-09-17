@@ -47,7 +47,7 @@ verbose='false'
 indexes=''
 level="'bmk','6-31+g'"
 cluster='false'
-n_processors=1
+n_processors=''
 retake='true'
 while getopts 'b:ce:i:l:m:p:rs:vh' flag; do
   case "${flag}" in
@@ -72,7 +72,15 @@ source "$(sith basics -path)" STRETCHING $verbose
 if $cluster
 then
   load_modules
-  n_processors=$SLURM_CPUS_ON_NODE
+  if [[ -z "$n_processors" ]] 
+  then
+    if [[ ! -z "$SLURM_CPUS_ON_NODE" ]]
+    then
+      n_processors=$SLURM_CPUS_ON_NODE
+    else
+      n_processors=1
+    fi
+  fi
 fi
 
 # starting information
