@@ -152,12 +152,12 @@ then
   $retake && \
       warning "The stretching of molecule $mol will be restarted from $i"
 else
-  # C-CAP indexes in gaussian convention
-  if [ -z "$indexes" ] && [[ "${mol_file%.*}" == 'pdb' ]]
+  # C-CAP indexes in gaussian convention is the default
+  if [ -z "$indexes" ] && [[ "${mol_file##*.}" == 'pdb' ]]
   then
     # reading indexes from pdb file
-    index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
-    index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
+    index1=$( grep ACE "$mol_file" | grep CH3 | awk '{print $2}' )
+    index2=$( grep NME "$mol_file" | grep CH3 | awk '{print $2}' )
   else
     # reading indexes from user input
     index1=$( echo "$indexes" | cut -d ',' -f 1 )
