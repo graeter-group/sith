@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Script of sith clean_ds" href="clean_ds.html" />
-    <link rel="prev" title="Script of sith compute_forces" href="compute_forces.html" /> 
+    <link rel="prev" title="Script of sith workflow" href="workflow.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -114,13 +114,12 @@
 <span class="c1"># ----- definition of functions starts ----------------------------------------</span>
 print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
-<span class="s2">This tool computes the forces in all chk files and store them in a directory</span>
-<span class="s2">called forces.</span>
+<span class="s2">This tool computes the forces from a chk files that contains a given structure.</span>
 
 <span class="s2">  -c  run in cascade.</span>
-<span class="s2">  -d  &lt;dir=./&gt; directory containging the chk files of the</span>
-<span class="s2">      stretching-optimization process.</span>
-<span class="s2">  -p  &lt;pattern&gt; pattern present in the chk files that will be used.</span>
+<span class="s2">  -f  &lt;file&gt; chk file.</span>
+<span class="s2">  -p  &lt;pattern&gt; pattern present in the chk files that will be replaced with the</span>
+<span class="s2">      word &#39;forces&#39;.</span>
 
 <span class="s2">  -v  verbose.</span>
 <span class="s2">  -h  prints this message.</span>
@@ -131,14 +130,23 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="o">}</span>
 
 compute_forces<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;construct Z-matrix for </span><span class="nv">$1</span><span class="s2">&quot;</span>
-<span class="w">  </span>newzmat<span class="w"> </span>-ichk<span class="w"> </span>-ozmat<span class="w"> </span>-rebuildzmat<span class="w"> </span>-bmodel<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span>forces.com<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;</span>
-<span class="s2">    Error creating the matrix&quot;</span>
-<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1i %NProcShared=</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span>forces.com
-<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1i %chk=forces&quot;</span><span class="w"> </span>forces.com
-<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/opt(modredun,calcfc)/force/g&quot;</span><span class="w"> </span>forces.com
-<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;executes gaussian computation of forces for </span><span class="nv">$1</span><span class="s2">&quot;</span>
-<span class="w">  </span>gaussian<span class="w"> </span>forces.com<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;computing forces&quot;</span>
+<span class="w">  </span><span class="nv">chk_name</span><span class="o">=</span><span class="nv">$1</span>
+<span class="w">  </span><span class="nv">for_name</span><span class="o">=</span><span class="si">${</span><span class="nv">chk_name</span><span class="p">//</span><span class="si">${</span><span class="nv">pattern</span><span class="si">}</span><span class="p">/forces</span><span class="si">}</span>
+<span class="w">  </span><span class="nv">for_name</span><span class="o">=</span><span class="si">${</span><span class="nv">for_name</span><span class="p">%.chk</span><span class="si">}</span>
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;construct Z-matrix for </span><span class="nv">$1</span><span class="s2"> into </span><span class="nv">$for_name</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span>newzmat<span class="w"> </span>-ichk<span class="w"> </span>-ozmat<span class="w"> </span>-rebuildzmat<span class="w"> </span>-bmodel<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$for_name</span>.com
+<span class="w">  </span>newzmat<span class="w"> </span>-ichk<span class="w"> </span>-ozmat<span class="w"> </span>-rebuildzmat<span class="w"> </span>-bmodel<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$for_name</span>.com<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">{</span>
+<span class="w">      </span><span class="nv">lnbck</span><span class="o">=</span><span class="k">$(</span>search_last_bck<span class="w"> </span><span class="si">${</span><span class="nv">1</span><span class="p">%.chk</span><span class="si">}</span><span class="k">)</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>newzmat<span class="w"> </span>-ichk<span class="w"> </span>-ozmat<span class="w"> </span>-rebuildzmat<span class="w"> </span>-bmodel<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">1</span><span class="p">%.chk</span><span class="si">}</span><span class="s2">-bck_</span><span class="nv">$lnbck</span><span class="s2">.chk&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="nv">$for_name</span>.com<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Creating the matrix&quot;</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1i %NProcShared=</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$for_name</span>.com
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1i %chk=</span><span class="nv">$for_name</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$for_name</span>.com
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/opt(modredun,calcfc)/force/g&quot;</span><span class="w"> </span><span class="nv">$for_name</span>.com
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Executes gaussian computation of forces for </span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">  </span>gaussian<span class="w"> </span><span class="nv">$for_name</span>.com<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;computing forces&quot;</span>
+<span class="w">  </span>sith<span class="w"> </span>extract_forces<span class="w"> </span>-f<span class="w"> </span><span class="nv">$for_name</span>.log<span class="w"> </span>-c<span class="w"> </span>-v
 <span class="o">}</span>
 
 <span class="c1"># ----- definition of functions finishes --------------------------------------</span>
@@ -149,10 +157,10 @@ compute_forces<span class="w"> </span><span class="o">()</span><span class="w"> 
 <span class="nv">pattern</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
 <span class="nv">n_processors</span><span class="o">=</span><span class="m">1</span>
-<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;d:cn:p:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;cf:n:p:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
 <span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cascade</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>d<span class="o">)</span><span class="w"> </span><span class="nv">directory</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>f<span class="o">)</span><span class="w"> </span><span class="nv">chkfile</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>n<span class="o">)</span><span class="w"> </span><span class="nv">n_processors</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>p<span class="o">)</span><span class="w"> </span><span class="nv">pattern</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 
@@ -179,36 +187,22 @@ date
 <span class="c1"># ---- set-up ends ------------------------------------------------------------</span>
 
 <span class="c1"># ---- BODY -------------------------------------------------------------------</span>
-<span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$directory</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;moving to </span><span class="nv">$directory</span><span class="s2">&quot;</span>
-verbose<span class="w"> </span><span class="s2">&quot;Finding forces in the directory </span><span class="k">$(</span><span class="w"> </span><span class="nb">pwd</span><span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Create forces directory and extracting forces&quot;</span>
+verbose<span class="w"> </span><span class="s2">&quot;Create forces directory and extracting forces from </span><span class="nv">$chkfile</span><span class="s2">&quot;</span>
 create_bck<span class="w"> </span>forces
 mkdir<span class="w"> </span>-p<span class="w"> </span>forces
 mkdir<span class="w"> </span>-p<span class="w"> </span>bck
 mv<span class="w"> </span>./*-bck*.*<span class="w"> </span>bck
 
-mapfile<span class="w"> </span>-t<span class="w"> </span>chks<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span>ls<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pattern</span><span class="s2">&quot;</span>*.chk<span class="o">)</span>
-
-<span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">chks</span><span class="p">[@]</span><span class="si">}</span>
-
-<span class="k">for</span><span class="w"> </span>chkfile<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">chks</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+compute_forces<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$chkfile</span><span class="s2">&quot;</span>
+<span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">chkfile</span><span class="p">//</span><span class="si">${</span><span class="nv">pattern</span><span class="si">}</span><span class="p">/forces</span><span class="si">}</span>
+verbose<span class="w"> </span><span class="s2">&quot;Moving result to forces/</span><span class="si">${</span><span class="nv">name</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.*&quot;</span>
+<span class="k">for</span><span class="w"> </span>fil<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="p">%.chk</span><span class="si">}</span>.*
 <span class="k">do</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$chkfile</span><span class="s2">&quot;</span>
-<span class="w">  </span>compute_forces<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$chkfile</span><span class="s2">&quot;</span>
-<span class="w">  </span><span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">chkfile</span><span class="p">//stretched/forces</span><span class="si">}</span>
-<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Moving result to forces/</span><span class="si">${</span><span class="nv">name</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.log&quot;</span>
-<span class="w">  </span><span class="k">for</span><span class="w"> </span>fil<span class="w"> </span><span class="k">in</span><span class="w"> </span>forces.*
-<span class="w">  </span><span class="k">do</span>
-<span class="w">    </span>mv<span class="w"> </span><span class="nv">$fil</span><span class="w"> </span><span class="s2">&quot;forces/</span><span class="si">${</span><span class="nv">name</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">fil</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;moving results to forces</span>
+<span class="w">  </span>mv<span class="w"> </span><span class="nv">$fil</span><span class="w"> </span><span class="s2">&quot;forces/</span><span class="si">${</span><span class="nv">name</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">fil</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;moving results to forces</span>
 <span class="s2">    directory.&quot;</span>
-<span class="w">  </span><span class="k">done</span>
 <span class="k">done</span>
 
-cp<span class="w"> </span>forces/*00.com<span class="w"> </span>input_template.com<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;copy template&quot;</span>
-
-sith<span class="w"> </span>extract_forces
-
-finish<span class="w"> </span><span class="s2">&quot;finished&quot;</span>
+finish
 </pre></div>
 </div>
 </section>
@@ -217,7 +211,7 @@ finish<span class="w"> </span><span class="s2">&quot;finished&quot;</span>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="compute_forces.html" class="btn btn-neutral float-left" title="Script of sith compute_forces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="workflow.html" class="btn btn-neutral float-left" title="Script of sith workflow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="clean_ds.html" class="btn btn-neutral float-right" title="Script of sith clean_ds" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

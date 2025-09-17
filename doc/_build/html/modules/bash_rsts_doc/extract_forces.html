@@ -83,13 +83,17 @@
 </div>
 <div class="bash-script-doc docutils container">
 <div class="line-block">
-<div class="line">Extract the forces and indexes of the DOFs from the log files (gaussian). The output</div>
-<div class="line">is a set of files called &lt;pep&gt;-forces&lt;n_stretching&gt;.fchk containing the</div>
-<div class="line">information in fchk gaussian format.</div>
+<div class="line">Extract the forces and indexes of the DOFs from a log file (gaussian) and fchk</div>
+<div class="line">file (or chk) when it exists. The output is a set of files called</div>
+<div class="line">&lt;pep&gt;-forces&lt;n_stretching&gt;.fchk containing the information in fchk gaussian</div>
+<div class="line">format.</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-d  &lt;path=./forces&gt;. directory where forces_files.log are located.</div>
+<div class="line">-f  &lt;file.log&gt; log file created by gaussian, chk file of this file should</div>
+<div class="line-block">
+<div class="line">have the same name but different extension.</div>
 <div class="line"><br /></div>
+</div>
 <div class="line">-v  verbose.</div>
 <div class="line">-h   prints this message.</div>
 </div>

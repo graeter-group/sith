@@ -118,7 +118,10 @@ These forces are then used to calculate the distribution of energies.</p>
 <section id="prepare-your-system">
 <h2>Prepare Your System<a class="headerlink" href="#prepare-your-system" title="Link to this heading"></a></h2>
 <p>Before stretching, identify your molecule and select the atoms to pull apart.
-In this example, we use a glycine capped with ACE and NME groups.</p>
+In this example, we use a glycine capped with ACE and NME groups
+(<a class="reference external" href="https://raw.githubusercontent.com/Sucerquia/Gdata4tut/refs/heads/main/data/G.pdb">G.pdb</a>
+file from the repository <a class="reference external" href="https://github.com/Sucerquia/Gdata4tut">https://github.com/Sucerquia/Gdata4tut</a> that you can
+use as a reference).</p>
 <p>For stretching, we select the carbon atoms from the methyl groups at both capping ends (Figure 2).
 Using a molecular visualization tool, you can check their atom indices (1-based indexing).
 Here, the correct indices are <strong>1</strong> and <strong>16</strong>.</p>
@@ -172,19 +175,24 @@ In this case, the rupture occurred between the ACE methyl group and the rest of 
 </section>
 <section id="extract-forces">
 <h2>Extract Forces<a class="headerlink" href="#extract-forces" title="Link to this heading"></a></h2>
-<p>With stretched structures computed, the next step is to extract the forces in a format readable by <cite>sith</cite>.</p>
-<p>First, calculate the forces with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sith<span class="w"> </span>find_forces<span class="w"> </span>-c<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;G-stretched&quot;</span><span class="w"> </span>-v
+<p>With stretched structures computed, the next step is to extract the forces in a
+format readable by <cite>sith</cite>. You can do this using
+<a class="bashscript reference external" href="../../modules/sith.g09_stretching.html#sith-g09-stretching-find-forces">sith/g09_stretching/find_forces.sh</a> for each structure:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sith<span class="w"> </span>find_forces<span class="w"> </span>-c<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;G-stretched&lt;n&gt;.chk&quot;</span><span class="w"> </span>-p<span class="w"> </span>stretched<span class="w"> </span>-v
 </pre></div>
 </div>
 <p>This creates a <strong>forces/</strong> directory containing <cite>G-forces&lt;n&gt;.&lt;ext&gt;</cite> files,
-with <cite>&lt;ext&gt;</cite> = <cite>com</cite>, <cite>log</cite>, <cite>chk</cite>.</p>
-<p>Next, extract the forces into a format for <cite>sith</cite>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sith<span class="w"> </span>extract_forces<span class="w"> </span>-c<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;forces&quot;</span>
+with <cite>&lt;ext&gt;</cite> = <cite>com</cite>, <cite>log</cite>, <cite>chk</cite> and <cite>fchk</cite>. The fchk includes
+the necessary information for energy distribution analysis.
+Internally, these are generated using <code class="code docutils literal notranslate"><span class="pre">formchk</span> <span class="pre">-3</span> <span class="pre">G-force&lt;n&gt;.chk</span></code>  and
+the corresponding Gaussian log file formatted according to <a class="reference internal" href="../../modules/sith.readers.html#module-sith.readers.g09_reader" title="sith.readers.g09_reader"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sith.readers.g09_reader</span></code></a>.</p>
+<p>Instead of doing it one by one, you can compute all at once in parallel using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>G-stretched*.chk
+<span class="k">do</span>
+<span class="w">  </span>sith<span class="w"> </span>find_forces<span class="w"> </span>-c<span class="w"> </span>-f<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>-p<span class="w"> </span>stretched<span class="w"> </span>-v<span class="w"> </span><span class="p">&amp;</span>
+<span class="k">done</span>
 </pre></div>
 </div>
-<p>This produces <cite>.fchk</cite> files, which include the necessary information for energy distribution analysis.
-Internally, these are generated using <code class="code docutils literal notranslate"><span class="pre">formchk</span> <span class="pre">-3</span> <span class="pre">G-force&lt;n&gt;.chk</span></code>  and the corresponding Gaussian log file formatted according to <a class="reference internal" href="../../modules/sith.readers.html#module-sith.readers.g09_reader" title="sith.readers.g09_reader"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sith.readers.g09_reader</span></code></a>.</p>
 </section>
 <section id="run-sith-analysis">
 <h2>Run SITH Analysis<a class="headerlink" href="#run-sith-analysis" title="Link to this heading"></a></h2>

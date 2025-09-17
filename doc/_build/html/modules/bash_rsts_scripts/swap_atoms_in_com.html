@@ -104,11 +104,16 @@
   <section id="script-of-sith-swap-atoms-in-com">
 <span id="swap-atoms-in-com"></span><h1>Script of sith swap_atoms_in_com<a class="headerlink" href="#script-of-sith-swap-atoms-in-com" title="Link to this heading"></a></h1>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># ---- functions --------------------------------------------------------------</span>
 print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
-<span class="s2"># TODO: repair</span>
+<span class="s2">Permutes the incides of two atoms in com file where the molecule is defined as</span>
+<span class="s2">a z-matrix.</span>
 
-<span class="s2">Use this template to create your scripts with a standard structure</span>
+<span class="s2">  -a  &lt;atom1&gt; index of one of the atoms to be permuted. </span>
+<span class="s2">  -b  &lt;atom2&gt; index of the other atom to be permuted.</span>
+<span class="s2">  -f  &lt;file.com&gt; input gaussian file with the z-matrix already defined.</span>
 
 <span class="s2">  -v  verbose.</span>
 <span class="s2">  -h  prints this message.</span>
@@ -116,11 +121,18 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
 <span class="o">}</span>
 
+permutate_pattern<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nv">pattern1</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nv">pattern2</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nv">fil</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$3</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="c1"># permutate index in connectivity</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/</span><span class="nv">$pattern1</span><span class="s2">/tmp_pattern1/g&quot;</span><span class="w"> </span><span class="nv">$fil</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/</span><span class="nv">$pattern2</span><span class="s2">/</span><span class="nv">$pattern1</span><span class="s2">/g&quot;</span><span class="w"> </span><span class="nv">$fil</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/tmp_pattern1/</span><span class="nv">$pattern2</span><span class="s2">/g&quot;</span><span class="w"> </span><span class="nv">$fil</span>
+<span class="o">}</span>
+
 <span class="c1"># ----- set up starts ---------------------------------------------------------</span>
 <span class="c1"># General variables</span>
-<span class="nv">def_var</span><span class="o">=</span><span class="s2">&quot;inse here your default&quot;</span>
-<span class="nv">cascade</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
-<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
 <span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;a:b:f:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
 <span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
@@ -134,16 +146,6 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="w">  </span><span class="k">esac</span>
 <span class="k">done</span>
 
-permutate_pattern<span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<span class="w">    </span><span class="nv">pattern1</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
-<span class="w">    </span><span class="nv">pattern2</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span>
-<span class="w">    </span><span class="nv">fil</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$3</span><span class="s2">&quot;</span>
-<span class="w">    </span><span class="c1"># permutate index in connectivity</span>
-<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/</span><span class="nv">$pattern1</span><span class="s2">/tmp_pattern1/g&quot;</span><span class="w"> </span><span class="nv">$fil</span>
-<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/</span><span class="nv">$pattern2</span><span class="s2">/</span><span class="nv">$pattern1</span><span class="s2">/g&quot;</span><span class="w"> </span><span class="nv">$fil</span>
-<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/tmp_pattern1/</span><span class="nv">$pattern2</span><span class="s2">/g&quot;</span><span class="w"> </span><span class="nv">$fil</span>
-<span class="o">}</span>
-
 <span class="c1"># change lines</span>
 <span class="nv">def_atom1</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;,R</span><span class="nv">$atom1</span><span class="s2">,&quot;</span><span class="w"> </span><span class="nv">$file</span><span class="w"> </span><span class="k">)</span>
 <span class="nv">def_atom2</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;,R</span><span class="nv">$atom2</span><span class="s2">,&quot;</span><span class="w"> </span><span class="nv">$file</span><span class="w"> </span><span class="k">)</span>
@@ -155,7 +157,7 @@ permutate_pattern<span class="w"> </span><span class="s2">&quot;</span><span cla
 permutate_pattern<span class="w"> </span><span class="s2">&quot;,</span><span class="nv">$atom1</span><span class="s2">,&quot;</span><span class="w"> </span><span class="s2">&quot;,</span><span class="nv">$atom2</span><span class="s2">,&quot;</span><span class="w"> </span><span class="nv">$file</span>
 permutate_pattern<span class="w"> </span><span class="s2">&quot;\ </span><span class="nv">$atom1</span><span class="s2">\ &quot;</span><span class="w"> </span><span class="s2">&quot;\ </span><span class="nv">$atom2</span><span class="s2">\ &quot;</span><span class="w"> </span><span class="nv">$file</span>
 
-<span class="c1"># permutate indez in R,A,D</span>
+<span class="c1"># permutate index in R,A,D</span>
 permutate_pattern<span class="w"> </span><span class="s2">&quot;R</span><span class="nv">$atom1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;R</span><span class="nv">$atom2</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$file</span>
 permutate_pattern<span class="w"> </span><span class="s2">&quot;A</span><span class="nv">$atom1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;A</span><span class="nv">$atom2</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$file</span>
 permutate_pattern<span class="w"> </span><span class="s2">&quot;D</span><span class="nv">$atom1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;D</span><span class="nv">$atom2</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$file</span>
