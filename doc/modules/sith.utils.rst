@@ -61,8 +61,10 @@ Module contents
    bash_rsts_scripts/basics
 
 
+.. _sith-utils-basics:
 
 .. include:: bash_rsts_doc/basics.rst
 
+.. _sith-utils-find-blocks:
 
 .. include:: bash_rsts_doc/find_blocks.rst

@@ -31,26 +31,34 @@ Module contents
    bash_rsts_scripts/after_optimization
 
 
+.. _sith-g09-stretching-from-extreme-after-optimization:
 
 .. include:: bash_rsts_doc/after_optimization.rst
 
+.. _sith-g09-stretching-from-extreme-opt-from-xyzs:
 
 .. include:: bash_rsts_doc/opt_from_xyzs.rst
 
+.. _sith-g09-stretching-from-extreme-workflow-from-extreme:
 
 .. include:: bash_rsts_doc/workflow_from_extreme.rst
 
+.. _sith-g09-stretching-from-extreme-rearange-files:
 
 .. include:: bash_rsts_doc/rearange_files.rst
 
+.. _sith-g09-stretching-from-extreme-opt-and-forces:
 
 .. include:: bash_rsts_doc/opt_and_forces.rst
 
+.. _sith-g09-stretching-from-extreme-resubmit-failed:
 
 .. include:: bash_rsts_doc/resubmit_failed.rst
 
+.. _sith-g09-stretching-from-extreme-extr-dofs:
 
 .. include:: bash_rsts_doc/extr_dofs.rst
 
+.. _sith-g09-stretching-from-extreme-prepare-and-submit:
 
 .. include:: bash_rsts_doc/prepare_and_submit.rst

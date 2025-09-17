@@ -56,23 +56,30 @@ Module contents
    bash_rsts_scripts/stretching
 
 
+.. _sith-g09-stretching-stretching:
 
 .. include:: bash_rsts_doc/stretching.rst
 
+.. _sith-g09-stretching-swap-atoms-in-com:
 
 .. include:: bash_rsts_doc/swap_atoms_in_com.rst
 
+.. _sith-g09-stretching-extract-forces:
 
 .. include:: bash_rsts_doc/extract_forces.rst
 
+.. _sith-g09-stretching-proline-mod:
 
 .. include:: bash_rsts_doc/proline_mod.rst
 
+.. _sith-g09-stretching-clean-ds:
 
 .. include:: bash_rsts_doc/clean_ds.rst
 
+.. _sith-g09-stretching-find-forces:
 
 .. include:: bash_rsts_doc/find_forces.rst
 
+.. _sith-g09-stretching-workflow:
 
 .. include:: bash_rsts_doc/workflow.rst
