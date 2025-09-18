@@ -99,6 +99,7 @@ format readable by `sith`. You can do this using
 
 .. code-block:: bash
 
+  mkdir forces
   sith find_forces -c -f "G-stretched<n>.chk" -p stretched -v
 
 This creates a **forces/** directory containing `G-forces<n>.<ext>` files,  
@@ -111,6 +112,7 @@ Instead of doing it one by one, you can compute all at once in parallel using:
 
 .. code-block:: bash
 
+  mkdir forces
   for i in G-stretched*.chk
   do
     sith find_forces -c -f $i -p stretched -v &

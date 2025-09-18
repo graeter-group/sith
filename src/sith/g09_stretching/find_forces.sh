@@ -9,7 +9,9 @@
 # ----- definition of functions starts ----------------------------------------
 print_help() {
 echo "
-This tool computes the forces from a chk files that contains a given structure.
+This tool computes the forces from a chk files that contains a given structure
+and saves them in a directory called 'forces' that has to be previously
+created.
 
   -c  run in cascade.
   -f  <file> chk file.
@@ -19,7 +21,11 @@ This tool computes the forces from a chk files that contains a given structure.
   -v  verbose.
   -h  prints this message.
 
-Note: it replaces the substring 'stretched' by 'forces' in the name.
+Note
+----
+
+  Take care with the  files that already exist in the directory 'forces'. They
+  may be overwritten. 
 "
 exit 0
 }
@@ -83,10 +89,8 @@ fi
 
 # ---- BODY -------------------------------------------------------------------
 verbose "Create forces directory and extracting forces from $chkfile"
-create_bck forces
-mkdir -p forces
-mkdir -p bck
-mv ./*-bck*.* bck
+[[ -d forces ]] || fail "A directory called 'forces' have to exist to run
+  execute the computation of forces"
 
 compute_forces "$chkfile"
 name=${chkfile//${pattern}/forces}

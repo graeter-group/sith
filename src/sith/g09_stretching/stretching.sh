@@ -14,19 +14,17 @@ distance between two atoms, constraining and optimizing at every step.
 
   -b  <number_of_breakages=1> The simulation will run until get this number of
       ruptures.
-  -c  Use this flag to run in a cluster set with slurm.
+  -c  Use this flag to run in a cluster set with slurm. In that case, the
+      of processors is equal to the number of cores asked in the submission of
+      the job. When this flag is present, -p is ignored.
   -e  <extend_method=0> index of stretching method. To see the options, use
       'sith change_distance -h' to see the order.
       carbons of the capping groups
   -i  <index1,index2> indexes of the atoms to use for increasing the distance.
-      If these indices are not given and the molecule is an amino acid defined
-      in a pdb, the CH3 atoms of the ACE and NME residues are chosen. 
-  -l  <xc,base="'bmk','6-31+g'"> evel of DFT theory.
-  -m  <molecule> definition of the molecule (xyz, pdb, ...).
-  -p  <processors=1> number of processors per gaussian job. If this option is
-      not given, but this code is running as a slurm job, the number of
-      processors is equal to the number of cores asked in the submission of
-      the job.
+  -l  <xc,base="bmk,6-31+g"> evel of DFT theory.
+  -m  <molecule> molecule name. In this directory, a file called
+      <molecule>-stretched00.pdb must exist.
+  -p  <processors=1> number of processors per gaussian job.
   -r  restart stretching. In this case, this code must be executed from
       the molecule's directory.
   -s  <size[A]=0.2> Size of the step that increases the distances at each step.
@@ -47,9 +45,9 @@ restart='false'
 size=0.2
 verbose='false'
 indexes=''
-level="'bmk','6-31+g'"
+level="bmk,6-31+g"
 cluster='false'
-n_processors=''
+n_processors=1
 retake='true'
 while getopts 'b:ce:i:l:m:p:rs:vh' flag; do
   case "${flag}" in
@@ -74,15 +72,7 @@ source "$(sith basics -path)" STRETCHING $verbose
 if $cluster
 then
   load_modules
-  if [[ -z "$n_processors" ]] 
-  then
-    if [[ ! -z "$SLURM_CPUS_ON_NODE" ]]
-    then
-      n_processors=$SLURM_CPUS_ON_NODE
-    else
-      n_processors=1
-    fi
-  fi
+  n_processors=$SLURM_CPUS_ON_NODE
 fi
 
 # starting information
@@ -153,7 +143,7 @@ then
     echo "coping $mol-stretched${nameiplusone}-bck_$lastone.xyz" &&
     sith change_distance "$mol-stretched${nameiplusone}-bck_$lastone.xyz" \
       "$mol-stretched${nameiplusone}" frozen_dofs.dat 0 0 "$method" \
-      --xc $xc_functional --basis $basis_set && \
+      --xc "'$xc_functional'" --basis "'$basis_set'" && \
     retake='false' && \
     warning "The stretching of molecule $mol will be restarted
       from $(( i + 1 ))"
@@ -162,12 +152,12 @@ then
   $retake && \
       warning "The stretching of molecule $mol will be restarted from $i"
 else
-  # C-CAP indexes in gaussian convention is the default
-  if [ -z "$indexes" ] && [[ "${mol_file##*.}" == 'pdb' ]]
+  # C-CAP indexes in gaussian convention
+  if [[ -z "$indexes" ]] && [[ "${mol_file##*.}" == 'pdb' ]]
   then
     # reading indexes from pdb file
-    index1=$( grep ACE "$mol_file" | grep CH3 | awk '{print $2}' )
-    index2=$( grep NME "$mol_file" | grep CH3 | awk '{print $2}' )
+    index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
+    index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
   else
     # reading indexes from user input
     index1=$( echo "$indexes" | cut -d ',' -f 1 )
@@ -211,8 +201,8 @@ do
     verbose "The first gaussian process is an optimization"
     sith change_distance "$mol_file" \
       "$mol-stretched00" frozen_dofs.dat 0 0 "$method" \
-      --xc $xc_functional --basis $basis_set || \
-      fail "Preparating the input of gaussian"
+      --xc "'$xc_functional'" --basis "'$basis_set'" || \
+      fail "Creating initial gaussian input"
     sed -i  '/^TV  /d' "$mol-stretched00.com"
     sed -i "/opt/d" "$mol-stretched00.com"
   else
@@ -222,8 +212,8 @@ do
       sith change_distance \
         "$mol-stretched$namei.xyz" "$mol-stretched${nameiplusone}" \
         frozen_dofs.dat "$size" 0 "$method" \
-        --xc $xc_functional --basis $basis_set\
-        || fail "Preparating gaussian input"
+        --xc "'$xc_functional'" --basis "'$basis_set'"\
+        || fail "Creating gaussian input of stretching $nameiplusone"
     fi
     retake='true'
     sed -i '$d' "$mol-stretched${nameiplusone}.com"
@@ -258,7 +248,7 @@ do
     sith change_distance \
             "$mol-stretched${nameiplusone}.xyz" \
             "$mol-stretched${nameiplustwo}" frozen_dofs.dat 0 0 "$method" \
-            --xc $xc_functional --basis $basis_set || fail "changing distance"
+            --xc "'$xc_functional'" --basis "'$basis_set'" || fail "changing distance"
     # save the failed files in ...-stretched<number>a.*
     create_bck "$mol-stretched${nameiplusone}"*
     # then restart the optimization

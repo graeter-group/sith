@@ -20,7 +20,7 @@ to execute it locally. Consider the next options:
   -i  <index1,index2> indexes of the atoms to use for increasing the distance.
       If these indices are not given and the molecule is an amino acid defined
       in a pdb, the CH3 atoms of the ACE and NME residues are chosen. 
-  -l  <xc,base="'bmk','6-31+g'"> evel of DFT theory.
+  -l  <xc,base="bmk,6-31+g"> evel of DFT theory.
   -m  <molecule> definition of the molecule (xyz, pdb, ...).
   -M  <method=0> Index of stretching method. To see the options, use
       'sith change_distance -h' to see the order.
@@ -52,7 +52,7 @@ resubmit () {
 breakages=1
 cluster=''
 indexes=''
-level="'bmk','6-31+g'"
+level="bmk,6-31+g"
 method=0
 n_processors=''
 restart=''
@@ -106,6 +106,9 @@ then
   fi
 fi
 
+xc_functional=$(echo $level | cut -d ',' -f 1)
+basis_set=$(echo $level | cut -d ',' -f 2)
+
 ase -h &> /dev/null || fail "This code needs ASE."
 command -V gaussian &> /dev/null || fail "Remeber to define the function
   gaussian (check the documentation of the installation -sith doc-)."
@@ -114,8 +117,9 @@ sith -h &> /dev/null || fail "This code needs sith."
 
 # ---- BODY -------------------------------------------------------------------
 verbose "execute stretching"
-sith stretching -b "$breakages" $cluster -e "$method" -i "$indexes" \
-                -l "$level" \
+
+sith stretching -b "$breakages" $cluster -e "$method" -i "'$indexes'" \
+                -l "$xc_functional,$basis_set" \
                 -m "$molecule" -p "$n_processors" $restart -s "$size" || \
   fail "Stretching of $pep failed"
 
@@ -124,13 +128,18 @@ sith stretching -b "$breakages" $cluster -e "$method" -i "$indexes" \
 # compute forces
 verbose "submitting comptutation of forces.";
 
-# TODO: add job_options
+create_bck forces
+mkdir -p forces
+mkdir -p bck
+mv ./*-bck*.* bck
+
 Fcounter=0
 for i in ${molecule%.*}-stretched*.chk
 do
   verbose "Forces of $i"
-  sbatch $job_options -J "F${molecule%.*}$Fcounter" $(sith find_forces -path)
-    $cluster -f $i -p stretched $verbose &
+  sbatch $job_options -J "F${molecule%.*}$Fcounter" \
+    $(sith find_forces -path) $cluster -f $i -p stretched $verbose || \
+    fail "Submitting forces calculation"
   Fcounter=$(( Fcounter + 1 ))
 done
 
