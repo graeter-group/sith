@@ -47,6 +47,7 @@ Module contents
 .. toctree::
    :hidden:
 
+   bash_rsts_scripts/create_peptide
    bash_rsts_scripts/workflow
    bash_rsts_scripts/find_forces
    bash_rsts_scripts/clean_ds
@@ -83,3 +84,7 @@ Module contents
 .. _sith-g09-stretching-workflow:
 
 .. include:: bash_rsts_doc/workflow.rst
+
+.. _sith-g09-stretching-create-peptide:
+
+.. include:: bash_rsts_doc/create_peptide.rst

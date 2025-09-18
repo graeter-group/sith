@@ -92,7 +92,7 @@ sh_executers = {
     'after_optimization': './g09_stretching/from_extreme/after_optimization.sh',
     'find_forces': './g09_stretching/find_forces.sh',
     'extract_forces': './g09_stretching/extract_forces.sh',
-    'compute_forces': './g09_stretching/compute_forces.sh',
+    'create_peptide': './g09_stretching/create_peptide.sh',
     'clean_ds': './g09_stretching/clean_ds.sh',
 }
 
