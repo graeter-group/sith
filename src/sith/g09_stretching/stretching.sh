@@ -273,6 +273,9 @@ do
   [ "$output" -ne 0 ] && failed "Optimization when the stretched distance was
       $(( i + 1 ))*0.2 didn't converge. No more stretching will be applied"
 
+  # creating fchk file
+  formchk -3 "$mol-stretched${nameiplusone}.chk" || fail "Creating fchk file"
+
   # ==== Testing DOFs
   verbose "Testing dofs"
   sith log2xyz "$mol-stretched${nameiplusone}.log" || fail "Transforming
@@ -301,9 +304,6 @@ do
   fi
 
   verbose "Stretched ${nameiplusone} finished"
-
-  # creating fchk file
-  formchk -3 "$mol-stretched${nameiplusone}.chk" || fail "Creating fchk file"
   # next i
   i=$(( i + 1 ))
 done
