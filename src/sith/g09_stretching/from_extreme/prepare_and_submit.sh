@@ -10,9 +10,11 @@ exit 0
 }
 
 # ---- set up -----------------------------------------------------------------
-while getopts 'h' flag;
+verbose=''
+while getopts 'vh' flag;
 do
   case "${flag}" in
+    v) verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac

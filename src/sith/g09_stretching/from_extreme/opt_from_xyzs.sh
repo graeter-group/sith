@@ -20,18 +20,21 @@ exit 0
 # ----- general setup ---------------------------------------------------------
 directory="./"
 pattern=""
-while getopts 'd:n:p:h' flag; do
+verbose=''
+while getopts 'd:n:p:cvh' flag; do
   case "${flag}" in
     d) directory=${OPTARG} ;;
     n) name_pattern=${OPTARG} ;;
     p) pdb_ref=${OPTARG} ;;
 
+    v) verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac
 done
 
 # ---- BODY -------------------------------------------------------------------
+source "$(sith basics -path)" OptFromXYZ $verbose
 original_forc2xyz_dir=$(pwd)
 
 index1=$( grep ACE $pdb_ref | grep CH3 | awk '{print $2}' )

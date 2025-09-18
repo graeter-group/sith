@@ -42,7 +42,7 @@ pep=''
 ref_doc='00-aminos.txt'
 random=''
 
-verbose='false'
+verbose=''
 while getopts 'd:e:n:p:R:vh' flag;
 do
   case "${flag}" in
@@ -52,8 +52,7 @@ do
     p) pep=${OPTARG} ;;
     R) random=${OPTARG} ;;
 
-
-    v) verbose='true' ;;
+    v) verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: pkgdeveloper <function> -h" >&2 ; exit 1 ;;
   esac

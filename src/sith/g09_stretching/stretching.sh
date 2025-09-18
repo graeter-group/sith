@@ -43,7 +43,7 @@ breakages=1
 method=0
 restart='false'
 size=0.2
-verbose='false'
+verbose=''
 indexes=''
 level="bmk,6-31+g"
 cluster='false'
@@ -61,7 +61,7 @@ while getopts 'b:ce:i:l:m:p:rs:vh' flag; do
     r) restart='true' ;;
     s) size=${OPTARG} ;;
 
-    v) verbose='true' ;;
+    v) verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac

@@ -38,7 +38,7 @@ exit 0
 # ----- set up starts ---------------------------------------------------------
 cascade='false'
 ref=''
-verbose='false'
+verbose=''
 restart='false'
 while getopts 'cp:rvh' flag;
 do
@@ -47,7 +47,7 @@ do
     p) ref=${OPTARG} ;;
     r) restart='true' ;;
 
-    v) verbose='true' ;;
+    v) verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac

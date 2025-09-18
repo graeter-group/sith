@@ -24,7 +24,7 @@ exit 0
 running_directory="./"
 dataset="../random3"
 user="sucerqdl"
-verbose='false'
+verbose=''
 while getopts 'r:s:u:vh' flag;
 do
   case "${flag}" in
@@ -32,7 +32,7 @@ do
     s) dataset=${OPTARG} ;;
     u) user=${OPTARG} ;;
 
-    v) verbose='true' ;;
+    v) verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac

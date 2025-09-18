@@ -58,14 +58,14 @@ write_int_vector(){
 # General variables
 forces_directory="./forces"
 cluster='false'
-verbose='false'
+verbose=''
 while getopts 'cf:vh' flag;
 do
   case "${flag}" in
     c) cluster='true';;
     f) file=${OPTARG} ;;
 
-    v)  verbose='true' ;;
+    v)  verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac

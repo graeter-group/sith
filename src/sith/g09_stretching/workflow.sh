@@ -59,7 +59,7 @@ restart=''
 size=0.2
 job_options=""
 
-verbose='false'
+verbose=''
 while getopts 'b:cl:m:M:n:rs:S:vh' flag;
 do
   case "${flag}" in
@@ -74,7 +74,7 @@ do
     s) size=${OPTARG} ;;
     S) job_options=${OPTARG} ;;
 
-    v)  verbose='true' ;;
+    v)  verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac

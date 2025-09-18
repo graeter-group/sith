@@ -25,12 +25,13 @@ exit 0
 # ---- set up -----------------------------------------------------------------
 c_flag=""
 cascade='false'
+verbose=''
 while getopts 'f:cvh' flag; do
   case "${flag}" in
     f) file=${OPTARG} ;;
     c) cascade='true' ;;
     
-    v) verbose='true' ;;
+    v) verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac

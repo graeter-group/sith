@@ -17,12 +17,13 @@ exit 0
 # ----- definition of functions finishes --------------------------------------
 
 # ----- set up starts ---------------------------------------------------------
+verbose=''
 while getopts 'n:vh' flag;
 do
   case "${flag}" in
     n) name=${OPTARG} ;;
     
-    v) verbose='true' ;;
+    v) verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac

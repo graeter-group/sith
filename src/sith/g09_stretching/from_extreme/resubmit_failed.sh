@@ -31,7 +31,7 @@ exit 0
 # ----- set up starts ---------------------------------------------------------
 # General variables
 frozen_file='../frozen_dofs.dat'
-verbose='false'
+verbose=''
 directory='./'
 toexecute=""
 jobname=""
@@ -45,7 +45,7 @@ do
     l) logfile=${OPTARG} ;;
     j) jobname=${OPTARG} ;;
 
-    v) verbose='true' ;;
+    v) verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac

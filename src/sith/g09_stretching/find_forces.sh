@@ -56,7 +56,7 @@ compute_forces () {
 cascade='false'
 directory='./'
 pattern=''
-verbose='false'
+verbose=''
 n_processors=1
 while getopts 'cf:n:p:vh' flag; do
   case "${flag}" in
@@ -65,7 +65,7 @@ while getopts 'cf:n:p:vh' flag; do
     n) n_processors=${OPTARG} ;;
     p) pattern=${OPTARG} ;;
 
-    v) verbose='true' ;;
+    v) verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac

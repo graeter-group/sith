@@ -14,14 +14,18 @@ exit 0
 # ----- definition of functions finishes --------------------------------------
 
 # ----- general setup ---------------------------------------------------------
-while getopts 'h' flag; do
+verbose=''
+while getopts 'vh' flag; do
   case "${flag}" in
+    v) verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac
 done
 
 # ---- BODY -------------------------------------------------------------------
+source "$(sith basics -path)" RearangeFiles $verbose
+
 n=0
 for xyz_file in $(ls *.xyz | sort)
 do
