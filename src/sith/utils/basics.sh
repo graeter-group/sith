@@ -50,21 +50,30 @@ done
 array_bfnames=( "$1" "${array_bfnames[@]}" )
 basic_functions_name=${array_bfnames[0]}
 
-if [[ "$2" == "false" ]]
+if [[ "$2" == "true" ]]
 then
-  eval "BASICVERBOSE_${basic_functions_name[0]}=false"
-else
   eval "BASICVERBOSE_${basic_functions_name[0]}=true"
+else
+  eval "BASICVERBOSE_${basic_functions_name[0]}=false"
 fi
 
 # ------ functions ------------------------------------------------------------
 # Function that adjustes the text to 80 characters
 adjust () {
-  text="++++++++ ${basic_functions_name[0]}: $*"
+  text="++++ ${basic_functions_name[0]}: $*"
   addchar=$(( 80 - ${#text} % 80 ))
   text="$text $( perl -E "say '+' x $addchar" )"
   nlines=$(( ${#text} / 80 ))
   for (( w=0; w<=nlines-1; w++ ))
+  do
+    echo "${text:$(( w * 79 )):79}"
+  done
+}
+
+adjust_text () {
+  text="$*"
+  nlines=$(( ${#text} / 80 ))
+  for (( w=0; w<=nlines; w++ ))
   do
     echo "${text:$(( w * 79 )):79}"
   done
@@ -75,8 +84,15 @@ adjust () {
 verbose () {
   if [[ "$(eval "echo \$BASICVERBOSE_${basic_functions_name[0]}")" == "true" ]]
   then
-    # shellcheck disable=SC2068
-    adjust "VERBOSE" $@ "$( date )"
+    if [[ "$1" == "-t" ]]
+    then
+      shift
+      # shellcheck disable=SC2068
+      adjust_text $@
+    else
+      # shellcheck disable=SC2068
+      adjust "VERBOSE" $@ "$( date )"
+    fi
   fi
 }
 
