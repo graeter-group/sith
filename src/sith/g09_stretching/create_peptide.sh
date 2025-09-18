@@ -61,11 +61,12 @@ done
 source $(sith basics -path) CreateAminoAcid "$verbose"
 
 # starting information
-verbose "JOB information"
-echo " * Date:"
-date
-echo " * Command:"
-echo "$0" "$@"
+verbose -t "JOB information"
+verbose -t "==============="
+verbose -t " * Date:"
+verbose -t $(date)
+verbose -t " * Command:"
+verbose -t "$0" "$@"
 
 # --- set up ------------------------------------------------------------------
 ase -h &> /dev/null || fail "This code needs ASE."
