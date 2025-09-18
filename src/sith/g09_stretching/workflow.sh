@@ -30,7 +30,7 @@ to execute it locally. Consider the next options:
   -s  <size[A]=0.2> of the step that increases the distances.
   -S  <job_options=''> options for submitting a new job. This flag only makes
       sense in slurm cluster. Please, do not include a name and add the options
-      as in the next example: \"'--partition=cpu --nice'\".
+      as in the next example: \"--partition=cpu --nice\".
 
   -v  verbose.
   -h  prints this message.

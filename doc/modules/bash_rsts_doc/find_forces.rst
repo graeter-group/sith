@@ -11,7 +11,9 @@ find_forces
 
    .. line-block::
       
-      This tool computes the forces from a chk files that contains a given structure.
+      This tool computes the forces from a chk files that contains a given structure
+      and saves them in a directory called 'forces' that has to be previously
+      created.
       
         -c  run in cascade.
         -f  <file> chk file.
@@ -21,5 +23,9 @@ find_forces
         -v  verbose.
         -h  prints this message.
       
-      Note: it replaces the substring 'stretched' by 'forces' in the name.
+      Note
+      ----
+      
+        Take care with the  files that already exist in the directory 'forces'. They
+        may be overwritten. 
       
