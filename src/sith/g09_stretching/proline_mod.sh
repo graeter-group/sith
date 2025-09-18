@@ -53,14 +53,18 @@ source "$(sith basics -path)" PROLINE_MODE
   provide the pdb file. use 'sith proline_mod -h' to see your options."
 
 # changing proline states.
-sith classical_minimization  -f "$pdbfile" -o "$outfile"  -l "$outgromacs" \
-  || fail "minimization before proline definition of states"
+# TODO: add again classical minimization
+#sith classical_minimization  -f "$pdbfile" -o "$outfile"  -l "$outgromacs" \
+#  || fail "minimization before proline definition of states"
+# next line is a temporal solution
+cp $pdbfile $outfile
 
 verbose "define proline states"
 sith proline_state "$outfile" "$proline_state" || fail "defining proline states"
 
-sith classical_minimization -f "${outfile%.*}modpro.pdb" -l "$outgromacs" \
-  || fail "minimization after proline definition of states"
+# TODO: add again classical minimization
+#sith classical_minimization -f "${outfile%.*}modpro.pdb" -l "$outgromacs" \
+#  || fail "minimization after proline definition of states"
 
 mv "${outfile%.*}modpro.pdb" "$outfile"
 
