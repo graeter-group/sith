@@ -43,8 +43,8 @@ def output_terminal(cmd, print_output=True, skip_error=False, print_cmd=False,
         output = p.stdout.readline()
         if output:
             out += output
-            if print_output and len(output.strip()) != 0:
-                print(output.strip())
+            if print_output:
+                print(output, end="")
     return_code = p.wait()
 
     if not skip_error:
