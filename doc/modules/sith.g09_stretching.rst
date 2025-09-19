@@ -47,12 +47,12 @@ Module contents
 .. toctree::
    :hidden:
 
-   bash_rsts_scripts/create_peptide
    bash_rsts_scripts/workflow
    bash_rsts_scripts/find_forces
    bash_rsts_scripts/clean_ds
    bash_rsts_scripts/proline_mod
    bash_rsts_scripts/extract_forces
+   bash_rsts_scripts/create_peptide
    bash_rsts_scripts/swap_atoms_in_com
    bash_rsts_scripts/stretching
 
@@ -64,6 +64,10 @@ Module contents
 .. _sith-g09-stretching-swap-atoms-in-com:
 
 .. include:: bash_rsts_doc/swap_atoms_in_com.rst
+
+.. _sith-g09-stretching-create-peptide:
+
+.. include:: bash_rsts_doc/create_peptide.rst
 
 .. _sith-g09-stretching-extract-forces:
 
@@ -84,7 +88,3 @@ Module contents
 .. _sith-g09-stretching-workflow:
 
 .. include:: bash_rsts_doc/workflow.rst
-
-.. _sith-g09-stretching-create-peptide:
-
-.. include:: bash_rsts_doc/create_peptide.rst

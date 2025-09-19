@@ -8,15 +8,16 @@ Stretching Molecule Tutorial
   :align: center
 
   **Figure 1.** Energy distribution in glycine with ACE and NME capping groups,
-  stretched by an external force.
+  stretched by an external force as showed in this tutorial.
 
 .. attention::
 
-    To use the `sith` tools described in this tutorial, make sure to import
-    Gaussian as explained in :ref:`load-modules`.
+    To use the :code:`sith` tools described in this tutorial, make sure to
+    import Gaussian as explained in :ref:`load-modules`.
 
-In this tutorial, we will stretch a glycine amino acid capped with ACE and NME groups.  
-The stretching is applied between the terminal carbon atoms of the peptide, until a bond rupture occurs (Figure 1).  
+In this tutorial, we will stretch a glycine amino acid capped with ACE and NME
+groups. The stretching is applied between the terminal carbon atoms of the
+peptide, until a bond rupture occurs (Figure 1).  
 
 The stretching process works as follows:
 
@@ -26,8 +27,9 @@ The stretching process works as follows:
 3. Re-optimize the structure.
 4. Repeat the process with the optimized configuration from step 1.  
 
-At each stretching step, we compute the forces acting on selected internal degrees of freedom.  
-These forces are then used to calculate the distribution of energies.
+At each stretching step, we compute the forces acting on selected internal
+degrees of freedom. These forces are then used to calculate the distribution of
+energies.
 
 -------------------
 Prepare Your System
@@ -36,33 +38,39 @@ Prepare Your System
 Before stretching, identify your molecule and select the atoms to pull apart.  
 In this example, we use a glycine capped with ACE and NME groups
 (`G.pdb <https://raw.githubusercontent.com/Sucerquia/Gdata4tut/refs/heads/main/data/G.pdb>`_
-file from the repository `<https://github.com/Sucerquia/Gdata4tut>`_ that you can
-use as a reference).  
+file from the repository `<https://github.com/Sucerquia/Gdata4tut>`_ that you
+can use as a reference).  
 
-For stretching, we select the carbon atoms from the methyl groups at both capping ends (Figure 2).  
-Using a molecular visualization tool, you can check their atom indices (1-based indexing).  
-Here, the correct indices are **1** and **16**.  
+For stretching, we select the carbon atoms from the methyl groups at both
+capping ends (Figure 2). Using a molecular visualization tool, you can check
+their atom indices (1-based indexing). Here, the correct indices are **1** and
+**16**.  
 
-Alternatively, you can confirm the indices by inspecting the PDB file and locating the `CH3` carbons in the ACE and NME groups.
+Alternatively, you can confirm the indices by inspecting the PDB file and
+locating the `CH3` carbons in the ACE and NME groups.
 
 .. figure:: selection.png
   :align: center
 
-  **Figure 2.** Glycine with ACE and NME caps. The arrows point out the carbons used for stretching.
+  **Figure 2.** Glycine with ACE and NME caps. The arrows point out the carbons
+  used for stretching.
 
 ------------------
 Perform Stretching
 ------------------
 
-Once the system is prepared, perform stretching using :bashscript:`sith.g09_stretching.stretching`:
+Once the system is prepared, perform stretching using
+:bashscript:`sith.g09_stretching.stretching`:
 
 .. code-block:: bash
 
     sith stretching -c -i 1,16 -m G.pdb
 
-On 16 cores, this calculation takes ~15 minutes. On a single core, it may take ~2 hours.
-Our stretching process is taking place until a bond rupture occurs. The broken molecule is saved in a directory called **rupture**.  
-In this case, the rupture occurred between the ACE methyl group and the rest of the molecule (Figure 3).
+On 16 cores, this calculation takes ~15 minutes. On a single core, it may take
+~2 hours. Our stretching process is taking place until a bond rupture occurs.
+The broken molecule is saved in a directory called **rupture**. In this case,
+the rupture occurred between the ACE methyl group and the rest of the molecule
+(Figure 3).
 
 .. figure:: rupture.png
   :align: center
@@ -94,7 +102,7 @@ Extract Forces
 --------------
 
 With stretched structures computed, the next step is to extract the forces in a
-format readable by `sith`. You can do this using
+format readable by :code:`sith`. You can do this using
 :bashscript:`sith.g09_stretching.find_forces` for each structure:
 
 .. code-block:: bash
@@ -102,11 +110,11 @@ format readable by `sith`. You can do this using
   mkdir forces
   sith find_forces -c -f "G-stretched<n>.chk" -p stretched -v
 
-This creates a **forces/** directory containing `G-forces<n>.<ext>` files,  
-with `<ext>` = `com`, `log`, `chk` and `fchk`. The fchk includes
-the necessary information for energy distribution analysis.  
-Internally, these are generated using :code:`formchk -3 G-force<n>.chk`  and
-the corresponding Gaussian log file formatted according to :mod:`sith.readers.g09_reader`.
+This creates a **forces/** directory containing `G-forces<n>.<ext>` files, with
+`<ext>` = `com`, `log`, `chk` and `fchk`. The fchk includes the necessary
+information for energy distribution analysis. Internally, these are generated
+using :code:`formchk -3 G-force<n>.chk`  and the corresponding Gaussian log
+file formatted according to :mod:`sith.readers.g09_reader`.
 
 Instead of doing it one by one, you can compute all at once in parallel using:
 
@@ -124,7 +132,7 @@ Run SITH Analysis
 
 Now everything is ready for the actual analysis!  
 
-Load the force data and compute the energy distribution with `sith`:
+Load the force data and compute the energy distribution with :code:`sith`:
 
 .. code-block:: python
 
@@ -133,7 +141,8 @@ Load the force data and compute the energy distribution with `sith`:
   sith = SITH('./forces')
   sith.sith_analysis();
 
-The resulting :class:`sith.SITH.SITH` object stores all necessary information for further analysis.  
+The resulting :class:`sith.SITH.SITH` object stores all necessary information
+for further analysis.  
 
-For more details on available analysis methods, see :ref:`tutorial-SithAnalysis`.
-
+For more details on available analysis methods, see
+:ref:`tutorial-SithAnalysis`.

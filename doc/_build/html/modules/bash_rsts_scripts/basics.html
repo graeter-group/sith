@@ -111,10 +111,12 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 
 <span class="s2">- &lt;first_argument&gt; Add a label in every output of each bash script by giving</span>
 <span class="s2">  it as a first argument.</span>
-<span class="s2">- &lt;second_argument&gt; Add anything in order to have verbose printing in the</span>
-<span class="s2">  output. otherwise, the your script will ignore all the verbose.</span>
-<span class="s2">- adjust &lt;text&gt;: add the label and print what &lt;text&gt; in an adjusted column of</span>
+<span class="s2">- &lt;second_argument&gt; &#39;true&#39; in order to have verbose printing in the output.</span>
+<span class="s2">  Otherwise, your script will ignore all the verbose.</span>
+<span class="s2">- adjust &lt;text&gt;: print the label with 4 + marks and &lt;text&gt; in an adjusted</span>
+<span class="s2">  column of 80 characters. The last line is completed with + marks until have</span>
 <span class="s2">  80 characters.</span>
+<span class="s2">- adjust_text &lt;text&gt;: print what &lt;text&gt; in an adjusted column of 80 characters.</span>
 <span class="s2">- verbose &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</span>
 <span class="s2">  begining of &lt;text&gt; and print the adjusted text.</span>
 <span class="s2">- warning &lt;text&gt;: besides of the label, it adds the keyword WARNING in to the</span>
@@ -123,7 +125,7 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="s2">  word &quot;</span>finish<span class="s2">&quot; if &lt;text&gt; is not given. It also stops the script with &#39;exit 0&#39;</span>
 <span class="s2">- fail &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</span>
 <span class="s2">  begining of &lt;text&gt; and print the adjusted text. It also print the message</span>
-<span class="s2">  in the std_error and stops the script with &#39;exit 1&#39;</span>
+<span class="s2">  in the std_error and stops the script with &#39;exit 1&#39;.</span>
 <span class="s2">- create_bck [&lt;name1&gt; &lt;name2&gt; ...]: function that moves an existing file or</span>
 <span class="s2">  directory to &lt;basic_functions_name&gt;-bck_[n][.ext] where n is the number of</span>
 <span class="s2">  the backup with 3 digits (leading zeros if necessary) and ext is</span>
@@ -139,11 +141,13 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
 <span class="o">}</span>
 
-<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;h&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
 <span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: myutils &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">  </span><span class="k">esac</span>
 <span class="k">done</span>
 
@@ -154,21 +158,30 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="nv">array_bfnames</span><span class="o">=(</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">array_bfnames</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">)</span>
 <span class="nv">basic_functions_name</span><span class="o">=</span><span class="si">${</span><span class="nv">array_bfnames</span><span class="p">[0]</span><span class="si">}</span>
 
-<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;false&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;-v&quot;</span><span class="w"> </span><span class="o">]]</span>
 <span class="k">then</span>
-<span class="w">  </span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;BASICVERBOSE_</span><span class="si">${</span><span class="nv">basic_functions_name</span><span class="p">[0]</span><span class="si">}</span><span class="s2">=false&quot;</span>
-<span class="k">else</span>
 <span class="w">  </span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;BASICVERBOSE_</span><span class="si">${</span><span class="nv">basic_functions_name</span><span class="p">[0]</span><span class="si">}</span><span class="s2">=true&quot;</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;BASICVERBOSE_</span><span class="si">${</span><span class="nv">basic_functions_name</span><span class="p">[0]</span><span class="si">}</span><span class="s2">=false&quot;</span>
 <span class="k">fi</span>
 
 <span class="c1"># ------ functions ------------------------------------------------------------</span>
 <span class="c1"># Function that adjustes the text to 80 characters</span>
 adjust<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<span class="w">  </span><span class="nv">text</span><span class="o">=</span><span class="s2">&quot;++++++++ </span><span class="si">${</span><span class="nv">basic_functions_name</span><span class="p">[0]</span><span class="si">}</span><span class="s2">: </span><span class="nv">$*</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nv">text</span><span class="o">=</span><span class="s2">&quot;++++ </span><span class="si">${</span><span class="nv">basic_functions_name</span><span class="p">[0]</span><span class="si">}</span><span class="s2">: </span><span class="nv">$*</span><span class="s2">&quot;</span>
 <span class="w">  </span><span class="nv">addchar</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="si">${#</span><span class="nv">text</span><span class="si">}</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="k">))</span>
 <span class="w">  </span><span class="nv">text</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$text</span><span class="s2"> </span><span class="k">$(</span><span class="w"> </span>perl<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;say &#39;+&#39; x </span><span class="nv">$addchar</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
 <span class="w">  </span><span class="nv">nlines</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="si">${#</span><span class="nv">text</span><span class="si">}</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="k">))</span>
 <span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="o">((</span><span class="w"> </span><span class="nv">w</span><span class="o">=</span><span class="m">0</span><span class="p">;</span><span class="w"> </span>w&lt;<span class="o">=</span>nlines-1<span class="p">;</span><span class="w"> </span>w++<span class="w"> </span><span class="o">))</span>
+<span class="w">  </span><span class="k">do</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">text</span><span class="p">:</span><span class="k">$((</span><span class="w"> </span><span class="nv">w</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">79</span><span class="w"> </span><span class="k">))</span><span class="p">:</span><span class="nv">79</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="k">done</span>
+<span class="o">}</span>
+
+adjust_text<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="nv">text</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$*</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nv">nlines</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="si">${#</span><span class="nv">text</span><span class="si">}</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">80</span><span class="w"> </span><span class="k">))</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="o">((</span><span class="w"> </span><span class="nv">w</span><span class="o">=</span><span class="m">0</span><span class="p">;</span><span class="w"> </span>w&lt;<span class="o">=</span>nlines<span class="p">;</span><span class="w"> </span>w++<span class="w"> </span><span class="o">))</span>
 <span class="w">  </span><span class="k">do</span>
 <span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">text</span><span class="p">:</span><span class="k">$((</span><span class="w"> </span><span class="nv">w</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">79</span><span class="w"> </span><span class="k">))</span><span class="p">:</span><span class="nv">79</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="w">  </span><span class="k">done</span>
@@ -179,8 +192,15 @@ adjust<span class="w"> </span><span class="o">()</span><span class="w"> </span><
 verbose<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;echo \$BASICVERBOSE_</span><span class="si">${</span><span class="nv">basic_functions_name</span><span class="p">[0]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="w"> </span><span class="o">]]</span>
 <span class="w">  </span><span class="k">then</span>
-<span class="w">    </span><span class="c1"># shellcheck disable=SC2068</span>
-<span class="w">    </span>adjust<span class="w"> </span><span class="s2">&quot;VERBOSE&quot;</span><span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>date<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;-t&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="nb">shift</span>
+<span class="w">      </span><span class="c1"># shellcheck disable=SC2068</span>
+<span class="w">      </span>adjust_text<span class="w"> </span><span class="nv">$@</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="c1"># shellcheck disable=SC2068</span>
+<span class="w">      </span>adjust<span class="w"> </span><span class="s2">&quot;VERBOSE&quot;</span><span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>date<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
 <span class="w">  </span><span class="k">fi</span>
 <span class="o">}</span>
 

@@ -16,10 +16,12 @@ basics
       
       - <first_argument> Add a label in every output of each bash script by giving
         it as a first argument.
-      - <second_argument> Add anything in order to have verbose printing in the
-        output. otherwise, the your script will ignore all the verbose.
-      - adjust <text>: add the label and print what <text> in an adjusted column of
+      - <second_argument> 'true' in order to have verbose printing in the output.
+        Otherwise, your script will ignore all the verbose.
+      - adjust <text>: print the label with 4 + marks and <text> in an adjusted
+        column of 80 characters. The last line is completed with + marks until have
         80 characters.
+      - adjust_text <text>: print what <text> in an adjusted column of 80 characters.
       - verbose <text>: besides of the label, it adds the keyword VERBOSE in to the
         begining of <text> and print the adjusted text.
       - warning <text>: besides of the label, it adds the keyword WARNING in to the
@@ -28,7 +30,7 @@ basics
         word finish if <text> is not given. It also stops the script with 'exit 0'
       - fail <text>: besides of the label, it adds the keyword VERBOSE in to the
         begining of <text> and print the adjusted text. It also print the message
-        in the std_error and stops the script with 'exit 1'
+        in the std_error and stops the script with 'exit 1'.
       - create_bck [<name1> <name2> ...]: function that moves an existing file or
         directory to <basic_functions_name>-bck_[n][.ext] where n is the number of
         the backup with 3 digits (leading zeros if necessary) and ext is

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>find_forces &mdash; sith</title>
+  <title>create_peptide &mdash; sith</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
@@ -66,9 +66,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">find_forces</li>
+      <li class="breadcrumb-item active">create_peptide</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/modules/bash_rsts_doc/find_forces.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/modules/bash_rsts_doc/create_peptide.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -76,25 +76,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="find-forces">
-<h1>find_forces<a class="headerlink" href="#find-forces" title="Link to this heading"></a></h1>
+  <section id="create-peptide">
+<h1>create_peptide<a class="headerlink" href="#create-peptide" title="Link to this heading"></a></h1>
 <div class="bash-script-title docutils container">
-<p><a class="reference internal" href="../bash_rsts_scripts/find_forces.html#find-forces"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/find_forces.sh</strong></p>
+<p><a class="reference internal" href="../bash_rsts_scripts/create_peptide.html#create-peptide"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/create_peptide.sh</strong></p>
 </div>
 <div class="bash-script-doc docutils container">
 <div class="line-block">
-<div class="line">This tool computes the forces from a chk files that contains a given structure</div>
-<div class="line">and saves them in a directory called ‘forces’ that has to be previously</div>
-<div class="line">created.</div>
+<div class="line">This tool creates a peptide as a change of amino acids. It adds ACE and NME</div>
+<div class="line">capping groups in the ends. The output is a pdb file with the name of the</div>
+<div class="line">peptide saved in a directory with the same name.</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-c  run in cascade.</div>
-<div class="line">-f  &lt;file&gt; chk file.</div>
-<div class="line">-p  &lt;pattern&gt; pattern present in the chk files that will be replaced with the</div>
+<div class="line">-d  &lt;reference document=00-aminos.txt&gt; file containing the existing peptides</div>
 <div class="line-block">
-<div class="line">word ‘forces’.</div>
-<div class="line"><br /></div>
+<div class="line">to avoid repetition. Mainly used for generation of random peptides.</div>
 </div>
+<div class="line">-e  &lt;endo&gt; or &lt;exo&gt; states for initial state of proline. Default ‘random’.</div>
+<div class="line">-n  &lt;options&gt; Pepgen options (use &quot; for this)</div>
+<div class="line">-p  &lt;peptide&gt; Chains of aminoacids to be evaluated. For example, “AAA”</div>
+<div class="line-block">
+<div class="line">would analyse a trialanine peptide.</div>
+</div>
+<div class="line">-R  random pepeptide. Give the number of amino acids with this argument.</div>
+<div class="line"><br /></div>
 <div class="line">-v  verbose.</div>
 <div class="line">-h  prints this message.</div>
 <div class="line"><br /></div>
@@ -103,8 +108,7 @@
 <div class="line">—-</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">Take care with the  files that already exist in the directory ‘forces’. They</div>
-<div class="line">may be overwritten.</div>
+<div class="line">This tools requires pepgen already installed.</div>
 </div>
 </div>
 </div>

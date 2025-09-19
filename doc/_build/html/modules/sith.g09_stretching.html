@@ -21,7 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Script of sith workflow" href="bash_rsts_scripts/workflow.html" />
+    <link rel="next" title="Script of sith create_peptide" href="bash_rsts_scripts/create_peptide.html" />
     <link rel="prev" title="sith.energy_analysis package" href="sith.energy_analysis.html" /> 
 </head>
 
@@ -514,7 +514,9 @@ set as pdv argument (without the extension).</p></li>
 </div>
 <div class="bash-script-doc docutils container">
 <div class="line-block">
-<div class="line">This tool computes the forces from a chk files that contains a given structure.</div>
+<div class="line">This tool computes the forces from a chk files that contains a given structure</div>
+<div class="line">and saves them in a directory called ‘forces’ that has to be previously</div>
+<div class="line">created.</div>
 <div class="line"><br /></div>
 <div class="line-block">
 <div class="line">-c  run in cascade.</div>
@@ -528,7 +530,13 @@ set as pdv argument (without the extension).</p></li>
 <div class="line">-h  prints this message.</div>
 <div class="line"><br /></div>
 </div>
-<div class="line">Note: it replaces the substring ‘stretched’ by ‘forces’ in the name.</div>
+<div class="line">Note</div>
+<div class="line">—-</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">Take care with the  files that already exist in the directory ‘forces’. They</div>
+<div class="line">may be overwritten.</div>
+</div>
 </div>
 </div>
 </section>
@@ -540,7 +548,7 @@ set as pdv argument (without the extension).</p></li>
 <div class="bash-script-doc docutils container">
 <div class="line-block">
 <div class="line">This tool creates all the stretched structures for a peptide and computes the</div>
-<div class="line">needed quantities for sith. You can use this code to submit a Job in cascade or</div>
+<div class="line">needed quantities for sith. You can use this code to submit a Job in cluster or</div>
 <div class="line">to execute it locally. Consider the next options:</div>
 <div class="line"><br /></div>
 <div class="line-block">
@@ -548,30 +556,72 @@ set as pdv argument (without the extension).</p></li>
 <div class="line-block">
 <div class="line">of ruptures in the bonds.</div>
 </div>
-<div class="line">-c  run in cascade. (modules are loaded)</div>
+<div class="line">-c  run in cluster (see the documentation of the installation of sith</div>
+<div class="line-block">
+<div class="line">-execute ‘sith doc’ in your terminal-)</div>
+</div>
+<div class="line">-i  &lt;index1,index2&gt; indexes of the atoms to use for increasing the distance.</div>
+<div class="line-block">
+<div class="line">If these indices are not given and the molecule is an amino acid defined</div>
+<div class="line">in a pdb, the CH3 atoms of the ACE and NME residues are chosen.</div>
+</div>
+<div class="line">-l  &lt;xc,base=bmk,6-31+g&gt; evel of DFT theory.</div>
+<div class="line">-m  &lt;molecule&gt; definition of the molecule (xyz, pdb, …).</div>
+<div class="line">-M  &lt;method=0&gt; Index of stretching method. To see the options, use</div>
+<div class="line-block">
+<div class="line">‘sith change_distance -h’ to see the order.</div>
+</div>
+<div class="line">-n  &lt;n_processors=1&gt; number of processors per gaussian job.</div>
+<div class="line">-r  restart. In this case, run from the directory of the pre-created</div>
+<div class="line-block">
+<div class="line">peptide.</div>
+</div>
+<div class="line">-s  &lt;size[A]=0.2&gt; of the step that increases the distances.</div>
+<div class="line">-S  &lt;job_options=’’&gt; options for submitting a new job. This flag only makes</div>
+<div class="line-block">
+<div class="line">sense in slurm cluster. Please, do not include a name and add the options</div>
+<div class="line">as in the next example: “–partition=cpu –nice”.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">-v  verbose.</div>
+<div class="line">-h  prints this message.</div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-peptide">
+<span id="sith-g09-stretching-create-peptide"></span><h3>create_peptide<a class="headerlink" href="#create-peptide" title="Link to this heading"></a></h3>
+<div class="bash-script-title docutils container">
+<p><a class="reference internal" href="bash_rsts_scripts/create_peptide.html#create-peptide"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/create_peptide.sh</strong></p>
+</div>
+<div class="bash-script-doc docutils container">
+<div class="line-block">
+<div class="line">This tool creates a peptide as a change of amino acids. It adds ACE and NME</div>
+<div class="line">capping groups in the ends. The output is a pdb file with the name of the</div>
+<div class="line">peptide saved in a directory with the same name.</div>
+<div class="line"><br /></div>
+<div class="line-block">
 <div class="line">-d  &lt;reference document=00-aminos.txt&gt; file containing the existing peptides</div>
 <div class="line-block">
 <div class="line">to avoid repetition. Mainly used for generation of random peptides.</div>
 </div>
 <div class="line">-e  &lt;endo&gt; or &lt;exo&gt; states for initial state of proline. Default ‘random’.</div>
-<div class="line">-m  &lt;method=0&gt; Index of stretching method. To see the options, use</div>
-<div class="line-block">
-<div class="line">‘sith change_distance -h’ to see the order.</div>
-</div>
 <div class="line">-n  &lt;options&gt; Pepgen options (use &quot; for this)</div>
 <div class="line">-p  &lt;peptide&gt; Chains of aminoacids to be evaluated. For example, “AAA”</div>
 <div class="line-block">
 <div class="line">would analyse a trialanine peptide.</div>
 </div>
 <div class="line">-R  random pepeptide. Give the number of amino acids with this argument.</div>
-<div class="line">-r  restart. In this case, run from the directory of the pre-created</div>
-<div class="line-block">
-<div class="line">peptide.</div>
-</div>
-<div class="line">-s  &lt;size[A]=0.2&gt; of the step that increases the distances.</div>
 <div class="line"><br /></div>
 <div class="line">-v  verbose.</div>
 <div class="line">-h  prints this message.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">Note</div>
+<div class="line">—-</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">This tools requires pepgen already installed.</div>
 </div>
 </div>
 </div>
@@ -584,7 +634,7 @@ set as pdv argument (without the extension).</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="sith.energy_analysis.html" class="btn btn-neutral float-left" title="sith.energy_analysis package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="bash_rsts_scripts/workflow.html" class="btn btn-neutral float-right" title="Script of sith workflow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="bash_rsts_scripts/create_peptide.html" class="btn btn-neutral float-right" title="Script of sith create_peptide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

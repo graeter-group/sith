@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Script of sith find_forces" href="find_forces.html" />
-    <link rel="prev" title="sith.g09_stretching package" href="../sith.g09_stretching.html" /> 
+    <link rel="prev" title="Script of sith create_peptide" href="create_peptide.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -106,7 +106,6 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1">#SBATCH -N 1                   # number of nodes</span>
-<span class="c1">#SBATCH --cpus-per-task=1</span>
 <span class="c1">#SBATCH -t 24:00:00</span>
 <span class="c1">#SBATCH --output=%x-%j.o</span>
 <span class="c1">#SBATCH --error=%x-%j.e</span>
@@ -116,24 +115,27 @@
 print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
 <span class="s2">This tool creates all the stretched structures for a peptide and computes the</span>
-<span class="s2">needed quantities for sith. You can use this code to submit a Job in cascade or</span>
+<span class="s2">needed quantities for sith. You can use this code to submit a Job in cluster or</span>
 <span class="s2">to execute it locally. Consider the next options:</span>
 
 <span class="s2">  -b  &lt;number of breakages=1&gt; The simulation will run until getting this number</span>
 <span class="s2">      of ruptures in the bonds.</span>
-<span class="s2">  -c  run in cascade. (modules are loaded)</span>
-<span class="s2">  -d  &lt;reference document=00-aminos.txt&gt; file containing the existing peptides</span>
-<span class="s2">      to avoid repetition. Mainly used for generation of random peptides.</span>
-<span class="s2">  -e  &lt;endo&gt; or &lt;exo&gt; states for initial state of proline. Default &#39;random&#39;.</span>
-<span class="s2">  -m  &lt;method=0&gt; Index of stretching method. To see the options, use</span>
+<span class="s2">  -c  run in cluster (see the documentation of the installation of sith</span>
+<span class="s2">      -execute &#39;sith doc&#39; in your terminal-)</span>
+<span class="s2">  -i  &lt;index1,index2&gt; indexes of the atoms to use for increasing the distance.</span>
+<span class="s2">      If these indices are not given and the molecule is an amino acid defined</span>
+<span class="s2">      in a pdb, the CH3 atoms of the ACE and NME residues are chosen. </span>
+<span class="s2">  -l  &lt;xc,base=&quot;</span>bmk,6-31+g<span class="s2">&quot;&gt; evel of DFT theory.</span>
+<span class="s2">  -m  &lt;molecule&gt; definition of the molecule (xyz, pdb, ...).</span>
+<span class="s2">  -M  &lt;method=0&gt; Index of stretching method. To see the options, use</span>
 <span class="s2">      &#39;sith change_distance -h&#39; to see the order.</span>
-<span class="s2">  -n  &lt;options&gt; Pepgen options (use \\\&quot; for this)</span>
-<span class="s2">  -p  &lt;peptide&gt; Chains of aminoacids to be evaluated. For example, \&quot;AAA\&quot;</span>
-<span class="s2">      would analyse a trialanine peptide.</span>
-<span class="s2">  -R  random pepeptide. Give the number of amino acids with this argument.</span>
+<span class="s2">  -n  &lt;n_processors=1&gt; number of processors per gaussian job.</span>
 <span class="s2">  -r  restart. In this case, run from the directory of the pre-created</span>
 <span class="s2">      peptide.</span>
 <span class="s2">  -s  &lt;size[A]=0.2&gt; of the step that increases the distances.</span>
+<span class="s2">  -S  &lt;job_options=&#39;&#39;&gt; options for submitting a new job. This flag only makes</span>
+<span class="s2">      sense in slurm cluster. Please, do not include a name and add the options</span>
+<span class="s2">      as in the next example: \&quot;--partition=cpu --nice\&quot;.</span>
 
 <span class="s2">  -v  verbose.</span>
 <span class="s2">  -h  prints this message.</span>
@@ -143,13 +145,8 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 
 resubmit<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">  </span>sleep<span class="w"> </span>23h<span class="w"> </span>58m<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>whoami<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;hits_&quot;</span>*<span class="w"> </span><span class="o">]]</span>
-<span class="w">  </span><span class="k">then</span>
-<span class="w">    </span><span class="nv">single_part</span><span class="o">=</span><span class="s2">&quot;--partition=cpu-single&quot;</span>
-<span class="w">  </span><span class="k">else</span>
-<span class="w">    </span><span class="nv">single_part</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
-<span class="w">  </span><span class="k">fi</span>
-<span class="w">  </span>sbatch<span class="w"> </span><span class="nv">$single_part</span><span class="w"> </span>-J<span class="w"> </span><span class="nv">$SLURM_JOB_NAME</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>workflow<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>-r<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$3</span><span class="s2">&quot;</span><span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$4</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sbatch<span class="w"> </span><span class="nv">$job_options</span><span class="w"> </span>-J<span class="w"> </span><span class="nv">$SLURM_JOB_NAME</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>workflow<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-r<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$3</span><span class="s2">&quot;</span><span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$4</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;new JOB submitted&quot;</span>
 <span class="o">}</span>
 
@@ -158,30 +155,31 @@ resubmit<span class="w"> </span><span class="o">()</span><span class="w"> </span
 <span class="c1"># ----- set up starts ---------------------------------------------------------</span>
 <span class="c1"># General variables</span>
 <span class="nv">breakages</span><span class="o">=</span><span class="m">1</span>
-<span class="nv">cascade</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
-<span class="nv">endoexo</span><span class="o">=</span><span class="s1">&#39;random&#39;</span>
+<span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">indexes</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">level</span><span class="o">=</span><span class="s2">&quot;bmk,6-31+g&quot;</span>
 <span class="nv">method</span><span class="o">=</span><span class="m">0</span>
-<span class="nv">pep</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">n_processors</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">restart</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">size</span><span class="o">=</span><span class="m">0</span>.2
-<span class="nv">ref_doc</span><span class="o">=</span><span class="s1">&#39;00-aminos.txt&#39;</span>
+<span class="nv">job_options</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
 
-<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
-<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;d:b:ce:m:n:p:rR:s:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;b:cl:m:M:n:rs:S:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
 <span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
 <span class="w">    </span>b<span class="o">)</span><span class="w"> </span><span class="nv">breakages</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cascade</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>d<span class="o">)</span><span class="w"> </span><span class="nv">ref_doc</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>e<span class="o">)</span><span class="w"> </span><span class="nv">endoexo</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>m<span class="o">)</span><span class="w"> </span><span class="nv">method</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>n<span class="o">)</span><span class="w"> </span><span class="nv">pep_options</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>p<span class="o">)</span><span class="w"> </span><span class="nv">pep</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;-c&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>i<span class="o">)</span><span class="w"> </span><span class="nv">indexes</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>l<span class="o">)</span><span class="w"> </span><span class="nv">level</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>m<span class="o">)</span><span class="w"> </span><span class="nv">molecule</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>M<span class="o">)</span><span class="w"> </span><span class="nv">method</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>n<span class="o">)</span><span class="w"> </span><span class="nv">n_processors</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>r<span class="o">)</span><span class="w"> </span><span class="nv">restart</span><span class="o">=</span><span class="s1">&#39;-r&#39;</span><span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>R<span class="o">)</span><span class="w"> </span><span class="nv">random</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>s<span class="o">)</span><span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>S<span class="o">)</span><span class="w"> </span><span class="nv">job_options</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 
-<span class="w">    </span>v<span class="o">)</span><span class="w">  </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>v<span class="o">)</span><span class="w">  </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">  </span><span class="k">esac</span>
@@ -190,109 +188,75 @@ resubmit<span class="w"> </span><span class="o">()</span><span class="w"> </span
 <span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>WORKFLOW<span class="w"> </span><span class="nv">$verbose</span>
 
 <span class="c1"># starting information</span>
-verbose<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot; * Date:&quot;</span>
-date
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot; * Command:&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;===============&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Date:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="k">$(</span>date<span class="k">)</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Command:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
 
 <span class="c1"># ---- Set up -------------------------------------------------------------------</span>
-<span class="c1"># random peptide</span>
-<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span><span class="s2">&quot;</span><span class="si">${#</span><span class="nv">random</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span>
-<span class="k">then</span>
-<span class="w">  </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ref_doc</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Non-recognized </span><span class="nv">$ref_doc</span><span class="s2">, check flag -d&quot;</span>
-<span class="w">  </span><span class="nv">pep</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>gen_randpep<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$random</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Creating random peptide&quot;</span>
-<span class="w">  </span><span class="k">while</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;!/^#/ {print $1}&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ref_doc</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span>
-<span class="w">  </span><span class="k">do</span>
-<span class="w">    </span><span class="nv">pep</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>gen_randpep<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$random</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Creating random peptide&quot;</span>
-<span class="w">  </span><span class="k">done</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;   R&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ref_doc</span><span class="s2">&quot;</span>
-<span class="w">  </span>warning<span class="w"> </span><span class="s2">&quot;The code created the random peptide </span><span class="nv">$pep</span><span class="s2">, the workflow will run</span>
-<span class="s2">    with this peptide even if you also passed -p argument.&quot;</span>
-<span class="k">fi</span>
-
-<span class="c1"># debug peptides</span>
-<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${#</span><span class="nv">pep</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span>
-<span class="k">then</span><span class="w"> </span>
-<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;This code needs one peptide. Please, define it using the flag -p or</span>
-<span class="s2">        -R. For more info, use \&quot;sith workflow -h\&quot;&quot;</span>
-<span class="k">fi</span>
 
 <span class="c1"># load modules</span>
-<span class="k">if</span><span class="w"> </span><span class="nv">$cascade</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cluster</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;-c&quot;</span><span class="w"> </span><span class="o">]]</span>
 <span class="k">then</span>
 <span class="w">  </span>load_modules<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$breakages</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$size</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_CPUS_ON_NODE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="nv">$SLURM_CPUS_ON_NODE</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">  </span><span class="k">fi</span>
 <span class="k">fi</span>
 
-ase<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs ASE&quot;</span>
-<span class="nb">command</span><span class="w"> </span>-V<span class="w"> </span>gaussian<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs gaussian&quot;</span>
-gmx<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs gmx&quot;</span>
-sith<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs sith&quot;</span>
-perl<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;say &#39;+&#39; x 80&quot;</span>
+<span class="nv">xc_functional</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$level</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+<span class="nv">basis_set</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$level</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="k">)</span>
+
+ase<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs ASE.&quot;</span>
+<span class="nb">command</span><span class="w"> </span>-V<span class="w"> </span>gaussian<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Remeber to define the function</span>
+<span class="s2">  gaussian (check the documentation of the installation -sith doc-).&quot;</span>
+<span class="c1"># gmx -h &amp;&gt; /dev/null || fail &quot;This code needs gmx.&quot;</span>
+sith<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs sith.&quot;</span>
 
 <span class="c1"># ---- BODY -------------------------------------------------------------------</span>
-<span class="c1"># ---- firstly, backup previous directories with the same name</span>
-<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$restart</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;-r&quot;</span><span class="w"> </span><span class="o">]]</span>
-<span class="k">then</span>
-<span class="w">  </span><span class="c1"># check pepgen</span>
-<span class="w">  </span>pepgen<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs pepgen&quot;</span>
+verbose<span class="w"> </span><span class="s2">&quot;execute stretching&quot;</span>
 
-<span class="w">  </span><span class="c1"># create back up</span>
-<span class="w">  </span>create_bck<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span>
+sith<span class="w"> </span>stretching<span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$breakages</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$cluster</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$indexes</span><span class="s2">&#39;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$xc_functional</span><span class="s2">,</span><span class="nv">$basis_set</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$restart</span><span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$size</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;Stretching of </span><span class="nv">$pep</span><span class="s2"> failed&quot;</span>
 
-<span class="w">  </span><span class="c1"># Creation of the peptide directory and moving inside.</span>
-<span class="w">  </span>mkdir<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span>
-<span class="w">  </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;directory </span><span class="nv">$pep</span><span class="s2"> does not exist&quot;</span>
-<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;generating peptide&quot;</span>
-<span class="w">  </span><span class="c1"># Creation of peptide</span>
-<span class="w">  </span><span class="c1"># shellcheck disable=SC2086</span>
-<span class="w">  </span>pepgen<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span>tmp<span class="w"> </span>-r<span class="w"> </span>-s<span class="w"> </span>flat<span class="w"> </span><span class="nv">$pep_options</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Creating peptide </span><span class="nv">$pep</span><span class="s2">&quot;</span>
-<span class="w">  </span>mv<span class="w"> </span>tmp/pep.pdb<span class="w"> </span><span class="s2">&quot;./</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span>
-<span class="w">  </span>sith<span class="w"> </span>classical_minimization<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;./</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">                                 </span>-o<span class="w"> </span><span class="s2">&quot;./</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span>
-<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;define proline state&quot;</span>
-<span class="w">  </span>sith<span class="w"> </span>proline_mod<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span><span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$endoexo</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>fail<span class="w"> </span><span class="s2">&quot;Proline estates configuration&quot;</span>
-<span class="w">  </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">-stretched00modpro.pdb&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span><span class="w"> </span>
-<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;protonate/deprotonate&quot;</span>
-<span class="w">  </span>sith<span class="w"> </span>protonate<span class="w"> </span><span class="s2">&quot;./</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span><span class="w"> </span><span class="s2">&quot;./</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>fail<span class="w"> </span><span class="s2">&quot;protonizing&quot;</span>
-<span class="w">  </span>rm<span class="w"> </span>-r<span class="w"> </span>tmp
-<span class="k">else</span>
-<span class="w">  </span><span class="c1"># moving to the peptide directory</span>
-<span class="w">  </span><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;directory </span><span class="nv">$pep</span><span class="s2"> does not exist&quot;</span>
-<span class="w">  </span>warning<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2"> restarted&quot;</span>
-<span class="k">fi</span>
-
-<span class="c1"># construct the stretched configurations</span>
-sith<span class="w"> </span>stretching<span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$breakages</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$restart</span><span class="s2">&quot;</span><span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">                   </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$size</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Stretching of </span><span class="nv">$pep</span><span class="s2"> failed&quot;</span>
-
-<span class="c1"># Compute classical energies</span>
-verbose<span class="w"> </span><span class="s2">&quot;computing classical energies.&quot;</span>
-sith<span class="w"> </span>classical_energies
+<span class="c1"># TODO: add Classical energies</span>
 
 <span class="c1"># compute forces</span>
 verbose<span class="w"> </span><span class="s2">&quot;submitting comptutation of forces.&quot;</span><span class="p">;</span>
 
-<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>whoami<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;hits_&quot;</span>*<span class="w"> </span><span class="o">]]</span>
-<span class="k">then</span>
-<span class="w">  </span><span class="nv">single_part</span><span class="o">=</span><span class="s2">&quot;--partition=cpu-single&quot;</span>
-<span class="k">else</span>
-<span class="w">  </span><span class="nv">single_part</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
-<span class="k">fi</span>
+create_bck<span class="w"> </span>forces
+mkdir<span class="w"> </span>-p<span class="w"> </span>forces
+mkdir<span class="w"> </span>-p<span class="w"> </span>bck
+mv<span class="w"> </span>./*-bck*.*<span class="w"> </span>bck
 
-sbatch<span class="w"> </span><span class="nv">$single_part</span><span class="w"> </span>-J<span class="w"> </span><span class="si">${</span><span class="nv">pep</span><span class="si">}</span>_forces<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>find_forces<span class="w"> </span>-path<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w">  </span>-p<span class="w"> </span><span class="nv">$pep</span><span class="w"> </span><span class="o">&amp;&amp;</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;computation of forces submitted&quot;</span>
+<span class="nv">Fcounter</span><span class="o">=</span><span class="m">0</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">molecule</span><span class="p">%.*</span><span class="si">}</span>-stretched*.chk
+<span class="k">do</span>
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Forces of </span><span class="nv">$i</span><span class="s2">&quot;</span>
+<span class="w">  </span>sbatch<span class="w"> </span><span class="nv">$job_options</span><span class="w"> </span>-J<span class="w"> </span><span class="s2">&quot;F</span><span class="si">${</span><span class="nv">molecule</span><span class="p">%.*</span><span class="si">}</span><span class="nv">$Fcounter</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="k">$(</span>sith<span class="w"> </span>find_forces<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span><span class="nv">$cluster</span><span class="w"> </span>-f<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>-p<span class="w"> </span>stretched<span class="w"> </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fail<span class="w"> </span><span class="s2">&quot;Submitting forces calculation&quot;</span>
+<span class="w">  </span><span class="nv">Fcounter</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">Fcounter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
+<span class="k">done</span>
 
-sbatch<span class="w"> </span><span class="nv">$single_part</span><span class="w"> </span>-J<span class="w"> </span><span class="si">${</span><span class="nv">pep</span><span class="si">}</span>_WAR<span class="w"> </span><span class="k">$(</span>sith<span class="w"> </span>workflow_from_extreme<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="w"> </span>-v
+<span class="c1">#sbatch $single_part -J ${pep}_WAR $(sith workflow_from_extreme -path) -c -p &quot;.&quot; -v</span>
 
-verbose<span class="w"> </span><span class="s2">&quot;running grappa and amber&quot;</span><span class="p">;</span>
-<span class="nv">final_force</span><span class="o">=</span><span class="k">$(</span>sith<span class="w"> </span>F_max_stretch<span class="w"> </span>../<span class="w"> </span><span class="nv">$pep</span><span class="k">)</span>
-sbatch<span class="w"> </span><span class="nv">$single_part</span><span class="w"> </span>-J<span class="w"> </span><span class="si">${</span><span class="nv">pep</span><span class="si">}</span>_ff<span class="w"> </span><span class="k">$(</span>sith<span class="w"> </span>pulling_with_ff<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span>-F<span class="w"> </span><span class="nv">$final_force</span><span class="w"> </span>-f<span class="w"> </span><span class="nv">$pep</span>-stretched00.pdb<span class="w"> </span>
+<span class="c1">#verbose &quot;running grappa and amber&quot;;</span>
+<span class="c1">#final_force=$(sith F_max_stretch ../ $pep)</span>
+<span class="c1">#sbatch $single_part -J ${pep}_ff $(sith pulling_with_ff -path) -F $final_force -f $pep-stretched00.pdb </span>
 
 
-finish<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2"> finished&quot;</span>
+<span class="c1">#finish &quot;$pep finished&quot;</span>
 </pre></div>
 </div>
 </section>
@@ -301,7 +265,7 @@ finish<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pe
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../sith.g09_stretching.html" class="btn btn-neutral float-left" title="sith.g09_stretching package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="create_peptide.html" class="btn btn-neutral float-left" title="Script of sith create_peptide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="find_forces.html" class="btn btn-neutral float-right" title="Script of sith find_forces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

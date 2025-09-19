@@ -114,7 +114,9 @@
 <span class="c1"># ----- definition of functions starts ----------------------------------------</span>
 print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
-<span class="s2">This tool computes the forces from a chk files that contains a given structure.</span>
+<span class="s2">This tool computes the forces from a chk files that contains a given structure</span>
+<span class="s2">and saves them in a directory called &#39;forces&#39; that has to be previously</span>
+<span class="s2">created.</span>
 
 <span class="s2">  -c  run in cascade.</span>
 <span class="s2">  -f  &lt;file&gt; chk file.</span>
@@ -124,7 +126,11 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="s2">  -v  verbose.</span>
 <span class="s2">  -h  prints this message.</span>
 
-<span class="s2">Note: it replaces the substring &#39;stretched&#39; by &#39;forces&#39; in the name.</span>
+<span class="s2">Note</span>
+<span class="s2">----</span>
+
+<span class="s2">  Take care with the  files that already exist in the directory &#39;forces&#39;. They</span>
+<span class="s2">  may be overwritten. </span>
 <span class="s2">&quot;</span>
 <span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
 <span class="o">}</span>
@@ -155,7 +161,7 @@ compute_forces<span class="w"> </span><span class="o">()</span><span class="w"> 
 <span class="nv">cascade</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
 <span class="nv">directory</span><span class="o">=</span><span class="s1">&#39;./&#39;</span>
 <span class="nv">pattern</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">n_processors</span><span class="o">=</span><span class="m">1</span>
 <span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;cf:n:p:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
@@ -164,7 +170,7 @@ compute_forces<span class="w"> </span><span class="o">()</span><span class="w"> 
 <span class="w">    </span>n<span class="o">)</span><span class="w"> </span><span class="nv">n_processors</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>p<span class="o">)</span><span class="w"> </span><span class="nv">pattern</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 
-<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">  </span><span class="k">esac</span>
@@ -172,11 +178,12 @@ compute_forces<span class="w"> </span><span class="o">()</span><span class="w"> 
 
 <span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>FIND_FORCES<span class="w"> </span><span class="nv">$verbose</span>
 
-verbose<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot; * Date:&quot;</span>
-date
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot; * Command:&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;===============&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Date:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="k">$(</span>date<span class="k">)</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Command:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
 
 <span class="k">if</span><span class="w"> </span><span class="nv">$cascade</span>
 <span class="k">then</span>
@@ -188,10 +195,8 @@ date
 
 <span class="c1"># ---- BODY -------------------------------------------------------------------</span>
 verbose<span class="w"> </span><span class="s2">&quot;Create forces directory and extracting forces from </span><span class="nv">$chkfile</span><span class="s2">&quot;</span>
-create_bck<span class="w"> </span>forces
-mkdir<span class="w"> </span>-p<span class="w"> </span>forces
-mkdir<span class="w"> </span>-p<span class="w"> </span>bck
-mv<span class="w"> </span>./*-bck*.*<span class="w"> </span>bck
+<span class="o">[[</span><span class="w"> </span>-d<span class="w"> </span>forces<span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;A directory called &#39;forces&#39; have to exist to run</span>
+<span class="s2">  execute the computation of forces&quot;</span>
 
 compute_forces<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$chkfile</span><span class="s2">&quot;</span>
 <span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">chkfile</span><span class="p">//</span><span class="si">${</span><span class="nv">pattern</span><span class="si">}</span><span class="p">/forces</span><span class="si">}</span>

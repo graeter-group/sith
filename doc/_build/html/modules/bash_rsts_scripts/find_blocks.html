@@ -137,7 +137,7 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="nv">ends</span><span class="o">=</span><span class="s2">&quot;empty_ending_pattern&quot;</span>
 <span class="nv">index</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
 <span class="nv">output</span><span class="o">=</span><span class="s1">&#39;output&#39;</span>
-<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;e:f:io:s:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
 <span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
@@ -146,14 +146,14 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="w">    </span>i<span class="o">)</span><span class="w"> </span><span class="nv">index</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>o<span class="o">)</span><span class="w"> </span><span class="nv">output</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>s<span class="o">)</span><span class="w"> </span><span class="nv">starts</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
 
 <span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: myutils &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">  </span><span class="k">esac</span>
 <span class="k">done</span>
 
-<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>myutils<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>FindBlocks<span class="w"> </span><span class="nv">$verbose</span>
+<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>FindBlocks<span class="w"> </span><span class="nv">$verbose</span>
 
 verbose<span class="w"> </span><span class="s2">&quot;starts: </span><span class="nv">$starts</span><span class="s2"> ; ends: </span><span class="nv">$ends</span><span class="s2"> ; file: </span><span class="nv">$file</span><span class="s2"> ; output: </span><span class="nv">$output</span><span class="s2">.&quot;</span>
 

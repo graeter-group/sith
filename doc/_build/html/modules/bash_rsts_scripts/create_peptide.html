@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script of sith create_peptide &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Script of sith workflow" href="workflow.html" />
+    <link rel="prev" title="sith.g09_stretching package" href="../sith.g09_stretching.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching.change_dofs">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.utils.html">sith.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../sith.html">sith package</a></li>
+          <li class="breadcrumb-item"><a href="../sith.g09_stretching.html">sith.g09_stretching package</a></li>
+      <li class="breadcrumb-item active">Script of sith create_peptide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/bash_rsts_scripts/create_peptide.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="script-of-sith-create-peptide">
+<span id="create-peptide"></span><h1>Script of sith create_peptide<a class="headerlink" href="#script-of-sith-create-peptide" title="Link to this heading"></a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1">#SBATCH -N 1                   # number of nodes</span>
+<span class="c1">#SBATCH -n 9</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH -t 24:00:00</span>
+<span class="c1">#SBATCH --output=%x-%j.o</span>
+<span class="c1">#SBATCH --error=%x-%j.e</span>
+<span class="c1">#SBATCH --exclusive</span>
+
+
+<span class="c1"># ----- definition of functions -----------------------------------------------</span>
+print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">This tool creates a peptide as a change of amino acids. It adds ACE and NME</span>
+<span class="s2">capping groups in the ends. The output is a pdb file with the name of the</span>
+<span class="s2">peptide saved in a directory with the same name.</span>
+
+<span class="s2">  -d  &lt;reference document=00-aminos.txt&gt; file containing the existing peptides</span>
+<span class="s2">      to avoid repetition. Mainly used for generation of random peptides.</span>
+<span class="s2">  -e  &lt;endo&gt; or &lt;exo&gt; states for initial state of proline. Default &#39;random&#39;.</span>
+<span class="s2">  -n  &lt;options&gt; Pepgen options (use \\\&quot; for this)</span>
+<span class="s2">  -p  &lt;peptide&gt; Chains of aminoacids to be evaluated. For example, \&quot;AAA\&quot;</span>
+<span class="s2">      would analyse a trialanine peptide.</span>
+<span class="s2">  -R  random pepeptide. Give the number of amino acids with this argument.</span>
+
+<span class="s2">  -v  verbose.</span>
+<span class="s2">  -h  prints this message.</span>
+
+<span class="s2">Note</span>
+<span class="s2">----</span>
+
+<span class="s2">  This tools requires pepgen already installed.</span>
+<span class="s2">&quot;</span>
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+<span class="c1"># ----- set up starts ---------------------------------------------------------</span>
+<span class="c1"># General variables</span>
+<span class="nv">endoexo</span><span class="o">=</span><span class="s1">&#39;random&#39;</span>
+<span class="nv">pep</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">ref_doc</span><span class="o">=</span><span class="s1">&#39;00-aminos.txt&#39;</span>
+<span class="nv">random</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;d:e:n:p:R:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>d<span class="o">)</span><span class="w"> </span><span class="nv">ref_doc</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>e<span class="o">)</span><span class="w"> </span><span class="nv">endoexo</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>n<span class="o">)</span><span class="w"> </span><span class="nv">pep_options</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>p<span class="o">)</span><span class="w"> </span><span class="nv">pep</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>R<span class="o">)</span><span class="w"> </span><span class="nv">random</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+
+<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: pkgdeveloper &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">  </span><span class="k">esac</span>
+<span class="k">done</span>
+
+<span class="nb">source</span><span class="w"> </span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span>CreateAminoAcid<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$verbose</span><span class="s2">&quot;</span>
+
+<span class="c1"># starting information</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;===============&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Date:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="k">$(</span>date<span class="k">)</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Command:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+
+<span class="c1"># --- set up ------------------------------------------------------------------</span>
+ase<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs ASE.&quot;</span>
+pepgen<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs pepgen&quot;</span>
+
+<span class="c1"># ---- BODY -------------------------------------------------------------------</span>
+<span class="c1"># random peptide</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span><span class="s2">&quot;</span><span class="si">${#</span><span class="nv">random</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span>
+<span class="k">then</span>
+<span class="w">  </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ref_doc</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Non-recognized </span><span class="nv">$ref_doc</span><span class="s2">, check flag -d&quot;</span>
+<span class="w">  </span><span class="nv">pep</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>gen_randpep<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$random</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Creating random peptide&quot;</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;!/^#/ {print $1}&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ref_doc</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="k">do</span>
+<span class="w">    </span><span class="nv">pep</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>gen_randpep<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$random</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Creating random peptide&quot;</span>
+<span class="w">  </span><span class="k">done</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;   R&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ref_doc</span><span class="s2">&quot;</span>
+<span class="w">  </span>warning<span class="w"> </span><span class="s2">&quot;The code created the random peptide </span><span class="nv">$pep</span><span class="s2">, the workflow will run</span>
+<span class="s2">    with this peptide even if you also passed -p argument.&quot;</span>
+<span class="k">fi</span>
+
+<span class="c1"># debug peptides</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${#</span><span class="nv">pep</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span>
+<span class="k">then</span><span class="w"> </span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;This code needs one peptide. Please, define it using the flag -p or</span>
+<span class="s2">        -R. For more info, use \&quot;sith workflow -h\&quot;&quot;</span>
+<span class="k">fi</span>
+
+<span class="c1"># create back up</span>
+create_bck<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span>
+
+<span class="c1"># Creation of the peptide directory and moving inside.</span>
+mkdir<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span>
+<span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;directory </span><span class="nv">$pep</span><span class="s2"> does not exist&quot;</span>
+verbose<span class="w"> </span><span class="s2">&quot;generating peptide&quot;</span>
+<span class="c1"># Creation of peptide</span>
+<span class="c1"># shellcheck disable=SC2086</span>
+pepgen<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span>tmp<span class="w"> </span>-r<span class="w"> </span>-s<span class="w"> </span>flat<span class="w"> </span><span class="nv">$pep_options</span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Creating peptide </span><span class="nv">$pep</span><span class="s2">&quot;</span>
+mv<span class="w"> </span>tmp/pep.pdb<span class="w"> </span><span class="s2">&quot;./</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span>
+<span class="c1"># TODO: add again classical minimization</span>
+<span class="c1">#sith classical_minimization -f &quot;./$pep-stretched00.pdb&quot; \</span>
+<span class="c1">#                                -o &quot;./$pep-stretched00.pdb&quot;</span>
+verbose<span class="w"> </span><span class="s2">&quot;define proline state&quot;</span>
+sith<span class="w"> </span>proline_mod<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span><span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$endoexo</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;Proline estates configuration&quot;</span>
+mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">-stretched00modpro.pdb&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span><span class="w"> </span>
+verbose<span class="w"> </span><span class="s2">&quot;protonate/deprotonate&quot;</span>
+sith<span class="w"> </span>protonate<span class="w"> </span><span class="s2">&quot;./</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span><span class="w"> </span><span class="s2">&quot;./</span><span class="nv">$pep</span><span class="s2">-stretched00.pdb&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;protonizing&quot;</span>
+rm<span class="w"> </span>-r<span class="w"> </span>tmp
+
+finish
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../sith.g09_stretching.html" class="btn btn-neutral float-left" title="sith.g09_stretching package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="workflow.html" class="btn btn-neutral float-right" title="Script of sith workflow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

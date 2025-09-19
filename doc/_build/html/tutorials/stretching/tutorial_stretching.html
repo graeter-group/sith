@@ -95,16 +95,17 @@
 <img alt="../../_images/G-distribution.png" src="../../_images/G-distribution.png" />
 <figcaption>
 <p><span class="caption-text"><strong>Figure 1.</strong> Energy distribution in glycine with ACE and NME capping groups,
-stretched by an external force.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
+stretched by an external force as showed in this tutorial.</span><a class="headerlink" href="#id1" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
-<p>To use the <cite>sith</cite> tools described in this tutorial, make sure to import
-Gaussian as explained in <a class="reference internal" href="../../install.html#load-modules"><span class="std std-ref">Load-modules</span></a>.</p>
+<p>To use the <code class="code docutils literal notranslate"><span class="pre">sith</span></code> tools described in this tutorial, make sure to
+import Gaussian as explained in <a class="reference internal" href="../../install.html#load-modules"><span class="std std-ref">Load-modules</span></a>.</p>
 </div>
-<p>In this tutorial, we will stretch a glycine amino acid capped with ACE and NME groups.
-The stretching is applied between the terminal carbon atoms of the peptide, until a bond rupture occurs (Figure 1).</p>
+<p>In this tutorial, we will stretch a glycine amino acid capped with ACE and NME
+groups. The stretching is applied between the terminal carbon atoms of the
+peptide, until a bond rupture occurs (Figure 1).</p>
 <p>The stretching process works as follows:</p>
 <ol class="arabic simple" start="0">
 <li><p>Optimize the structure without any constraints.</p></li>
@@ -113,35 +114,42 @@ The stretching is applied between the terminal carbon atoms of the peptide, unti
 <li><p>Re-optimize the structure.</p></li>
 <li><p>Repeat the process with the optimized configuration from step 1.</p></li>
 </ol>
-<p>At each stretching step, we compute the forces acting on selected internal degrees of freedom.
-These forces are then used to calculate the distribution of energies.</p>
+<p>At each stretching step, we compute the forces acting on selected internal
+degrees of freedom. These forces are then used to calculate the distribution of
+energies.</p>
 <section id="prepare-your-system">
 <h2>Prepare Your System<a class="headerlink" href="#prepare-your-system" title="Link to this heading"></a></h2>
 <p>Before stretching, identify your molecule and select the atoms to pull apart.
 In this example, we use a glycine capped with ACE and NME groups
 (<a class="reference external" href="https://raw.githubusercontent.com/Sucerquia/Gdata4tut/refs/heads/main/data/G.pdb">G.pdb</a>
-file from the repository <a class="reference external" href="https://github.com/Sucerquia/Gdata4tut">https://github.com/Sucerquia/Gdata4tut</a> that you can
-use as a reference).</p>
-<p>For stretching, we select the carbon atoms from the methyl groups at both capping ends (Figure 2).
-Using a molecular visualization tool, you can check their atom indices (1-based indexing).
-Here, the correct indices are <strong>1</strong> and <strong>16</strong>.</p>
-<p>Alternatively, you can confirm the indices by inspecting the PDB file and locating the <cite>CH3</cite> carbons in the ACE and NME groups.</p>
+file from the repository <a class="reference external" href="https://github.com/Sucerquia/Gdata4tut">https://github.com/Sucerquia/Gdata4tut</a> that you
+can use as a reference).</p>
+<p>For stretching, we select the carbon atoms from the methyl groups at both
+capping ends (Figure 2). Using a molecular visualization tool, you can check
+their atom indices (1-based indexing). Here, the correct indices are <strong>1</strong> and
+<strong>16</strong>.</p>
+<p>Alternatively, you can confirm the indices by inspecting the PDB file and
+locating the <cite>CH3</cite> carbons in the ACE and NME groups.</p>
 <figure class="align-center" id="id2">
 <img alt="../../_images/selection.png" src="../../_images/selection.png" />
 <figcaption>
-<p><span class="caption-text"><strong>Figure 2.</strong> Glycine with ACE and NME caps. The arrows point out the carbons used for stretching.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
+<p><span class="caption-text"><strong>Figure 2.</strong> Glycine with ACE and NME caps. The arrows point out the carbons
+used for stretching.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 </section>
 <section id="perform-stretching">
 <h2>Perform Stretching<a class="headerlink" href="#perform-stretching" title="Link to this heading"></a></h2>
-<p>Once the system is prepared, perform stretching using <a class="bashscript reference external" href="../../modules/sith.g09_stretching.html#sith-g09-stretching-stretching">sith/g09_stretching/stretching.sh</a>:</p>
+<p>Once the system is prepared, perform stretching using
+<a class="bashscript reference external" href="../../modules/sith.g09_stretching.html#sith-g09-stretching-stretching">sith/g09_stretching/stretching.sh</a>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sith<span class="w"> </span>stretching<span class="w"> </span>-c<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>,16<span class="w"> </span>-m<span class="w"> </span>G.pdb
 </pre></div>
 </div>
-<p>On 16 cores, this calculation takes ~15 minutes. On a single core, it may take ~2 hours.
-Our stretching process is taking place until a bond rupture occurs. The broken molecule is saved in a directory called <strong>rupture</strong>.
-In this case, the rupture occurred between the ACE methyl group and the rest of the molecule (Figure 3).</p>
+<p>On 16 cores, this calculation takes ~15 minutes. On a single core, it may take
+~2 hours. Our stretching process is taking place until a bond rupture occurs.
+The broken molecule is saved in a directory called <strong>rupture</strong>. In this case,
+the rupture occurred between the ACE methyl group and the rest of the molecule
+(Figure 3).</p>
 <figure class="align-center" id="id3">
 <img alt="../../_images/rupture.png" src="../../_images/rupture.png" />
 <figcaption>
@@ -176,18 +184,20 @@ In this case, the rupture occurred between the ACE methyl group and the rest of 
 <section id="extract-forces">
 <h2>Extract Forces<a class="headerlink" href="#extract-forces" title="Link to this heading"></a></h2>
 <p>With stretched structures computed, the next step is to extract the forces in a
-format readable by <cite>sith</cite>. You can do this using
+format readable by <code class="code docutils literal notranslate"><span class="pre">sith</span></code>. You can do this using
 <a class="bashscript reference external" href="../../modules/sith.g09_stretching.html#sith-g09-stretching-find-forces">sith/g09_stretching/find_forces.sh</a> for each structure:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sith<span class="w"> </span>find_forces<span class="w"> </span>-c<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;G-stretched&lt;n&gt;.chk&quot;</span><span class="w"> </span>-p<span class="w"> </span>stretched<span class="w"> </span>-v
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>forces
+sith<span class="w"> </span>find_forces<span class="w"> </span>-c<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;G-stretched&lt;n&gt;.chk&quot;</span><span class="w"> </span>-p<span class="w"> </span>stretched<span class="w"> </span>-v
 </pre></div>
 </div>
-<p>This creates a <strong>forces/</strong> directory containing <cite>G-forces&lt;n&gt;.&lt;ext&gt;</cite> files,
-with <cite>&lt;ext&gt;</cite> = <cite>com</cite>, <cite>log</cite>, <cite>chk</cite> and <cite>fchk</cite>. The fchk includes
-the necessary information for energy distribution analysis.
-Internally, these are generated using <code class="code docutils literal notranslate"><span class="pre">formchk</span> <span class="pre">-3</span> <span class="pre">G-force&lt;n&gt;.chk</span></code>  and
-the corresponding Gaussian log file formatted according to <a class="reference internal" href="../../modules/sith.readers.html#module-sith.readers.g09_reader" title="sith.readers.g09_reader"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sith.readers.g09_reader</span></code></a>.</p>
+<p>This creates a <strong>forces/</strong> directory containing <cite>G-forces&lt;n&gt;.&lt;ext&gt;</cite> files, with
+<cite>&lt;ext&gt;</cite> = <cite>com</cite>, <cite>log</cite>, <cite>chk</cite> and <cite>fchk</cite>. The fchk includes the necessary
+information for energy distribution analysis. Internally, these are generated
+using <code class="code docutils literal notranslate"><span class="pre">formchk</span> <span class="pre">-3</span> <span class="pre">G-force&lt;n&gt;.chk</span></code>  and the corresponding Gaussian log
+file formatted according to <a class="reference internal" href="../../modules/sith.readers.html#module-sith.readers.g09_reader" title="sith.readers.g09_reader"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sith.readers.g09_reader</span></code></a>.</p>
 <p>Instead of doing it one by one, you can compute all at once in parallel using:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>G-stretched*.chk
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>forces
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>G-stretched*.chk
 <span class="k">do</span>
 <span class="w">  </span>sith<span class="w"> </span>find_forces<span class="w"> </span>-c<span class="w"> </span>-f<span class="w"> </span><span class="nv">$i</span><span class="w"> </span>-p<span class="w"> </span>stretched<span class="w"> </span>-v<span class="w"> </span><span class="p">&amp;</span>
 <span class="k">done</span>
@@ -197,15 +207,17 @@ the corresponding Gaussian log file formatted according to <a class="reference i
 <section id="run-sith-analysis">
 <h2>Run SITH Analysis<a class="headerlink" href="#run-sith-analysis" title="Link to this heading"></a></h2>
 <p>Now everything is ready for the actual analysis!</p>
-<p>Load the force data and compute the energy distribution with <cite>sith</cite>:</p>
+<p>Load the force data and compute the energy distribution with <code class="code docutils literal notranslate"><span class="pre">sith</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sith.SITH</span> <span class="kn">import</span> <span class="n">SITH</span>
 
 <span class="n">sith</span> <span class="o">=</span> <span class="n">SITH</span><span class="p">(</span><span class="s1">&#39;./forces&#39;</span><span class="p">)</span>
 <span class="n">sith</span><span class="o">.</span><span class="n">sith_analysis</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>The resulting <a class="reference internal" href="../../modules/sith.html#sith.SITH.SITH" title="sith.SITH.SITH"><code class="xref py py-class docutils literal notranslate"><span class="pre">sith.SITH.SITH</span></code></a> object stores all necessary information for further analysis.</p>
-<p>For more details on available analysis methods, see <a class="reference internal" href="../sith-analysis/tutorial_SithAnalysis.html#tutorial-sithanalysis"><span class="std std-ref">SITH Analysis Tutorial</span></a>.</p>
+<p>The resulting <a class="reference internal" href="../../modules/sith.html#sith.SITH.SITH" title="sith.SITH.SITH"><code class="xref py py-class docutils literal notranslate"><span class="pre">sith.SITH.SITH</span></code></a> object stores all necessary information
+for further analysis.</p>
+<p>For more details on available analysis methods, see
+<a class="reference internal" href="../sith-analysis/tutorial_SithAnalysis.html#tutorial-sithanalysis"><span class="std std-ref">SITH Analysis Tutorial</span></a>.</p>
 </section>
 </section>
 

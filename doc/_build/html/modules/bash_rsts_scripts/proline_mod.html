@@ -128,7 +128,7 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="nv">outfile</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">pdbfile</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">outgromacs</span><span class="o">=</span><span class="s1">&#39;/dev/null&#39;</span>
-<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;f:o:l:s:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
 <span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
@@ -137,7 +137,7 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="w">    </span>o<span class="o">)</span><span class="w"> </span><span class="nv">outfile</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>l<span class="o">)</span><span class="w"> </span><span class="nv">outgromacs</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 
-<span class="w">    </span>v<span class="o">)</span><span class="w">  </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>v<span class="o">)</span><span class="w">  </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">  </span><span class="k">esac</span>
@@ -158,14 +158,18 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="s2">  provide the pdb file. use &#39;sith proline_mod -h&#39; to see your options.&quot;</span>
 
 <span class="c1"># changing proline states.</span>
-sith<span class="w"> </span>classical_minimization<span class="w">  </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pdbfile</span><span class="s2">&quot;</span><span class="w"> </span>-o<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$outfile</span><span class="s2">&quot;</span><span class="w">  </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$outgromacs</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;minimization before proline definition of states&quot;</span>
+<span class="c1"># TODO: add again classical minimization</span>
+<span class="c1">#sith classical_minimization  -f &quot;$pdbfile&quot; -o &quot;$outfile&quot;  -l &quot;$outgromacs&quot; \</span>
+<span class="c1">#  || fail &quot;minimization before proline definition of states&quot;</span>
+<span class="c1"># next line is a temporal solution</span>
+cp<span class="w"> </span><span class="nv">$pdbfile</span><span class="w"> </span><span class="nv">$outfile</span>
 
 verbose<span class="w"> </span><span class="s2">&quot;define proline states&quot;</span>
 sith<span class="w"> </span>proline_state<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$outfile</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$proline_state</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;defining proline states&quot;</span>
 
-sith<span class="w"> </span>classical_minimization<span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">outfile</span><span class="p">%.*</span><span class="si">}</span><span class="s2">modpro.pdb&quot;</span><span class="w"> </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$outgromacs</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;minimization after proline definition of states&quot;</span>
+<span class="c1"># TODO: add again classical minimization</span>
+<span class="c1">#sith classical_minimization -f &quot;${outfile%.*}modpro.pdb&quot; -l &quot;$outgromacs&quot; \</span>
+<span class="c1">#  || fail &quot;minimization after proline definition of states&quot;</span>
 
 mv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">outfile</span><span class="p">%.*</span><span class="si">}</span><span class="s2">modpro.pdb&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$outfile</span><span class="s2">&quot;</span>
 
