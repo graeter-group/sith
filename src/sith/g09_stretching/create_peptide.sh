@@ -6,7 +6,6 @@
 #SBATCH -t 24:00:00
 #SBATCH --output=%x-%j.o
 #SBATCH --error=%x-%j.e
-#SBATCH --exclusive
 
 
 # ----- definition of functions -----------------------------------------------

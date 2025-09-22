@@ -2,6 +2,7 @@
 
 #SBATCH -N 1
 #SBATCH -t 24:00:00
+#SBATCH --cpus-per-task=1
 #SBATCH --output=%x-%j.o
 #SBATCH --error=%x-%j.e
 
