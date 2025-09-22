@@ -1,36 +1,35 @@
 import numpy as np
 from ase.io import read
-import sys
-import matplotlib.pyplot as plt
 from sith.utils.miscellaneous import output_terminal
-from ase.visualize import view
-from sith.utils.molecules import MoleculeSetter, Alignment
-from sith.utils.peptides import PepSetter
-from ase import Atoms
+from sith.utils.molecules import Alignment
 from ase.io import write
 import glob
 
 
 # add2executable
-def info_from_opt(logfile, pdb_reference, pattern):
+def info_from_opt(logfile, pattern):
     """
     Extracts configurations from a gaussian optimization trajectory and removes
-    those outliers in the total energy.
+    the structures that are outliers in the total energy.
 
     Parameters
     ==========
     logfile: str
         gaussian log file.
-    pdb_reference: str
-        pdb with the information of the peptide.
     pattern: str
         pattern of the output. The results are xyz files called
         <pattern><i>.xyz
 
     Return
     ======
-    (ase.Atoms) new trajectory without the outliers. it creates the xyz files
+    (ase.Atoms) new trajectory without the outliers. It creates the xyz files
     in between.
+
+    Note
+    ====
+    You can use
+    :func:`sith.g09_stretching.from_extreme.info_from_opt.reduce_struct` to
+    make the DOFs of output trajectory continuous.
     """
     # read configurations
     atoms = read(logfile, index=':')
@@ -40,19 +39,6 @@ def info_from_opt(logfile, pdb_reference, pattern):
                                + " | awk '{print $5}'",
                                print_output=False)
     energies = np.array(energies.split('\n')[:-1], dtype=float)
-
-    # read amino acids info, recognize extreme indexes
-    ps = PepSetter(pdb_reference)
-    res = list(ps.amino_info.keys())
-    middle = len(res) // 2 + 1
-    ind1 = ps.amino_info[res[0]]['CH3'] - 1
-    ind2 = ps.amino_info[res[-1]]['CH3'] - 1
-
-    # choose third atom for orientation.
-    if ps.amino_name[middle] != 'GLY':  # Glycine does not have CB
-        ind3 = ps.amino_info[3]['CB'] - 1
-    else:  # In case of 3 Glycine
-        ind3 = ps.amino_info[middle]['CA'] - 1
 
     # remove configurations that goes up in energy. keep those that goes
     # down only. assuming local optimization
@@ -68,40 +54,9 @@ def info_from_opt(logfile, pdb_reference, pattern):
         energies = np.delete(energies, toremove + 1)
         i += 1
 
-    # align all the structures in the same plane. This guarantee that
+    # align all the structures in the same plane. This guarantees that
     # the average of two structures is the intermedia structure between them
     all_atoms = [Alignment.align_with_components(conf) for conf in atoms]
-    for conf in all_atoms:
-        ms = MoleculeSetter(conf)
-        ms.xy_alignment(ind1, ind2, ind3)
-
-    # now make the trajectory continuos. if the distance between extremes is
-    # larger than 0.2A, configurations with the intermedia distances are
-    # created.
-    new_set = [atoms[0]]
-    i = 1
-    while i < len(atoms):
-        conf = atoms[i]
-        di = new_set[-1].get_distance(ind1, ind2)
-        df = conf.get_distance(ind1, ind2)
-        deltad = df - di
-        if abs(deltad) > 0.2:
-            n_intermedia = int(abs(deltad / 0.2))
-            fraction = 1/(n_intermedia + 1)
-            inbetween = []
-            for n in range(1, n_intermedia + 1):
-                at = Atoms(conf.get_chemical_symbols(),
-                           positions = (1 - fraction * n) *
-                                       new_set[-1].positions +
-                                       (fraction * n) * conf.positions)
-                inbetween.append(at)
-            new_set.extend(inbetween)
-        new_set.append(conf)
-        i += 1
-
-    # in case of last configurations does not belong to new_set, it is added
-    if np.any(atoms[-1].positions != new_set[-1].positions):
-        new_set.append(atoms[-1])
 
     # write all the trajectory
     for i, atoms in enumerate(all_atoms):
@@ -189,7 +144,7 @@ def reduce_structs(dir, pattern):
                                 axis=0)
 
     # copy relevant files to a directory called subset
-    output_terminal("if [ ! -d subset ]; then mkdir subset; fi")
+    output_terminal("mkdir -p subset")
     for i, struct in enumerate(subdofs):
         with open('./subset/{}{:03d}.dat'.format(pattern,
                                                   i), "w") as i_struct_file:

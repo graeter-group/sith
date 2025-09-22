@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: delete this script, but first check if it is not used.
+
 # ----- definition of functions starts ----------------------------------------
 print_help() {
 echo "

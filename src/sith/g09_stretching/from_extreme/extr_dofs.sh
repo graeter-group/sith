@@ -3,10 +3,11 @@
 # ----- definition of functions starts ----------------------------------------
 print_help() {
 echo "
-This tool extract the dofs of a set of xyz files. The ouput are files called
-<xyz file with *pattern*>-dofs.dat, where pattern comes from -f flag.
+This tool extract the dofs of a set of xyz files using the gaussian tool
+'newzmat'. The ouput are files called <xyz file with *pattern*>-dofs.dat, where
+pattern comes from -f flag.
 
-  -f  <xyz files pattern>. The code will look for *pattern*.xyz
+  -f  <xyz files pattern>. The code will look for *<pattern>*.xyz
 
   -h  prints this message.
 "
@@ -27,14 +28,14 @@ while getopts 'f:p:vh' flag; do
   esac
 done
 
-source "$(sith basics -path)" Extract_DOFs
+source "$(sith basics -path)" Extract_DOFs $verbose
 # ---- BODY -------------------------------------------------------------------
 # Reduce, optimize and then try to find intermedias.
 for xyzfile in *"${xyzs}"*.xyz
 do
   tail -n +3 $xyzfile > tmp.xyz
   newzmat -ixyz -ozmat -rebuildzmat -bmodel \
-    tmp.xyz ${xyzfile%.xyz}-forces.com || fail "z-matrix"
+    tmp.xyz ${xyzfile%.xyz}-forces.com > /dev/null || fail "z-matrix"
   n=$(grep -n "Variables:" ${xyzfile%.xyz}-forces.com | awk '{print $1}')
   n=${n%:}
 
