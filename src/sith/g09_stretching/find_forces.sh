@@ -35,12 +35,11 @@ compute_forces () {
   for_name=${chk_name//${pattern}/forces}
   for_name=${for_name%.chk}
   verbose "construct Z-matrix for $1 into $for_name"
-  echo newzmat -ichk -ozmat -rebuildzmat -bmodel "$1" $for_name.com
-  newzmat -ichk -ozmat -rebuildzmat -bmodel "$1" $for_name.com || \
+  newzmat -ichk -ozmat -rebuildzmat -bmodel "$1" $for_name.com > /dev/null || \
     {
       lnbck=$(search_last_bck ${1%.chk}) ; \
       newzmat -ichk -ozmat -rebuildzmat -bmodel "${1%.chk}-bck_$lnbck.chk" \
-      $for_name.com || fail "Creating the matrix"
+      $for_name.com > /dev/null || fail "Creating the matrix"
     }
   sed -i "1i %NProcShared=$n_processors" $for_name.com
   sed -i "1i %chk=$for_name" $for_name.com

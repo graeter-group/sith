@@ -107,9 +107,6 @@ then
   fi
 fi
 
-xc_functional=$(echo $level | cut -d ',' -f 1)
-basis_set=$(echo $level | cut -d ',' -f 2)
-
 ase -h &> /dev/null || fail "This code needs ASE."
 command -V gaussian &> /dev/null || fail "Remeber to define the function
   gaussian (check the documentation of the installation -sith doc-)."
@@ -120,7 +117,7 @@ sith -h &> /dev/null || fail "This code needs sith."
 verbose "execute stretching"
 
 sith stretching -b "$breakages" $cluster -e "$method" -i "'$indexes'" \
-                -l "$xc_functional,$basis_set" \
+                -l "$level" \
                 -m "$molecule" -p "$n_processors" $restart -s "$size" || \
   fail "Stretching of $pep failed"
 

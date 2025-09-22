@@ -14,9 +14,9 @@ distance between two atoms, constraining and optimizing at every step.
 
   -b  <number_of_breakages=1> The simulation will run until get this number of
       ruptures.
-  -c  Use this flag to run in a cluster set with slurm. In that case, the
-      of processors is equal to the number of cores asked in the submission of
-      the job. When this flag is present, -p is ignored.
+  -c  Use this flag to run in a cluster. When -p is not defined, and you run in
+      a slurm job manager system, the of processors is equal to the number of
+      cores asked in the submission of the job.
   -e  <extend_method=0> index of stretching method. To see the options, use
       'sith change_distance -h' to see the order.
       carbons of the capping groups
@@ -47,7 +47,7 @@ verbose=''
 indexes=''
 level="bmk,6-31+g"
 cluster='false'
-n_processors=1
+n_processors=''
 retake='true'
 while getopts 'b:ce:i:l:m:p:rs:vh' flag; do
   case "${flag}" in
@@ -72,7 +72,15 @@ source "$(sith basics -path)" STRETCHING $verbose
 if $cluster
 then
   load_modules
-  n_processors=$SLURM_CPUS_ON_NODE
+  if [[ -z "$n_processors" ]] 
+  then
+    if [[ ! -z "$SLURM_CPUS_ON_NODE" ]]
+    then
+      n_processors=$SLURM_CPUS_ON_NODE
+    else
+      n_processors=1
+    fi
+  fi
 fi
 
 # starting information
@@ -153,10 +161,9 @@ then
   $retake && \
       warning "The stretching of molecule $mol will be restarted from $i"
 else
-  # C-CAP indexes in gaussian convention
   if [[ -z "$indexes" ]] && [[ "${mol_file##*.}" == 'pdb' ]]
   then
-    # reading indexes from pdb file
+    # reading indexes from pdb file C-CAP indexes in gaussian convention
     index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
     index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
   else
@@ -166,9 +173,12 @@ else
   fi
 
   # check that the indexes were read properly:
-  [[ "$index1" -eq 0 && "$index2" -eq 0 ]] && fail "Not recognized indexes"
-  [[ "$index1" -eq 1 && "$index2" -eq 1 ]] && fail "Not recognized indexes"
-  [[ "$index1" == "$index2" ]] && fail "Not recognized indexes"
+  [[ "$index1" -eq 0 && "$index2" -eq 0 ]] && fail "Not recognized indexes (1)
+    check -i flag"
+  [[ "$index1" -eq 1 && "$index2" -eq 1 ]] && fail "Not recognized indexes (1)
+    check -i flag"
+  [[ "$index1" == "$index2" ]] && fail "Not recognized indexes (1) check -i
+    flag"
 
   if ! [[ -f 'frozen_dofs.dat' ]]
   then
@@ -176,7 +186,7 @@ else
   fi
 
   verbose "This code will stretch the atoms with the indexes $index1 $index2
-  (1-based indexing)"
+    (1-based indexing)."
 
   # in case of not restarting
   i=-1
