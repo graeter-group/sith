@@ -86,18 +86,21 @@ then
   # reading indexes from pdb file
   index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
   index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
-else
-  # reading indexes from user input
-  index1=$( echo "$indexes" | cut -d ',' -f 1 )
-  index2=$( echo "$indexes" | cut -d ',' -f 2 )
+  indexes="$index1,$index2"
 fi
 
+# reading indexes from user input
+index1=$( echo "$indexes" | cut -d ',' -f 1 )
+index2=$( echo "$indexes" | cut -d ',' -f 2 )
+
+
 # check that the indexes were read properly:
-[[ "$index1" -eq 0 && "$index2" -eq 0 ]] && fail "Not recognized indexes (1)
-  check -i flag"
-[[ "$index1" -eq 1 && "$index2" -eq 1 ]] && fail "Not recognized indexes (2)
-  check -i flag"
-[[ "$index1" == "$index2" ]] && fail "Not recognized indexes (3) check -i flag"
+[[ -z "$index1" ]] && fail "Not recognized indexes: index 1: $index1, index 2:
+  $index2 from indexes: $indexes"
+[[ -z "$index2" ]] && fail "Not recognized indexes: index 1: $index1, index 2:
+  $index2 from indexes: $indexes"
+[[ "$index1" == "$index2" ]] && fail "Not recognized indexes: index 1: $index1,
+  index 2: $index2 from indexes: $indexes"
 
 xc_functional=$(echo $level | cut -d ',' -f 1)
 basis_set=$(echo $level | cut -d ',' -f 2)
