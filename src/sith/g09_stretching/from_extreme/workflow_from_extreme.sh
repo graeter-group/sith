@@ -86,9 +86,9 @@ source "$(sith basics -path)" WF_FROM_EXTREME $verbose
 # starting information
 verbose -t "JOB information"
 verbose -t "==============="
-verbose -t " * Date:"
+verbose -t " \* Date:"
 verbose -t $(date)
-verbose -t " * Command:"
+verbose -t " \* Command:"
 verbose -t "$0" "$@"
 
 c_flag=''
