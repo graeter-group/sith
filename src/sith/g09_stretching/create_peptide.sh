@@ -62,9 +62,9 @@ source $(sith basics -path) CreateAminoAcid "$verbose"
 # starting information
 verbose -t "JOB information"
 verbose -t "==============="
-verbose -t " * Date:"
+verbose -t " \* Date:"
 verbose -t $(date)
-verbose -t " * Command:"
+verbose -t " \* Command:"
 verbose -t "$0" "$@"
 
 # --- set up ------------------------------------------------------------------

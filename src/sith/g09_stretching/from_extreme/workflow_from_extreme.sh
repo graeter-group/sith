@@ -45,6 +45,8 @@ Note
 ----
 
   The outputs are stored in a directory called 'from_extreme'/
+
+  This tool requires gaussian and sklearn.
 EOF
 exit 0
 }
@@ -195,7 +197,7 @@ fi
 verbose -t  "Create continuous structutes path with 'sith info_from_opt'."
 # The output are the xyz files without peak energies, output
 # <name>-conopt<n>.xyz
-sith info_from_opt $name-optext.log ${name}-conopt || \
+sith info_from_opt $name-optext.log ${name}-conopt > /dev/null || \
   fail "extracting xyz files from log file from $name-optext.log"
 
 verbose "Starting 'sith continuous_path' after having all

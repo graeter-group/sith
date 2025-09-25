@@ -119,8 +119,8 @@ verbose "execute stretching"
 
 sith stretching -b "$breakages" $cluster -e "$method" -i "'$indexes'" \
                 -l "$level" \
-                -m "$molecule" -p "$n_processors" $restart -s "$size" || \
-  fail "Stretching of $pep failed"
+                -m "$molecule" -p "$n_processors" $restart -s "$size" \
+                $verbose|| fail "Stretching of $pep failed"
 
 # TODO: add Classical energies
 
@@ -149,4 +149,4 @@ done
 #sbatch $single_part -J ${pep}_ff $(sith pulling_with_ff -path) -F $final_force -f $pep-stretched00.pdb 
 
 
-#finish "$pep finished"
+finish

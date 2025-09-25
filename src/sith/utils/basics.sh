@@ -190,8 +190,6 @@ load_modules() {
   then
     resubmit $args &
   fi
-  echo " * This JOB will be run in the Node:"
-  echo "$SLURM_JOB_NODELIST"
 
   source $HOME/sw/load_modules.sh
 }
