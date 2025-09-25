@@ -75,25 +75,20 @@ pymodules = {
 
 sh_executers = {
     'find_blocks': './utils/find_blocks.sh',
+    'clean_ds': './utils/clean_ds.sh',
     'basics': './utils/basics.sh',
     'workflow': './g09_stretching/workflow.sh',
     'swap_atoms_in_com': './g09_stretching/swap_atoms_in_com.sh',
     'stretching': './g09_stretching/stretching.sh',
     'proline_mod': './g09_stretching/proline_mod.sh',
     'workflow_from_extreme': './g09_stretching/from_extreme/workflow_from_extreme.sh',
-    'workflow_from_extreme2': './g09_stretching/from_extreme/second_version/workflow_from_extreme2.sh',
-    'continuous_path': './g09_stretching/from_extreme/second_version/continuous_path.sh',
-    'resubmit_failed': './g09_stretching/from_extreme/resubmit_failed.sh',
-    'rearange_files': './g09_stretching/from_extreme/rearange_files.sh',
-    'prepare_and_submit': './g09_stretching/from_extreme/prepare_and_submit.sh',
     'opt_from_xyzs': './g09_stretching/from_extreme/opt_from_xyzs.sh',
     'opt_and_forces': './g09_stretching/from_extreme/opt_and_forces.sh',
     'extr_dofs': './g09_stretching/from_extreme/extr_dofs.sh',
-    'after_optimization': './g09_stretching/from_extreme/after_optimization.sh',
+    'continuous_path': './g09_stretching/from_extreme/continuous_path.sh',
     'find_forces': './g09_stretching/find_forces.sh',
     'extract_forces': './g09_stretching/extract_forces.sh',
     'create_peptide': './g09_stretching/create_peptide.sh',
-    'clean_ds': './g09_stretching/clean_ds.sh',
 }
 
 other_files = {
