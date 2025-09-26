@@ -108,8 +108,6 @@ then
       n_processors=1
     fi
   fi
-  job_options="$job_options -J='${SLURM_JOB_NAME}_forces' -n $n_processors"
-  job_options="sbatch $job_options"
 fi
 
 xc_functional=$(echo $level | cut -d ',' -f 1)
@@ -210,10 +208,8 @@ sith info_from_opt $name-optext.log ${name}-conopt > /dev/null || \
 verbose "Starting 'sith continuous_path' after having all
   ${name}-conopt<n>.xyz files"
 
-# notice it is sourced and not submitted in an alternative window.
-source $(sith continuous_path -path) -i "$indexes" -l "$level" \
-                                     -n "$name" -p "$n_processors" \
-                                     -S "$job_options" \
-                                     $verbose
+$(sith continuous_path -path) $c_flag -i "$indexes" -l "$level" -n "$name" \
+                              -p "$n_processors" -S "$job_options" $verbose || \
+  fail "submiting continuous path"
 
 finish "continuous path of $name finished."

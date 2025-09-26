@@ -83,7 +83,7 @@ then
       n_processors=1
     fi
   fi
-  opt_forces_job_options="job_options"
+  opt_forces_job_options="$job_options"
   job_options="$job_options -n $n_processors"
   job_options="sbatch $job_options"
 fi
@@ -197,6 +197,14 @@ do
   echo "$index1 $index2 F" >> $struct_name.com
   echo "" >> $struct_name.com
   verbose -t "-  $struct_name $str_index"
+  [ -z "$job_options" ] || \
+    speficic_job_options="$job_options -J $(printf "%03d" \
+                          $str_index)O$struct_name"
+  $speficic_job_options \
+    $( sith opt_and_forces -path ) $c_flag -f "$struct_name" \
+                                   -p "$n_processors" \
+                                   -S "$opt_forces_job_options" \
+                                   $verbose
 done
 
 rm heading_template.out

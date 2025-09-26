@@ -73,7 +73,7 @@ then
       n_processors=1
     fi
   fi
-  job_options="$job_options -J='${SLURM_JOB_NAME}_F' -n $n_processors"
+  job_options="$job_options -J F${SLURM_JOB_NAME} -n $n_processors"
   job_options="sbatch $job_options"
 fi
 
