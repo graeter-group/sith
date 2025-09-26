@@ -103,12 +103,12 @@ index2=$( echo "$indexes" | cut -d ',' -f 2 )
 
 
 # check that the indexes were read properly:
-[[ -z "$index1" ]] && fail "Not recognized indexes: index 1: $index1, index 2:
-  $index2 from indexes: $indexes"
+[[ -z "$index1" ]] && fail "Not recognized indexes: index 1: '$index1',
+  index 2: '$index2' from indexes: '$indexes'"
 [[ -z "$index2" ]] && fail "Not recognized indexes: index 1: $index1, index 2:
   $index2 from indexes: $indexes"
-[[ "$index1" == "$index2" ]] && fail "Not recognized indexes: index 1: $index1,
-  index 2: $index2 from indexes: $indexes"
+[[ "$index1" == "$index2" ]] && fail "Not recognized indexes: index 1:
+  '$index1', index 2: '$index2' from indexes: '$indexes'"
 
 xc_functional=$(echo $level | cut -d ',' -f 1)
 basis_set=$(echo $level | cut -d ',' -f 2)
@@ -131,9 +131,12 @@ verbose "collecting and renaming xyz files"
 j=0
 for xyz_file in $(ls *$name*.xyz | sort )
 do
+  if [[ "$xyz_file" != "$name-conopt$(printf "%03d" $j).xyz" ]]
+  then
+    mv $xyz_file $name-conopt$(printf "%03d" $j).xyz
+  fi
   verbose -t "$xyz_file --> $name-conopt$(printf "%03d" $j).xyz"
   j=$(( j + 1 ))
-  mv $xyz_file $name-conopt$(printf "%03d" $j).xyz
 done
 
 verbose "Extract dofs from xyzs. output: $name-conopt<n>-dofs.dat" 
@@ -150,36 +153,54 @@ verbose "create template"
 # Create templete first
 tail -n +3 ${name}-conopt000.xyz > tmp.xyz
 newzmat -ixyz -ozmat \
-        -rebuildzmat tmp.xyz template > /dev/null || \
+        -rebuildzmat tmp template > /dev/null || \
   fail "executing newzmat"
+rm tmp.xyz
 
 sed -i "s/-- No Title Specified --/Computation of forces/g" template.com
 sed -i "s/\# HF\/6-31G\* Test/%chk=replaced_later/g" template.com
-sed -i "/%chk/a %NProcShared=8\n#P ${xc_functional}\/${basis_set} opt(modredun)" template.com
+sed -i "/%chk/a %NProcShared=$n_processors" template.com
+
+sed -i "/%NProcShared/a #P ${xc_functional}\/${basis_set} opt(modredun)" template.com
 sed -i "1a %mem=60000MB" template.com
-echo "$index1 $index2 F" >>  template.com
 
 # import xyz files of the subset
+rm ${name}-conopt*.dat
 mv subset/* .
 rm -r subset
 
 # Create .com files
 verbose "Create com files and submitting job"
+
+sith find_blocks -f template.com -e "Variables:" -o tmp $verbose > /dev/null
+mv tmp_000.out heading_template.out
+
+sith find_blocks -s "\^\$" -e "'^ $'" \
+                   -f template.com -o tmp  $verbose > /dev/null
+mv tmp_002.out connectivity_template.out
+rm tmp*.out
+
+create_bck forces
+mkdir -p forces
+
 str_index=0
+speficic_job_options=''
 for file in ${name}-conopt*.dat
 do
   str_index=$(( 10#$str_index + 1 ))
   struct_name=${file%.dat}
-  verbose -t $struct_name
-  sith find_blocks -f template.com -e "Variables:" -o tmp $verbose > /dev/null
-  mv tmp_000.out  $struct_name.com
+  cp heading_template.out  $struct_name.com
+  sed -i "/chk=/c %chk=$struct_name" $struct_name.com
   echo "     Variables:" >> $struct_name.com
   cat $file >> $struct_name.com
+  echo "" >> $struct_name.com
+  echo "$index1 $index2 F" >> $struct_name.com
   echo "" >> $struct_name.com
   verbose -t "-  $struct_name $str_index"
 done
 
-rm tmp_000.out
+rm heading_template.out
+rm connectivity_template.out
 rm template.com
 rm *.dat
 
