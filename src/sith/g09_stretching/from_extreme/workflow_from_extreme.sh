@@ -134,11 +134,6 @@ then
     verbose -t "'$molecule' found to be the last structure."
 fi
 
-if [ ! -f $molecule ]
-then
-    fail "$molecule does not exist."
-fi
-
 # ==== Optimization from extreme
 xyz=${molecule##*/}
 name=${xyz%.*}
@@ -148,29 +143,36 @@ name=${xyz%.*}
 verbose -t "Create $name-optext.com file."
 if [[ "$restart" == "false" ]]
 then
+  if [ ! -f $molecule ]
+  then
+      fail "$molecule does not exist."
+  fi
   # create from_extreme directory
-  mkdir from_extreme
+  mkdir -p from_extreme
   cp $molecule from_extreme/$alias.xyz
   cd from_extreme
-
-  # creates gaussian input that optimizes the structure
-  sith change_distance "$xyz" "$name-optext" no_frozen_dofs 0 0 \
-    "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \
-    || fail "Preparating the input of gaussian"
-  rm "$xyz"
 else
-  sith log2xyz "$name-optext.log" || fail "extracting coordinates from process
-    from $name-optext.log"
-  sith change_distance $name-optext.xyz "$name-optext" no_frozen_dofs 0 0 \
-    "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \
-    || fail "Preparating the restarting input of gaussian"
-  rm "$name-optext.xyz"
+  tmp_path=$(pwd)
+  [[ "${tmp_path##*/}" == "from_extreme" ]] && cd ../
+  cd from_extreme || fail "directory 'from_extreme' is not [and does not exist
+      in] the current directory."
+  if  ! grep -q "Normal termination" "$name-optext.log" "$name-optext-bck*.log"
+  then  
+    sith log2xyz "$name-optext.log" > /dev/null || fail "extracting coordinates from process
+      from $name-optext.log"
+    create_bck $xyz
+    cp $name-optext.xyz $xyz
+  fi
 fi
 
 # run gaussian
 verbose -t "Running optimization from $name-optex.com."
 if  ! grep -q "Normal termination" "$name-optext.log" "$name-optext-bck*.log"
 then
+  # creates gaussian input that optimizes the structure
+  sith change_distance "$name.xyz" "$name-optext" no_frozen_dofs 0 0 \
+    "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \
+    > /dev/null || fail "Preparating the input of gaussian"
   sed -i "1a %NProcShared=$n_processors" "$name-optext.com"
   sed -i "/#P/a opt(modredun,calcfc)" "$name-optext.com"
   sed -i "1a %mem=60000MB" "$name-optext.com"
