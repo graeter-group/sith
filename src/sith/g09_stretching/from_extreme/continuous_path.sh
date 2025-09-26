@@ -59,7 +59,15 @@ do
 done
 
 
-source $(sith basics -path) "AfterOpt" $verbose
+source $(sith basics -path) "ContiPath" $verbose
+
+# starting information
+verbose -t "JOB information"
+verbose -t "==============="
+verbose -t " \* Date:"
+verbose -t $(date)
+verbose -t " \* Command:"
+verbose -t "$0" "$@"
 
 c_flag=''
 if $cluster
@@ -119,22 +127,26 @@ then
   cd conopt
 fi
 
+verbose "collecting and renaming xyz files"
 j=0
 for xyz_file in $(ls *$name*.xyz | sort )
 do
+  verbose -t "$xyz_file --> $name-conopt$(printf "%03d" $j).xyz"
   j=$(( j + 1 ))
   mv $xyz_file $name-conopt$(printf "%03d" $j).xyz
 done
 
-# Extract the dofs from the xyzs. output: <name>-conopt<n>-dofs.dat
+verbose "Extract dofs from xyzs. output: $name-conopt<n>-dofs.dat" 
 sith extr_dofs -f ${name}-conopt > /dev/null || \
   fail "extracting dofs from xyzs"
 # reduce irrelevant changes and add intermedias when the changes are too large,
 # store the new subset in a dir called 'subset'.
+verbose "Reduce structures"
 sith reduce_structs "." ${name}-conopt > /dev/null || \
   fail "reducing structures"
 
 # ==== Create com gaussian files
+verbose "create template"
 # Create templete first
 tail -n +3 ${name}-conopt000.xyz > tmp.xyz
 newzmat -ixyz -ozmat \
@@ -152,7 +164,7 @@ mv subset/* .
 rm -r subset
 
 # Create .com files
-verbose "Create com files."
+verbose "Create com files and submitting job"
 str_index=0
 for file in ${name}-conopt*.dat
 do
@@ -164,16 +176,7 @@ do
   echo "     Variables:" >> $struct_name.com
   cat $file >> $struct_name.com
   echo "" >> $struct_name.com
-  sith find_blocks -s "\^\$" -e "\^\$" \
-                   -f template.com -o tmp  $verbose > /dev/null
-  cat tmp_000.out >> $struct_name.com
-  sed -i "/chk=/c %chk=$struct_name" $struct_name.com
-  [ -z "$job_options" ] || job_options="$job_options -J ${struct_name}O"
-  verbose -t submit "$struct_name"
-  $job_options $( sith opt_and_forces -path ) $c_flag -f "$struct_name" \
-                                              -p "$n_processors" \
-                                              -S "$opt_forces_job_options" \
-                                              $verbose
+  verbose -t "-  $struct_name $str_index"
 done
 
 rm tmp_000.out

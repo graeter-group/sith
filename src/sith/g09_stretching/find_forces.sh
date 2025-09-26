@@ -71,7 +71,7 @@ while getopts 'cf:n:p:vh' flag; do
   esac
 done
 
-source "$(sith basics -path)" FIND_FORCES $verbose
+source "$(sith basics -path)" FindForces $verbose
 
 verbose -t "JOB information"
 verbose -t "==============="
@@ -89,7 +89,6 @@ fi
 # ---- set-up ends ------------------------------------------------------------
 
 # ---- BODY -------------------------------------------------------------------
-verbose "Create forces directory and extracting forces from $chkfile"
 [[ -d forces ]] || fail "A directory called 'forces' have to exist to run
   execute the computation of forces"
 

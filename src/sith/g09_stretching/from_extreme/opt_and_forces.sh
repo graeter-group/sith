@@ -76,6 +76,7 @@ then
   job_options="$job_options -J='${SLURM_JOB_NAME}_F' -n $n_processors"
   job_options="sbatch $job_options"
 fi
+
 # ----- BODY ------------------------------------------------------------------
 verbose "submit constrained optimization $file"
 gaussian "$file.com" "$file.log"
@@ -85,9 +86,10 @@ grep -q "Normal termination of Gaussian" "$file.log" || \
 
 if $force_calc
 then
-  verbose "Submit forces computation"
-  $job_options $(sith find_forces -path) -f $file.chk $c_flag \
-                                         -v || fail "submitting forces"
+  verbose "Submit forces computation $file.chk"
+  $job_options \
+    $(sith find_forces -path) $c_flag -f $file.chk -p "conopt" \
+                              $verbose || fail "submitting forces"
 fi
 
 finish

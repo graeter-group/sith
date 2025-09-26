@@ -81,7 +81,7 @@ do
   esac
 done
 
-source "$(sith basics -path)" WF_FROM_EXTREME $verbose
+source "$(sith basics -path)" "WFromE" $verbose
 
 # starting information
 verbose -t "JOB information"
