@@ -37,13 +37,11 @@ here, you can use the next functions
 exit 0
 }
 
-verbose=''
-while getopts 'vh' flag;
+while getopts 'h' flag;
 do
   case "${flag}" in
-    v) verbose='-v' ;;
     h) print_help ;;
-    *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
+    *) echo "for usage check: sith <function> -h" >&2 ; return 1 ;;
   esac
 done
 
