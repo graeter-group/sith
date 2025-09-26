@@ -17,6 +17,8 @@ freedom. This script submits in parallel each one of those optimizations with
 :bashscript:`sith.g09_stretching.from_extreme.opt_and_forces` (-S here refers
 to these subjobs).
 
+  -a  <alias> new name of the xyz file and subsequent files in directory
+      'from_extreme'.
   -c  Use this flag to run in a cluster. When -p is not defined, and you run in
       a slurm job manager system, the number of processors is equal to the
       number of cores asked in the submission of the job.
@@ -64,9 +66,10 @@ restart='false'
 job_options=''
 
 verbose=''
-while getopts 'ci:l:m:p:rS:vh' flag;
+while getopts 'a:ci:l:m:p:rS:vh' flag;
 do
   case "${flag}" in
+    a) alias=${OPTARG} ;;
     c) cluster='true' ;;
     i) indexes=${OPTARG} ;;
     l) level=${OPTARG} ;;
@@ -140,12 +143,14 @@ fi
 xyz=${molecule##*/}
 name=${xyz%.*}
 
+[ -z "$alias" ] && alias=$name || name=$alias
+
 verbose -t "Create $name-optext.com file."
 if [[ "$restart" == "false" ]]
 then
   # create from_extreme directory
   mkdir from_extreme
-  cp $molecule from_extreme
+  cp $molecule from_extreme/$alias.xyz
   cd from_extreme
 
   # creates gaussian input that optimizes the structure
