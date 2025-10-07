@@ -161,17 +161,11 @@ newzmat -ixyz -ozmat \
   fail "executing newzmat"
 rm tmp.xyz
 
-sed -i "s/-- No Title Specified --/Computation of forces/g" template.com
-sed -i "s/\# HF\/6-31G\* Test/%chk=replaced_later/g" template.com
-sed -i "/%chk/a %NProcShared=$n_processors" template.com
-
-sed -i "/%NProcShared/a #P ${xc_functional}\/${basis_set} opt(modredun)" template.com
-sed -i "1a %mem=60000MB" template.com
-
 # import xyz files of the subset
 rm ${name}-conopt*.dat
 mv subset/* .
 rm -r subset
+rm *.xyz
 
 # Create .com files
 verbose "Create com files and submitting job"
@@ -197,10 +191,26 @@ do
   sed -i "/chk=/c %chk=$struct_name" $struct_name.com
   echo "     Variables:" >> $struct_name.com
   cat $file >> $struct_name.com
-  echo "" >> $struct_name.com
+
+  # reconstruct xyz from the continuous dofs
+  newzmat -izmat -oxyz $struct_name.com \
+          $struct_name.xyz > /dev/null || \
+    fail "reconstructing xyz from z-matrix for $struct_name"
+  n_atoms=$(cat $struct_name.xyz | wc -l)
+  sed -i "1i $n_atoms" $struct_name.xyz
+  sed -i "2i Coordinates Extracted from zmatrix with newzmat" $struct_name.xyz
+
+  # create again com from xyz
+  sith change_distance "$struct_name.xyz" "$struct_name" no_frozen_dofs 0 0 \
+    "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \
+    > /dev/null || fail "Preparating the input of gaussian"
+  sed -i "1a %NProcShared=$n_processors" "$struct_name.com"
+  sed -i "/#P/a opt(modredun,calcfc)" "$struct_name.com"
+  sed -i "1a %mem=60000MB" "$struct_name.com"
   echo "$index1 $index2 F" >> $struct_name.com
-  echo "" >> $struct_name.com
-  verbose -t "-  $struct_name $str_index"
+
+  # and then submits the jobs
+  verbose -t "-  $str_index $struct_name"
   [ -z "$job_options" ] || \
     speficic_job_options="$job_options -J $(printf "%03d" \
                           $str_index)O$struct_name"
