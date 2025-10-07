@@ -19,8 +19,9 @@ to execute it locally. Consider the next options:
   -c  run in cluster (see the documentation of the installation of sith
       -execute 'sith doc' in your terminal-)
   -i  <index1,index2> indexes of the atoms to use for increasing the distance.
-      If these indices are not given and the molecule is an amino acid defined
-      in a pdb, the CH3 atoms of the ACE and NME residues are chosen. 
+      If this flag is not used and 'molecule' (flag -m) is a pdb, indexes 1 and
+      2 will correspond to the CH3 atoms in ACE and NME residues defined in the
+      pdb if they exist.
   -l  <xc,base="bmk,6-31+g"> evel of DFT theory.
   -m  <molecule> definition of the molecule (xyz, pdb, ...).
   -M  <method=0> Index of stretching method. To see the options, use
@@ -120,7 +121,7 @@ verbose "execute stretching"
 sith stretching -b "$breakages" $cluster -e "$method" -i "'$indexes'" \
                 -l "$level" \
                 -m "$molecule" -p "$n_processors" $restart -s "$size" \
-                $verbose|| fail "Stretching of $pep failed"
+                $verbose || fail "Stretching of $pep failed"
 
 # TODO: add Classical energies
 

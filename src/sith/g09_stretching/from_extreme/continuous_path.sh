@@ -12,9 +12,8 @@ refers to these subjobs)
       number of cores asked in the submission of the job.
   -i  <index1,index2> indexes of the atoms used for constraining the distance
       of the intermedia structures when optimizing. If this flag is not used
-      and there is a pdb file with the same <name> as defined with the flag -n,
-      indexes 1 and 2 will correspond to the CH3 atoms in ACE and NME residues
-      defined in the pdb if they exist.
+      and a pdb is given through flag '-t', indexes 1 and 2 will correspond to
+      the CH3 atoms in ACE and NME residues defined in the pdb if they exist.
   -l  <xc,base="bmk,6-31+g"> level of DFT theory.
   -n  <name> this script will collect all the *<name>*.xyz files sorted in
       alphabetic order as initial path. If this is a directory, this script
@@ -26,7 +25,10 @@ refers to these subjobs)
       sense in slurm cluster. Please, do not include a name (-J), nor the
       number of cores (-n, use -p for this). The input should be as in the next
       example: \"--partition=cpu --nice\".
+  -t  <template.pdb> pdb file used to read the indexes if -i is not
+      used.
 
+  -v  verbose
   -h  prints this message.
 EOF
 
@@ -42,7 +44,7 @@ level="bmk,6-31+g"
 n_processors=''
 job_options=''
 verbose=''
-while getopts 'ci:l:n:p:S:vh' flag;
+while getopts 'ci:l:n:p:P:S:t:vh' flag;
 do
   case "${flag}" in
     c) cluster='true' ;;
@@ -50,7 +52,9 @@ do
     l) level=${OPTARG} ;;
     n) name=${OPTARG} ;;
     p) n_processors=${OPTARG} ;;
+    P) pattern=${OPTARG} ;;
     S) job_options=${OPTARG} ;;
+    t) template=${OPTARG} ;;
 
     v) verbose='-v' ;;
     h) print_help ;;
@@ -89,11 +93,11 @@ then
 fi
 
 # C-CAP indexes in gaussian convention
-if [[ -z "$indexes" ]] && [[ -f "${name%.*}.pdb" ]]
+if [[ -z "$indexes" ]] && [[ -f "$template" ]]
 then
   # reading indexes from pdb file
-  index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
-  index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
+  index1=$( grep ACE "$template" | grep CH3 | awk '{print $2}' )
+  index2=$( grep NME "$template" | grep CH3 | awk '{print $2}' )
   indexes="$index1,$index2"
 fi
 
