@@ -78,7 +78,7 @@ if $cluster
 then
   load_modules
   c_flag='-c'
-  if [[ -z "$n_processors" ]] 
+  if [[ -z "$n_processors" ]]
   then
     if [[ ! -z "$SLURM_CPUS_ON_NODE" ]]
     then
@@ -168,7 +168,11 @@ rm -r subset
 rm *.xyz
 
 # Create .com files
-verbose "Create com files and submitting job"
+verbose "Create com files and submitting job from the next dat files:"
+for i in $(ls -1 *.dat)
+do
+  verbose -t " - $i"
+done
 
 sith find_blocks -f template.com -e "Variables:" -o tmp $verbose > /dev/null
 mv tmp_000.out heading_template.out

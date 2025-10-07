@@ -156,6 +156,7 @@ then
       fail "$molecule does not exist."
   fi
   # create from_extreme directory
+  create_bck from_extreme
   mkdir -p from_extreme
   cp $molecule from_extreme/$alias.xyz
   cd from_extreme
@@ -165,8 +166,8 @@ else
   cd from_extreme || fail "directory 'from_extreme' is not [and does not exist
       in] the current directory."
   if  ! grep -q "Normal termination" "$name-optext.log" "$name-optext-bck*.log"
-  then  
-    sith log2xyz "$name-optext.log" > /dev/null || fail "extracting coordinates from process
+  then
+    sith log2xyz "$name-optext.log" > /dev/null || fail "extracting coordinates
       from $name-optext.log"
     create_bck $xyz
     cp $name-optext.xyz $xyz
@@ -174,9 +175,9 @@ else
 fi
 
 # run gaussian
-verbose -t "Running optimization from $name-optex.com."
 if  ! grep -q "Normal termination" "$name-optext.log" "$name-optext-bck*.log"
 then
+  verbose -t "Running optimization from $name-optex.com"
   # creates gaussian input that optimizes the structure
   sith change_distance "$name.xyz" "$name-optext" no_frozen_dofs 0 0 \
     "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \

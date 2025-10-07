@@ -109,9 +109,8 @@ def reduce_structs(dir, pattern):
     while j < len(all_files) - 1:
         new_set.append(j)
         d_ij = (all_dofs[j] - all_dofs[j + 1:])
-        # rescale distances and angles to have them in the same order of
-        # magnitude. I could also evaluate the approximation for distances and
-        # then for angles and use logicaland.
+        # rescale distances to have them in the same order of magnitude of the
+        # angles.
         d_ij = delta_angles_continuous(d_ij, nrs)
         d_ij[:, nrs:] *= 1e-3  # trans 1 degree
         d_ij = abs(d_ij)
@@ -132,6 +131,8 @@ def reduce_structs(dir, pattern):
         # make distances continuous
         d_ij = subdofs[1:] - subdofs[:-1]
         d_ij = delta_angles_continuous(d_ij, nrs)
+        # Create intermedias between distances larger than 0.05A or angles
+        # larger than 10 degrees.
         condition1 = np.any(abs(d_ij[:, :nrs]) > 0.05, axis=1)
         condition2 = np.any(abs(d_ij[:, nrs:]) > 10, axis=1)
         toModify = np.where(np.logical_or(condition1,
