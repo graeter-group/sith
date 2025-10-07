@@ -127,13 +127,13 @@ then
     name=${name#./}
   fi
   name=${name%/}
-  cp *"${name}"*.xyz conopt
+  cp *"${name}"*${pattern}*.xyz conopt
   cd conopt
 fi
 
 verbose "collecting and renaming xyz files"
 j=0
-for xyz_file in $(ls *$name*.xyz | sort )
+for xyz_file in $(ls *"${name}"*"${pattern}"*.xyz | sort )
 do
   if [[ "$xyz_file" != "$name-conopt$(printf "%03d" $j).xyz" ]]
   then
