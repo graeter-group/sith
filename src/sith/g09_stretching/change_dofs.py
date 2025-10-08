@@ -9,15 +9,17 @@ def permute_atoms(atoms, indexes):
     indexes = list(indexes)
     indexes.sort()
 
-    atoms = atoms[:indexes[0]] + \
-            atoms[indexes[1]] + \
-            atoms[indexes[0] + 1: indexes[1]] + \
-            atoms[indexes[0]] + \
-            atoms[indexes[1] + 1:]
-    
+    atoms = atoms[:indexes[0] - 1] + \
+            atoms[indexes[1] - 1] + \
+            atoms[indexes[0]: indexes[1] - 1] + \
+            atoms[indexes[0] - 1] + \
+            atoms[indexes[1]:]
+
     return atoms
 
 def extract_dofs(indexes, atoms):
+    for i in range(len((indexes))):
+        indexes[i] = indexes[i] - 1
     distance = atoms.get_distance(*indexes[:2])
     angle = atoms.get_angle(*indexes[:3])
     dihedral = atoms.get_dihedral(*indexes)
@@ -37,12 +39,14 @@ def test_dofs(atoms, indexes, file):
     old_dihe = float(output_terminal(f'sed -n "/D{indexes[0]}=/p" {file}' +
                                      ' | cut -d = -f 2', print_output=False))
 
-    assert old_dist == approx(dist, abs=3e-2), f"R{indexes[0]}({old_dist}) does not " + \
-        f"correspond to the expected from the xyz file({dist})"
-    assert old_angl == approx(angl, abs=5e-1), f"A{indexes[0]}({old_angl}) does not " + \
-        f"correspond to the expected from the xyz file({angl})"
-    assert old_dihe == approx(dihe, abs=5e-1), f"D{indexes[0]}({old_dihe}) does not " + \
-        f"correspond to the expected from the xyz file({dihe})"
+    assert old_dist == approx(dist, abs=3e-2), f"R{indexes[0]}({old_dist}) " +\
+        f"does not correspond to the expected from the xyz file({dist})"
+    assert old_angl == approx(angl, abs=5e-1), f"A{indexes[0]}({old_angl})" +\
+        f"does not correspond to the expected from the xyz file({angl})"
+    assert old_dihe == approx(dihe, abs=5e-1), f"D{indexes[0]}({old_dihe})" +\
+        f"does not correspond to the expected from the xyz file({dihe})"
+
+    return True
 
 
 def def_line(indexes, element):
@@ -238,7 +242,7 @@ def set2(Cg_i, Cd_i, N_i, Ca_i, HG1_i, HG2_i, atoms, comfile):
     # swapping atoms Cg_i Cd_i
     print(f'swapping atoms {Cg_i} {Cd_i}')
     output_terminal(f'sith swap_atoms_in_com -a {Cg_i} -b {Cd_i} -f {comfile}')
-    atoms = permute_atoms(atoms, [Cg_i - 1, Cd_i - 1])
+    atoms = permute_atoms(atoms, [Cg_i, Cd_i])
     tmp  = Cg_i ; Cg_i = Cd_i ; Cd_i = tmp
     return atoms, Cg_i, Cd_i
 

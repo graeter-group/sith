@@ -37,11 +37,11 @@ def shake_except(xyz_file, file_cons, modify_input=True, stdev=0.05):
     atoms.set_constraint(c)
     atoms.rattle(stdev=stdev, rng=np.random)
 
-    if modify_input:
-        write(xyz_file, atoms)
-
     manipulator = MoleculeSetter(atoms)
-    manipulator.xy_alignment(cons[0][0], cons[0][1], center=cons[0][0])
+    manipulator.xy_alignment(cons[0][0], cons[0][1])
+
+    if modify_input:
+        write(xyz_file, manipulator.atoms)
 
     return atoms
 
@@ -87,8 +87,7 @@ def change_distance(inp, out, file_cons, deltad, charge, method, **kwargs):
     atoms = read(inp)
     manipulator = MoleculeSetter(atoms)
     if deltad != 0:
-        # -1 to transform into python convention
-        cons = np.loadtxt(file_cons, usecols=[0, 1], dtype=int) - 1
+        cons = np.loadtxt(file_cons, usecols=[0, 1], dtype=int)
         if type(cons[0]) is np.int64:
             cons = np.array([list(cons)])
         manipulator.xy_alignment(cons[0][0], cons[0][1], center=cons[0][0])
@@ -196,8 +195,8 @@ def conf2pdb(confile, pdbtemplate, pdboutput=None):
         file, this file only would change the coordinates.
 
     E.g.
-    sith optimization.log template.pdb
-    sith optimization.xyz template.pdb
+    sith conf2pdb optimization.log template.pdb
+    sith conf2pdb optimization.xyz template.pdb
     """
     if pdboutput is None:
         pdboutput = confile.split('.')[0] + '.pdb'
@@ -308,7 +307,7 @@ def distance(file, index1, index2):
     index1 = int(index1)
     index2 = int(index2)
     atoms = read(file)
-    d = atoms.get_distance(index1, index2)
+    d = atoms.get_distance(index1 - 1, index2 - 1)
 
     return d
 
@@ -375,4 +374,3 @@ def F_stretch(logfile, index):
     force_mag = np.linalg.norm(atoms.get_forces()[dof - 1])
 
     return force_mag * 960 # KJmol-1/nm
-    # return force_mag / (6.242E8)

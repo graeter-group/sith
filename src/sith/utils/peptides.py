@@ -213,25 +213,25 @@ class PepSetter(MoleculeSetter):
                 f"defined in your pdb for the {aminoacid} residue."
 
         # defining ring atoms indexes:
-        ca = self.amino_info[aminoacid]['CA'] - 1
-        cb = self.amino_info[aminoacid]['CB'] - 1
-        cg = self.amino_info[aminoacid]['CG'] - 1
-        hg1 = self.amino_info[aminoacid]['HG1'] - 1
-        hg2 = self.amino_info[aminoacid]['HG2'] - 1
-        cd = self.amino_info[aminoacid]['CD'] - 1
-        hd1 = self.amino_info[aminoacid]['HD1'] - 1
-        hd2 = self.amino_info[aminoacid]['HD2'] - 1
-        n = self.amino_info[aminoacid]['N'] - 1
+        ca = self.amino_info[aminoacid]['CA']
+        cb = self.amino_info[aminoacid]['CB']
+        cg = self.amino_info[aminoacid]['CG']
+        hg1 = self.amino_info[aminoacid]['HG1']
+        hg2 = self.amino_info[aminoacid]['HG2']
+        cd = self.amino_info[aminoacid]['CD']
+        hd1 = self.amino_info[aminoacid]['HD1']
+        hd2 = self.amino_info[aminoacid]['HD2']
+        n = self.amino_info[aminoacid]['N']
 
         # align Ca N  CB in the same plane with Ca N in the x axis
         self.xy_alignment(ca, n, cb)
         # move Cd to the xy plane
-        vec = self.atoms[cd].position
+        vec = self.atoms[cd - 1].position
         trans = self.align_plane(vec)
         self.apply_trans(trans, indexes=[cd, hd1, hd2])
 
         # move Cg to the xy plane
-        vec = self.atoms[cg].position
+        vec = self.atoms[cg - 1].position
         trans = self.align_plane(vec)
         self.apply_trans(trans, indexes=[cg, hg1, hg2])
 

@@ -141,11 +141,11 @@ class MoleculeSetter:
         if shift is None:
             shift = [0, 0, 0]
         if indexes is None:
-            indexes = list(range(len(self.atoms)))
+            indexes = np.arange(len(self.atoms)) + 1
 
         new_positions = []
         for i, atom in enumerate(self.atoms):
-            if i in indexes:
+            if (i + 1) in indexes:
                 new_positions.append(np.dot(trans, atom.position) + shift)
             else:
                 new_positions.append(atom.position + shift)
@@ -179,18 +179,19 @@ class MoleculeSetter:
         """
         # Move the origin
         if center == index1 or center == index2:
-            center = self.atoms[center].position
+            center = self.atoms[center - 1].position
         else:
-            pos1 = self.atoms[index1].position
-            pos2 = self.atoms[index2].position
+            pos1 = self.atoms[index1 - 1].position
+            pos2 = self.atoms[index2 - 1].position
             center = (pos1 + pos2) / 2
 
         self.atoms.set_positions(self.atoms.positions - center)
         # set index1 and index2 along x axis
-        axis = self.atoms[index2].position - self.atoms[index1].position
+        axis = self.atoms[index2 - 1].position - \
+               self.atoms[index1 - 1].position
         self.apply_trans(self.align_axis(axis))
         if index3 is not None:
-            third = self.atoms[index3].position
+            third = self.atoms[index3 - 1].position
             self.apply_trans(self.align_plane(third))
         return self.atoms.positions
 
@@ -212,8 +213,11 @@ class MoleculeSetter:
         ======
         (ase.Atoms) Internal Atoms object with the corresponding modification.
         """
-        d1norm = self.atoms.get_distance(constraints[0][0], constraints[0][1])
-        self.atoms.set_distance(constraints[0][0], constraints[0][1],
+        self.xy_alignment(constraints[0][0], constraints[0][1])
+
+        d1norm = self.atoms.get_distance(constraints[0][0] - 1,
+                                         constraints[0][1] - 1)
+        self.atoms.set_distance(constraints[0][0] - 1, constraints[0][1] - 1,
                                 d1norm + deltad)
         return self.atoms
 
@@ -237,6 +241,8 @@ class MoleculeSetter:
         (ase.Atoms) Internal Atoms object with the corresponding modification.
         """
         self.xy_alignment(constraints[0][0], constraints[0][1])
+        # Find all atoms connected by constraints to the first or second
+        # atom of the first constraint:
         left = [constraints[0][0]]
         right = [constraints[0][1]]
         len_right = 0
@@ -256,6 +262,8 @@ class MoleculeSetter:
         print("These will be the atoms moved to the left: ", left)
         print("These will be the atoms moved to the right: ", right)
 
+        # Move to the left the atoms on the left and to the right the atoms
+        # on the right, the rest of the atoms remain in the same place:
         new_positions = []
         for i, atom in enumerate(self.atoms):
             if i in np.array(right) - 1:
@@ -291,7 +299,7 @@ class MoleculeSetter:
         (ase.Atoms) Internal Atoms object with the corresponding modification.
         """
         index1, index2 = constraints[0]
-        d1norm = self.atoms.get_distance(index1, index2)
+        d1norm = self.atoms.get_distance(index1 - 1, index2 - 1)
         # Move atom1 to the origin and rotate the molecule such that atom2 is
         # aligned with the +x axis:
         self.xy_alignment(index1, index2, center=index1)
@@ -299,9 +307,7 @@ class MoleculeSetter:
         new_positions = [atom.position * scale_factor
                          for atom in self.atoms]
         self.atoms.set_positions(new_positions)
-        if index3 is not None:
-            third = self.atoms[index3].position
-            self.apply_trans(self.align_plane(third))
+        self.xy_alignment(index1, index2, index3=index3)
 
         return new_positions
 
@@ -381,8 +387,8 @@ class Alignment:
             raise ModuleNotFoundError("This code requires sklearn")
 
         if indexes == 'all':
-            indexes = list(range(len(atoms)))
-        positions = atoms.positions[indexes]
+            indexes = np.arange(len(atoms)) + 1
+        positions = atoms.positions[np.array(indexes) - 1]
         pca = PCA(n_components=3)
         pca.fit(positions)
         components = pca.components_
@@ -424,15 +430,18 @@ class Alignment:
         (ase.Atoms) rotated and shifted molecule.
         """
         ms = MoleculeSetter(atoms)
-        components = Alignment.pca_vectors(atoms)
+        ms.atoms = Alignment.center_geo(ms.atoms)
+        components = Alignment.pca_vectors(ms.atoms)
 
         # add dummy atoms
         ms.atoms += Atom('H', position=[0, 0, 0])
         for vec_comp in components:
             ms.atoms += Atom('H', position=vec_comp)
 
-        # transform based on dummy atoms
-        ms.xy_alignment(-4, -3, -2)
+        # transform based on dummy atoms: center on the origin, first PCA
+        # component with the positive x-axis, second PCA component in the
+        # xy plane.
+        ms.xy_alignment(-3, -2, -1)
 
         # remove dummy atoms
         ms.atoms = ms.atoms[:-4]
