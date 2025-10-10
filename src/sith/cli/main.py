@@ -69,6 +69,7 @@ pymodules = {
     'protonate': 'sith.g09_stretching.protonate',
     'log2xyz': 'sith.g09_stretching.g09_xyz',
     'reduce_structs': 'sith.g09_stretching.from_extreme.info_from_opt',
+    'continuous_e2e': 'sith.g09_stretching.from_extreme.info_from_opt',
     'info_from_opt': 'sith.g09_stretching.from_extreme.info_from_opt',
     'change_prolines_dofs': 'sith.g09_stretching.change_dofs',
 }
@@ -82,7 +83,6 @@ sh_executers = {
     'stretching': './g09_stretching/stretching.sh',
     'proline_mod': './g09_stretching/proline_mod.sh',
     'workflow_from_extreme': './g09_stretching/from_extreme/workflow_from_extreme.sh',
-    'opt_from_xyzs': './g09_stretching/from_extreme/opt_from_xyzs.sh',
     'opt_and_forces': './g09_stretching/from_extreme/opt_and_forces.sh',
     'extr_dofs': './g09_stretching/from_extreme/extr_dofs.sh',
     'continuous_path': './g09_stretching/from_extreme/continuous_path.sh',

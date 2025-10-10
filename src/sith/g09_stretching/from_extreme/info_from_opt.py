@@ -1,8 +1,10 @@
 import numpy as np
 from ase.io import read
 from sith.utils.miscellaneous import output_terminal
-from sith.utils.molecules import Alignment
+from sith.utils.molecules import Alignment, MoleculeSetter
 from ase.io import write
+from ase import Atoms
+import os
 import glob
 
 
@@ -64,6 +66,108 @@ def info_from_opt(logfile, pattern):
 
     return all_atoms
 
+# add2executable
+def continuous_e2e(pattern, index1, index2, dir_output='e2e_continuous'):
+    """
+    From a set of configurations in xyz files with pattern
+    <all><pattern><all>.xyz, it guarantees that consecutive changes in the
+    distance between the atoms with index1 and index2 are lower than 0.2A.
+
+    Parameters
+    ==========
+    pattern: str
+        pattern of the input files. All the files with <all><pattern><all>.xyz
+        will be read.
+    index1: int
+        index of the first atom to align in the x axis. 1-base indexing.
+    index2: int
+        index of the second atom to align in the x axis. 1-base indexing.
+    dir_output: str. Default='e2e_continuous'
+        directory where to save the output files.
+
+    Return
+    ======
+    (ase.Atoms) new trajectory with continuous distance between index1 and
+    index2. It creates the xyz files in dir_output.
+    """
+    all_atoms = []
+    files = glob("*{pattern}*.xyz")
+    files.sort()
+    for file in files:
+        atoms = read(file)
+        all_atoms.append(atoms)
+
+    # choose randomlly an atom betweeen index1 and index2 that is not H and not
+    # in the x axis
+    # ==== align all the structures with index1 and index2 in the x axis.
+    for i, conf in enumerate(all_atoms):
+        ms = MoleculeSetter(conf)
+        ms.xy_alignment(index1, index2)
+        all_atoms[i] = ms.atoms
+    # ==== inbetween 
+    positions = np.array([conf.get_positions() for conf in all_atoms])
+    inbetween = np.logical_and(positions[:, :, 0].T > \
+                               positions[:, index1 - 1, 0],
+                               positions[:, :, 0].T < \
+                               positions[:, index2 - 1, 0])
+    inbetween = inbetween.T
+    inbetween = np.all(inbetween, axis=0)
+    # ==== avoid 
+    d_xaxis = np.sqrt(positions[:, :, 0]**2 + positions[:, :, 1]**2)
+    not_xaxis = np.all(d_xaxis != 0, axis=0)  # A
+    # ==== heavy atoms
+    heavys = np.array(all_atoms[0].get_chemical_symbols()) != 'H'
+    # ==== random choice
+    condition = np.logical_and(heavys, not_xaxis)
+    condition = np.logical_and(condition, inbetween)
+    subset = np.where(condition)[0]
+    if len(subset) == 0:
+        raise ValueError("No heavy atom found between index1 and index2 that"
+                        "is not in the x axis")
+    index3 = np.random.choice(subset) + 1
+
+    # alignment with 3 atoms. All the configurations are aligned with the
+    # same 3 atoms. This guarantees that the average of two structures is the
+    # intermedia structure between them
+    for i, conf in enumerate(all_atoms):
+        ms = MoleculeSetter(conf)
+        ms.xy_alignment(index1, index2, index3)
+        all_atoms[i] = ms.atoms
+
+    # now make the trajectory continuos. if the distance between extremes is
+    # larger than 0.2A, configurations with the intermedia distances are
+    # created.
+    new_set = [all_atoms[0]]
+    i = 1
+    while i < len(all_atoms):
+        conf = all_atoms[i]
+        di = new_set[-1].get_distance(index1 - 1, index2 - 1)
+        df = conf.get_distance(index1 - 1, index2 - 1)
+        deltad = df - di
+        if abs(deltad) > 0.2:
+            n_intermedia = int(abs(deltad / 0.2))
+            fraction = 1/(n_intermedia + 1)
+            inbetween = []
+            for n in range(1, n_intermedia + 1):
+                at = Atoms(conf.get_chemical_symbols(),
+                           positions = (1 - fraction * n) *
+                                       new_set[-1].positions +
+                                       (fraction * n) * conf.positions)
+                inbetween.append(at)
+            new_set.extend(inbetween)
+        new_set.append(conf)
+        i += 1
+
+    # in case of last configurations does not belong to new_set, it is added
+    if np.any(all_atoms[-1].positions != new_set[-1].positions):
+        new_set.append(all_atoms[-1])
+    
+    # write all the trajectory
+    os.makedirs(dir_output, exist_ok=True)
+    for i, atoms in enumerate(new_set):
+        write("{}/{}{:03d}.xyz".format(dir_output, pattern, i), atoms)
+
+    return all_atoms
 
 # add2executable
 def reduce_structs(dir, pattern):
