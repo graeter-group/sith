@@ -123,13 +123,13 @@ fi
 # In case pep is a directory, it searches the last xyz in this dir.
 if [ -d $molecule ]
 then
-    cd $molecule
-    molecule=${molecule##*/}
-    mapfile -t previous < <( find . -maxdepth 1 -type f\
-                                    -name "$molecule*.xyz" \
-                                    -not -name "*bck*" | sort )
-    molecule=${previous[-1]}
-    verbose -t "'$molecule' found to be the last structure."
+  cd $molecule
+  molecule=${molecule##*/}
+  mapfile -t previous < <( find . -maxdepth 1 -type f\
+                                  -name "$molecule*.xyz" \
+                                  -not -name "*bck*" | sort )
+  molecule=${previous[-1]}
+  verbose -t "'$molecule' found to be the last structure."
 fi
 
 # ==== Optimization from extreme

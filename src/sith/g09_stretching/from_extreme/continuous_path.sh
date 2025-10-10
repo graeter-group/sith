@@ -134,8 +134,8 @@ do
   if [[ "$xyz_file" != "$name-conopt$(printf "%03d" $j).xyz" ]]
   then
     mv $xyz_file $name-conopt$(printf "%03d" $j).xyz
+    verbose -t "$xyz_file --> $name-conopt$(printf "%03d" $j).xyz"
   fi
-  verbose -t "$xyz_file --> $name-conopt$(printf "%03d" $j).xyz"
   j=$(( j + 1 ))
 done
 
@@ -157,15 +157,9 @@ newzmat -ixyz -ozmat \
   fail "executing newzmat"
 rm tmp.xyz
 
-sed -i "s/-- No Title Specified --/Computation of forces/g" template.com
-sed -i "s/\# HF\/6-31G\* Test/%chk=replaced_later/g" template.com
-sed -i "/%chk/a %NProcShared=$n_processors" template.com
-
-sed -i "/%NProcShared/a #P ${xc_functional}\/${basis_set} opt(modredun)" template.com
-sed -i "1a %mem=60000MB" template.com
-
 # import xyz files of the subset
 rm ${name}-conopt*.dat
+rm ${name}-conopt*.xyz
 mv subset/* .
 rm -r subset
 
@@ -193,9 +187,22 @@ do
   sed -i "/chk=/c %chk=$struct_name" $struct_name.com
   echo "     Variables:" >> $struct_name.com
   cat $file >> $struct_name.com
-  echo "" >> $struct_name.com
+
+  # reconstruct xyz from the continuous dofs
+  newzmat -izmat -oxyz $struct_name.com \
+          $struct_name.xyz > /dev/null || \
+    fail "reconstructing xyz from z-matrix for $struct_name"
+
+  # create again com from xyz
+  sith change_distance "$struct_name.xyz" "$struct_name" no_frozen_dofs 0 0 \
+    "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \
+    > /dev/null || fail "Preparating the input of gaussian"
+  sed -i "1a %NProcShared=$n_processors" "$name-optext.com"
+  sed -i "/#P/a opt(modredun,calcfc)" "$name-optext.com"
+  sed -i "1a %mem=60000MB" "$name-optext.com"
   echo "$index1 $index2 F" >> $struct_name.com
-  echo "" >> $struct_name.com
+
+  # and then submits the jobs
   verbose -t "-  $struct_name $str_index"
   [ -z "$job_options" ] || \
     speficic_job_options="$job_options -J $(printf "%03d" \
