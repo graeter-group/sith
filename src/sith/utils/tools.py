@@ -17,7 +17,8 @@ def shake_except(xyz_file, file_cons, modify_input=True, stdev=0.05):
     xyz_file: int
         original xyz file to be modified.
     file_cons:
-        file containing the atoms to avoid to be modified by the shaking.
+        file containing the atoms (1-based indices) to avoid to be modified by
+        the shaking.
     modify_input: bool. Defatuly=True
         True to modify the input file.
     scale: float. Default=0.05

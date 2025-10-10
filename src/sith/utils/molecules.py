@@ -21,8 +21,8 @@ class MoleculeSetter:
 
         Parameters
         ==========
-        angle: float[radians]
-            angle to rotate around the x axis
+        angle: float
+            angle to rotate around the x axis in radians.
 
         Return
         ======
@@ -41,8 +41,8 @@ class MoleculeSetter:
 
         Parameters
         ==========
-        angle: float[radians]
-            angle to rotate around the y axis
+        angle: float
+            angle to rotate around the y axis in radians.
 
         Return
         ======
@@ -61,8 +61,8 @@ class MoleculeSetter:
 
         Parameters
         ==========
-        angle: float[radians]
-            angle to rotate around the z axis
+        angle: float
+            angle to rotate around the z axis in radians.
 
         Return
         ======
@@ -129,7 +129,7 @@ class MoleculeSetter:
         indexes: list or array. Defatult=None
             indexes of the atoms to apply the transformation. Default None
             that means the transformation is applied to the positions of all
-            the atoms.
+            the atoms. 1-based numbering.
         shift: list. Default=None
             vector to apply a translation.
 
@@ -163,9 +163,10 @@ class MoleculeSetter:
         ==========
         index1 and index2: int
             indexes of the atoms to be aligned with the x-axis. The positive
-            direction of x would go from atom 1 to atom 2.
+            direction of x would go from atom 1 to atom 2. 1-based numbering.
         index3: int. Default=None
             The atom with index 3 would be in the xy plane in case to be given.
+            1-based numbering.
         Center: int. Default=None
             It must be index1 or index2, that means the atom with this index
             will be placed in the origin. In case center=None (default), the
@@ -193,7 +194,7 @@ class MoleculeSetter:
         if index3 is not None:
             third = self.atoms[index3 - 1].position
             self.apply_trans(self.align_plane(third))
-        return self.atoms.positions
+        return self.atoms
 
     def increase_distance(self, constraints, deltad):
         """
@@ -205,7 +206,7 @@ class MoleculeSetter:
         constraints:
             constraints with the shape (n, 2), where n is the number of
             constraints and the first pair is the one to increase the
-            distance.
+            distance. 1-based numbering.
         deltad: float
             amount to add to the distance between atoms.
 
@@ -223,9 +224,10 @@ class MoleculeSetter:
 
     def increase_distance_with_constraints(self, constraints, deltad):
         """
-        Takes a configuration and increase the distance between two atoms by
-        moving those atoms and all constraints containing them and keeping
-        the rest of the atoms in the same place.
+        Takes a configuration and increases the distance between two atoms by
+        moving those atoms and all those connected by constraints (all
+        together) containing them and keeping the rest of the atoms in the same
+        place.
 
         Parameters
         ==========
@@ -288,11 +290,12 @@ class MoleculeSetter:
         constraints: list
             constraints with the shape (n, 2), where n is the number of
             constraints and the first pair is the one to increase the
-            distance.
+            distance. 1-based numbering.
         deltad: float
             amount to add to the distance between atoms.
         index3: int. Default=None
             The atom with index 3 would be in the xy plane in case to be given.
+            1-based numbering.
 
         Return
         ======
@@ -367,15 +370,16 @@ class Alignment:
     @staticmethod
     def pca_vectors(atoms, indexes='all'):
         """
-        Find the eigen vectors in the Principal Component Analysis.
+        Find the eigen vectors of the Principal Component Analysis of the
+        positis of the atoms.
 
         Parameters
         ==========
         atoms: ase.Atoms
             molecule to be analyzed.
-        indexes: Default="all"
-            subset of atoms to be included in the pca analysis. numbering
-            convention starting from 0.
+        indexes: list. Default="all"
+            subset of atoms to be included in the pca analysis. 1-based
+            numbering.
 
         Return
         ======

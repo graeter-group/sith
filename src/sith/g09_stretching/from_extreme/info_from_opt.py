@@ -207,7 +207,7 @@ def reduce_structs(dir, pattern):
         all_dofs.append(dofs)
     all_dofs = np.array(all_dofs)  # [struct][dof]
 
-    # jump to furthest repeated structure and save the new order in new_set
+    # jump to the furthest repeated structure and save the new order in new_set
     new_set = []  # it will contain the indices of the selected indexes
     j = 0
     while j < len(all_files) - 1:
