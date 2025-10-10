@@ -12,9 +12,8 @@ refers to these subjobs)
       number of cores asked in the submission of the job.
   -i  <index1,index2> indexes of the atoms used for constraining the distance
       of the intermedia structures when optimizing. If this flag is not used
-      and there is a pdb file with the same <name> as defined with the flag -n,
-      indexes 1 and 2 will correspond to the CH3 atoms in ACE and NME residues
-      defined in the pdb if they exist.
+      and a pdb is given through flag '-t', indexes 1 and 2 will correspond to
+      the CH3 atoms in ACE and NME residues defined in the pdb if they exist.
   -l  <xc,base="bmk,6-31+g"> level of DFT theory.
   -n  <name> this script will collect all the *<name>*.xyz files sorted in
       alphabetic order as initial path. If this is a directory, this script
@@ -26,7 +25,10 @@ refers to these subjobs)
       sense in slurm cluster. Please, do not include a name (-J), nor the
       number of cores (-n, use -p for this). The input should be as in the next
       example: \"--partition=cpu --nice\".
+  -t  <template.pdb> pdb file used to read the indexes if -i is not
+      used.
 
+  -v  verbose
   -h  prints this message.
 EOF
 
@@ -42,7 +44,7 @@ level="bmk,6-31+g"
 n_processors=''
 job_options=''
 verbose=''
-while getopts 'ci:l:n:p:S:vh' flag;
+while getopts 'ci:l:n:p:P:S:t:vh' flag;
 do
   case "${flag}" in
     c) cluster='true' ;;
@@ -50,7 +52,9 @@ do
     l) level=${OPTARG} ;;
     n) name=${OPTARG} ;;
     p) n_processors=${OPTARG} ;;
+    P) pattern=${OPTARG} ;;
     S) job_options=${OPTARG} ;;
+    t) template=${OPTARG} ;;
 
     v) verbose='-v' ;;
     h) print_help ;;
@@ -74,7 +78,7 @@ if $cluster
 then
   load_modules
   c_flag='-c'
-  if [[ -z "$n_processors" ]] 
+  if [[ -z "$n_processors" ]]
   then
     if [[ ! -z "$SLURM_CPUS_ON_NODE" ]]
     then
@@ -89,11 +93,11 @@ then
 fi
 
 # C-CAP indexes in gaussian convention
-if [[ -z "$indexes" ]] && [[ -f "${name%.*}.pdb" ]]
+if [[ -z "$indexes" ]] && [[ -f "$template" ]]
 then
   # reading indexes from pdb file
-  index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
-  index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
+  index1=$( grep ACE "$template" | grep CH3 | awk '{print $2}' )
+  index2=$( grep NME "$template" | grep CH3 | awk '{print $2}' )
   indexes="$index1,$index2"
 fi
 
@@ -123,13 +127,13 @@ then
     name=${name#./}
   fi
   name=${name%/}
-  cp *"${name}"*.xyz conopt
+  cp *"${name}"*${pattern}*.xyz conopt
   cd conopt
 fi
 
 verbose "collecting and renaming xyz files"
 j=0
-for xyz_file in $(ls *$name*.xyz | sort )
+for xyz_file in $(ls *"${name}"*"${pattern}"*.xyz | sort )
 do
   if [[ "$xyz_file" != "$name-conopt$(printf "%03d" $j).xyz" ]]
   then
@@ -162,9 +166,14 @@ rm ${name}-conopt*.dat
 rm ${name}-conopt*.xyz
 mv subset/* .
 rm -r subset
+rm *.xyz
 
 # Create .com files
-verbose "Create com files and submitting job"
+verbose "Create com files and submitting job from the next dat files:"
+for i in $(ls -1 *.dat)
+do
+  verbose -t " - $i"
+done
 
 sith find_blocks -f template.com -e "Variables:" -o tmp $verbose > /dev/null
 mv tmp_000.out heading_template.out
@@ -192,14 +201,17 @@ do
   newzmat -izmat -oxyz $struct_name.com \
           $struct_name.xyz > /dev/null || \
     fail "reconstructing xyz from z-matrix for $struct_name"
+  n_atoms=$(cat $struct_name.xyz | wc -l)
+  sed -i "1i $n_atoms" $struct_name.xyz
+  sed -i "2i Coordinates Extracted from zmatrix with newzmat" $struct_name.xyz
 
   # create again com from xyz
   sith change_distance "$struct_name.xyz" "$struct_name" no_frozen_dofs 0 0 \
     "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \
     > /dev/null || fail "Preparating the input of gaussian"
-  sed -i "1a %NProcShared=$n_processors" "$name-optext.com"
-  sed -i "/#P/a opt(modredun,calcfc)" "$name-optext.com"
-  sed -i "1a %mem=60000MB" "$name-optext.com"
+  sed -i "1a %NProcShared=$n_processors" "$struct_name.com"
+  sed -i "/#P/a opt(modredun,calcfc)" "$struct_name.com"
+  sed -i "1a %mem=60000MB" "$struct_name.com"
   echo "$index1 $index2 F" >> $struct_name.com
 
   # and then submits the jobs

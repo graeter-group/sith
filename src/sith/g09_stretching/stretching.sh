@@ -21,6 +21,9 @@ distance between two atoms, constraining and optimizing at every step.
       'sith change_distance -h' to see the order.
       carbons of the capping groups
   -i  <index1,index2> indexes of the atoms to use for increasing the distance.
+      If this flag is not used and 'molecule' (flag -m) is a pdb, indexes 1 and
+      2 will correspond to the CH3 atoms in ACE and NME residues defined in the
+      pdb if they exist.
   -l  <xc,base="bmk,6-31+g"> evel of DFT theory.
   -m  <molecule> molecule name. In this directory, a file called
       <molecule>-stretched00.pdb must exist.

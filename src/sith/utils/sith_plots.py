@@ -681,13 +681,13 @@ class SithPlotter(PepSetter, SithAnalysis):
 
         # Find the index of the closest atoms to the cap residues.
         last_amino = list(self.amino_info.keys())[-2]
-        index1 = self.amino_info[2][first_atom] - 1
-        index2 = self.amino_info[last_amino][last_atom] - 1
+        index1 = self.amino_info[2][first_atom]
+        index2 = self.amino_info[last_amino][last_atom]
 
         # Find distances
         distances = []
         for defo in self.sith.structures:
-            distances.append(defo.atoms.get_distance(index1, index2))
+            distances.append(defo.atoms.get_distance(index1 - 1, index2 - 1))
         distances = (np.array(distances) - distances[0])
 
         # get energies dE-sith, dE-DFT, dE-error, dE-errorpercent

@@ -6,18 +6,51 @@ from pytest import approx
 
 
 def permute_atoms(atoms, indexes):
+    """
+    Permutes two atoms in an Atoms object.
+    
+    Parameters
+    ==========
+    atoms: ase.Atoms
+        atoms object to be permuted.
+    indexes: list
+        list of two indexes to be permuted (1-based).
+        
+    Return
+    ======
+    (ase.Atoms) permuted atoms object.
+    """
+
     indexes = list(indexes)
     indexes.sort()
 
-    atoms = atoms[:indexes[0]] + \
-            atoms[indexes[1]] + \
-            atoms[indexes[0] + 1: indexes[1]] + \
-            atoms[indexes[0]] + \
-            atoms[indexes[1] + 1:]
-    
+    atoms = atoms[:indexes[0] - 1] + \
+            atoms[indexes[1] - 1] + \
+            atoms[indexes[0]: indexes[1] - 1] + \
+            atoms[indexes[0] - 1] + \
+            atoms[indexes[1]:]
+
     return atoms
 
 def extract_dofs(indexes, atoms):
+    """
+    Extracts the distance, angle and dihedral defined by the given indexes.
+    
+    Parameters
+    ==========
+    indexes: list
+        list of four indexes (1-based) defining the distance (between the
+        first two indices), angle (between the first three indices) and
+        dihedral (the four indices) you want to compute.
+    atoms: ase.Atoms
+        atoms of a given configuration.
+
+    Return
+    ======
+    (tuple) distance, angle and dihedral defined by the given indexes.
+    """
+    for i in range(len((indexes))):
+        indexes[i] = indexes[i] - 1
     distance = atoms.get_distance(*indexes[:2])
     angle = atoms.get_angle(*indexes[:3])
     dihedral = atoms.get_dihedral(*indexes)
@@ -29,6 +62,26 @@ def extract_dofs(indexes, atoms):
 
 
 def test_dofs(atoms, indexes, file):
+    """"
+    Tests that the distance, angle and dihedral defined by the given indexes
+    correspond to those in the given file.
+    
+    Parameters
+    ==========
+    atoms: ase.Atoms
+        atoms of a given configuration.
+    indexes: list
+        list of four indexes (1-based) defining the distance (between the
+        first two indices), angle (between the first three indices) and
+        dihedral (the four indices) you want to compute.
+    file: str
+        file where the distance, angle and dihedral are stored.
+    
+    Return
+    ======
+    (bool) True if the test passes. It raises an assertion error if the values
+    do not
+    """
     dist, angl, dihe = extract_dofs(np.array(indexes) - 1, atoms)
     old_dist = float(output_terminal(f'sed -n "/R{indexes[0]}=/p" {file}' +
                                      ' | cut -d = -f 2', print_output=False))
@@ -37,21 +90,61 @@ def test_dofs(atoms, indexes, file):
     old_dihe = float(output_terminal(f'sed -n "/D{indexes[0]}=/p" {file}' +
                                      ' | cut -d = -f 2', print_output=False))
 
-    assert old_dist == approx(dist, abs=3e-2), f"R{indexes[0]}({old_dist}) does not " + \
-        f"correspond to the expected from the xyz file({dist})"
-    assert old_angl == approx(angl, abs=5e-1), f"A{indexes[0]}({old_angl}) does not " + \
-        f"correspond to the expected from the xyz file({angl})"
-    assert old_dihe == approx(dihe, abs=5e-1), f"D{indexes[0]}({old_dihe}) does not " + \
-        f"correspond to the expected from the xyz file({dihe})"
+    assert old_dist == approx(dist, abs=3e-2), f"R{indexes[0]}({old_dist}) " +\
+        f"does not correspond to the expected from the xyz file({dist})"
+    assert old_angl == approx(angl, abs=5e-1), f"A{indexes[0]}({old_angl})" +\
+        f"does not correspond to the expected from the xyz file({angl})"
+    assert old_dihe == approx(dihe, abs=5e-1), f"D{indexes[0]}({old_dihe})" +\
+        f"does not correspond to the expected from the xyz file({dihe})"
+
+    return True
 
 
 def def_line(indexes, element):
+    """
+    Creates a line defining an atom in a gaussian input comfile.
+
+    Parameters
+    ==========
+    indexes: list
+        list of four indexes (1-based) defining the distance (between the
+        first two indices), angle (between the first three indices) and
+        dihedral (the four indices).
+    element: str
+        element of the atom you want to define. E.g. 'C', 'H', 'O', etc.
+    
+    Return
+    ======
+    (str) line defining the atom in a gaussian input comfile.
+    """
     a1, a2, a3, a4 = indexes
-    print(f'new_line: {a1}, {a2}, {a3}, {a4}')
     return f'{element},{a2},R{a1},{a3},A{a1},{a4},D{a1},0'
 
 
 def change_def(new_i, element, atoms, file):
+    """
+    Changes the definition of a given DOF and updates the comfile including the
+    value of the DOFs.
+    
+    Parameters
+    ==========
+    new_i: list
+        list of four indexes (1-based) defining the distance (between the
+        first two indices), angle (between the first three indices) and
+        dihedral (the four indices) you want to define.
+    element: str
+        element of the atom you want to define. E.g. 'C', 'H', 'O', etc.
+    atoms: ase.Atoms
+        atoms of a given configuration.
+    file: str
+        gaussian input comfile that you want to modify. Be sure to back up
+        the original file.
+
+    Return
+    ======
+    (None) However, it changes the comfile. Be sure to back up the original
+    file.
+    """
     # All the atoms used to define a new atom should already exist; they
     # should have lower index.
     for i in new_i[1:]:
@@ -90,7 +183,7 @@ def find_CAC_NC(amino_info, atoms, i_pro):
 
     Returns
     =======
-    (tuple), index of C closest to Ca and index of the C closest to N.
+    (tuple), index of C closest to Ca and index of the C closest to N. 1-based.
     """
     pre_amino = amino_info[i_pro - 1]
     amino = amino_info[i_pro]
@@ -238,7 +331,7 @@ def set2(Cg_i, Cd_i, N_i, Ca_i, HG1_i, HG2_i, atoms, comfile):
     # swapping atoms Cg_i Cd_i
     print(f'swapping atoms {Cg_i} {Cd_i}')
     output_terminal(f'sith swap_atoms_in_com -a {Cg_i} -b {Cd_i} -f {comfile}')
-    atoms = permute_atoms(atoms, [Cg_i - 1, Cd_i - 1])
+    atoms = permute_atoms(atoms, [Cg_i, Cd_i])
     tmp  = Cg_i ; Cg_i = Cd_i ; Cd_i = tmp
     return atoms, Cg_i, Cd_i
 

@@ -24,9 +24,8 @@ to these subjobs).
       number of cores asked in the submission of the job.
   -i  <index1,index2> indexes of the atoms used for constraining the distance
       of the intermedia structures when optimizing. If this flag is not used
-      and there is a pdb file with the same <name> as defined with the flag -n,
-      indexes 1 and 2 will correspond to the CH3 atoms in ACE and NME residues
-      defined in the pdb if they exist.
+      but a pdb file is given (-t), indexes 1 and 2 will correspond to the CH3
+      atoms in ACE and NME residues defined in the pdb if they exist.
   -l  <xc,base="bmk,6-31+g"> level of DFT theory.
   -m  <molecule> directory or coordinates file of configuration to be relaxed.
       For example, \"./AAA/\" a trialanine configuration ('last' after
@@ -39,6 +38,7 @@ to these subjobs).
       sense in slurm cluster. Please, do not include a name (-J), nor the
       number of cores (-n, use -p for this). The input should be as in the next
       example: \"--partition=cpu --nice\".
+  -t  <template.pdb> template pdb file to define indexes if -i is not used.
 
   -v  verbose.
   -h  prints this message.
@@ -66,7 +66,7 @@ restart='false'
 job_options=''
 
 verbose=''
-while getopts 'a:ci:l:m:p:rS:vh' flag;
+while getopts 'a:ci:l:m:p:rS:t:vh' flag;
 do
   case "${flag}" in
     a) alias=${OPTARG} ;;
@@ -77,6 +77,7 @@ do
     p) n_processors=${OPTARG} ;;
     r) restart='true' ;;
     S) job_options=${OPTARG} ;;
+    t) template=${OPTARG} ;;
 
     v) verbose='-v' ;;
     h) print_help ;;
@@ -113,6 +114,15 @@ fi
 xc_functional=$(echo $level | cut -d ',' -f 1)
 basis_set=$(echo $level | cut -d ',' -f 2)
 
+if [[ -z "$indexes" ]] && [[ -f "$template" ]]
+then
+  # reading indexes from pdb file
+  index1=$( grep ACE "$template" | grep CH3 | awk '{print $2}' )
+  index2=$( grep NME "$template" | grep CH3 | awk '{print $2}' )
+  indexes="$index1,$index2"
+  verbose -t "Indexes read from $template: $indexes"
+fi
+
 if [ -z $molecule ]
 then 
   fail "This code needs a reference  molecule. Please, define it using the flag
@@ -146,6 +156,7 @@ then
       fail "$molecule does not exist."
   fi
   # create from_extreme directory
+  create_bck from_extreme
   mkdir -p from_extreme
   cp $molecule from_extreme/$alias.xyz
   cd from_extreme
@@ -155,8 +166,8 @@ else
   cd from_extreme || fail "directory 'from_extreme' is not [and does not exist
       in] the current directory."
   if  ! grep -q "Normal termination" "$name-optext.log" "$name-optext-bck*.log"
-  then  
-    sith log2xyz "$name-optext.log" > /dev/null || fail "extracting coordinates from process
+  then
+    sith log2xyz "$name-optext.log" > /dev/null || fail "extracting coordinates
       from $name-optext.log"
     create_bck $xyz
     cp $name-optext.xyz $xyz
@@ -164,9 +175,9 @@ else
 fi
 
 # run gaussian
-verbose -t "Running optimization from $name-optex.com."
 if  ! grep -q "Normal termination" "$name-optext.log" "$name-optext-bck*.log"
 then
+  verbose -t "Running optimization from $name-optex.com"
   # creates gaussian input that optimizes the structure
   sith change_distance "$name.xyz" "$name-optext" no_frozen_dofs 0 0 \
     "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \
@@ -209,7 +220,8 @@ verbose "Starting 'sith continuous_path' after having all
   ${name}-conopt<n>.xyz files"
 
 $(sith continuous_path -path) $c_flag -i "$indexes" -l "$level" -n "$name" \
-                              -p "$n_processors" -S "$job_options" $verbose || \
+                              -p "$n_processors" -P "conopt" -S "$job_options"
+                              $verbose || \
   fail "submiting continuous path"
 
 finish "continuous path of $name finished."
