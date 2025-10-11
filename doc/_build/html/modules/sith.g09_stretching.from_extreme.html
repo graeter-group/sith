@@ -21,8 +21,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Script of sith prepare_and_submit" href="bash_rsts_scripts/prepare_and_submit.html" />
-    <link rel="prev" title="Script of sith continuous_path" href="bash_rsts_scripts/continuous_path.html" /> 
+    <link rel="next" title="Script of sith extr_dofs" href="bash_rsts_scripts/extr_dofs.html" />
+    <link rel="prev" title="sith package" href="sith.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,9 +52,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../workflow/workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="sith.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">sith.g09_stretching.from_extreme package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#module-sith.g09_stretching.from_extreme.info_from_opt">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-sith.g09_stretching.from_extreme">Module contents</a></li>
@@ -109,6 +106,32 @@
 <section id="module-sith.g09_stretching.from_extreme.info_from_opt">
 <span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-sith.g09_stretching.from_extreme.info_from_opt" title="Link to this heading"></a></h2>
 <dl class="py function">
+<dt class="sig sig-object py" id="sith.g09_stretching.from_extreme.info_from_opt.continuous_e2e">
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.from_extreme.info_from_opt.</span></span><span class="sig-name descname"><span class="pre">continuous_e2e</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dir_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'e2e_continuous'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.from_extreme.info_from_opt.continuous_e2e" title="Link to this definition"></a></dt>
+<dd><p>From a set of configurations in xyz files with pattern
+&lt;all&gt;&lt;pattern&gt;&lt;all&gt;.xyz, it guarantees that consecutive changes in the
+distance between the atoms with index1 and index2 are lower than 0.2A.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pattern</strong> (<em>str</em>) – pattern of the input files. All the files with &lt;all&gt;&lt;pattern&gt;&lt;all&gt;.xyz
+will be read.</p></li>
+<li><p><strong>index1</strong> (<em>int</em>) – index of the first atom to align in the x axis. 1-base indexing.</p></li>
+<li><p><strong>index2</strong> (<em>int</em>) – index of the second atom to align in the x axis. 1-base indexing.</p></li>
+<li><p><strong>dir_output</strong> (<em>str. Default='e2e_continuous'</em>) – directory where to save the output files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(ase.Atoms) new trajectory with continuous distance between index1 and</em></p></li>
+<li><p><em>index2. It creates the xyz files in dir_output.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.from_extreme.info_from_opt.delta_angles_continuous">
 <span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.from_extreme.info_from_opt.</span></span><span class="sig-name descname"><span class="pre">delta_angles_continuous</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d_ij</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.from_extreme.info_from_opt.delta_angles_continuous" title="Link to this definition"></a></dt>
 <dd><p>Make the difference of the angles continuous considering the periodicity of
@@ -133,26 +156,31 @@ the rest are angles.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.from_extreme.info_from_opt.info_from_opt">
-<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.from_extreme.info_from_opt.</span></span><span class="sig-name descname"><span class="pre">info_from_opt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdb_reference</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.from_extreme.info_from_opt.info_from_opt" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.from_extreme.info_from_opt.</span></span><span class="sig-name descname"><span class="pre">info_from_opt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.from_extreme.info_from_opt.info_from_opt" title="Link to this definition"></a></dt>
 <dd><p>Extracts configurations from a gaussian optimization trajectory and removes
-those outliers in the total energy.</p>
+the structures that are outliers in the total energy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>logfile</strong> (<em>str</em>) – gaussian log file.</p></li>
-<li><p><strong>pdb_reference</strong> (<em>str</em>) – pdb with the information of the peptide.</p></li>
 <li><p><strong>pattern</strong> (<em>str</em>) – pattern of the output. The results are xyz files called
 &lt;pattern&gt;&lt;i&gt;.xyz</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><em>(ase.Atoms) new trajectory without the outliers. it creates the xyz files</em></p></li>
+<li><p><em>(ase.Atoms) new trajectory without the outliers. It creates the xyz files</em></p></li>
 <li><p><em>in between.</em></p></li>
 </ul>
 </p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use
+<code class="xref py py-func docutils literal notranslate"><span class="pre">sith.g09_stretching.from_extreme.info_from_opt.reduce_struct()</span></code> to
+make the DOFs of output trajectory continuous.</p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -183,41 +211,52 @@ irrelevant changes. It creates intermedias to guarantee continuous dofs.</p>
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-sith.g09_stretching.from_extreme" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 </div>
-<section id="after-optimization">
-<span id="sith-g09-stretching-from-extreme-after-optimization"></span><h3>after_optimization<a class="headerlink" href="#after-optimization" title="Link to this heading"></a></h3>
+<section id="continuous-path">
+<span id="sith-g09-stretching-from-extreme-continuous-path"></span><h3>continuous_path<a class="headerlink" href="#continuous-path" title="Link to this heading"></a></h3>
 <div class="bash-script-title docutils container">
-<p><a class="reference internal" href="bash_rsts_scripts/after_optimization.html#after-optimization"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/from_extreme/after_optimization.sh</strong></p>
+<p><a class="reference internal" href="bash_rsts_scripts/continuous_path.html#continuous-path"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/from_extreme/continuous_path.sh</strong></p>
 </div>
 <div class="bash-script-doc docutils container">
 <div class="line-block">
-<div class="line">Creates the com files from the xyz structures extracted from a gaussian log file</div>
-<div class="line">and submit the corresponding jobs to compute the forces.</div>
+<div class="line">Creates the com files from the a set of xyz structures, and submit the jobs</div>
+<div class="line">with :bashscript: (-S here</div>
+<div class="line">refers to these subjobs)</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-l  &lt;log_file&gt; optimization gaussian logfile.</div>
-<div class="line">-n  &lt;name&gt; standard name. Usually pep name.</div>
-<div class="line"><br /></div>
-<div class="line">-h  prints this message.</div>
-</div>
-</div>
-</div>
-</section>
-<section id="opt-from-xyzs">
-<span id="sith-g09-stretching-from-extreme-opt-from-xyzs"></span><h3>opt_from_xyzs<a class="headerlink" href="#opt-from-xyzs" title="Link to this heading"></a></h3>
-<div class="bash-script-title docutils container">
-<p><a class="reference internal" href="bash_rsts_scripts/opt_from_xyzs.html#opt-from-xyzs"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/from_extreme/opt_from_xyzs.sh</strong></p>
-</div>
-<div class="bash-script-doc docutils container">
+<div class="line">-c  Use this flag to run in a cluster. When -p is not defined, and you run in</div>
 <div class="line-block">
-<div class="line">Creates a com file for each xyz file with a pattern that it finds in a given</div>
-<div class="line">directory. The name of each com file is the same than the xyz, but with different</div>
-<div class="line">extension.</div>
-<div class="line"><br /></div>
+<div class="line">a slurm job manager system, the number of processors is equal to the</div>
+<div class="line">number of cores asked in the submission of the job.</div>
+</div>
+<div class="line">-i  &lt;index1,index2&gt; indexes of the atoms used for constraining the distance</div>
 <div class="line-block">
-<div class="line">-d  directory where the xyz files are.</div>
-<div class="line">-n  pattern in the name of the desired xyz file.</div>
-<div class="line">-p  pdb of reference.</div>
+<div class="line">of the intermedia structures when optimizing. If this flag is not used</div>
+<div class="line">and a pdb is given through flag ‘-t’, indexes 1 and 2 will correspond to</div>
+<div class="line">the CH3 atoms in ACE and NME residues defined in the pdb if they exist.</div>
+</div>
+<div class="line">-l  &lt;xc,base=”bmk,6-31+g”&gt; level of DFT theory.</div>
+<div class="line">-n  &lt;name&gt; this script will collect all the <em>&lt;name&gt;</em>.xyz files sorted in</div>
+<div class="line-block">
+<div class="line">alphabetic order as initial path. If this is a directory, this script</div>
+<div class="line">will create a subdirectory there called ‘conopt’ and copy the</div>
+<div class="line"><em>&lt;name&gt;</em>.xyz files to that subdirectory first.</div>
+</div>
+<div class="line">-p  &lt;processors=1&gt; number of processors per gaussian job. See description of</div>
+<div class="line-block">
+<div class="line">flag -c.</div>
+</div>
+<div class="line">-S  &lt;job_options=’’&gt; options for submitting a new job. This flag only makes</div>
+<div class="line-block">
+<div class="line">sense in slurm cluster. Please, do not include a name (-J), nor the</div>
+<div class="line">number of cores (-n, use -p for this). The input should be as in the next</div>
+<div class="line">example: &quot;–partition=cpu –nice&quot;.</div>
+</div>
+<div class="line">-t  &lt;template.pdb&gt; pdb file used to read the indexes if -i is not</div>
+<div class="line-block">
+<div class="line">used.</div>
 <div class="line"><br /></div>
+</div>
+<div class="line">-v  verbose</div>
 <div class="line">-h  prints this message.</div>
 </div>
 </div>
@@ -230,45 +269,63 @@ irrelevant changes. It creates intermedias to guarantee continuous dofs.</p>
 </div>
 <div class="bash-script-doc docutils container">
 <div class="line-block">
-<div class="line">This tool creates the files to do the sith analysis by optimizing a molecule</div>
-<div class="line">that was just about to get a first rupture, then takes the intermedia steps and</div>
-<div class="line">find the internal forces. Consider the next options:</div>
+<div class="line">This tool creates the files to do the sith analysis by optimizing a molecule,</div>
+<div class="line">then takes the intermedia steps and prepares a constrained optimization of each</div>
+<div class="line">one of them with :bashscript:</div>
+<div class="line">after creating intermedias states that guarantee continuity in the degrees of</div>
+<div class="line">freedom. This script submits in parallel each one of those optimizations with</div>
+<div class="line">:bashscript: (-S here refers</div>
+<div class="line">to these subjobs).</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-c  run in cascade. (modules are loaded)</div>
-<div class="line">-p  &lt;peptide&gt;. directory or xyzfile of last conf. Chains of aminoacids to</div>
+<div class="line">-a  &lt;alias&gt; new name of the xyz file and subsequent files in directory</div>
 <div class="line-block">
-<div class="line">be evaluated. For example, “./AAA/” would optimize the last</div>
-<div class="line">stretched a trialanine peptide (where last means after organizing</div>
-<div class="line">alphabetically).</div>
+<div class="line">‘from_extreme’.</div>
 </div>
-<div class="line">-r  Use if the job corresponds to a restart, in which case, no directory will</div>
+<div class="line">-c  Use this flag to run in a cluster. When -p is not defined, and you run in</div>
 <div class="line-block">
-<div class="line">be created and the new &lt;peptide&gt;-optext.com is assumed to exist.</div>
+<div class="line">a slurm job manager system, the number of processors is equal to the</div>
+<div class="line">number of cores asked in the submission of the job.</div>
+</div>
+<div class="line">-i  &lt;index1,index2&gt; indexes of the atoms used for constraining the distance</div>
+<div class="line-block">
+<div class="line">of the intermedia structures when optimizing. If this flag is not used</div>
+<div class="line">but a pdb file is given (-t), indexes 1 and 2 will correspond to the CH3</div>
+<div class="line">atoms in ACE and NME residues defined in the pdb if they exist.</div>
+</div>
+<div class="line">-l  &lt;xc,base=”bmk,6-31+g”&gt; level of DFT theory.</div>
+<div class="line">-m  &lt;molecule&gt; directory or coordinates file of configuration to be relaxed.</div>
+<div class="line-block">
+<div class="line">For example, &quot;./AAA/&quot; a trialanine configuration (‘last’ after</div>
+<div class="line">organizing all xyz files alphabetically all AAA*.xyz files in ./AAA/).</div>
+</div>
+<div class="line">-p  &lt;processors=1&gt; number of processors per gaussian job. See description of</div>
+<div class="line-block">
+<div class="line">flag -c.</div>
+</div>
+<div class="line">-r  Use it to restart, in which case no directory will be created and the new</div>
+<div class="line-block">
+<div class="line">&lt;molecule&gt;-optext.log is assumed to exist in the working directory.</div>
+</div>
+<div class="line">-S  &lt;job_options=’’&gt; options for submitting a new job. This flag only makes</div>
+<div class="line-block">
+<div class="line">sense in slurm cluster. Please, do not include a name (-J), nor the</div>
+<div class="line">number of cores (-n, use -p for this). The input should be as in the next</div>
+<div class="line">example: &quot;–partition=cpu –nice&quot;.</div>
+</div>
+<div class="line">-t  &lt;template.pdb&gt; template pdb file to define indexes if -i is not used.</div>
 <div class="line"><br /></div>
-</div>
 <div class="line">-v  verbose.</div>
 <div class="line">-h  prints this message.</div>
 <div class="line"><br /></div>
 </div>
-<div class="line">Note: it is assumed that the file of the last configuration is named as:</div>
-<div class="line">&lt;amino acids-code&gt;-&lt;description&gt;&lt;number of stretching&gt;.xyz</div>
-</div>
-</div>
-</section>
-<section id="rearange-files">
-<span id="sith-g09-stretching-from-extreme-rearange-files"></span><h3>rearange_files<a class="headerlink" href="#rearange-files" title="Link to this heading"></a></h3>
-<div class="bash-script-title docutils container">
-<p><a class="reference internal" href="bash_rsts_scripts/rearange_files.html#rearange-files"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/from_extreme/rearange_files.sh</strong></p>
-</div>
-<div class="bash-script-doc docutils container">
-<div class="line-block">
-<div class="line">This tool rearange the files called <em>&lt;n&gt;</em>.xyz changing the number &lt;n&gt;</div>
-<div class="line">for the correspondending in increasing order. it must be executed in the directory</div>
-<div class="line">where the files to organize are.</div>
+<div class="line">Note</div>
+<div class="line">—-</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-h  prints this message.</div>
+<div class="line">The outputs are stored in a directory called ‘from_extreme’/</div>
+<div class="line"><br /></div>
+<div class="line">This tool requires gaussian and sklearn.</div>
 </div>
 </div>
 </div>
@@ -280,51 +337,33 @@ irrelevant changes. It creates intermedias to guarantee continuous dofs.</p>
 </div>
 <div class="bash-script-doc docutils container">
 <div class="line-block">
-<div class="line">This code submit an optimization job and uses the output to compute the</div>
-<div class="line">forces.</div>
+<div class="line">This code submits a gaussian job (typically an optimization) and uses the</div>
+<div class="line">output to compute the forces.</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-f  name if the gaussian input file without extension (.com).</div>
-<div class="line">-c  run in server.</div>
+<div class="line">-c  Use this flag to run in a cluster. When -p is not defined, and you run in</div>
+<div class="line-block">
+<div class="line">a slurm job manager system, the number of processors is equal to the</div>
+<div class="line">number of cores asked in the submission of the job.</div>
+</div>
+<div class="line">-f  &lt;com file&gt; name of the gaussian input file without extension (.com). The</div>
+<div class="line-block">
+<div class="line">output is has the same name, but .log extension.</div>
+</div>
+<div class="line">-F  use this flag fo AVIOD force calculation after optimization.</div>
+<div class="line">-p  &lt;processors=1&gt; number of processors per gaussian job. See description of</div>
+<div class="line-block">
+<div class="line">flag -c.</div>
+</div>
+<div class="line">-S  &lt;job_options=’’&gt; options for submitting a new job. This flag only makes</div>
+<div class="line-block">
+<div class="line">sense in slurm cluster. Please, do not include a name and add the options</div>
+<div class="line">as in the next example: “–partition=cpu –nice”.</div>
 <div class="line"><br /></div>
+</div>
 <div class="line">-v  verbose.</div>
 <div class="line">-h  prints this message.</div>
 </div>
-</div>
-</div>
-</section>
-<section id="resubmit-failed">
-<span id="sith-g09-stretching-from-extreme-resubmit-failed"></span><h3>resubmit_failed<a class="headerlink" href="#resubmit-failed" title="Link to this heading"></a></h3>
-<div class="bash-script-title docutils container">
-<p><a class="reference internal" href="bash_rsts_scripts/resubmit_failed.html#resubmit-failed"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/from_extreme/resubmit_failed.sh</strong></p>
-</div>
-<div class="bash-script-doc docutils container">
-<div class="line-block">
-<div class="line">Takes the gaussian log files given by -l flag, and if the log file does not</div>
-<div class="line">report a proper termination, a new job is resubmitted (creating a backup first)</div>
-<div class="line">using the command given by the flag -e.</div>
-<div class="line"><br /></div>
-<div class="line-block">
-<div class="line">-d  &lt;path=’./’&gt; directory where the log and com files are.</div>
-<div class="line">-e  &lt;exec=’ERROR: keyword single_g09 not recognized as part of sith. Use ‘sith -h’ to see the options you can use. -c -f ‘&gt; execution command to be</div>
-<div class="line-block">
-<div class="line">resubmitted. This command is very important to be given inside of ” such</div>
-<div class="line">that it is understood as only one value.</div>
-</div>
-<div class="line">-f  &lt;frozen=’’&gt; line to freeze dofs. eg: ‘2 5 F’.</div>
-<div class="line">-c  &lt;comfile&gt; input file used to run the previous trial.</div>
-<div class="line">-l  &lt;logfile&gt; log file used to run the previous trial.</div>
-<div class="line">-j  &lt;jobname=comfile without extension&gt; name of the new Job to be resubmited.</div>
-<div class="line"><br /></div>
-<div class="line">-v  verbose</div>
-<div class="line">-h  prints this message.</div>
-<div class="line"><br /></div>
-</div>
-<div class="line">Note: it assumes that ../frozen_dofs.dat exist.</div>
-<div class="line"><br /></div>
-<div class="line">Note: In principle, this can be done easier by the chk, but then the input is</div>
-<div class="line">not a Z-matrix anymore, then the output would not contain the info of the</div>
-<div class="line">forces.</div>
 </div>
 </div>
 </section>
@@ -335,26 +374,15 @@ irrelevant changes. It creates intermedias to guarantee continuous dofs.</p>
 </div>
 <div class="bash-script-doc docutils container">
 <div class="line-block">
-<div class="line">This tool extract the dofs of a set of xyz files. The ouput are files called</div>
-<div class="line">&lt;xyz file with <em>pattern</em>&gt;-dofs.dat, where pattern comes from -f flag.</div>
+<div class="line">This tool extract the dofs of a set of xyz files using the gaussian tool</div>
+<div class="line">‘newzmat’. The ouput are files called &lt;xyz file with <em>pattern</em>&gt;-dofs.dat, where</div>
+<div class="line">pattern comes from -f flag.</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-f  &lt;xyz files pattern&gt;. The code will look for <em>pattern</em>.xyz</div>
+<div class="line">-f  &lt;xyz files pattern&gt;. The code will look for <em>&lt;pattern&gt;</em>.xyz</div>
 <div class="line"><br /></div>
 <div class="line">-h  prints this message.</div>
 </div>
-</div>
-</div>
-</section>
-<section id="prepare-and-submit">
-<span id="sith-g09-stretching-from-extreme-prepare-and-submit"></span><h3>prepare_and_submit<a class="headerlink" href="#prepare-and-submit" title="Link to this heading"></a></h3>
-<div class="bash-script-title docutils container">
-<p><a class="reference internal" href="bash_rsts_scripts/prepare_and_submit.html#prepare-and-submit"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/from_extreme/prepare_and_submit.sh</strong></p>
-</div>
-<div class="bash-script-doc docutils container">
-<div class="line-block">
-<div class="line">Submit opt_and_forces for each one of the xyz files given as positional</div>
-<div class="line">arguments.</div>
 </div>
 </div>
 </section>
@@ -365,8 +393,8 @@ irrelevant changes. It creates intermedias to guarantee continuous dofs.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="bash_rsts_scripts/continuous_path.html" class="btn btn-neutral float-left" title="Script of sith continuous_path" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="bash_rsts_scripts/prepare_and_submit.html" class="btn btn-neutral float-right" title="Script of sith prepare_and_submit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="sith.html" class="btn btn-neutral float-left" title="sith package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="bash_rsts_scripts/extr_dofs.html" class="btn btn-neutral float-right" title="Script of sith extr_dofs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

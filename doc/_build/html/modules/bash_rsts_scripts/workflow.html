@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Script of sith find_forces" href="find_forces.html" />
-    <link rel="prev" title="Script of sith create_peptide" href="create_peptide.html" /> 
+    <link rel="prev" title="sith.g09_stretching package" href="../sith.g09_stretching.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,9 +52,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
@@ -106,6 +103,7 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1">#SBATCH -N 1                   # number of nodes</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
 <span class="c1">#SBATCH -t 24:00:00</span>
 <span class="c1">#SBATCH --output=%x-%j.o</span>
 <span class="c1">#SBATCH --error=%x-%j.e</span>
@@ -123,8 +121,9 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="s2">  -c  run in cluster (see the documentation of the installation of sith</span>
 <span class="s2">      -execute &#39;sith doc&#39; in your terminal-)</span>
 <span class="s2">  -i  &lt;index1,index2&gt; indexes of the atoms to use for increasing the distance.</span>
-<span class="s2">      If these indices are not given and the molecule is an amino acid defined</span>
-<span class="s2">      in a pdb, the CH3 atoms of the ACE and NME residues are chosen. </span>
+<span class="s2">      If this flag is not used and &#39;molecule&#39; (flag -m) is a pdb, indexes 1 and</span>
+<span class="s2">      2 will correspond to the CH3 atoms in ACE and NME residues defined in the</span>
+<span class="s2">      pdb if they exist.</span>
 <span class="s2">  -l  &lt;xc,base=&quot;</span>bmk,6-31+g<span class="s2">&quot;&gt; evel of DFT theory.</span>
 <span class="s2">  -m  &lt;molecule&gt; definition of the molecule (xyz, pdb, ...).</span>
 <span class="s2">  -M  &lt;method=0&gt; Index of stretching method. To see the options, use</span>
@@ -190,9 +189,9 @@ resubmit<span class="w"> </span><span class="o">()</span><span class="w"> </span
 <span class="c1"># starting information</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;===============&quot;</span>
-verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Date:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Date:&quot;</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="k">$(</span>date<span class="k">)</span>
-verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Command:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Command:&quot;</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
 
 <span class="c1"># ---- Set up -------------------------------------------------------------------</span>
@@ -212,9 +211,6 @@ verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;
 <span class="w">  </span><span class="k">fi</span>
 <span class="k">fi</span>
 
-<span class="nv">xc_functional</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$level</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
-<span class="nv">basis_set</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$level</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="k">)</span>
-
 ase<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs ASE.&quot;</span>
 <span class="nb">command</span><span class="w"> </span>-V<span class="w"> </span>gaussian<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Remeber to define the function</span>
 <span class="s2">  gaussian (check the documentation of the installation -sith doc-).&quot;</span>
@@ -225,9 +221,9 @@ sith<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</spa
 verbose<span class="w"> </span><span class="s2">&quot;execute stretching&quot;</span>
 
 sith<span class="w"> </span>stretching<span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$breakages</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$cluster</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$indexes</span><span class="s2">&#39;&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">                </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$xc_functional</span><span class="s2">,</span><span class="nv">$basis_set</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">                </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$restart</span><span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$size</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;Stretching of </span><span class="nv">$pep</span><span class="s2"> failed&quot;</span>
+<span class="w">                </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$level</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$restart</span><span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$size</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Stretching of </span><span class="nv">$pep</span><span class="s2"> failed&quot;</span>
 
 <span class="c1"># TODO: add Classical energies</span>
 
@@ -256,7 +252,7 @@ mv<span class="w"> </span>./*-bck*.*<span class="w"> </span>bck
 <span class="c1">#sbatch $single_part -J ${pep}_ff $(sith pulling_with_ff -path) -F $final_force -f $pep-stretched00.pdb </span>
 
 
-<span class="c1">#finish &quot;$pep finished&quot;</span>
+finish
 </pre></div>
 </div>
 </section>
@@ -265,7 +261,7 @@ mv<span class="w"> </span>./*-bck*.*<span class="w"> </span>bck
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="create_peptide.html" class="btn btn-neutral float-left" title="Script of sith create_peptide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../sith.g09_stretching.html" class="btn btn-neutral float-left" title="sith.g09_stretching package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="find_forces.html" class="btn btn-neutral float-right" title="Script of sith find_forces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

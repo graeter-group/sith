@@ -91,10 +91,10 @@
 <div class="line-block">
 <div class="line">ruptures.</div>
 </div>
-<div class="line">-c  Use this flag to run in a cluster set with slurm. In that case, the</div>
+<div class="line">-c  Use this flag to run in a cluster. When -p is not defined, and you run in</div>
 <div class="line-block">
-<div class="line">of processors is equal to the number of cores asked in the submission of</div>
-<div class="line">the job. When this flag is present, -p is ignored.</div>
+<div class="line">a slurm job manager system, the of processors is equal to the number of</div>
+<div class="line">cores asked in the submission of the job.</div>
 </div>
 <div class="line">-e  &lt;extend_method=0&gt; index of stretching method. To see the options, use</div>
 <div class="line-block">
@@ -102,6 +102,11 @@
 <div class="line">carbons of the capping groups</div>
 </div>
 <div class="line">-i  &lt;index1,index2&gt; indexes of the atoms to use for increasing the distance.</div>
+<div class="line-block">
+<div class="line">If this flag is not used and ‘molecule’ (flag -m) is a pdb, indexes 1 and</div>
+<div class="line">2 will correspond to the CH3 atoms in ACE and NME residues defined in the</div>
+<div class="line">pdb if they exist.</div>
+</div>
 <div class="line">-l  &lt;xc,base=bmk,6-31+g&gt; evel of DFT theory.</div>
 <div class="line">-m  &lt;molecule&gt; molecule name. In this directory, a file called</div>
 <div class="line-block">

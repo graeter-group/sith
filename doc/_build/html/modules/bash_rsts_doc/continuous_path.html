@@ -79,17 +79,49 @@
   <section id="continuous-path">
 <h1>continuous_path<a class="headerlink" href="#continuous-path" title="Link to this heading"></a></h1>
 <div class="bash-script-title docutils container">
-<p><a class="reference internal" href="../bash_rsts_scripts/continuous_path.html#continuous-path"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/from_extreme/second_version/continuous_path.sh</strong></p>
+<p><a class="reference internal" href="../bash_rsts_scripts/continuous_path.html#continuous-path"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/from_extreme/continuous_path.sh</strong></p>
 </div>
 <div class="bash-script-doc docutils container">
 <div class="line-block">
-<div class="line">Creates the com files from the xyz structures extracted from a gaussian log file and</div>
-<div class="line">submit the corresponding jobs to compute the forces.</div>
+<div class="line">Creates the com files from the a set of xyz structures, and submit the jobs</div>
+<div class="line">with :bashscript: (-S here</div>
+<div class="line">refers to these subjobs)</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-l  &lt;log_file&gt; optimization gaussian logfile.</div>
-<div class="line">-n  &lt;name&gt; standard name. Usually pep name.</div>
+<div class="line">-c  Use this flag to run in a cluster. When -p is not defined, and you run in</div>
+<div class="line-block">
+<div class="line">a slurm job manager system, the number of processors is equal to the</div>
+<div class="line">number of cores asked in the submission of the job.</div>
+</div>
+<div class="line">-i  &lt;index1,index2&gt; indexes of the atoms used for constraining the distance</div>
+<div class="line-block">
+<div class="line">of the intermedia structures when optimizing. If this flag is not used</div>
+<div class="line">and a pdb is given through flag ‘-t’, indexes 1 and 2 will correspond to</div>
+<div class="line">the CH3 atoms in ACE and NME residues defined in the pdb if they exist.</div>
+</div>
+<div class="line">-l  &lt;xc,base=”bmk,6-31+g”&gt; level of DFT theory.</div>
+<div class="line">-n  &lt;name&gt; this script will collect all the <em>&lt;name&gt;</em>.xyz files sorted in</div>
+<div class="line-block">
+<div class="line">alphabetic order as initial path. If this is a directory, this script</div>
+<div class="line">will create a subdirectory there called ‘conopt’ and copy the</div>
+<div class="line"><em>&lt;name&gt;</em>.xyz files to that subdirectory first.</div>
+</div>
+<div class="line">-p  &lt;processors=1&gt; number of processors per gaussian job. See description of</div>
+<div class="line-block">
+<div class="line">flag -c.</div>
+</div>
+<div class="line">-S  &lt;job_options=’’&gt; options for submitting a new job. This flag only makes</div>
+<div class="line-block">
+<div class="line">sense in slurm cluster. Please, do not include a name (-J), nor the</div>
+<div class="line">number of cores (-n, use -p for this). The input should be as in the next</div>
+<div class="line">example: &quot;–partition=cpu –nice&quot;.</div>
+</div>
+<div class="line">-t  &lt;template.pdb&gt; pdb file used to read the indexes if -i is not</div>
+<div class="line-block">
+<div class="line">used.</div>
 <div class="line"><br /></div>
+</div>
+<div class="line">-v  verbose</div>
 <div class="line">-h  prints this message.</div>
 </div>
 </div>

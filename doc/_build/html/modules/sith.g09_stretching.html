@@ -21,7 +21,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Script of sith create_peptide" href="bash_rsts_scripts/create_peptide.html" />
+    <link rel="next" title="Script of sith workflow" href="bash_rsts_scripts/workflow.html" />
     <link rel="prev" title="sith.energy_analysis package" href="sith.energy_analysis.html" /> 
 </head>
 
@@ -52,9 +52,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../workflow/workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="sith.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">sith.g09_stretching package</a><ul>
@@ -108,20 +105,17 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme.info_from_opt">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#sith.g09_stretching.from_extreme.info_from_opt.continuous_e2e"><code class="docutils literal notranslate"><span class="pre">continuous_e2e()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#sith.g09_stretching.from_extreme.info_from_opt.delta_angles_continuous"><code class="docutils literal notranslate"><span class="pre">delta_angles_continuous()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#sith.g09_stretching.from_extreme.info_from_opt.info_from_opt"><code class="docutils literal notranslate"><span class="pre">info_from_opt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#sith.g09_stretching.from_extreme.info_from_opt.reduce_structs"><code class="docutils literal notranslate"><span class="pre">reduce_structs()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme">Module contents</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#after-optimization">after_optimization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#opt-from-xyzs">opt_from_xyzs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#continuous-path">continuous_path</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#workflow-from-extreme">workflow_from_extreme</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#rearange-files">rearange_files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#opt-and-forces">opt_and_forces</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#resubmit-failed">resubmit_failed</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#extr-dofs">extr_dofs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html#prepare-and-submit">prepare_and_submit</a></li>
 </ul>
 </li>
 </ul>
@@ -134,7 +128,29 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.change_def">
 <span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">change_def</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.change_def" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Changes the definition of a given DOF and updates the comfile including the
+value of the DOFs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>new_i</strong> (<em>list</em>) – list of four indexes (1-based) defining the distance (between the
+first two indices), angle (between the first three indices) and
+dihedral (the four indices) you want to define.</p></li>
+<li><p><strong>element</strong> (<em>str</em>) – element of the atom you want to define. E.g. ‘C’, ‘H’, ‘O’, etc.</p></li>
+<li><p><strong>atoms</strong> (<em>ase.Atoms</em>) – atoms of a given configuration.</p></li>
+<li><p><strong>file</strong> (<em>str</em>) – gaussian input comfile that you want to modify. Be sure to back up
+the original file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(None) However, it changes the comfile. Be sure to back up the original</em></p></li>
+<li><p><em>file.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.change_prolines_dofs">
@@ -166,12 +182,40 @@ missed bond is always different.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.def_line">
 <span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">def_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indexes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.def_line" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Creates a line defining an atom in a gaussian input comfile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>indexes</strong> (<em>list</em>) – list of four indexes (1-based) defining the distance (between the
+first two indices), angle (between the first three indices) and
+dihedral (the four indices).</p></li>
+<li><p><strong>element</strong> (<em>str</em>) – element of the atom you want to define. E.g. ‘C’, ‘H’, ‘O’, etc.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(str) line defining the atom in a gaussian input comfile.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.extract_dofs">
 <span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">extract_dofs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indexes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.extract_dofs" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Extracts the distance, angle and dihedral defined by the given indexes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>indexes</strong> (<em>list</em>) – list of four indexes (1-based) defining the distance (between the
+first two indices), angle (between the first three indices) and
+dihedral (the four indices) you want to compute.</p></li>
+<li><p><strong>atoms</strong> (<em>ase.Atoms</em>) – atoms of a given configuration.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(tuple) distance, angle and dihedral defined by the given indexes.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.find_CAC_NC">
@@ -187,7 +231,7 @@ because C could be in the same, the previous or in the next amino.</p>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>(tuple), index of C closest to Ca and index of the C closest to N.</p>
+<dd class="field-even"><p>(tuple), index of C closest to Ca and index of the C closest to N. 1-based.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -195,7 +239,19 @@ because C could be in the same, the previous or in the next amino.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.permute_atoms">
 <span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">permute_atoms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.permute_atoms" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Permutes two atoms in an Atoms object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>ase.Atoms</em>) – atoms object to be permuted.</p></li>
+<li><p><strong>indexes</strong> (<em>list</em>) – list of two indexes to be permuted (1-based).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ase.Atoms) permuted atoms object.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.set1">
@@ -220,11 +276,32 @@ because C could be in the same, the previous or in the next amino.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.test_dofs">
 <span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">test_dofs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.test_dofs" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>”
+Tests that the distance, angle and dihedral defined by the given indexes
+correspond to those in the given file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>atoms</strong> (<em>ase.Atoms</em>) – atoms of a given configuration.</p></li>
+<li><p><strong>indexes</strong> (<em>list</em>) – list of four indexes (1-based) defining the distance (between the
+first two indices), angle (between the first three indices) and
+dihedral (the four indices) you want to compute.</p></li>
+<li><p><strong>file</strong> (<em>str</em>) – file where the distance, angle and dihedral are stored.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(bool) True if the test passes. It raises an assertion error if the values</em></p></li>
+<li><p><em>do not</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function" id="module-sith.g09_stretching.g09_xyz">
 <dt class="sig sig-object py" id="sith.g09_stretching.g09_xyz.log2xyz">
-<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.g09_xyz.</span></span><span class="sig-name descname"><span class="pre">log2xyz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">finput</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">foutput</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.g09_xyz.log2xyz" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.g09_xyz.</span></span><span class="sig-name descname"><span class="pre">log2xyz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">finput</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">foutput</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.g09_xyz.log2xyz" title="Link to this definition"></a></dt>
 <dd><p>Extract the configuration of minumum energy from a .log gaussian file of an
 optimization process in a xyz file.</p>
 <dl class="field-list simple">
@@ -390,10 +467,10 @@ set as pdv argument (without the extension).</p></li>
 <div class="line-block">
 <div class="line">ruptures.</div>
 </div>
-<div class="line">-c  Use this flag to run in a cluster set with slurm. In that case, the</div>
+<div class="line">-c  Use this flag to run in a cluster. When -p is not defined, and you run in</div>
 <div class="line-block">
-<div class="line">of processors is equal to the number of cores asked in the submission of</div>
-<div class="line">the job. When this flag is present, -p is ignored.</div>
+<div class="line">a slurm job manager system, the of processors is equal to the number of</div>
+<div class="line">cores asked in the submission of the job.</div>
 </div>
 <div class="line">-e  &lt;extend_method=0&gt; index of stretching method. To see the options, use</div>
 <div class="line-block">
@@ -401,6 +478,11 @@ set as pdv argument (without the extension).</p></li>
 <div class="line">carbons of the capping groups</div>
 </div>
 <div class="line">-i  &lt;index1,index2&gt; indexes of the atoms to use for increasing the distance.</div>
+<div class="line-block">
+<div class="line">If this flag is not used and ‘molecule’ (flag -m) is a pdb, indexes 1 and</div>
+<div class="line">2 will correspond to the CH3 atoms in ACE and NME residues defined in the</div>
+<div class="line">pdb if they exist.</div>
+</div>
 <div class="line">-l  &lt;xc,base=bmk,6-31+g&gt; evel of DFT theory.</div>
 <div class="line">-m  &lt;molecule&gt; molecule name. In this directory, a file called</div>
 <div class="line-block">
@@ -430,12 +512,49 @@ set as pdv argument (without the extension).</p></li>
 <div class="line">a z-matrix.</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-a  &lt;atom1&gt; index of one of the atoms to be permuted.</div>
-<div class="line">-b  &lt;atom2&gt; index of the other atom to be permuted.</div>
+<div class="line">-a  &lt;atom1&gt; index of one of the atoms to be permuted. 1-based numbering.</div>
+<div class="line">-b  &lt;atom2&gt; index of the other atom to be permuted. 1-based numbering.</div>
 <div class="line">-f  &lt;file.com&gt; input gaussian file with the z-matrix already defined.</div>
 <div class="line"><br /></div>
 <div class="line">-v  verbose.</div>
 <div class="line">-h  prints this message.</div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-peptide">
+<span id="sith-g09-stretching-create-peptide"></span><h3>create_peptide<a class="headerlink" href="#create-peptide" title="Link to this heading"></a></h3>
+<div class="bash-script-title docutils container">
+<p><a class="reference internal" href="bash_rsts_scripts/create_peptide.html#create-peptide"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/create_peptide.sh</strong></p>
+</div>
+<div class="bash-script-doc docutils container">
+<div class="line-block">
+<div class="line">This tool creates a peptide as a change of amino acids. It adds ACE and NME</div>
+<div class="line">capping groups in the ends. The output is a pdb file with the name of the</div>
+<div class="line">peptide saved in a directory with the same name.</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">-d  &lt;reference document=00-aminos.txt&gt; file containing the existing peptides</div>
+<div class="line-block">
+<div class="line">to avoid repetition. Mainly used for generation of random peptides.</div>
+</div>
+<div class="line">-e  &lt;endo&gt; or &lt;exo&gt; states for initial state of proline. Default ‘random’.</div>
+<div class="line">-n  &lt;options&gt; Pepgen options (use &quot; for this)</div>
+<div class="line">-p  &lt;peptide&gt; Chains of aminoacids to be evaluated. For example, “AAA”</div>
+<div class="line-block">
+<div class="line">would analyse a trialanine peptide.</div>
+</div>
+<div class="line">-R  random pepeptide. Give the number of amino acids with this argument.</div>
+<div class="line"><br /></div>
+<div class="line">-v  verbose.</div>
+<div class="line">-h  prints this message.</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">Note</div>
+<div class="line">—-</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">This tools requires pepgen already installed.</div>
 </div>
 </div>
 </div>
@@ -478,28 +597,6 @@ set as pdv argument (without the extension).</p></li>
 <div class="line">-o  &lt;path&gt; output pdb file.</div>
 <div class="line">-l  &lt;path&gt; log file of the gromacs outputs. Default /dev/null</div>
 <div class="line">-s  &lt;state&gt; proline state. So far, random, endo and exo are accepted.</div>
-<div class="line"><br /></div>
-<div class="line">-v  verbose.</div>
-<div class="line">-h  prints this message.</div>
-</div>
-</div>
-</div>
-</section>
-<section id="clean-ds">
-<span id="sith-g09-stretching-clean-ds"></span><h3>clean_ds<a class="headerlink" href="#clean-ds" title="Link to this heading"></a></h3>
-<div class="bash-script-title docutils container">
-<p><a class="reference internal" href="bash_rsts_scripts/clean_ds.html#clean-ds"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/clean_ds.sh</strong></p>
-</div>
-<div class="bash-script-doc docutils container">
-<div class="line-block">
-<div class="line">This code checks the aminoacids in the ‘data runnig’ directory and evaluates</div>
-<div class="line">the state of the running (running, completed, failed). In case to be completed,</div>
-<div class="line">it is moved to the dataset directory.</div>
-<div class="line"><br /></div>
-<div class="line-block">
-<div class="line">-r  running directory. default ./</div>
-<div class="line">-s  data set directory. default ../random3</div>
-<div class="line">-u  user. defatult sucerqdl</div>
 <div class="line"><br /></div>
 <div class="line">-v  verbose.</div>
 <div class="line">-h  prints this message.</div>
@@ -562,8 +659,9 @@ set as pdv argument (without the extension).</p></li>
 </div>
 <div class="line">-i  &lt;index1,index2&gt; indexes of the atoms to use for increasing the distance.</div>
 <div class="line-block">
-<div class="line">If these indices are not given and the molecule is an amino acid defined</div>
-<div class="line">in a pdb, the CH3 atoms of the ACE and NME residues are chosen.</div>
+<div class="line">If this flag is not used and ‘molecule’ (flag -m) is a pdb, indexes 1 and</div>
+<div class="line">2 will correspond to the CH3 atoms in ACE and NME residues defined in the</div>
+<div class="line">pdb if they exist.</div>
 </div>
 <div class="line">-l  &lt;xc,base=bmk,6-31+g&gt; evel of DFT theory.</div>
 <div class="line">-m  &lt;molecule&gt; definition of the molecule (xyz, pdb, …).</div>
@@ -589,43 +687,6 @@ set as pdv argument (without the extension).</p></li>
 </div>
 </div>
 </section>
-<section id="create-peptide">
-<span id="sith-g09-stretching-create-peptide"></span><h3>create_peptide<a class="headerlink" href="#create-peptide" title="Link to this heading"></a></h3>
-<div class="bash-script-title docutils container">
-<p><a class="reference internal" href="bash_rsts_scripts/create_peptide.html#create-peptide"><span class="std std-ref">[script]</span></a> <strong>sith/g09_stretching/create_peptide.sh</strong></p>
-</div>
-<div class="bash-script-doc docutils container">
-<div class="line-block">
-<div class="line">This tool creates a peptide as a change of amino acids. It adds ACE and NME</div>
-<div class="line">capping groups in the ends. The output is a pdb file with the name of the</div>
-<div class="line">peptide saved in a directory with the same name.</div>
-<div class="line"><br /></div>
-<div class="line-block">
-<div class="line">-d  &lt;reference document=00-aminos.txt&gt; file containing the existing peptides</div>
-<div class="line-block">
-<div class="line">to avoid repetition. Mainly used for generation of random peptides.</div>
-</div>
-<div class="line">-e  &lt;endo&gt; or &lt;exo&gt; states for initial state of proline. Default ‘random’.</div>
-<div class="line">-n  &lt;options&gt; Pepgen options (use &quot; for this)</div>
-<div class="line">-p  &lt;peptide&gt; Chains of aminoacids to be evaluated. For example, “AAA”</div>
-<div class="line-block">
-<div class="line">would analyse a trialanine peptide.</div>
-</div>
-<div class="line">-R  random pepeptide. Give the number of amino acids with this argument.</div>
-<div class="line"><br /></div>
-<div class="line">-v  verbose.</div>
-<div class="line">-h  prints this message.</div>
-<div class="line"><br /></div>
-</div>
-<div class="line">Note</div>
-<div class="line">—-</div>
-<div class="line"><br /></div>
-<div class="line-block">
-<div class="line">This tools requires pepgen already installed.</div>
-</div>
-</div>
-</div>
-</section>
 </section>
 </section>
 
@@ -634,7 +695,7 @@ set as pdv argument (without the extension).</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="sith.energy_analysis.html" class="btn btn-neutral float-left" title="sith.energy_analysis package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="bash_rsts_scripts/create_peptide.html" class="btn btn-neutral float-right" title="Script of sith create_peptide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="bash_rsts_scripts/workflow.html" class="btn btn-neutral float-right" title="Script of sith workflow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -11,11 +11,20 @@ opt_and_forces
 
    .. line-block::
       
-      This code submit an optimization job and uses the output to compute the
-      forces.
+      This code submits a gaussian job (typically an optimization) and uses the
+      output to compute the forces.
       
-        -f  name if the gaussian input file without extension (.com).
-        -c  run in server.
+        -c  Use this flag to run in a cluster. When -p is not defined, and you run in
+            a slurm job manager system, the number of processors is equal to the
+            number of cores asked in the submission of the job.
+        -f  <com file> name of the gaussian input file without extension (.com). The
+            output is has the same name, but .log extension.
+        -F  use this flag fo AVIOD force calculation after optimization.
+        -p  <processors=1> number of processors per gaussian job. See description of
+            flag -c.
+        -S  <job_options=''> options for submitting a new job. This flag only makes
+            sense in slurm cluster. Please, do not include a name and add the options
+            as in the next example: "--partition=cpu --nice".
       
         -v  verbose.
         -h  prints this message.

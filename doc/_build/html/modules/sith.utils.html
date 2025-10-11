@@ -52,9 +52,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../workflow/workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="sith.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html">sith.g09_stretching package</a></li>
@@ -112,20 +109,35 @@ data set.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>inner_steps</strong> (<em>function. Default=None</em>) – <p>function with the operations to apply to every sith object -its
+<li><p><strong>inner_steps</strong> (<em>function. Default=None</em>) – function with the operations to apply to every sith object -its
 unique argument- after initialized. Note that it has to have the
-analysis you want to apply. For example,</p>
+analysis you want to apply. For example,</p></li>
+<li><p><strong>data_dir</strong> (<em>str. Default='./'</em>) – directory containing the directories of the molecules.</p></li>
+<li><p><strong>subdir</strong> (<em>str. Default=''</em>) – subdirectory inside each molecule directory containing the files to be
+analyzed by sith.</p></li>
+<li><p><strong>exclude_prolines</strong> (<em>bool. Default=True</em>) – if True, neglects all the peptides with a proline in their sequence. In
+other words, it ignores all the directories with a ‘P’ in their name.</p></li>
+<li><p><strong>exclude</strong> (<em>list. Default=None</em>) – list of molecules to exclude from the analysis.</p></li>
+<li><p><strong>pdb_pattern</strong> (<em>str. Default='stretched00'</em>) – pattern to identify the pdb file in each molecule directory.</p></li>
+<li><p><strong>struc_pattern</strong> (<em>Default='forces&lt;all&gt;.fchk'</em>) – pattern to identify the files to be analyzed by sith in each molecule
+directory.</p></li>
+<li><p><strong>kwargs</strong> – for initializing sith</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The function inner_steps has to have as unique argument a sith object
+and return the same sith object after applying the analysis you want.
+For example, if you want to remove the first and last structure and
+then apply the sith_analysis, you can define the function as:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">inner_steps</span><span class="p">(</span><span class="n">sith</span><span class="p">):</span>
     <span class="n">sith</span><span class="o">.</span><span class="n">rem_first_last</span><span class="p">(</span><span class="n">from_last_minimum</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">sith</span><span class="o">.</span><span class="n">sith_analysis</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">sith</span>
 </pre></div>
 </div>
-</p></li>
-<li><p><strong>sith</strong> (<em>**kwargs for initializing</em>) – </p></li>
-</ul>
-</dd>
-</dl>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="sith.utils.analysis.DataSetAnalysis.amino_freq">
 <span class="sig-name descname"><span class="pre">amino_freq</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.DataSetAnalysis.amino_freq" title="Link to this definition"></a></dt>
@@ -778,13 +790,14 @@ order).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sith.utils.molecules.Alignment.pca_vectors">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pca_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.Alignment.pca_vectors" title="Link to this definition"></a></dt>
-<dd><p>Find the eigen vectors in the Principal Component Analysis.</p>
+<dd><p>Find the eigen vectors of the Principal Component Analysis of the
+positis of the atoms.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>atoms</strong> (<em>ase.Atoms</em>) – molecule to be analyzed.</p></li>
-<li><p><strong>indexes</strong> (<em>Default=&quot;all&quot;</em>) – subset of atoms to be included in the pca analysis. numbering
-convention starting from 0.</p></li>
+<li><p><strong>indexes</strong> (<em>list. Default=&quot;all&quot;</em>) – subset of atoms to be included in the pca analysis. 1-based
+numbering.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -844,7 +857,7 @@ axis.</p>
 <li><p><strong>trans</strong> (<em>array</em><em> (</em><em>3x3</em><em>)</em>) – transformation matrix to be applied to all atom positions.</p></li>
 <li><p><strong>indexes</strong> (<em>list</em><em> or </em><em>array. Defatult=None</em>) – indexes of the atoms to apply the transformation. Default None
 that means the transformation is applied to the positions of all
-the atoms.</p></li>
+the atoms. 1-based numbering.</p></li>
 <li><p><strong>shift</strong> (<em>list. Default=None</em>) – vector to apply a translation.</p></li>
 </ul>
 </dd>
@@ -889,7 +902,7 @@ rest of the atoms in the same place.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>constraints</strong> – constraints with the shape (n, 2), where n is the number of
 constraints and the first pair is the one to increase the
-distance.</p></li>
+distance. 1-based numbering.</p></li>
 <li><p><strong>deltad</strong> (<em>float</em>) – amount to add to the distance between atoms.</p></li>
 </ul>
 </dd>
@@ -902,9 +915,10 @@ distance.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.increase_distance_with_constraints">
 <span class="sig-name descname"><span class="pre">increase_distance_with_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constraints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deltad</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.increase_distance_with_constraints" title="Link to this definition"></a></dt>
-<dd><p>Takes a configuration and increase the distance between two atoms by
-moving those atoms and all constraints containing them and keeping
-the rest of the atoms in the same place.</p>
+<dd><p>Takes a configuration and increases the distance between two atoms by
+moving those atoms and all those connected by constraints (all
+together) containing them and keeping the rest of the atoms in the same
+place.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -926,7 +940,7 @@ distance. 1-based numbering.</p></li>
 <dd><p>Rotation matrix around x axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>angle</strong> (<em>float</em><em>[</em><em>radians</em><em>]</em>) – angle to rotate around the x axis</p>
+<dd class="field-odd"><p><strong>angle</strong> (<em>float</em>) – angle to rotate around the x axis in radians.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(numpy.array) [3float x 3float] Rotation matrix.</p>
@@ -940,7 +954,7 @@ distance. 1-based numbering.</p></li>
 <dd><p>Retuns the rotation matrix around y axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>angle</strong> (<em>float</em><em>[</em><em>radians</em><em>]</em>) – angle to rotate around the y axis</p>
+<dd class="field-odd"><p><strong>angle</strong> (<em>float</em>) – angle to rotate around the y axis in radians.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(numpy.array) [3float x 3float] Rotation matrix.</p>
@@ -954,7 +968,7 @@ distance. 1-based numbering.</p></li>
 <dd><p>Retuns the rotation matrix around z axis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>angle</strong> (<em>float</em><em>[</em><em>radians</em><em>]</em>) – angle to rotate around the z axis</p>
+<dd class="field-odd"><p><strong>angle</strong> (<em>float</em>) – angle to rotate around the z axis in radians.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(numpy.array) [3float x 3float] Rotation matrix.</p>
@@ -972,9 +986,10 @@ the x axis and scaling the x-coordinate of all intermedia atoms.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>constraints</strong> (<em>list</em>) – constraints with the shape (n, 2), where n is the number of
 constraints and the first pair is the one to increase the
-distance.</p></li>
+distance. 1-based numbering.</p></li>
 <li><p><strong>deltad</strong> (<em>float</em>) – amount to add to the distance between atoms.</p></li>
-<li><p><strong>index3</strong> (<em>int. Default=None</em>) – The atom with index 3 would be in the xy plane in case to be given.</p></li>
+<li><p><strong>index3</strong> (<em>int. Default=None</em>) – The atom with index 3 would be in the xy plane in case to be given.
+1-based numbering.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -993,8 +1008,9 @@ the xy plane in case to be given.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index2</strong> (<em>index1 and</em>) – indexes of the atoms to be aligned with the x-axis. The positive
-direction of x would go from atom 1 to atom 2.</p></li>
-<li><p><strong>index3</strong> (<em>int. Default=None</em>) – The atom with index 3 would be in the xy plane in case to be given.</p></li>
+direction of x would go from atom 1 to atom 2. 1-based numbering.</p></li>
+<li><p><strong>index3</strong> (<em>int. Default=None</em>) – The atom with index 3 would be in the xy plane in case to be given.
+1-based numbering.</p></li>
 <li><p><strong>Center</strong> (<em>int. Default=None</em>) – It must be index1 or index2, that means the atom with this index
 will be placed in the origin. In case center=None (default), the
 origin would be in the geometrical center between atoms with index1
@@ -1096,11 +1112,6 @@ proline aminoacid.</p></li>
 <dt class="sig sig-object py" id="sith.utils.peptides.PepSetter.compute_angle">
 <span class="sig-name descname"><span class="pre">compute_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom1index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom2index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom3index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.peptides.PepSetter.compute_angle" title="Link to this definition"></a></dt>
 <dd><p>Compute the angle between 3 atoms. Consider the nexts facts:</p>
-<ul class="simple">
-<li><p>The index 2 should correspond to the atom in the vertex.</p></li>
-<li><p>The angle is always positive and its range is [0, pi].</p></li>
-<li><p>The atoms do not have to be bonded.</p></li>
-</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1111,8 +1122,14 @@ proline aminoacid.</p></li>
 chemistry than the basis.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>(float) Angle as defined in the description in radians.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(float) Angle as defined in the description in radians.</em></p></li>
+<li><p><em>- The index 2 should correspond to the atom in the vertex.</em></p></li>
+<li><p><em>- The angle is always positive and its range is [0, pi].</em></p></li>
+<li><p><em>- The atoms do not have to be bonded.</em></p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1120,17 +1137,15 @@ chemistry than the basis.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="sith.utils.peptides.PepSetter.compute_dihedrals">
 <span class="sig-name descname"><span class="pre">compute_dihedrals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom1index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom2index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom3index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom4index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.peptides.PepSetter.compute_dihedrals" title="Link to this definition"></a></dt>
-<dd><p>Compute the dihedral angle between 4 atoms. Consider the nexts facts:</p>
-<ul class="simple">
-<li><p>The dihedral is defined here as the angle between the projection of
+<dd><p>Compute the dihedral angle between 4 atoms. Consider the nexts facts:
+- The dihedral is defined here as the angle between the projection of
 the vector 2-&gt;1 and 3-&gt;4 in the plane generated by the normal vector
-3-&gt;2.</p></li>
-<li><p>The zero of the angle is set at the projection of 2-&gt;1.</p></li>
-<li><p>The positive direction of the angle is clock-wise (left-hand-rule
-respect to the normal vector) and its range is [-pi, pi].</p></li>
-<li><p>The atoms do not have to be bonded.</p></li>
-<li><p>vmd also meassures dihedrals as it is explained here.</p></li>
-</ul>
+3-&gt;2.
+- The zero of the angle is set at the projection of 2-&gt;1.
+- The positive direction of the angle is clock-wise (left-hand-rule
+respect to the normal vector) and its range is [-pi, pi].
+- The atoms do not have to be bonded.
+- vmd also meassures dihedrals as it is explained here.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1545,6 +1560,7 @@ multiplicity is assumed to be one.</p></li>
 <li><p><strong>method</strong> (<em>str</em>) – method defined in sith.ase_utils.tools. So far, the methods already
 implemented are: ‘scale_distance’, ‘increase_distance’,
 ‘increase_distance_with_constraints’.</p></li>
+<li><p><strong>kwargs</strong> – additional arguments to be passed to create_gaussian_input function.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -1577,8 +1593,8 @@ the same than the confile but with pdb extension.</p></li>
 file, this file only would change the coordinates.</p>
 </div>
 <p>E.g.
-sith optimization.log template.pdb
-sith optimization.xyz template.pdb</p>
+sith conf2pdb optimization.log template.pdb
+sith conf2pdb optimization.xyz template.pdb</p>
 </dd></dl>
 
 <dl class="py function">
@@ -1659,14 +1675,17 @@ except for those listed in the first line of a file.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>xyz_file</strong> (<em>int</em>) – original xyz file to be modified.</p></li>
-<li><p><strong>file_cons</strong> – file containing the atoms to avoid to be modified by the shaking.</p></li>
-<li><p><strong>modify_input</strong> (<em>bool. Defatuly=True</em>) – True to modify the input file.</p></li>
+<li><p><strong>file_cons</strong> – file containing the atoms (1-based indices) to avoid to be modified by
+the shaking.</p></li>
+<li><p><strong>modify_input</strong> (<em>bool. Default=True</em>) – True to modify the input file.</p></li>
 <li><p><strong>scale</strong> (<em>float. Default=0.05</em>) – max magnitud of the noise to be added in each coordinate of each atom
 in Angstrom.</p></li>
-<li><p><strong>Retuns</strong> – </p></li>
-<li><p><strong>======</strong> – </p></li>
-<li><p><strong>positions.</strong> (<em>(</em><em>ase.Atoms</em><em>) </em><em>new object atoms with the modified</em>) – </p></li>
+<li><p><strong>stdev</strong> (<em>float. Default=0.05</em>) – standard deviation of the normal distribution used to generate the
+random noise.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ase.Atoms) new object atoms with the modified positions.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1690,14 +1709,16 @@ in Angstrom.</p></li>
 <div class="line-block">
 <div class="line">it as a first argument.</div>
 </div>
-<div class="line">- &lt;second_argument&gt; Add anything in order to have verbose printing in the</div>
+<div class="line">- &lt;second_argument&gt; ‘true’ in order to have verbose printing in the output.</div>
 <div class="line-block">
-<div class="line">output. otherwise, the your script will ignore all the verbose.</div>
+<div class="line">Otherwise, your script will ignore all the verbose.</div>
 </div>
-<div class="line">- adjust &lt;text&gt;: add the label and print what &lt;text&gt; in an adjusted column of</div>
+<div class="line">- adjust &lt;text&gt;: print the label with 4 + marks and &lt;text&gt; in an adjusted</div>
 <div class="line-block">
+<div class="line">column of 80 characters. The last line is completed with + marks until have</div>
 <div class="line">80 characters.</div>
 </div>
+<div class="line">- adjust_text &lt;text&gt;: print what &lt;text&gt; in an adjusted column of 80 characters.</div>
 <div class="line">- verbose &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</div>
 <div class="line-block">
 <div class="line">begining of &lt;text&gt; and print the adjusted text.</div>
@@ -1713,7 +1734,7 @@ in Angstrom.</p></li>
 <div class="line">- fail &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</div>
 <div class="line-block">
 <div class="line">begining of &lt;text&gt; and print the adjusted text. It also print the message</div>
-<div class="line">in the std_error and stops the script with ‘exit 1’</div>
+<div class="line">in the std_error and stops the script with ‘exit 1’.</div>
 </div>
 <div class="line">- create_bck [&lt;name1&gt; &lt;name2&gt; …]: function that moves an existing file or</div>
 <div class="line-block">
@@ -1730,6 +1751,28 @@ in Angstrom.</p></li>
 <div class="line-block">
 <div class="line">appears after executing ls. This is important for some file systems that</div>
 <div class="line">take a little while to recognize files created in a script.</div>
+</div>
+</div>
+</div>
+</section>
+<section id="clean-ds">
+<span id="sith-utils-clean-ds"></span><h3>clean_ds<a class="headerlink" href="#clean-ds" title="Link to this heading"></a></h3>
+<div class="bash-script-title docutils container">
+<p><a class="reference internal" href="bash_rsts_scripts/clean_ds.html#clean-ds"><span class="std std-ref">[script]</span></a> <strong>sith/utils/clean_ds.sh</strong></p>
+</div>
+<div class="bash-script-doc docutils container">
+<div class="line-block">
+<div class="line">This code checks the aminoacids in the ‘data runnig’ directory and evaluates</div>
+<div class="line">the state of the running (running, completed, failed). In case to be completed,</div>
+<div class="line">it is moved to the dataset directory.</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">-r  running directory. default ./</div>
+<div class="line">-s  data set directory. default ../random3</div>
+<div class="line">-u  user. defatult sucerqdl</div>
+<div class="line"><br /></div>
+<div class="line">-v  verbose.</div>
+<div class="line">-h  prints this message.</div>
 </div>
 </div>
 </div>

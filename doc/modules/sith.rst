@@ -7,7 +7,6 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   sith.g09_stretching.from_extreme.second_version
    sith.g09_stretching.from_extreme
    sith.energy_analysis
    sith.g09_stretching

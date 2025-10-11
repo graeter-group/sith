@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="sith.visualize package" href="../sith.visualize.html" />
-    <link rel="prev" title="Script of sith find_blocks" href="find_blocks.html" /> 
+    <link rel="prev" title="Script of sith clean_ds" href="clean_ds.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,9 +52,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a></li>
@@ -141,13 +138,11 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
 <span class="o">}</span>
 
-<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;h&#39;</span><span class="w"> </span>flag<span class="p">;</span>
 <span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
-<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">  </span><span class="k">esac</span>
 <span class="k">done</span>
 
@@ -294,8 +289,6 @@ load_modules<span class="o">()</span><span class="w"> </span><span class="o">{</
 <span class="w">  </span><span class="k">then</span>
 <span class="w">    </span>resubmit<span class="w"> </span><span class="nv">$args</span><span class="w"> </span><span class="p">&amp;</span>
 <span class="w">  </span><span class="k">fi</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot; * This JOB will be run in the Node:&quot;</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_JOB_NODELIST</span><span class="s2">&quot;</span>
 
 <span class="w">  </span><span class="nb">source</span><span class="w"> </span><span class="nv">$HOME</span>/sw/load_modules.sh
 <span class="o">}</span>
@@ -316,7 +309,7 @@ verbose<span class="w"> </span><span class="s2">&quot;STARTS&quot;</span>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="find_blocks.html" class="btn btn-neutral float-left" title="Script of sith find_blocks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="clean_ds.html" class="btn btn-neutral float-left" title="Script of sith clean_ds" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="../sith.visualize.html" class="btn btn-neutral float-right" title="sith.visualize package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

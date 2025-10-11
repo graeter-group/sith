@@ -21,8 +21,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Script of sith resubmit_failed" href="resubmit_failed.html" />
-    <link rel="prev" title="Script of sith prepare_and_submit" href="prepare_and_submit.html" /> 
+    <link rel="next" title="Script of sith opt_and_forces" href="opt_and_forces.html" />
+    <link rel="prev" title="sith.g09_stretching.from_extreme package" href="../sith.g09_stretching.from_extreme.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,9 +52,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme.info_from_opt">Submodules</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme">Module contents</a></li>
@@ -112,10 +109,11 @@
 <span class="c1"># ----- definition of functions starts ----------------------------------------</span>
 print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
-<span class="s2">This tool extract the dofs of a set of xyz files. The ouput are files called</span>
-<span class="s2">&lt;xyz file with *pattern*&gt;-dofs.dat, where pattern comes from -f flag.</span>
+<span class="s2">This tool extract the dofs of a set of xyz files using the gaussian tool</span>
+<span class="s2">&#39;newzmat&#39;. The ouput are files called &lt;xyz file with *pattern*&gt;-dofs.dat, where</span>
+<span class="s2">pattern comes from -f flag.</span>
 
-<span class="s2">  -f  &lt;xyz files pattern&gt;. The code will look for *pattern*.xyz</span>
+<span class="s2">  -f  &lt;xyz files pattern&gt;. The code will look for *&lt;pattern&gt;*.xyz</span>
 
 <span class="s2">  -h  prints this message.</span>
 <span class="s2">&quot;</span>
@@ -136,14 +134,14 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="w">  </span><span class="k">esac</span>
 <span class="k">done</span>
 
-<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>Extract_DOFs
+<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>Extract_DOFs<span class="w"> </span><span class="nv">$verbose</span>
 <span class="c1"># ---- BODY -------------------------------------------------------------------</span>
 <span class="c1"># Reduce, optimize and then try to find intermedias.</span>
 <span class="k">for</span><span class="w"> </span>xyzfile<span class="w"> </span><span class="k">in</span><span class="w"> </span>*<span class="s2">&quot;</span><span class="si">${</span><span class="nv">xyzs</span><span class="si">}</span><span class="s2">&quot;</span>*.xyz
 <span class="k">do</span>
 <span class="w">  </span>tail<span class="w"> </span>-n<span class="w"> </span>+3<span class="w"> </span><span class="nv">$xyzfile</span><span class="w"> </span>&gt;<span class="w"> </span>tmp.xyz
 <span class="w">  </span>newzmat<span class="w"> </span>-ixyz<span class="w"> </span>-ozmat<span class="w"> </span>-rebuildzmat<span class="w"> </span>-bmodel<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>tmp.xyz<span class="w"> </span><span class="si">${</span><span class="nv">xyzfile</span><span class="p">%.xyz</span><span class="si">}</span>-forces.com<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;z-matrix&quot;</span>
+<span class="w">    </span>tmp.xyz<span class="w"> </span><span class="si">${</span><span class="nv">xyzfile</span><span class="p">%.xyz</span><span class="si">}</span>-forces.com<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;z-matrix&quot;</span>
 <span class="w">  </span><span class="nv">n</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;Variables:&quot;</span><span class="w"> </span><span class="si">${</span><span class="nv">xyzfile</span><span class="p">%.xyz</span><span class="si">}</span>-forces.com<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="k">)</span>
 <span class="w">  </span><span class="nv">n</span><span class="o">=</span><span class="si">${</span><span class="nv">n</span><span class="p">%:</span><span class="si">}</span>
 
@@ -178,8 +176,8 @@ finish
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="prepare_and_submit.html" class="btn btn-neutral float-left" title="Script of sith prepare_and_submit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="resubmit_failed.html" class="btn btn-neutral float-right" title="Script of sith resubmit_failed" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../sith.g09_stretching.from_extreme.html" class="btn btn-neutral float-left" title="sith.g09_stretching.from_extreme package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="opt_and_forces.html" class="btn btn-neutral float-right" title="Script of sith opt_and_forces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -90,14 +90,16 @@
 <div class="line-block">
 <div class="line">it as a first argument.</div>
 </div>
-<div class="line">- &lt;second_argument&gt; Add anything in order to have verbose printing in the</div>
+<div class="line">- &lt;second_argument&gt; ‘true’ in order to have verbose printing in the output.</div>
 <div class="line-block">
-<div class="line">output. otherwise, the your script will ignore all the verbose.</div>
+<div class="line">Otherwise, your script will ignore all the verbose.</div>
 </div>
-<div class="line">- adjust &lt;text&gt;: add the label and print what &lt;text&gt; in an adjusted column of</div>
+<div class="line">- adjust &lt;text&gt;: print the label with 4 + marks and &lt;text&gt; in an adjusted</div>
 <div class="line-block">
+<div class="line">column of 80 characters. The last line is completed with + marks until have</div>
 <div class="line">80 characters.</div>
 </div>
+<div class="line">- adjust_text &lt;text&gt;: print what &lt;text&gt; in an adjusted column of 80 characters.</div>
 <div class="line">- verbose &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</div>
 <div class="line-block">
 <div class="line">begining of &lt;text&gt; and print the adjusted text.</div>
@@ -113,7 +115,7 @@
 <div class="line">- fail &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</div>
 <div class="line-block">
 <div class="line">begining of &lt;text&gt; and print the adjusted text. It also print the message</div>
-<div class="line">in the std_error and stops the script with ‘exit 1’</div>
+<div class="line">in the std_error and stops the script with ‘exit 1’.</div>
 </div>
 <div class="line">- create_bck [&lt;name1&gt; &lt;name2&gt; …]: function that moves an existing file or</div>
 <div class="line-block">

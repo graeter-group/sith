@@ -9,6 +9,7 @@
 # ----- definition of functions starts ----------------------------------------
 print_help() {
 cat << EOF
+
 This tool creates the files to do the sith analysis by optimizing a molecule,
 then takes the intermedia steps and prepares a constrained optimization of each
 one of them with :bashscript:`sith.g09_stretching.from_extreme.continuous_path`
