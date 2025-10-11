@@ -64,6 +64,7 @@ n_processors=''
 restart='false'
 restart='false'
 job_options=''
+index3=None
 
 verbose=''
 while getopts 'a:ci:l:m:p:rS:t:vh' flag;
@@ -167,8 +168,8 @@ else
       in] the current directory."
   if  ! grep -q "Normal termination" "$name-optext.log" "$name-optext-bck*.log"
   then
-    sith log2xyz "$name-optext.log" > /dev/null || fail "extracting coordinates
-      from $name-optext.log"
+    sith log2xyz "$name-optext.log" --indexes "[$indexes]" > /dev/null || \
+      fail "extracting coordinates from $name-optext.log"
     create_bck $xyz
     cp $name-optext.xyz $xyz
   fi

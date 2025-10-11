@@ -61,7 +61,7 @@ def info_from_opt(logfile, pattern):
     all_atoms = [Alignment.align_with_components(conf) for conf in atoms]
 
     # write all the trajectory
-    for i, atoms in enumerate(all_atoms):
+    for i, atoms in enumerate(all_atoms[::-1]):
         write('{}{:03d}.xyz'.format(pattern, i), atoms)
 
     return all_atoms

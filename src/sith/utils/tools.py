@@ -1,4 +1,4 @@
-from sith.utils.molecules import MoleculeSetter
+from sith.utils.molecules import Alignment, MoleculeSetter
 from ase.geometry.analysis import Analysis
 from ase.io import read, write
 import numpy as np
@@ -86,6 +86,7 @@ def change_distance(inp, out, file_cons, deltad, charge, method, **kwargs):
     deltad = float(deltad)
     # Read previus file
     atoms = read(inp)
+    atoms = Alignment.align_with_components(atoms)
     manipulator = MoleculeSetter(atoms)
     if deltad != 0:
         cons = np.loadtxt(file_cons, usecols=[0, 1], dtype=int)

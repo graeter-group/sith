@@ -2,6 +2,8 @@
 # https://github.com/chunxiangzheng/gaussian_log_file_converter/
 import re
 from ase import Atoms
+from ase.io import write
+from sith.utils.molecules import MoleculeSetter
 
 
 code = {"1": "H", "2": "He", "3": "Li", "4": "Be", "5": "B",
@@ -91,7 +93,7 @@ def _getCoordinates(dataList):
 
 
 # add2executable
-def log2xyz(finput, foutput=None):
+def log2xyz(finput, foutput=None, indexes=None):
     """
     Extract the configuration of minumum energy from a .log gaussian file of an
     optimization process in a xyz file.
@@ -149,20 +151,25 @@ def log2xyz(finput, foutput=None):
         prefix = foutput
     else:
         prefix = finput[:-4]
-    foutput = prefix + ".xyz"
-    with open(foutput, "w") as fout:
-        dataList = optimized_structure.split("\n")
-        atoms = _getCoordinates(dataList)
-        fout.write(str(len(atoms)) + "\n\n")
-        mol_pos = []
-        mol_anames = []
-        for atom in atoms:
-            arr = atom.split()
-            symbol = code.get(arr[1], 'X')
-            fout.write("  %s %16.7f %16.7f %16.7f\n" % (symbol, float(arr[3]),
-                       float(arr[4]), float(arr[5])))
-            mol_pos.append([float(arr[3]), float(arr[4]), float(arr[5])])
-            mol_anames.append(symbol)
+
+    dataList = optimized_structure.split("\n")
+    atoms = _getCoordinates(dataList)
+    mol_pos = []
+    mol_anames = []
+    for atom in atoms:
+        arr = atom.split()
+        symbol = code.get(arr[1], 'X')
+        mol_pos.append([float(arr[3]), float(arr[4]), float(arr[5])])
+        mol_anames.append(symbol)
+
     atoms = Atoms(mol_anames, mol_pos)
+    ms = MoleculeSetter(atoms)
+    if len(indexes) == 2:
+        indexes.append(None)
+    ms.xy_alignment(indexes[0], indexes[1], index3=indexes[2])
+    atoms = ms.atoms
+    
+    foutput = prefix + ".xyz"
+    write(foutput, atoms)
 
     return atoms

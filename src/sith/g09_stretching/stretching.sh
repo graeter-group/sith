@@ -118,6 +118,28 @@ mol=${mol_file%.*}
 # ----- set up finishes -------------------------------------------------------
 
 # ---- BODY -------------------------------------------------------------------
+if [[ -z "$indexes" ]] && [[ "${mol_file##*.}" == 'pdb' ]]
+then
+  # reading indexes from pdb file C-CAP indexes in gaussian convention
+  index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
+  index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
+  index3=$( grep ATOM "$mol.pdb" | awk '{if ( $5 == 2 ) print $0}' | grep "CA" \
+            | awk '{print $2}' )
+  indexes="$index1,$index2,$index3"
+else
+  # reading indexes from user input
+  index1=$( echo "$indexes" | cut -d ',' -f 1 )
+  index2=$( echo "$indexes" | cut -d ',' -f 2 )
+fi
+
+# check that the indexes were read properly:
+[[ "$index1" -eq 0 && "$index2" -eq 0 ]] && fail "Not recognized indexes (1)
+  check -i flag"
+[[ "$index1" -eq 1 && "$index2" -eq 1 ]] && fail "Not recognized indexes (1)
+  check -i flag"
+[[ "$index1" == "$index2" ]] && fail "Not recognized indexes (1) check -i
+  flag"
+
 # ----- checking restart ------------------------------------------------------
 if $restart
 then
@@ -126,7 +148,7 @@ then
   # extracting last i with xyz file already created
   mapfile -t previous < <( find . -maxdepth 1 -type f -name "$mol*.xyz" \
                                   -not -name "*bck*" | sort )
-  
+
   [ ${#previous} -eq 0 ] && fail "Non previous xyz files were found"
 
   wext=${previous[-1]}
@@ -147,7 +169,8 @@ then
   # incomplete job. In the next block, we search for advances in i+1 and if it
   # finds one, it restarts from there and sets retake='false' as a consecuence,
   # this variable is used later in the loop.
-  sith log2xyz "$mol-stretched${nameiplusone}.log" 2> /dev/null && \
+  sith log2xyz "$mol-stretched${nameiplusone}.log" \
+    --indexes "[$indexes]" 2> /dev/null && \
     create_bck "$mol-stretched${nameiplusone}."* &&
     lastone=$( search_last_bck $mol-stretched${nameiplusone} ) &&
     if [ $(( lastone )) -gt 2 ]; then fail "this optimization was" \
@@ -164,25 +187,6 @@ then
   $retake && \
       warning "The stretching of molecule $mol will be restarted from $i"
 else
-  if [[ -z "$indexes" ]] && [[ "${mol_file##*.}" == 'pdb' ]]
-  then
-    # reading indexes from pdb file C-CAP indexes in gaussian convention
-    index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
-    index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
-  else
-    # reading indexes from user input
-    index1=$( echo "$indexes" | cut -d ',' -f 1 )
-    index2=$( echo "$indexes" | cut -d ',' -f 2 )
-  fi
-
-  # check that the indexes were read properly:
-  [[ "$index1" -eq 0 && "$index2" -eq 0 ]] && fail "Not recognized indexes (1)
-    check -i flag"
-  [[ "$index1" -eq 1 && "$index2" -eq 1 ]] && fail "Not recognized indexes (1)
-    check -i flag"
-  [[ "$index1" == "$index2" ]] && fail "Not recognized indexes (1) check -i
-    flag"
-
   if ! [[ -f 'frozen_dofs.dat' ]]
   then
     echo "$index1 $index2 F" > frozen_dofs.dat
@@ -257,7 +261,8 @@ do
     # structure. As a second chance to converge.
     verbose "Optimization did not converge with distance $(( i + 1 )) *
       $size . Then, a new trial will start now"
-    sith log2xyz "$mol-stretched${nameiplusone}.log" || fail "
+    sith log2xyz "$mol-stretched${nameiplusone}.log" \
+      --indexes "[$indexes]" || fail "
       Transforming log file to xyz in second trial of optimization"
     sith change_distance \
             "$mol-stretched${nameiplusone}.xyz" \
@@ -291,7 +296,8 @@ do
 
   # ==== Testing DOFs
   verbose "Testing dofs"
-  sith log2xyz "$mol-stretched${nameiplusone}.log" || fail "Transforming
+  sith log2xyz "$mol-stretched${nameiplusone}.log" \
+    --indexes "[$indexes]" || fail "Transforming
     log file to xyz"
   
   if [ "$i" -eq -1 ]
