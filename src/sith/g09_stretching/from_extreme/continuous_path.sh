@@ -144,7 +144,7 @@ do
 done
 
 verbose "Extract dofs from xyzs. output: $name-conopt<n>-dofs.dat" 
-sith extr_dofs -f ${name}-conopt > /dev/null || \
+sith extr_dofs -f ${name}-conopt $verbose > /dev/null || \
   fail "extracting dofs from xyzs"
 # reduce irrelevant changes and add intermedias when the changes are too large,
 # store the new subset in a dir called 'subset'.
@@ -212,7 +212,7 @@ do
   sed -i "1a %NProcShared=$n_processors" "$struct_name.com"
   sed -i "/#P/a opt(modredun,calcfc)" "$struct_name.com"
   sed -i "1a %mem=60000MB" "$struct_name.com"
-  echo "$index1 $index2 F" >> $struct_name.com
+  sed -i "\$c$index1 $index2 F" $struct_name.com
 
   # and then submits the jobs
   verbose -t "-  $struct_name $str_index"
