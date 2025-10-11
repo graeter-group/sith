@@ -21,8 +21,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Script of sith rearange_files" href="rearange_files.html" />
-    <link rel="prev" title="Script of sith resubmit_failed" href="resubmit_failed.html" /> 
+    <link rel="next" title="Script of sith workflow_from_extreme" href="workflow_from_extreme.html" />
+    <link rel="prev" title="Script of sith extr_dofs" href="extr_dofs.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,9 +52,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme.info_from_opt">Submodules</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme">Module contents</a></li>
@@ -109,21 +106,29 @@
 <span id="opt-and-forces"></span><h1>Script of sith opt_and_forces<a class="headerlink" href="#script-of-sith-opt-and-forces" title="Link to this heading"></a></h1>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
-<span class="c1">#SBATCH -N 1                   # number of nodes</span>
-<span class="c1">#SBATCH -n 8</span>
+<span class="c1">#SBATCH -N 1</span>
 <span class="c1">#SBATCH -t 24:00:00</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
 <span class="c1">#SBATCH --output=%x-%j.o</span>
 <span class="c1">#SBATCH --error=%x-%j.e</span>
-<span class="c1">#SBATCH --exclusive</span>
 
 <span class="c1"># ----- definition of functions -----------------------------------------------</span>
 print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
-<span class="s2">This code submit an optimization job and uses the output to compute the</span>
-<span class="s2">forces.</span>
+<span class="s2">This code submits a gaussian job (typically an optimization) and uses the</span>
+<span class="s2">output to compute the forces.</span>
 
-<span class="s2">  -f  name if the gaussian input file without extension (.com).</span>
-<span class="s2">  -c  run in server.</span>
+<span class="s2">  -c  Use this flag to run in a cluster. When -p is not defined, and you run in</span>
+<span class="s2">      a slurm job manager system, the number of processors is equal to the</span>
+<span class="s2">      number of cores asked in the submission of the job.</span>
+<span class="s2">  -f  &lt;com file&gt; name of the gaussian input file without extension (.com). The</span>
+<span class="s2">      output is has the same name, but .log extension.</span>
+<span class="s2">  -F  use this flag fo AVIOD force calculation after optimization.</span>
+<span class="s2">  -p  &lt;processors=1&gt; number of processors per gaussian job. See description of</span>
+<span class="s2">      flag -c.</span>
+<span class="s2">  -S  &lt;job_options=&#39;&#39;&gt; options for submitting a new job. This flag only makes</span>
+<span class="s2">      sense in slurm cluster. Please, do not include a name and add the options</span>
+<span class="s2">      as in the next example: \&quot;--partition=cpu --nice\&quot;.</span>
 
 <span class="s2">  -v  verbose.</span>
 <span class="s2">  -h  prints this message.</span>
@@ -132,63 +137,68 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="o">}</span>
 
 <span class="c1"># ---- set up -----------------------------------------------------------------</span>
-<span class="nv">c_flag</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
-<span class="nv">cascade</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">force_calc</span><span class="o">=</span><span class="s1">&#39;true&#39;</span>
+<span class="nv">n_processors</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">job_options</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;f:cvh&#39;</span><span class="w"> </span>flag<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;cf:F:p:S:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>f<span class="o">)</span><span class="w"> </span><span class="nv">file</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cascade</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
-<span class="w">    </span>
+<span class="w">    </span>F<span class="o">)</span><span class="w"> </span><span class="nv">force_calc</span><span class="o">=</span><span class="s1">&#39;false&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>p<span class="o">)</span><span class="w"> </span><span class="nv">n_processors</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>S<span class="o">)</span><span class="w"> </span><span class="nv">job_options</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+
 <span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">  </span><span class="k">esac</span>
 <span class="k">done</span>
-<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>opt_forces<span class="w"> </span><span class="nv">$verbose</span>
+
+<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>OptAndForces<span class="w"> </span><span class="nv">$verbose</span>
 
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;===============&quot;</span>
-verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Date:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Date:&quot;</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="k">$(</span>date<span class="k">)</span>
-verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Command:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Command:&quot;</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
 
-<span class="k">if</span><span class="w"> </span><span class="nv">$cascade</span>
+<span class="nv">c_flag</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="k">if</span><span class="w"> </span><span class="nv">$cluster</span>
 <span class="k">then</span>
 <span class="w">  </span>load_modules
 <span class="w">  </span><span class="nv">c_flag</span><span class="o">=</span><span class="s2">&quot;-c&quot;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_CPUS_ON_NODE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="nv">$SLURM_CPUS_ON_NODE</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span><span class="nv">job_options</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2"> -J F</span><span class="si">${</span><span class="nv">SLURM_JOB_NAME</span><span class="si">}</span><span class="s2"> -n </span><span class="nv">$n_processors</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nv">job_options</span><span class="o">=</span><span class="s2">&quot;sbatch </span><span class="nv">$job_options</span><span class="s2">&quot;</span>
 <span class="k">fi</span>
+
 <span class="c1"># ----- BODY ------------------------------------------------------------------</span>
 verbose<span class="w"> </span><span class="s2">&quot;submit constrained optimization </span><span class="nv">$file</span><span class="s2">&quot;</span>
-grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;%mem&quot;</span><span class="w"> </span><span class="nv">$file</span>.com<span class="w"> </span><span class="o">||</span><span class="w"> </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1a %mem=60000MB&quot;</span><span class="w"> </span><span class="nv">$file</span>.com
 gaussian<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.com&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.log&quot;</span>
 
-<span class="k">if</span><span class="w"> </span><span class="k">$(</span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;NtrErr Called from FileIO.&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.log&quot;</span><span class="k">)</span>
-<span class="k">then</span>
-<span class="w">  </span><span class="k">$(</span>sith<span class="w"> </span>resubmit_failed<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>opt_and_forces<span class="w"> </span>-path<span class="w"> </span><span class="k">)</span><span class="s2"> -c -v -f </span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-c<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.com&quot;</span><span class="w"> </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.log&quot;</span><span class="w"> </span>-j<span class="w"> </span><span class="nv">$SLURM_JOB_NAME</span><span class="w"> </span><span class="se">\</span>
-<span class="w">          </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>../frozen_dofs.dat<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>-v<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>fail<span class="w"> </span><span class="s2">&quot;resubmitting </span><span class="nv">$file</span><span class="s2"> after NtrErr Called from FileIO&quot;</span>
-<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2"> failed, it was submitted again&quot;</span>
-<span class="k">fi</span>
-
 grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;Normal termination of Gaussian&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;optimization did not work for </span><span class="nv">$file</span><span class="s2">&quot;</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;Optimization did not work for </span><span class="nv">$file</span><span class="s2">&quot;</span>
 
-<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>whoami<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;hits_&quot;</span>*<span class="w"> </span><span class="o">]]</span>
+<span class="k">if</span><span class="w"> </span><span class="nv">$force_calc</span>
 <span class="k">then</span>
-<span class="w">  </span><span class="nv">single_part</span><span class="o">=</span><span class="s2">&quot;--partition=cpu-single&quot;</span>
-<span class="k">else</span>
-<span class="w">  </span><span class="nv">single_part</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Submit forces computation </span><span class="nv">$file</span><span class="s2">.chk&quot;</span>
+<span class="w">  </span><span class="nv">$job_options</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="k">$(</span>sith<span class="w"> </span>find_forces<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span><span class="nv">$c_flag</span><span class="w"> </span>-f<span class="w"> </span><span class="nv">$file</span>.chk<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;conopt&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                              </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;submitting forces&quot;</span>
 <span class="k">fi</span>
 
-verbose<span class="w"> </span><span class="s2">&quot;submit forces computation&quot;</span>
-sbatch<span class="w"> </span>--job-name<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">SLURM_JOB_NAME</span><span class="si">}</span><span class="s2">_forces&quot;</span><span class="w"> </span><span class="nv">$single_part</span><span class="w"> </span><span class="se">\</span>
-<span class="w">       </span><span class="k">$(</span>sith<span class="w"> </span>compute_forces<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span>-f<span class="w"> </span><span class="nv">$file</span>.chk<span class="w"> </span>-c<span class="w"> </span>-v<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;submitting forces&quot;</span>
-
-finish<span class="w"> </span><span class="s2">&quot;optmimization&quot;</span>
+finish
 </pre></div>
 </div>
 </section>
@@ -197,8 +207,8 @@ finish<span class="w"> </span><span class="s2">&quot;optmimization&quot;</span>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="resubmit_failed.html" class="btn btn-neutral float-left" title="Script of sith resubmit_failed" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="rearange_files.html" class="btn btn-neutral float-right" title="Script of sith rearange_files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="extr_dofs.html" class="btn btn-neutral float-left" title="Script of sith extr_dofs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="workflow_from_extreme.html" class="btn btn-neutral float-right" title="Script of sith workflow_from_extreme" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

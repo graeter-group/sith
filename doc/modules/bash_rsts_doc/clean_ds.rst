@@ -5,7 +5,7 @@ clean_ds
 
 .. container:: bash-script-title
 
-   :ref:`[script] <clean_ds>` **sith/g09_stretching/clean_ds.sh**
+   :ref:`[script] <clean_ds>` **sith/utils/clean_ds.sh**
 
 .. container:: bash-script-doc
 

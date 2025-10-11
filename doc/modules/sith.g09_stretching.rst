@@ -49,7 +49,6 @@ Module contents
 
    bash_rsts_scripts/workflow
    bash_rsts_scripts/find_forces
-   bash_rsts_scripts/clean_ds
    bash_rsts_scripts/proline_mod
    bash_rsts_scripts/extract_forces
    bash_rsts_scripts/create_peptide
@@ -76,10 +75,6 @@ Module contents
 .. _sith-g09-stretching-proline-mod:
 
 .. include:: bash_rsts_doc/proline_mod.rst
-
-.. _sith-g09-stretching-clean-ds:
-
-.. include:: bash_rsts_doc/clean_ds.rst
 
 .. _sith-g09-stretching-find-forces:
 

@@ -83,29 +83,64 @@
 </div>
 <div class="bash-script-doc docutils container">
 <div class="line-block">
-<div class="line">This tool creates the files to do the sith analysis by optimizing a molecule</div>
-<div class="line">that was just about to get a first rupture, then takes the intermedia steps and</div>
-<div class="line">find the internal forces. Consider the next options:</div>
+<div class="line">This tool creates the files to do the sith analysis by optimizing a molecule,</div>
+<div class="line">then takes the intermedia steps and prepares a constrained optimization of each</div>
+<div class="line">one of them with :bashscript:</div>
+<div class="line">after creating intermedias states that guarantee continuity in the degrees of</div>
+<div class="line">freedom. This script submits in parallel each one of those optimizations with</div>
+<div class="line">:bashscript: (-S here refers</div>
+<div class="line">to these subjobs).</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-c  run in cascade. (modules are loaded)</div>
-<div class="line">-p  &lt;peptide&gt;. directory or xyzfile of last conf. Chains of aminoacids to</div>
+<div class="line">-a  &lt;alias&gt; new name of the xyz file and subsequent files in directory</div>
 <div class="line-block">
-<div class="line">be evaluated. For example, “./AAA/” would optimize the last</div>
-<div class="line">stretched a trialanine peptide (where last means after organizing</div>
-<div class="line">alphabetically).</div>
+<div class="line">‘from_extreme’.</div>
 </div>
-<div class="line">-r  Use if the job corresponds to a restart, in which case, no directory will</div>
+<div class="line">-c  Use this flag to run in a cluster. When -p is not defined, and you run in</div>
 <div class="line-block">
-<div class="line">be created and the new &lt;peptide&gt;-optext.com is assumed to exist.</div>
+<div class="line">a slurm job manager system, the number of processors is equal to the</div>
+<div class="line">number of cores asked in the submission of the job.</div>
+</div>
+<div class="line">-i  &lt;index1,index2&gt; indexes of the atoms used for constraining the distance</div>
+<div class="line-block">
+<div class="line">of the intermedia structures when optimizing. If this flag is not used</div>
+<div class="line">but a pdb file is given (-t), indexes 1 and 2 will correspond to the CH3</div>
+<div class="line">atoms in ACE and NME residues defined in the pdb if they exist.</div>
+</div>
+<div class="line">-l  &lt;xc,base=”bmk,6-31+g”&gt; level of DFT theory.</div>
+<div class="line">-m  &lt;molecule&gt; directory or coordinates file of configuration to be relaxed.</div>
+<div class="line-block">
+<div class="line">For example, &quot;./AAA/&quot; a trialanine configuration (‘last’ after</div>
+<div class="line">organizing all xyz files alphabetically all AAA*.xyz files in ./AAA/).</div>
+</div>
+<div class="line">-p  &lt;processors=1&gt; number of processors per gaussian job. See description of</div>
+<div class="line-block">
+<div class="line">flag -c.</div>
+</div>
+<div class="line">-r  Use it to restart, in which case no directory will be created and the new</div>
+<div class="line-block">
+<div class="line">&lt;molecule&gt;-optext.log is assumed to exist in the working directory.</div>
+</div>
+<div class="line">-S  &lt;job_options=’’&gt; options for submitting a new job. This flag only makes</div>
+<div class="line-block">
+<div class="line">sense in slurm cluster. Please, do not include a name (-J), nor the</div>
+<div class="line">number of cores (-n, use -p for this). The input should be as in the next</div>
+<div class="line">example: &quot;–partition=cpu –nice&quot;.</div>
+</div>
+<div class="line">-t  &lt;template.pdb&gt; template pdb file to define indexes if -i is not used.</div>
 <div class="line"><br /></div>
-</div>
 <div class="line">-v  verbose.</div>
 <div class="line">-h  prints this message.</div>
 <div class="line"><br /></div>
 </div>
-<div class="line">Note: it is assumed that the file of the last configuration is named as:</div>
-<div class="line">&lt;amino acids-code&gt;-&lt;description&gt;&lt;number of stretching&gt;.xyz</div>
+<div class="line">Note</div>
+<div class="line">—-</div>
+<div class="line"><br /></div>
+<div class="line-block">
+<div class="line">The outputs are stored in a directory called ‘from_extreme’/</div>
+<div class="line"><br /></div>
+<div class="line">This tool requires gaussian and sklearn.</div>
+</div>
 </div>
 </div>
 </section>

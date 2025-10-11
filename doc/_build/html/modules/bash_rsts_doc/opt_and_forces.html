@@ -83,13 +83,30 @@
 </div>
 <div class="bash-script-doc docutils container">
 <div class="line-block">
-<div class="line">This code submit an optimization job and uses the output to compute the</div>
-<div class="line">forces.</div>
+<div class="line">This code submits a gaussian job (typically an optimization) and uses the</div>
+<div class="line">output to compute the forces.</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-f  name if the gaussian input file without extension (.com).</div>
-<div class="line">-c  run in server.</div>
+<div class="line">-c  Use this flag to run in a cluster. When -p is not defined, and you run in</div>
+<div class="line-block">
+<div class="line">a slurm job manager system, the number of processors is equal to the</div>
+<div class="line">number of cores asked in the submission of the job.</div>
+</div>
+<div class="line">-f  &lt;com file&gt; name of the gaussian input file without extension (.com). The</div>
+<div class="line-block">
+<div class="line">output is has the same name, but .log extension.</div>
+</div>
+<div class="line">-F  use this flag fo AVIOD force calculation after optimization.</div>
+<div class="line">-p  &lt;processors=1&gt; number of processors per gaussian job. See description of</div>
+<div class="line-block">
+<div class="line">flag -c.</div>
+</div>
+<div class="line">-S  &lt;job_options=’’&gt; options for submitting a new job. This flag only makes</div>
+<div class="line-block">
+<div class="line">sense in slurm cluster. Please, do not include a name and add the options</div>
+<div class="line">as in the next example: “–partition=cpu –nice”.</div>
 <div class="line"><br /></div>
+</div>
 <div class="line">-v  verbose.</div>
 <div class="line">-h  prints this message.</div>
 </div>

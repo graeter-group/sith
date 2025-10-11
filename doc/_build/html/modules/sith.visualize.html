@@ -52,9 +52,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../workflow/workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="sith.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
-<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html">sith.g09_stretching package</a></li>
@@ -779,12 +776,12 @@ different degrees of freedom (lengths, angles, dihedrals). Wrap to VMol.</p>
 <li><p><strong>dofs</strong> (<em>list. Default=None</em>) – list of degrees of freedom defined according with 1-based indexing.
 It could also be ‘all’, ‘bonds’, ‘angles’ or ‘dihedrals’ to
 display all the corresponding DOFs.</p></li>
-<li><p><strong>idef</strong> (<em>int. default 0.</em>) – index of the stretching to be displayed.</p></li>
+<li><p><strong>idef</strong> (<em>int. Default=0</em>) – index of the stretching to be displayed.</p></li>
 <li><p><strong>alignment</strong> (<em>list</em><em>, </em><em>tuple</em><em> or </em><em>np.ndarray. Default=None.</em>) – indexes for the alignment of the molecule. See VMolecule.xy_alignment
 for more details.</p></li>
 <li><p><strong>show_axis</strong> (<em>bool. Default=False.</em>) – True if you want to show the axis in the scene.</p></li>
 <li><p><strong>background</strong> (<em>list</em><em> or </em><em>vp.color. Default=vp.color.white.</em>) – color of the background of the scene.</p></li>
-<li><p><strong>**kwargs</strong> (<em>other arguments</em><em> of </em><em>VMolecule.</em>) – </p></li>
+<li><p><strong>kwargs</strong> – other arguments for VMolecule.</p></li>
 </ul>
 </dd>
 </dl>

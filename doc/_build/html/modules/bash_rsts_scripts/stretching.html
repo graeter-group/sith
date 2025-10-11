@@ -52,9 +52,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html">sith.g09_stretching.from_extreme.second_version</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#continuous-path">continuous_path</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.second_version.html#workflow-from-extreme2">workflow_from_extreme2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
@@ -119,13 +116,16 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 
 <span class="s2">  -b  &lt;number_of_breakages=1&gt; The simulation will run until get this number of</span>
 <span class="s2">      ruptures.</span>
-<span class="s2">  -c  Use this flag to run in a cluster set with slurm. In that case, the</span>
-<span class="s2">      of processors is equal to the number of cores asked in the submission of</span>
-<span class="s2">      the job. When this flag is present, -p is ignored.</span>
+<span class="s2">  -c  Use this flag to run in a cluster. When -p is not defined, and you run in</span>
+<span class="s2">      a slurm job manager system, the of processors is equal to the number of</span>
+<span class="s2">      cores asked in the submission of the job.</span>
 <span class="s2">  -e  &lt;extend_method=0&gt; index of stretching method. To see the options, use</span>
 <span class="s2">      &#39;sith change_distance -h&#39; to see the order.</span>
 <span class="s2">      carbons of the capping groups</span>
 <span class="s2">  -i  &lt;index1,index2&gt; indexes of the atoms to use for increasing the distance.</span>
+<span class="s2">      If this flag is not used and &#39;molecule&#39; (flag -m) is a pdb, indexes 1 and</span>
+<span class="s2">      2 will correspond to the CH3 atoms in ACE and NME residues defined in the</span>
+<span class="s2">      pdb if they exist.</span>
 <span class="s2">  -l  &lt;xc,base=&quot;</span>bmk,6-31+g<span class="s2">&quot;&gt; evel of DFT theory.</span>
 <span class="s2">  -m  &lt;molecule&gt; molecule name. In this directory, a file called</span>
 <span class="s2">      &lt;molecule&gt;-stretched00.pdb must exist.</span>
@@ -152,7 +152,7 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="nv">indexes</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">level</span><span class="o">=</span><span class="s2">&quot;bmk,6-31+g&quot;</span>
 <span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
-<span class="nv">n_processors</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">n_processors</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">retake</span><span class="o">=</span><span class="s1">&#39;true&#39;</span>
 <span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;b:ce:i:l:m:p:rs:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
@@ -177,15 +177,23 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="k">if</span><span class="w"> </span><span class="nv">$cluster</span>
 <span class="k">then</span>
 <span class="w">  </span>load_modules
-<span class="w">  </span><span class="nv">n_processors</span><span class="o">=</span><span class="nv">$SLURM_CPUS_ON_NODE</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_CPUS_ON_NODE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="nv">$SLURM_CPUS_ON_NODE</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">  </span><span class="k">fi</span>
 <span class="k">fi</span>
 
 <span class="c1"># starting information</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;===============&quot;</span>
-verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Date:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Date:&quot;</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="k">$(</span>date<span class="k">)</span>
-verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; * Command:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Command:&quot;</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
 
 <span class="c1"># stretching method</span>
@@ -212,6 +220,28 @@ ase<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span
 <span class="c1"># ----- set up finishes -------------------------------------------------------</span>
 
 <span class="c1"># ---- BODY -------------------------------------------------------------------</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">mol_file</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;pdb&#39;</span><span class="w"> </span><span class="o">]]</span>
+<span class="k">then</span>
+<span class="w">  </span><span class="c1"># reading indexes from pdb file C-CAP indexes in gaussian convention</span>
+<span class="w">  </span><span class="nv">index1</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>ACE<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">.pdb&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CH3<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="nv">index2</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>NME<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">.pdb&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CH3<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="nv">index3</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>ATOM<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">.pdb&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{if ( $5 == 2 ) print $0}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;CA&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="nv">indexes</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">,</span><span class="nv">$index2</span><span class="s2">,</span><span class="nv">$index3</span><span class="s2">&quot;</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="c1"># reading indexes from user input</span>
+<span class="w">  </span><span class="nv">index1</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="nv">index2</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="k">)</span>
+<span class="k">fi</span>
+
+<span class="c1"># check that the indexes were read properly:</span>
+<span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index2</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes (1)</span>
+<span class="s2">  check -i flag&quot;</span>
+<span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index2</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes (1)</span>
+<span class="s2">  check -i flag&quot;</span>
+<span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index2</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes (1) check -i</span>
+<span class="s2">  flag&quot;</span>
+
 <span class="c1"># ----- checking restart ------------------------------------------------------</span>
 <span class="k">if</span><span class="w"> </span><span class="nv">$restart</span>
 <span class="k">then</span>
@@ -220,7 +250,7 @@ ase<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span
 <span class="w">  </span><span class="c1"># extracting last i with xyz file already created</span>
 <span class="w">  </span>mapfile<span class="w"> </span>-t<span class="w"> </span>previous<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span><span class="w"> </span>find<span class="w"> </span>.<span class="w"> </span>-maxdepth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">*.xyz&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">                                  </span>-not<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*bck*&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="o">)</span>
-<span class="w">  </span>
+
 <span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="si">${#</span><span class="nv">previous</span><span class="si">}</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Non previous xyz files were found&quot;</span>
 
 <span class="w">  </span><span class="nv">wext</span><span class="o">=</span><span class="si">${</span><span class="nv">previous</span><span class="p">[-1]</span><span class="si">}</span>
@@ -241,7 +271,8 @@ ase<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span
 <span class="w">  </span><span class="c1"># incomplete job. In the next block, we search for advances in i+1 and if it</span>
 <span class="w">  </span><span class="c1"># finds one, it restarts from there and sets retake=&#39;false&#39; as a consecuence,</span>
 <span class="w">  </span><span class="c1"># this variable is used later in the loop.</span>
-<span class="w">  </span>sith<span class="w"> </span>log2xyz<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sith<span class="w"> </span>log2xyz<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--indexes<span class="w"> </span><span class="s2">&quot;[</span><span class="nv">$indexes</span><span class="s2">]&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>create_bck<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.&quot;</span>*<span class="w"> </span><span class="o">&amp;&amp;</span>
 <span class="w">    </span><span class="nv">lastone</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>search_last_bck<span class="w"> </span><span class="nv">$mol</span>-stretched<span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="w"> </span><span class="k">)</span><span class="w"> </span><span class="o">&amp;&amp;</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="nv">lastone</span><span class="w"> </span><span class="k">))</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;this optimization was&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -258,30 +289,13 @@ ase<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span
 <span class="w">  </span><span class="nv">$retake</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">      </span>warning<span class="w"> </span><span class="s2">&quot;The stretching of molecule </span><span class="nv">$mol</span><span class="s2"> will be restarted from </span><span class="nv">$i</span><span class="s2">&quot;</span>
 <span class="k">else</span>
-<span class="w">  </span><span class="c1"># C-CAP indexes in gaussian convention</span>
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">mol_file</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;pdb&#39;</span><span class="w"> </span><span class="o">]]</span>
-<span class="w">  </span><span class="k">then</span>
-<span class="w">    </span><span class="c1"># reading indexes from pdb file</span>
-<span class="w">    </span><span class="nv">index1</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>ACE<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">.pdb&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CH3<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
-<span class="w">    </span><span class="nv">index2</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>NME<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">.pdb&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CH3<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
-<span class="w">  </span><span class="k">else</span>
-<span class="w">    </span><span class="c1"># reading indexes from user input</span>
-<span class="w">    </span><span class="nv">index1</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">)</span>
-<span class="w">    </span><span class="nv">index2</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="k">)</span>
-<span class="w">  </span><span class="k">fi</span>
-
-<span class="w">  </span><span class="c1"># check that the indexes were read properly:</span>
-<span class="w">  </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index2</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes&quot;</span>
-<span class="w">  </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index2</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes&quot;</span>
-<span class="w">  </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index2</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes&quot;</span>
-
 <span class="w">  </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;frozen_dofs.dat&#39;</span><span class="w"> </span><span class="o">]]</span>
 <span class="w">  </span><span class="k">then</span>
 <span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2"> </span><span class="nv">$index2</span><span class="s2"> F&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>frozen_dofs.dat
 <span class="w">  </span><span class="k">fi</span>
 
 <span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;This code will stretch the atoms with the indexes </span><span class="nv">$index1</span><span class="s2"> </span><span class="nv">$index2</span>
-<span class="s2">  (1-based indexing)&quot;</span>
+<span class="s2">    (1-based indexing).&quot;</span>
 
 <span class="w">  </span><span class="c1"># in case of not restarting</span>
 <span class="w">  </span><span class="nv">i</span><span class="o">=</span>-1
@@ -349,7 +363,8 @@ verbose<span class="w"> </span><span class="s2">&quot;Stretching of </span><span
 <span class="w">    </span><span class="c1"># structure. As a second chance to converge.</span>
 <span class="w">    </span>verbose<span class="w"> </span><span class="s2">&quot;Optimization did not converge with distance </span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="s2"> *</span>
 <span class="s2">      </span><span class="nv">$size</span><span class="s2"> . Then, a new trial will start now&quot;</span>
-<span class="w">    </span>sith<span class="w"> </span>log2xyz<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;</span>
+<span class="w">    </span>sith<span class="w"> </span>log2xyz<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--indexes<span class="w"> </span><span class="s2">&quot;[</span><span class="nv">$indexes</span><span class="s2">]&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;</span>
 <span class="s2">      Transforming log file to xyz in second trial of optimization&quot;</span>
 <span class="w">    </span>sith<span class="w"> </span>change_distance<span class="w"> </span><span class="se">\</span>
 <span class="w">            </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.xyz&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -383,7 +398,8 @@ verbose<span class="w"> </span><span class="s2">&quot;Stretching of </span><span
 
 <span class="w">  </span><span class="c1"># ==== Testing DOFs</span>
 <span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Testing dofs&quot;</span>
-<span class="w">  </span>sith<span class="w"> </span>log2xyz<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Transforming</span>
+<span class="w">  </span>sith<span class="w"> </span>log2xyz<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--indexes<span class="w"> </span><span class="s2">&quot;[</span><span class="nv">$indexes</span><span class="s2">]&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Transforming</span>
 <span class="s2">    log file to xyz&quot;</span>
 <span class="w">  </span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$i</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span>-1<span class="w"> </span><span class="o">]</span>

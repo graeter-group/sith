@@ -58,12 +58,17 @@ Module contents
    :hidden:
 
    bash_rsts_scripts/find_blocks
+   bash_rsts_scripts/clean_ds
    bash_rsts_scripts/basics
 
 
 .. _sith-utils-basics:
 
 .. include:: bash_rsts_doc/basics.rst
+
+.. _sith-utils-clean-ds:
+
+.. include:: bash_rsts_doc/clean_ds.rst
 
 .. _sith-utils-find-blocks:
 
