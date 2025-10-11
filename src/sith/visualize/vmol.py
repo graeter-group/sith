@@ -20,7 +20,7 @@ class EnergiesVMol(VMolecule):
         list of degrees of freedom defined according with 1-based indexing.
         It could also be 'all', 'bonds', 'angles' or 'dihedrals' to
         display all the corresponding DOFs.
-    idef: int. default 0.
+    idef: int. Default=0
         index of the stretching to be displayed.
     alignment: list, tuple or np.ndarray. Default=None.
         indexes for the alignment of the molecule. See VMolecule.xy_alignment
@@ -29,7 +29,8 @@ class EnergiesVMol(VMolecule):
         True if you want to show the axis in the scene.
     background: list or vp.color. Default=vp.color.white.
         color of the background of the scene.
-    \*\*kwargs: other arguments of VMolecule.
+    kwargs:
+        other arguments for VMolecule.
     """
     def __init__(self, sith_info: SITH,
                  dofs: list = None,

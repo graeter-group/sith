@@ -877,7 +877,7 @@ class EnergiesNGL(MoleculeNGL):
         add xyz axis
     background: color
         background color. Default: '#ffc'
-    kwargs: 
+    kwargs:
         kwargs of MoleculeNGL
     """
     def __init__(self, sith_info, idef='all', alignment=None, axis=False,

@@ -619,6 +619,31 @@ class DataSetAnalysis:
         function with the operations to apply to every sith object -its
         unique argument- after initialized. Note that it has to have the
         analysis you want to apply. For example,
+    data_dir: str. Default='./'
+        directory containing the directories of the molecules.
+    subdir: str. Default=''
+        subdirectory inside each molecule directory containing the files to be
+        analyzed by sith.
+    exclude_prolines: bool. Default=True
+        if True, neglects all the peptides with a proline in their sequence. In
+        other words, it ignores all the directories with a 'P' in their name.
+    exclude: list. Default=None
+        list of molecules to exclude from the analysis.
+    pdb_pattern: str. Default='stretched00'
+        pattern to identify the pdb file in each molecule directory.
+    struc_pattern: Default='forces<all>.fchk'
+        pattern to identify the files to be analyzed by sith in each molecule
+        directory.
+    kwargs: 
+        for initializing sith
+
+
+    .. note::
+
+        The function inner_steps has to have as unique argument a sith object
+        and return the same sith object after applying the analysis you want.
+        For example, if you want to remove the first and last structure and
+        then apply the sith_analysis, you can define the function as:
 
         .. code-block:: python
 
@@ -626,8 +651,6 @@ class DataSetAnalysis:
                 sith.rem_first_last(from_last_minimum=True)
                 sith.sith_analysis()
                 return sith
-
-    **kwargs for initializing sith
     """
 
     def __init__(self, inner_steps: Callable, data_dir: str = './',

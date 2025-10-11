@@ -19,13 +19,16 @@ def shake_except(xyz_file, file_cons, modify_input=True, stdev=0.05):
     file_cons:
         file containing the atoms (1-based indices) to avoid to be modified by
         the shaking.
-    modify_input: bool. Defatuly=True
+    modify_input: bool. Default=True
         True to modify the input file.
     scale: float. Default=0.05
         max magnitud of the noise to be added in each coordinate of each atom
         in Angstrom.
+    stdev: float. Default=0.05
+        standard deviation of the normal distribution used to generate the
+        random noise.
 
-    Retuns
+    Return
     ======
     (ase.Atoms) new object atoms with the modified positions.
     """
@@ -72,6 +75,8 @@ def change_distance(inp, out, file_cons, deltad, charge, method, **kwargs):
         method defined in sith.ase_utils.tools. So far, the methods already
         implemented are: 'scale_distance', 'increase_distance',
         'increase_distance_with_constraints'.
+    kwargs: 
+        additional arguments to be passed to create_gaussian_input function.
 
     Return
     ======
