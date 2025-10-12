@@ -24,13 +24,14 @@ def permute_atoms(atoms, indexes):
     indexes = list(indexes)
     indexes.sort()
 
-    atoms = atoms[:indexes[0] - 1] + \
-            atoms[indexes[1] - 1] + \
-            atoms[indexes[0]: indexes[1] - 1] + \
-            atoms[indexes[0] - 1] + \
-            atoms[indexes[1]:]
+    atoms = (atoms[:indexes[0] - 1]
+             + atoms[indexes[1] - 1]
+             + atoms[indexes[0]: indexes[1] - 1]
+             + atoms[indexes[0] - 1]
+             + atoms[indexes[1]:])
 
     return atoms
+
 
 def extract_dofs(indexes, atoms):
     """
@@ -83,12 +84,12 @@ def test_dofs(atoms, indexes, file):
     do not
     """
     dist, angl, dihe = extract_dofs(np.array(indexes) - 1, atoms)
-    old_dist = float(output_terminal(f'sed -n "/R{indexes[0]}=/p" {file}' +
-                                     ' | cut -d = -f 2', print_output=False))
-    old_angl = float(output_terminal(f'sed -n "/A{indexes[0]}=/p" {file}' +
-                                     ' | cut -d = -f 2', print_output=False))
-    old_dihe = float(output_terminal(f'sed -n "/D{indexes[0]}=/p" {file}' +
-                                     ' | cut -d = -f 2', print_output=False))
+    old_dist = float(output_terminal(f'sed -n "/R{indexes[0]}=/p" {file}'
+                                     + ' | cut -d = -f 2', print_output=False))
+    old_angl = float(output_terminal(f'sed -n "/A{indexes[0]}=/p" {file}'
+                                     + ' | cut -d = -f 2', print_output=False))
+    old_dihe = float(output_terminal(f'sed -n "/D{indexes[0]}=/p" {file}'
+                                     + ' | cut -d = -f 2', print_output=False))
 
     assert old_dist == approx(dist, abs=3e-2), f"R{indexes[0]}({old_dist}) " +\
         f"does not correspond to the expected from the xyz file({dist})"
@@ -149,8 +150,8 @@ def change_def(new_i, element, atoms, file):
     # should have lower index.
     for i in new_i[1:]:
         if new_i[0] < i:
-            print("At least two atoms have to be swaped. You are trying to " +
-                  f"redefine {new_i}.")
+            print("At least two atoms have to be swaped. You are trying to "
+                  + f"redefine {new_i}.")
 
     # Create new and old lines
     new_line = def_line(new_i, element)
@@ -242,7 +243,8 @@ def change_prolines_dofs(comfile, molecule, pdb_template, option):
     """
     pep_set = PepSetter(pdb_template)
     atoms = read(molecule)
-    pros_i = np.where(np.array(list(pep_set.amino_name.values())) == 'PRO')[0] + 1
+    pros_i = np.where(np.array(list(pep_set.amino_name.values()))
+                      == 'PRO')[0] + 1
 
     for i_pro in pros_i:
         amino = pep_set.amino_info[i_pro]
@@ -275,7 +277,8 @@ def change_prolines_dofs(comfile, molecule, pdb_template, option):
 
         if option == '3':
             # First change Cgamma
-            atoms, Cg_i, Cd_i = set2(Cg_i, Cd_i, N_i, Ca_i, HG1_i, HG2_i, atoms, comfile)
+            atoms, Cg_i, Cd_i = set2(Cg_i, Cd_i, N_i, Ca_i, HG1_i, HG2_i,
+                                     atoms, comfile)
             # and then change Cbeta
             set3(Cb_i, Cg_i, Cd_i, N_i, HB1_i, HB2_i, atoms, comfile)
 
@@ -285,7 +288,7 @@ def change_prolines_dofs(comfile, molecule, pdb_template, option):
 
 
 def set1(Ca_i, Cb_i, HB1_i, HB2_i, Cg_i, HG1_i, HG2_i, Cd_i, HD1_i,
-            HD2_i, N_i, CCA_i, CN_i, atoms, comfile):
+         HD2_i, N_i, CCA_i, CN_i, atoms, comfile):
     print("Using set 1")
 
     # change betas dofs
@@ -332,7 +335,9 @@ def set2(Cg_i, Cd_i, N_i, Ca_i, HG1_i, HG2_i, atoms, comfile):
     print(f'swapping atoms {Cg_i} {Cd_i}')
     output_terminal(f'sith swap_atoms_in_com -a {Cg_i} -b {Cd_i} -f {comfile}')
     atoms = permute_atoms(atoms, [Cg_i, Cd_i])
-    tmp  = Cg_i ; Cg_i = Cd_i ; Cd_i = tmp
+    tmp = Cg_i
+    Cg_i = Cd_i
+    Cd_i = tmp
     return atoms, Cg_i, Cd_i
 
 
@@ -353,7 +358,9 @@ def set3(Cb_i, Cg_i, Cd_i, N_i, HB1_i, HB2_i, atoms, comfile):
 
     print(f'swapping atoms {Cb_i} {Cg_i}')
     output_terminal(f'sith swap_atoms_in_com -a {Cb_i} -b {Cg_i} -f {comfile}')
-    tmp  = Cb_i ; Cb_i = Cg_i ; Cg_i = tmp
+    tmp = Cb_i
+    Cb_i = Cg_i
+    Cg_i = tmp
     print(f'swapping atoms {Cg_i} {Cd_i}')
     output_terminal(f'sith swap_atoms_in_com -a {Cg_i} -b {Cd_i} -f {comfile}')
 

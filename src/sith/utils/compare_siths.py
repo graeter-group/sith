@@ -24,7 +24,7 @@ def index_dof(sith, target: tuple):
             continue
 
         if (dof_wo_0 == target_wo_0).all() or \
-            (dof_wo_0 == target_wo_0[::-1]).all():
+           (dof_wo_0 == target_wo_0[::-1]).all():
             return i
     raise ValueError("Non-found dof.")
 

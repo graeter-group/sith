@@ -26,6 +26,7 @@ def output_terminal(cmd, print_output=True, skip_error=False, print_cmd=False,
     """
     if print_cmd:
         print(cmd)
+
     p = subprocess.Popen(cmd,
                          shell=True,
                          stdout=subprocess.PIPE,

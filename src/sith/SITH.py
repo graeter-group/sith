@@ -265,7 +265,7 @@ class SITH:
 
     def rem_first_last(self, rem_first_def=0, rem_last_def=0,
                        from_last_minimum: bool = False,
-                       from_global_minimum: bool=False) -> list:
+                       from_global_minimum: bool = False) -> list:
         """
         Removes first and last structure configs and data from all the
         attributes of the Sith object.
@@ -365,8 +365,8 @@ class SITH:
         self.dofs_energies, self.structure_energies = integration_method()
         zero_tot = self.structure_energies == 0
         copy_energies = self.structure_energies.copy()
-        copy_energies[zero_tot] = 0.1 # this is done to avoid ZeroDivisionError
-        self.energies_percentage = self.dofs_energies.T/copy_energies * 100
+        copy_energies[zero_tot] = 0.1  # this is done to avoid ZeroDivision
+        self.energies_percentage = self.dofs_energies.T / copy_energies * 100
         self.energies_percentage = self.energies_percentage.T
         self.energies_percentage[zero_tot] = 0
 

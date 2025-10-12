@@ -220,8 +220,8 @@ class FileReader:
         try:
             dims = np.array(self.__lines[ith_line].split(), dtype=int)
         except ValueError:
-            raise Exception("Invalid input given for Redundant " +
-                            "internal dimensions.")
+            raise Exception("Invalid input given for Redundant "
+                            + "internal dimensions.")
 
         assert dims[0] == dims[1] + dims[2] + dims[3] and \
             len(dims) == 4, \
@@ -421,6 +421,6 @@ class G09Reader:
         # print("Validating input files...")
         for file in files_paths:
             assert file.exists(), \
-               "Path to reference geometry data does not exist."
+                   "Path to reference geometry data does not exist."
 
         return True

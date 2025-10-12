@@ -11,8 +11,8 @@ import cmocean as cmo
 from matplotlib.colors import TwoSlopeNorm
 
 
-def plot_averages_per_pos(ener_per_pos, mean_per_pos, stdr_per_pos,
-                          aminos, ylabel, ylim):
+def plot_averages_per_pos(ener_per_pos, mean_per_pos, stdr_per_pos, aminos,
+                          ylabel, ylim):
     """
     Plot the mean value with error bars (std) per position (rows), per
     amino acids (x axis). It also shows the data points.
@@ -483,7 +483,7 @@ class SithPlotter(PepSetter, SithAnalysis):
         if show_amino_legends:
             ax.legend(handles=list(colors.values()), loc='upper right',
                       fontsize=mpl.rcParams['font.size']
-                       * sp.ax_pref['ticks_scale'])
+                      * sp.ax_pref['ticks_scale'])
         ax.set_xlim([dofs[0] - 0.5, dofs[-1] + 0.5])
 
         return sp
@@ -621,14 +621,15 @@ class SithPlotter(PepSetter, SithAnalysis):
         sp.axis_setter(ax=2, xlabel='Angle index', ylabel='Changes[rad]')
 
         # Add limits at pi and -pi
-        [sp.plot_data([distances + 1, distances + n_angles], [[np.pi, np.pi], [-np.pi, -np.pi]],
+        [sp.plot_data([distances + 1, distances + n_angles],
+                      [[np.pi, np.pi], [-np.pi, -np.pi]],
                       pstyle='--', color_plot='gray', ax=i)
          for i in [0, 2]]
 
-        sp.plot_data(np.arange(distances +  1, distances + n_angles + 1),
+        sp.plot_data(np.arange(distances + 1, distances + n_angles + 1),
                      sith.all_dofs[:, distances:], pstyle='s',
                      markersize=3, color_plot=colors)
-        sp.plot_data(np.arange(distances +  1, distances + n_angles + 1),
+        sp.plot_data(np.arange(distances + 1, distances + n_angles + 1),
                      sith.delta_q[:, distances:], pstyle='s',
                      markersize=3, ax=2, color_plot=colors)
 
@@ -712,7 +713,8 @@ class SithPlotter(PepSetter, SithAnalysis):
                        ylabel='$\Delta$E$_{SITH}$ - $\Delta$E$_{DFT}$ [Ha]',
                        xticks=[], xminor=ticks,
                        mingrid=True, xlim=[-ws, ticks[-1] + ws])
-        sp.axis_setter(ax=2, ylabel='Error [%]', xlabel='$\Delta$ End-to-end distance [Å]',
+        sp.axis_setter(ax=2, ylabel='Error [%]',
+                       xlabel='$\Delta$ End-to-end distance [Å]',
                        xticks=ticks, xminor=ticks - 0.0001,
                        mingrid=True, xlim=[-ws, ticks[-1] + ws])
         # plot axis 1

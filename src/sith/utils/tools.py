@@ -347,14 +347,13 @@ def F_max_stretch(ds, pep, fd='frozen_dofs.dat'):
         dof = int(lines.split()[0])
 
     # find the last stretched conf
-    all_files = glob.glob(ds + pep + '/' + pep  + '*.log')
+    all_files = glob.glob(ds + pep + '/' + pep + '*.log')
     all_files.sort()
     last_conf = all_files[-1]
     atoms = read(last_conf)
     force_mag = np.linalg.norm(atoms.get_forces()[dof - 1])
 
-    return force_mag * 960 # KJmol-1/nm
-    # return force_mag / (6.242E8)
+    return force_mag * 960  # KJmol-1/nm
 
 
 def F_stretch(logfile, index):
@@ -380,4 +379,4 @@ def F_stretch(logfile, index):
     atoms = read(conf)
     force_mag = np.linalg.norm(atoms.get_forces()[dof - 1])
 
-    return force_mag * 960 # KJmol-1/nm
+    return force_mag * 960  # KJmol-1/nm

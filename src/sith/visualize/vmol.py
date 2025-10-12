@@ -87,7 +87,6 @@ class EnergiesVMol(VMolecule):
         if dofs is not None:
             self.sith_inDOFs(dofs, **kwargs)
 
-
         self.scene.background = self._asvector(background)
         self.traj_buttons()
         self._hook = True
@@ -126,8 +125,8 @@ class EnergiesVMol(VMolecule):
                 bonds = self.sith.dim_indices[:self.nbonds]
                 selected_dofs.extend(bonds)
             if 'angles' in dofs:
-                angles = self.sith.dim_indices[self.nbonds:self.nbonds +
-                                               self.nangles]
+                angles = self.sith.dim_indices[self.nbonds:(self.nbonds
+                                                            + self.nangles)]
                 selected_dofs.extend(angles)
             if 'dihedrals' in dofs:
                 dihedrals = self.sith.dim_indices[-self.ndihedral:]
@@ -163,12 +162,14 @@ class EnergiesVMol(VMolecule):
 
         # Colorbar
         # Note that this colorbar
+        labelsize = self.kwargs_edofs['labelsize']
+        height = self.kwargs_edofs['height'] / 300
         self.fig, _, _ = create_colorbar(norm, self.kwargs_edofs['label'],
-                                        cmap=self.kwargs_edofs['cmap'],
-                                        deci=self.kwargs_edofs['deci'],
-                                        labelsize=self.kwargs_edofs['labelsize'],
-                                        height=self.kwargs_edofs['height']/300,
-                                        dpi=300)
+                                         cmap=self.kwargs_edofs['cmap'],
+                                         deci=self.kwargs_edofs['deci'],
+                                         labelsize=labelsize,
+                                         height=height,
+                                         dpi=300)
 
         return norm, kwargs
 
@@ -203,8 +204,8 @@ class EnergiesVMol(VMolecule):
         ======
         (tuple) DOFs and their computed energies.
         """
-        dofs = self.sith.dim_indices[self.nbonds:self.nbonds +
-                                                   self.nangles]
+        dofs = self.sith.dim_indices[self.nbonds: (self.nbonds
+                                                   + self.nangles)]
         out = self.energies_some_dof(dofs, **kwargs)
         return out
 
@@ -322,8 +323,8 @@ class EnergiesVMol(VMolecule):
         for dof in dofs:
             i = np.where(np.all(self.sith.dim_indices == dof, axis=1))[0]
             if len(i) != 1:
-                raise ValueError(f"Dof {dof} not found or defined more than" +
-                                 " once in the sith object.")
+                raise ValueError(f"Dof {dof} not found or defined more than"
+                                 + " once in the sith object.")
             energy = self.energies[self.idef][i[0]]
             color = cmap(self.normalize(energy))[:3]
             dof = self.add_dof(dof, color=color, **kwargs)

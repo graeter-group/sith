@@ -66,6 +66,7 @@ def info_from_opt(logfile, pattern):
 
     return all_atoms
 
+
 # add2executable
 def continuous_e2e(pattern, index1, index2, dir_output='e2e_continuous'):
     """
@@ -106,10 +107,10 @@ def continuous_e2e(pattern, index1, index2, dir_output='e2e_continuous'):
         all_atoms[i] = ms.atoms
     # ==== inbetween
     positions = np.array([conf.get_positions() for conf in all_atoms])
-    inbetween = np.logical_and(positions[:, :, 0].T > \
-                               positions[:, index1 - 1, 0],
-                               positions[:, :, 0].T < \
-                               positions[:, index2 - 1, 0])
+    inbetween = np.logical_and(positions[:, :, 0].T
+                               > positions[:, index1 - 1, 0],
+                               positions[:, :, 0].T
+                               < positions[:, index2 - 1, 0])
     inbetween = inbetween.T
     inbetween = np.all(inbetween, axis=0)
     # ==== avoid
@@ -123,7 +124,7 @@ def continuous_e2e(pattern, index1, index2, dir_output='e2e_continuous'):
     subset = np.where(condition)[0]
     if len(subset) == 0:
         raise ValueError("No heavy atom found between index1 and index2 that"
-                        "is not in the x axis")
+                         "is not in the x axis")
     index3 = np.random.choice(subset) + 1
 
     # alignment with 3 atoms. All the configurations are aligned with the
@@ -146,13 +147,13 @@ def continuous_e2e(pattern, index1, index2, dir_output='e2e_continuous'):
         deltad = df - di
         if abs(deltad) > 0.2:
             n_intermedia = int(abs(deltad / 0.2))
-            fraction = 1/(n_intermedia + 1)
+            fraction = 1 / (n_intermedia + 1)
             inbetween = []
             for n in range(1, n_intermedia + 1):
                 at = Atoms(conf.get_chemical_symbols(),
-                           positions = (1 - fraction * n) *
-                                       new_set[-1].positions +
-                                       (fraction * n) * conf.positions)
+                           positions=((1 - fraction * n)
+                                      * new_set[-1].positions
+                                      + (fraction * n) * conf.positions))
                 inbetween.append(at)
             new_set.extend(inbetween)
         new_set.append(conf)
@@ -168,6 +169,7 @@ def continuous_e2e(pattern, index1, index2, dir_output='e2e_continuous'):
         write("{}/{}{:03d}.xyz".format(dir_output, pattern, i), atoms)
 
     return all_atoms
+
 
 # add2executable
 def reduce_structs(dir, pattern):
@@ -252,7 +254,7 @@ def reduce_structs(dir, pattern):
     output_terminal("mkdir -p subset")
     for i, struct in enumerate(subdofs):
         with open('./subset/{}{:03d}.dat'.format(pattern,
-                                                  i), "w") as i_struct_file:
+                                                 i), "w") as i_struct_file:
             for j, dof in enumerate(struct):
                 i_struct_file.write(f'{dofs_ref[j]}={dof}\n')
 

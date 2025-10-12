@@ -29,8 +29,8 @@ class MoleculeNGL:
         try:
             from nglview import show_ase, show_asetraj
         except ModuleNotFoundError as e:
-            raise ModuleNotFoundError("To use MoleculeNGL," +
-                                      " NGLview has to be installed. " + e)
+            raise ModuleNotFoundError("To use MoleculeNGL,"
+                                      + " NGLview has to be installed. " + e)
         if type(atoms) is list:
             self.is_trajectory = True
             self.atoms = [config.copy() for config in atoms]
@@ -476,14 +476,14 @@ class MoleculeNGL:
             indexes = indexes[::-1]
         name = ''.join(str(i).zfill(3) for i in indexes)
 
-        axis = (atoms[atom3index - 1].position -
-                atoms[atom2index - 1].position)
-        vertex = 0.5 * (atoms[atom3index - 1].position +
-                        atoms[atom2index - 1].position)
-        axis1 = (atoms[atom1index - 1].position -
-                 atoms[atom2index - 1].position)
-        axis2 = (atoms[atom4index - 1].position -
-                 atoms[atom3index - 1].position)
+        axis = (atoms[atom3index - 1].position
+                - atoms[atom2index - 1].position)
+        vertex = 0.5 * (atoms[atom3index - 1].position
+                        + atoms[atom2index - 1].position)
+        axis1 = (atoms[atom1index - 1].position
+                 - atoms[atom2index - 1].position)
+        axis2 = (atoms[atom4index - 1].position
+                 - atoms[atom3index - 1].position)
         side1 = axis1 - axis * (np.dot(axis, axis1) / np.dot(axis, axis))
         side2 = axis2 - axis * (np.dot(axis, axis2) / np.dot(axis, axis))
 
@@ -912,7 +912,6 @@ class EnergiesNGL(MoleculeNGL):
                              'height': 500}
         self.view.observe(self.update_frame, names='frame')
 
-
     def energies_bonds(self, **kwargs):
         """
         Add the bonds with a color scale that represents the
@@ -946,8 +945,8 @@ class EnergiesNGL(MoleculeNGL):
         ======
         (plt.figure) fig of energies_some_dof.
         """
-        dofs = self.sith.structures[0].dim_indices[self.nbonds:self.nbonds +
-                                                   self.nangles]
+        dofs = self.sith.structures[0].dim_indices[self.nbonds:
+                                                   self.nbonds + self.nangles]
         out = self.energies_some_dof(dofs, **kwargs)
         self.update_frame()
         return out
@@ -1080,7 +1079,7 @@ class EnergiesNGL(MoleculeNGL):
                                                      cmap,
                                                      deci,
                                                      labelsize,
-                                                     height/300)
+                                                     height / 300)
 
         self.box = HBox([self.view, cbarwdg])
 

@@ -64,8 +64,8 @@ class SithAnalysis:
         """
         # energy for the optimized config must be the reference
 
-        added_forces = (self.structures_info.all_forces[1:] +
-                        self.structures_info.all_forces[:-1]) / 2
+        added_forces = (self.structures_info.all_forces[1:]
+                        + self.structures_info.all_forces[:-1]) / 2
         all_values = added_forces * self.structures_info.delta_q[1:]
         all_values = np.insert(all_values, 0,
                                np.zeros(self.structures_info.dims[0]),
@@ -87,8 +87,8 @@ class SithAnalysis:
         try:
             from scipy.integrate import simpson
         except ModuleNotFoundError:
-            raise ModuleNotFoundError("Install scipy to use simpson" +
-                                      "integration")
+            raise ModuleNotFoundError("Install scipy to use simpson"
+                                      + "integration")
         dofs = self.structures_info.all_dofs.copy().T
 
         for angle in dofs[self.structures_info.dims[1]:]:

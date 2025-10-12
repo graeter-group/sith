@@ -188,8 +188,8 @@ class MoleculeSetter:
 
         self.atoms.set_positions(self.atoms.positions - center)
         # set index1 and index2 along x axis
-        axis = self.atoms[index2 - 1].position - \
-               self.atoms[index1 - 1].position
+        axis = (self.atoms[index2 - 1].position
+                - self.atoms[index1 - 1].position)
         self.apply_trans(self.align_axis(axis))
         if index3 is not None:
             third = self.atoms[index3 - 1].position

@@ -40,8 +40,8 @@ class JediAnalysis:
                                                ].hessian
         if hess is None:
             raise Exception(
-                "The Hessian matrix of the reference structure was not " +
-                "properly read from the input files")
+                "The Hessian matrix of the reference structure was not "
+                + "properly read from the input files")
         self.structures_info.dofs_energies = 0.5 * \
             np.matmul(self.structures_info.delta_q, hess) * \
             self.structures_info.delta_q

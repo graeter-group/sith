@@ -117,7 +117,7 @@ class WriteSITH:
 
         if valuetype == 'R':
             i = 0
-            while i*5 < len(flatten):
+            while i * 5 < len(flatten):
                 for value in flatten[5 * i: 5 * i + 5]:
                     lines += "  {:.8E}".format(value)
                 lines += "\n"
@@ -125,7 +125,7 @@ class WriteSITH:
 
         elif valuetype == 'I':
             i = 0
-            while i*6 < len(flatten):
+            while i * 6 < len(flatten):
                 for value in flatten[6 * i: 6 * i + 6]:
                     lines += str(value).rjust(12)
                 lines += "\n"
@@ -156,8 +156,8 @@ class WriteSITH:
             valuetype = 'R'
             line = header.ljust(43) + valuetype + str(value).rjust(27) + '\n'
         else:
-            raise ValueError("values in writer only accept integers or reals" +
-                             " but the variable is " + str(type(value)))
+            raise ValueError("values in writer only accept integers or reals"
+                             + " but the variable is " + str(type(value)))
 
         self.lines += line
 
@@ -181,24 +181,24 @@ class WriteSITH:
         for header, variable in self.headers_scalars.items():
             if getattr(self.geometry, variable) is not None:
                 self._write_scalar(header,
-                                getattr(self.geometry,
-                                        variable))
+                                   getattr(self.geometry,
+                                           variable))
             else:
                 print(f'Geometry object does not have a defined {variable}')
 
         for header, variable in self.headers_vectors.items():
             if getattr(self.geometry, variable) is not None:
                 self._write_array(header,
-                                getattr(self.geometry,
-                                        variable))
+                                  getattr(self.geometry,
+                                          variable))
             else:
                 print(f'Geometry object does not have a defined {variable}')
-
 
         with open(outputfile, 'w') as output:
             output.write(self.lines)
 
         return self.lines
+
 
 def write_sith_data(sith_obj, outdir: str = './'):
     """
@@ -216,7 +216,7 @@ def write_sith_data(sith_obj, outdir: str = './'):
     (str) name of the subdir
     """
     if isinstance(outdir, (Path, str)):
-            outdir = Path(outdir)
+        outdir = Path(outdir)
     assert outdir.exists(), "The path to the directory you " +\
         "specified does not exist does not exist"
     # avoid deleting previous data existing in the output directory
@@ -231,7 +231,7 @@ def write_sith_data(sith_obj, outdir: str = './'):
 
     for j, geometry in enumerate(sith_obj.structures):
         geowriter = WriteSITH(geometry)
-        geowriter.write_file(outputfile=final_output /
-                             'structure_{:03d}.fchk'.format(j))
+        geowriter.write_file(outputfile=final_output
+                             / 'structure_{:03d}.fchk'.format(j))
 
     return final_output

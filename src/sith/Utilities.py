@@ -88,11 +88,11 @@ class Geometry:
         b = b and self.scf_energy == __o.scf_energy
         b = b and (self.dims, __o.dims).all()
         b = b and (self.dim_indices, __o.dim_indices).all()
-        b = b and ((self.hessian is None and __o.hessian is None) or
-                   (self.hessian == __o.hessian).all())
-        b = b and ((self.internal_forces is None and
-                    __o.internal_forces is None) or
-                   (self.internal_forces == __o.internal_forces).all())
+        b = b and ((self.hessian is None and __o.hessian is None)
+                   or (self.hessian == __o.hessian).all())
+        b = b and ((self.internal_forces is None
+                    and __o.internal_forces is None)
+                   or (self.internal_forces == __o.internal_forces).all())
         b = b and (self.dof, __o.dof).all()
         b = b and self.atoms == __o.atoms
 
@@ -210,9 +210,10 @@ def color_distribution(sith: SITH,
     return energies, normalize
 
 
-def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap=None,
-                    deci: int=3, labelsize: float=10,
-                    height: int=1.7,  width=None, dpi: int=300) -> None:
+def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap = None,
+                    deci: int = 3, labelsize: float = 10,
+                    height: float = 1.7, width: float = None,
+                    dpi: int = 300) -> None:
     """
     Discrete colorbar according defined by a matplotlib.BoundaryNorm.
 
@@ -257,12 +258,12 @@ def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap=None,
     cbar.set_label(label=label,
                    fontsize=labelsize,
                    labelpad=0.5 * labelsize)
-    cbar.ax.tick_params(labelsize=0.8*labelsize,
-                        length=0.2*labelsize,
-                        pad=0.2*labelsize)
-    ax.set_position(Bbox([[0.01, fontsize_inches/height/2],
-                          [0.8 * fontsize_inches/width,
-                           1 - fontsize_inches/height/2]]),
+    cbar.ax.tick_params(labelsize=0.8 * labelsize,
+                        length=0.2 * labelsize,
+                        pad=0.2 * labelsize)
+    ax.set_position(Bbox([[0.01, fontsize_inches / height / 2],
+                          [0.8 * fontsize_inches / width,
+                           1 - fontsize_inches / height / 2]]),
                     which='both')
 
     out = Output()
