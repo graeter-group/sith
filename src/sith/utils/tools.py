@@ -36,7 +36,7 @@ def shake_except(xyz_file, file_cons, modify_input=True, stdev=0.05):
     cons = np.loadtxt(file_cons, usecols=[0, 1], dtype=int) - 1
     if type(cons[0]) is np.int64:
         cons = np.array([list(cons)])
-    
+
     c = FixAtoms(indices=cons[0])
     atoms.set_constraint(c)
     atoms.rattle(stdev=stdev, rng=np.random)
@@ -75,7 +75,7 @@ def change_distance(inp, out, file_cons, deltad, charge, method, **kwargs):
         method defined in sith.ase_utils.tools. So far, the methods already
         implemented are: 'scale_distance', 'increase_distance',
         'increase_distance_with_constraints'.
-    kwargs: 
+    kwargs:
         additional arguments to be passed to create_gaussian_input function.
 
     Return
@@ -376,7 +376,7 @@ def F_stretch(logfile, index):
     """
     dof = index
     conf = logfile
-    
+
     atoms = read(conf)
     force_mag = np.linalg.norm(atoms.get_forces()[dof - 1])
 

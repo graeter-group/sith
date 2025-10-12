@@ -72,7 +72,7 @@ class EnergiesVMol(VMolecule):
                              'deci': 2,
                              'width': 700,
                              'height': 500}
-        
+
         # The next fills the variable dofs with the definition of the degrees
         # of freedom
         # Create scene
@@ -82,7 +82,7 @@ class EnergiesVMol(VMolecule):
                            frame=idef,
                            **kwargs)
         self._hook = False
-        
+
         self.inner_dofs = {}
         if dofs is not None:
             self.sith_inDOFs(dofs, **kwargs)
@@ -91,7 +91,7 @@ class EnergiesVMol(VMolecule):
         self.scene.background = self._asvector(background)
         self.traj_buttons()
         self._hook = True
-    
+
     def sith_inDOFs(self, dofs, **kwargs):
         # create the list of dofs and color scale
         dofs = self._create_dofs_list(dofs)
@@ -141,7 +141,7 @@ class EnergiesVMol(VMolecule):
 
         Parameters
         ==========
-        dofs: 
+        dofs:
             DOFs to be displayed in the distribution.
         kwargs for change_def
 
@@ -152,7 +152,7 @@ class EnergiesVMol(VMolecule):
 
         self.kwargs_edofs, kwargs = self.change_def(self.kwargs_edofs,
                                                     **kwargs)
-        
+
         _, norm = color_distribution(self.sith,
                                      dofs,
                                      self.idef,
@@ -162,7 +162,7 @@ class EnergiesVMol(VMolecule):
                                      decimals=self.kwargs_edofs['deci'])
 
         # Colorbar
-        # Note that this colorbar 
+        # Note that this colorbar
         self.fig, _, _ = create_colorbar(norm, self.kwargs_edofs['label'],
                                         cmap=self.kwargs_edofs['cmap'],
                                         deci=self.kwargs_edofs['deci'],
@@ -317,7 +317,7 @@ class EnergiesVMol(VMolecule):
         self.kwargs_edofs, kwargs = self.change_def(self.kwargs_edofs,
                                                     **kwargs)
         cmap = self.kwargs_edofs['cmap']
-        
+
         inner_energies = {}
         for dof in dofs:
             i = np.where(np.all(self.sith.dim_indices == dof, axis=1))[0]

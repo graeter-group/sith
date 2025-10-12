@@ -634,7 +634,7 @@ class DataSetAnalysis:
     struc_pattern: Default='forces<all>.fchk'
         pattern to identify the files to be analyzed by sith in each molecule
         directory.
-    kwargs: 
+    kwargs:
         for initializing sith
 
 

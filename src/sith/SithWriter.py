@@ -20,7 +20,7 @@ class WriteSITH:
 
         # Units in fchk are different:
         self.geometry.dof[:self.geometry.dims[1]] /= Bohr
-        
+
         if self.geometry.hessian is not None:
             self.geometry.hessian[:, : self.geometry.dims[1]] *= Bohr
             self.geometry.hessian[: self.geometry.dims[1]] *= Bohr
@@ -134,7 +134,7 @@ class WriteSITH:
         self.lines += lines
 
         return lines
-    
+
     def _write_scalar(self, header, value):
         """
         Writes any scalar in fchk format, namely, in the header
@@ -181,7 +181,7 @@ class WriteSITH:
         for header, variable in self.headers_scalars.items():
             if getattr(self.geometry, variable) is not None:
                 self._write_scalar(header,
-                                getattr(self.geometry, 
+                                getattr(self.geometry,
                                         variable))
             else:
                 print(f'Geometry object does not have a defined {variable}')
@@ -189,7 +189,7 @@ class WriteSITH:
         for header, variable in self.headers_vectors.items():
             if getattr(self.geometry, variable) is not None:
                 self._write_array(header,
-                                getattr(self.geometry, 
+                                getattr(self.geometry,
                                         variable))
             else:
                 print(f'Geometry object does not have a defined {variable}')

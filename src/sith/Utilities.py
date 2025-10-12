@@ -247,7 +247,7 @@ def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap=None,
 
     if width is None:
         width = (3 + deci) * fontsize_inches
-        
+
     fig, ax = plt.subplots(figsize=(width, height),
                            dpi=dpi)
     cbar = fig.colorbar(mpl.cm.ScalarMappable(norm=normalize,

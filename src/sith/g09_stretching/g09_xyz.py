@@ -168,7 +168,7 @@ def log2xyz(finput, foutput=None, indexes=None):
         indexes.append(None)
     ms.xy_alignment(indexes[0], indexes[1], index3=indexes[2])
     atoms = ms.atoms
-    
+
     foutput = prefix + ".xyz"
     write(foutput, atoms)
 

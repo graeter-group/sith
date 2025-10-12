@@ -1078,7 +1078,7 @@ class EnergiesNGL(MoleculeNGL):
         self.fig, self.ax, cbarwdg = create_colorbar(normalize,
                                                      label,
                                                      cmap,
-                                                     deci, 
+                                                     deci,
                                                      labelsize,
                                                      height/300)
 

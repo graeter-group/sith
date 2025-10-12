@@ -104,7 +104,7 @@ def continuous_e2e(pattern, index1, index2, dir_output='e2e_continuous'):
         ms = MoleculeSetter(conf)
         ms.xy_alignment(index1, index2)
         all_atoms[i] = ms.atoms
-    # ==== inbetween 
+    # ==== inbetween
     positions = np.array([conf.get_positions() for conf in all_atoms])
     inbetween = np.logical_and(positions[:, :, 0].T > \
                                positions[:, index1 - 1, 0],
@@ -112,7 +112,7 @@ def continuous_e2e(pattern, index1, index2, dir_output='e2e_continuous'):
                                positions[:, index2 - 1, 0])
     inbetween = inbetween.T
     inbetween = np.all(inbetween, axis=0)
-    # ==== avoid 
+    # ==== avoid
     d_xaxis = np.sqrt(positions[:, :, 0]**2 + positions[:, :, 1]**2)
     not_xaxis = np.all(d_xaxis != 0, axis=0)  # A
     # ==== heavy atoms
@@ -161,7 +161,7 @@ def continuous_e2e(pattern, index1, index2, dir_output='e2e_continuous'):
     # in case of last configurations does not belong to new_set, it is added
     if np.any(all_atoms[-1].positions != new_set[-1].positions):
         new_set.append(all_atoms[-1])
-    
+
     # write all the trajectory
     os.makedirs(dir_output, exist_ok=True)
     for i, atoms in enumerate(new_set):

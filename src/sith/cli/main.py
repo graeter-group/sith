@@ -125,7 +125,7 @@ def _read_arguments():
         args_dict[argument] = eval(values)
     args = args_dict['_reader_args']
     del args_dict['_reader_args']
-    
+
     if '--' == sys.argv[1][:2]:
         args = ()
 
@@ -198,7 +198,7 @@ def main():
     # own path
     elif sys.argv[1] == 'path':
         print(str(Path(__file__).parent)[:-3])
-    
+
     # open documentation
     elif sys.argv[1] == 'doc':
         command = "xdg-open " + str(Path(__file__).parent)[:-3] + \

@@ -111,7 +111,7 @@ def extract_diff(sith1, sith2):
 
     for i, dof in enumerate(np.array(sith2.dim_indices)):
         try:
-            index_dof(sith1, dof)            
+            index_dof(sith1, dof)
         except ValueError:
             sith2_indx.append(i)
             continue

@@ -8,14 +8,14 @@ from pytest import approx
 def permute_atoms(atoms, indexes):
     """
     Permutes two atoms in an Atoms object.
-    
+
     Parameters
     ==========
     atoms: ase.Atoms
         atoms object to be permuted.
     indexes: list
         list of two indexes to be permuted (1-based).
-        
+
     Return
     ======
     (ase.Atoms) permuted atoms object.
@@ -35,7 +35,7 @@ def permute_atoms(atoms, indexes):
 def extract_dofs(indexes, atoms):
     """
     Extracts the distance, angle and dihedral defined by the given indexes.
-    
+
     Parameters
     ==========
     indexes: list
@@ -65,7 +65,7 @@ def test_dofs(atoms, indexes, file):
     """"
     Tests that the distance, angle and dihedral defined by the given indexes
     correspond to those in the given file.
-    
+
     Parameters
     ==========
     atoms: ase.Atoms
@@ -76,7 +76,7 @@ def test_dofs(atoms, indexes, file):
         dihedral (the four indices) you want to compute.
     file: str
         file where the distance, angle and dihedral are stored.
-    
+
     Return
     ======
     (bool) True if the test passes. It raises an assertion error if the values
@@ -112,7 +112,7 @@ def def_line(indexes, element):
         dihedral (the four indices).
     element: str
         element of the atom you want to define. E.g. 'C', 'H', 'O', etc.
-    
+
     Return
     ======
     (str) line defining the atom in a gaussian input comfile.
@@ -125,7 +125,7 @@ def change_def(new_i, element, atoms, file):
     """
     Changes the definition of a given DOF and updates the comfile including the
     value of the DOFs.
-    
+
     Parameters
     ==========
     new_i: list
@@ -272,7 +272,7 @@ def change_prolines_dofs(comfile, molecule, pdb_template, option):
         if option == '2':
             # only changes Cgamma
             set2(Cg_i, Cd_i, N_i, Ca_i, HG1_i, HG2_i, atoms, comfile)
-        
+
         if option == '3':
             # First change Cgamma
             atoms, Cg_i, Cd_i = set2(Cg_i, Cd_i, N_i, Ca_i, HG1_i, HG2_i, atoms, comfile)
@@ -327,7 +327,7 @@ def set2(Cg_i, Cd_i, N_i, Ca_i, HG1_i, HG2_i, atoms, comfile):
     # change Gg1 dofs
     change_def(np.array([HG2_i, Cg_i, Cd_i, N_i]),
                'H', atoms, comfile)
- 
+
     # swapping atoms Cg_i Cd_i
     print(f'swapping atoms {Cg_i} {Cd_i}')
     output_terminal(f'sith swap_atoms_in_com -a {Cg_i} -b {Cd_i} -f {comfile}')
@@ -350,7 +350,7 @@ def set3(Cb_i, Cg_i, Cd_i, N_i, HB1_i, HB2_i, atoms, comfile):
     # change Gg1 dofs
     change_def(np.array([HB2_i, Cb_i, Cg_i, Cd_i]),
                'H', atoms, comfile)
-    
+
     print(f'swapping atoms {Cb_i} {Cg_i}')
     output_terminal(f'sith swap_atoms_in_com -a {Cb_i} -b {Cg_i} -f {comfile}')
     tmp  = Cb_i ; Cb_i = Cg_i ; Cg_i = tmp
