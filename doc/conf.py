@@ -21,7 +21,8 @@ release = '1.0.0'
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.coverage',
               'sphinx.ext.napoleon',
-              'sphinx_rtd_theme']
+              'sphinx_rtd_theme',
+              'sphinxcontrib.mermaid']
 
 html_theme = 'sphinx_rtd_theme'
 templates_path = ['_templates']
