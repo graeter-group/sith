@@ -18,6 +18,14 @@
         <script src="_static/documentation_options.js?v=8d563738"></script>
         <script src="_static/doctools.js?v=888ff710"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+        <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+        <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -77,7 +85,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="contents">
+  <pre align="center" class="mermaid align-center">
+        graph TD
+node1[&quot;sith&quot;]
+click node1 &quot;modules/sith.html&quot; _self
+  node1 --&gt; node2[&quot;energy_analysis&quot;]
+  click node2 &quot;modules/sith.energy_analysis.html&quot; _self
+  node1 --&gt; node3[&quot;g09_stretching&quot;]
+  click node3 &quot;modules/sith.g09_stretching.html&quot; _self
+    node3 --&gt; node4[&quot;from_extreme&quot;]
+    click node4 &quot;modules/sith.g09_stretching.from_extreme.html&quot; _self
+  node1 --&gt; node5[&quot;readers&quot;]
+  click node5 &quot;modules/sith.readers.html&quot; _self
+  node1 --&gt; node6[&quot;utils&quot;]
+  click node6 &quot;modules/sith.utils.html&quot; _self
+  node1 --&gt; node7[&quot;visualize&quot;]
+  click node7 &quot;modules/sith.visualize.html&quot; _self
+    </pre><section id="contents">
 <h1>Contents<a class="headerlink" href="#contents" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound" id="id1">
 <ul>
