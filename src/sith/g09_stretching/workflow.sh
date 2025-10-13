@@ -10,7 +10,7 @@
 # ----- definition of functions -----------------------------------------------
 print_help() {
 echo "
-This tool creates all the stretched structures for a peptide and computes the
+This tool creates all the stretched structures for a molecule and computes the
 needed quantities for sith. You can use this code to submit a Job in cluster or
 to execute it locally. Consider the next options:
 
@@ -28,7 +28,7 @@ to execute it locally. Consider the next options:
       'sith change_distance -h' to see the order.
   -n  <n_processors=1> number of processors per gaussian job.
   -r  restart. In this case, run from the directory of the pre-created
-      peptide.
+      stretched molecule.
   -s  <size[A]=0.2> of the step that increases the distances.
   -S  <job_options=''> options for submitting a new job. This flag only makes
       sense in slurm cluster. Please, do not include a name and add the options
@@ -42,7 +42,7 @@ exit 0
 
 resubmit () {
   sleep 23h 58m ; \
-  sbatch $job_options -J $SLURM_JOB_NAME "$( sith workflow -path)" -p "$1" -c \
+  sbatch "$job_options" -J "$SLURM_JOB_NAME" "$( sith workflow -path)" -p "$1" -c \
     -r -m "$2" -b "$3" -s "$4" ; \
   echo "new JOB submitted"
 }
@@ -62,7 +62,7 @@ size=0.2
 job_options=""
 
 verbose=''
-while getopts 'b:cl:m:M:n:rs:S:vh' flag;
+while getopts 'b:ci:l:m:M:n:rs:S:vh' flag;
 do
   case "${flag}" in
     b) breakages=${OPTARG} ;;
@@ -88,7 +88,7 @@ source "$(sith basics -path)" WORKFLOW $verbose
 verbose -t "JOB information"
 verbose -t "==============="
 verbose -t " \* Date:"
-verbose -t $(date)
+verbose -t "$(date)"
 verbose -t " \* Command:"
 verbose -t "$0" "$@"
 
@@ -97,10 +97,10 @@ verbose -t "$0" "$@"
 # load modules
 if [[ "$cluster" == "-c" ]]
 then
-  load_modules "$pep" "$method" "$breakages" "$size"
+  load_modules "$molecule" "$method" "$breakages" "$size"
   if [[ -z "$n_processors" ]] 
   then
-    if [[ ! -z "$SLURM_CPUS_ON_NODE" ]]
+    if [[ -n "$SLURM_CPUS_ON_NODE" ]]
     then
       n_processors=$SLURM_CPUS_ON_NODE
     else
@@ -121,7 +121,7 @@ verbose "execute stretching"
 sith stretching -b "$breakages" $cluster -e "$method" -i "'$indexes'" \
                 -l "$level" \
                 -m "$molecule" -p "$n_processors" $restart -s "$size" \
-                $verbose || fail "Stretching of $pep failed"
+                $verbose || fail "Stretching of $molecule failed"
 
 # TODO: add Classical energies
 
@@ -134,20 +134,20 @@ mkdir -p bck
 mv ./*-bck*.* bck
 
 Fcounter=0
-for i in ${molecule%.*}-stretched*.chk
+for i in "${molecule%.*}"-stretched*.chk
 do
   verbose "Forces of $i"
-  sbatch $job_options -J "F${molecule%.*}$Fcounter" \
-    $(sith find_forces -path) $cluster -f $i -p stretched $verbose || \
+  sbatch "$job_options" -J "F${molecule%.*}$Fcounter" \
+    "$(sith find_forces -path)" "$cluster" -f "$i" -p stretched $verbose || \
     fail "Submitting forces calculation"
   Fcounter=$(( Fcounter + 1 ))
 done
 
-#sbatch $single_part -J ${pep}_WAR $(sith workflow_from_extreme -path) -c -p "." -v
+#sbatch $single_part -J ${molecule}_WAR $(sith workflow_from_extreme -path) -c -p "." -v
 
 #verbose "running grappa and amber";
-#final_force=$(sith F_max_stretch ../ $pep)
-#sbatch $single_part -J ${pep}_ff $(sith pulling_with_ff -path) -F $final_force -f $pep-stretched00.pdb 
+#final_force=$(sith F_max_stretch ../ $molecule)
+#sbatch $single_part -J ${molecule}_ff $(sith pulling_with_ff -path) -F $final_force -f $molecule-stretched00.pdb 
 
 
 finish
