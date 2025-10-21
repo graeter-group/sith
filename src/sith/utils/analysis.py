@@ -1,6 +1,6 @@
 # TODO: check indices in this file
 import numpy as np
-from sith.SITH import SITH
+from sith import SITH
 from sith.utils.peptides import PepSetter
 from pathlib import Path
 from typing import Union, Callable

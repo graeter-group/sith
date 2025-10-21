@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import matplotlib.patches as mpatches
-from sith.SITH import SITH
+from sith import SITH
 from typing import Union, Tuple
 from sith.utils.analysis import SithAnalysis
 import cmocean as cmo

@@ -5,5 +5,5 @@
 Script of sith extr_dofs
 ========================
 
-.. literalinclude:: ../../../src/sith/./g09_stretching/from_extreme/extr_dofs.sh
+.. literalinclude:: ../../../src/sith//./g09_stretching/from_extreme/extr_dofs.sh
    :language: bash

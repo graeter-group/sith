@@ -11,7 +11,7 @@ workflow
 
    .. line-block::
       
-      This tool creates all the stretched structures for a peptide and computes the
+      This tool creates all the stretched structures for a molecule and computes the
       needed quantities for sith. You can use this code to submit a Job in cluster or
       to execute it locally. Consider the next options:
       
@@ -29,7 +29,7 @@ workflow
             'sith change_distance -h' to see the order.
         -n  <n_processors=1> number of processors per gaussian job.
         -r  restart. In this case, run from the directory of the pre-created
-            peptide.
+            stretched molecule.
         -s  <size[A]=0.2> of the step that increases the distances.
         -S  <job_options=''> options for submitting a new job. This flag only makes
             sense in slurm cluster. Please, do not include a name and add the options

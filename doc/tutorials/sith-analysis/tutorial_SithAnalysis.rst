@@ -19,7 +19,7 @@ The first step is to load the data into a :class:`sith.SITH.SITH` object:
 .. code-block:: python
    :linenos:
 
-   from sith.SITH import SITH
+   from sith import SITH
 
    sith = SITH('./forces')
    # The next line could also be jedi_analysis if your fchk files

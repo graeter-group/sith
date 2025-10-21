@@ -1,6 +1,6 @@
 from ipywidgets import Output
 import numpy as np
-from sith.SITH import SITH
+from sith import SITH
 from matplotlib.colors import BoundaryNorm, Colormap
 import matplotlib.pyplot as plt
 import matplotlib as mpl

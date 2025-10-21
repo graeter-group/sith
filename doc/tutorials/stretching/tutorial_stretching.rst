@@ -136,7 +136,7 @@ Load the force data and compute the energy distribution with :code:`sith`:
 
 .. code-block:: python
 
-  from sith.SITH import SITH
+  from sith import SITH
 
   sith = SITH('./forces')
   sith.sith_analysis();
