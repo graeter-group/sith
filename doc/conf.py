@@ -50,6 +50,7 @@ html_css_files = [
     'custom.css',  # Ensure the file path is correct
 ]
 
+# Add bash documentation
 from docutils import nodes
 from docutils.parsers.rst import roles
 
