@@ -148,14 +148,13 @@ def main():
         functions.sort()
 
         print("\n"
-              "This package contains a set of tools you can use for different"
-              "functions. \n To use any function from the terminal, use"
-              "    sith <function> <arg1> <arg2> ... "
-              "where <function> can be one of the next options:")
+              "'sith' contains the next set of tools:\n\n")
         for function in functions:
             print("    -   " + function)
 
-        print("\nFor detailed information of any function, use \"-h\" as first"
+        print("\nTo use one of the functions from the terminal, use:\n\n"
+              "  'sith <function> <arg1> <arg2>...'\n\n"
+              "For detailed information of any function, use \"-h\" as first"
               " argument (<arg1>).")
 
     elif sys.argv[1] == 'tests':
@@ -199,7 +198,7 @@ def main():
     # own path
     elif sys.argv[1] == 'path':
         print(str(Path(__file__).parent)[:-3])
-
+    
     # open documentation
     elif sys.argv[1] == 'doc':
         command = "xdg-open " + str(Path(__file__).parent)[:-3] + \
