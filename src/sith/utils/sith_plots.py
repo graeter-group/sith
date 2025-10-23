@@ -597,10 +597,10 @@ class SithPlotter(PepSetter, SithAnalysis):
                      r_lims=[-rs[0][-1] * scale, rs[0][-1] * (1 + scale)])
         sp.plot_data(sith.all_dofs[:, distances:].T,
                      rs,
-                     pstyle='-', ax=1)
+                     ms=1, ax=1)
         sp.plot_data(sith.delta_q[:, distances:].T,
                      rs,
-                     pstyle='-', ax=3)
+                     ms=1, ax=3)
         sp.spaces[0].set_axis(rows_cols=(2, 2),
                               borders=[[0.1, 0.08], [0.97, 0.97]],
                               spaces=(0.05, 0.1), axes=sp.ax)
@@ -830,11 +830,11 @@ class SithPlotter(PepSetter, SithAnalysis):
         lines = []
         for j in range(len(rama_angles[0])):  # amino acids
             line, = sp.ax[0].plot(rama_angles[:, j][:, 0] * np.pi / 180, rs,
-                                  '*',
+                                  'o',
                                   markersize=marker_size_polar,
                                   label=str(j + 1))
             lines.append(line)
-            sp.ax[1].plot(rama_angles[:, j][:, 1] * np.pi / 180, rs, '*',
+            sp.ax[1].plot(rama_angles[:, j][:, 1] * np.pi / 180, rs, 'o',
                           markersize=marker_size_polar)
             sp.ax[2].scatter(rama_angles[:, j][:, 0], rama_angles[:, j][:, 1],
                              s=marker_size_rama)

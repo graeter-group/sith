@@ -658,7 +658,7 @@ class DataSetAnalysis:
                  exclude_prolines=True,
                  exclude=None,
                  pdb_pattern='stretched00',
-                 struc_pattern='forces*.fchk',
+                 struc_pattern='force*.fchk',
                  **kwargs):
         if isinstance(data_dir, (Path, str)):
             path = Path(data_dir)

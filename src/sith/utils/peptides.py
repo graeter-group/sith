@@ -29,7 +29,8 @@ class PepSetter(MoleculeSetter):
         self.amino_info = {}
 
         for i in range(len(indexes_aminos)):
-            self.amino_name[indexes_aminos[i]] = names_aminos[i]
+            self.amino_name[indexes_aminos[i]] = \
+                names_aminos[i].replace(" ", "")
             self.atom_names[indexes_aminos[i]] = []
             self.atom_indexes[indexes_aminos[i]] = []
             self.amino_info[indexes_aminos[i]] = {}
