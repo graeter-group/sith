@@ -172,7 +172,7 @@ def continuous_e2e(pattern, index1, index2, dir_output='e2e_continuous'):
 
 
 # add2executable
-def reduce_structs(dir, pattern):
+def reduce_structs(dir, pattern, print_reduced=False):
     """
     Check all the <all>-dofs.dat files and remove those files that represent
     irrelevant changes. It creates intermedias to guarantee continuous dofs.
@@ -228,6 +228,10 @@ def reduce_structs(dir, pattern):
         j += 1
     if new_set[-1] != len(all_files) - 1:
         new_set.append(len(all_files) - 1)
+    
+    if print_reduced:
+        for i in new_set:
+            print(all_files[i])
 
     # make it continuous
     subdofs = all_dofs[new_set]

@@ -81,6 +81,7 @@ sh_executers = {
     'workflow': './g09_stretching/workflow.sh',
     'swap_atoms_in_com': './g09_stretching/swap_atoms_in_com.sh',
     'stretching': './g09_stretching/stretching.sh',
+    'simplify_path': './g09_stretching/simplify_path.sh',
     'proline_mod': './g09_stretching/proline_mod.sh',
     'workflow_from_extreme': './g09_stretching/from_extreme/workflow_from_extreme.sh',
     'opt_and_forces': './g09_stretching/from_extreme/opt_and_forces.sh',
@@ -126,7 +127,7 @@ def _read_arguments():
         args_dict[argument] = eval(values)
     args = args_dict['_reader_args']
     del args_dict['_reader_args']
-
+    
     if '--' == sys.argv[1][:2]:
         args = ()
 
