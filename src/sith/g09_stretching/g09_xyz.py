@@ -147,11 +147,6 @@ def log2xyz(finput, foutput=None, indexes=None):
             structures = sorted(structures, key=lambda item: item[0])
             optimized_structure = structures[0][1]
 
-    if foutput:
-        prefix = foutput
-    else:
-        prefix = finput[:-4]
-
     dataList = optimized_structure.split("\n")
     atoms = _getCoordinates(dataList)
     mol_pos = []
@@ -164,10 +159,16 @@ def log2xyz(finput, foutput=None, indexes=None):
 
     atoms = Atoms(mol_anames, mol_pos)
     ms = MoleculeSetter(atoms)
-    if len(indexes) == 2:
-        indexes.append(None)
-    ms.xy_alignment(indexes[0], indexes[1], index3=indexes[2])
+    if indexes is not None:
+        if len(indexes) == 2:
+            indexes.append(None)
+        ms.xy_alignment(indexes[0], indexes[1], index3=indexes[2])
     atoms = ms.atoms
+
+    if foutput:
+        prefix = foutput
+    else:
+        prefix = finput[:-4]
 
     foutput = prefix + ".xyz"
     write(foutput, atoms)
