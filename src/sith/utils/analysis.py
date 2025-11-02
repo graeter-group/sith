@@ -99,7 +99,7 @@ def pep_per_x(xs, ys, value, dsa):
     return sep_info
 
 
-def reduce_data(xs, ys, defmin=-100, defmax=100):
+def reduce_data(xs, ys):
     """
     Reduces the data to the range of maximum minimum xs (highest of the lowest)
     and minumim maximum xs (lowest of the highest). Returns a new list of xs
@@ -113,10 +113,6 @@ def reduce_data(xs, ys, defmin=-100, defmax=100):
         set of xs data.
     ys: list of arrays
         set of xs data.
-    defmin: float. Default=-100
-        first guest of the minimum.
-    defmax: float. Default=100
-        first guest of the maximum.
 
     Return
     ======
@@ -128,8 +124,8 @@ def reduce_data(xs, ys, defmin=-100, defmax=100):
     would not recognize the proper values. Be sure that defmin/defmax is
     lower/higher than the lowest/highest of xs.
     """
-    minx = defmin
-    maxx = defmax
+    minx = -np.inf
+    maxx = np.inf
 
     for i, x in enumerate(xs):
         if x[0] > minx:
@@ -888,11 +884,11 @@ class DataSetAnalysis:
         ys = []
         for i, sith in enumerate(self.outcomes):
             y = sith.structures_scf_energies
-            index1 = self.pep_infos[i].amino_info[1]['CH3'] - 1
-            index2 = self.pep_infos[i].amino_info[5]['CH3'] - 1
+            index1 = self.pep_infos[i].amino_info[1]['CH3']
+            index2 = self.pep_infos[i].amino_info[5]['CH3']
             x = []
             for struc in sith.structures:
-                dist = struc.atoms.get_distance(index1, index2)
+                dist = struc.atoms.get_distance(index1 - 1, index2 - 1)
                 x.append(dist)
             sp.plot_data(x, y, ax=ax, lw=lw, markersize=ms)
             xs.append(x)

@@ -71,7 +71,7 @@ do
   esac
 done
 
-source "$(sith basics -path)" EXTR_FORCES $verbose
+source "$(sith basics -path)" ExtrForces $verbose
 if "$cluster"
 then
   load_modules
