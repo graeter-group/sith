@@ -7,7 +7,6 @@ import matplotlib.patches as mpatches
 from sith import SITH
 from typing import Union, Tuple
 from sith.utils.analysis import SithAnalysis
-import cmocean as cmo
 from matplotlib.colors import TwoSlopeNorm
 
 
@@ -109,7 +108,11 @@ def plot_matrix(matrix, labels, n_per_ele, cbar_label):
                                   'yticklabels': labels})
 
     # Plot the heatmap
-    cmap = cmo.cm.algae
+    try:
+        import cmocean as cmo
+        cmap = cmo.cm.algae
+    except ImportError:
+        cmap = mpl.get_cmap['viridis']
     im = sp.ax[0].imshow(matrix, cmap=cmap)
 
     # Setting matrix plot
@@ -250,7 +253,11 @@ def plot_matrix3(matrix, labels, cbar_label):
                                   'yticklabels': labels})
 
     # Plot the heatmap
-    cmap = cmo.cm.algae
+    try:
+        import cmocean as cmo
+        cmap = cmo.cm.algae
+    except ImportError:
+        cmap = mpl.get_cmap['viridis']
     im = sp.ax[0].imshow(matrix, cmap=cmap)
     # Setting matrix plot
     sp.ax[0].set_yticks(np.arange(matrix.shape[0]), labels=labels)
@@ -379,7 +386,7 @@ class SithPlotter(PepSetter, SithAnalysis):
                   sp_pref={},
                   pad_cbar=10,
                   **kwargs) -> Tuple[plt.Figure, plt.Axes]:
-        """
+        r"""
         This function plots the energies per degrees of freedom from
         SithPlotter.sith.energies
 
@@ -411,7 +418,7 @@ class SithPlotter(PepSetter, SithAnalysis):
             size of steps separating the labels of the degrees of freedom.
         pstryle: str. Default='-o'
             style of the lines of energies
-        ylabel: str. Default={r'$\Delta$E$_{\\rm{\bf i}}$' + f'Ha'}
+        ylabel: str. Default={'$\Delta$E$_{\\rm{\bf i}}$' + f'Ha'}
             label in the y axis.
         jump_stretching: int. Default=1
             jumps from one stretching to the other starting from the optimized
@@ -706,15 +713,15 @@ class SithPlotter(PepSetter, SithAnalysis):
         ws = (ticks[1] - ticks[0]) / 5
         sp.spaces[0].set_axis(rows_cols=(3, 1), spaces=(1, 0.03),
                               borders=[[0.2, 0.1], [0.98, 0.99]])
-        sp.axis_setter(ax=0, ylabel='$\Delta$E [Ha]',
+        sp.axis_setter(ax=0, ylabel=r'$\Delta$E [Ha]',
                        xticks=[], xminor=ticks,
                        mingrid=True, xlim=[-ws, ticks[-1] + ws])
         sp.axis_setter(ax=1,
-                       ylabel='$\Delta$E$_{SITH}$ - $\Delta$E$_{DFT}$ [Ha]',
+                       ylabel=r'$\Delta$E$_{SITH}$ - $\Delta$E$_{DFT}$ [Ha]',
                        xticks=[], xminor=ticks,
                        mingrid=True, xlim=[-ws, ticks[-1] + ws])
         sp.axis_setter(ax=2, ylabel='Error [%]',
-                       xlabel='$\Delta$ End-to-end distance [Å]',
+                       xlabel=r'$\Delta$ End-to-end distance [Å]',
                        xticks=ticks, xminor=ticks - 0.0001,
                        mingrid=True, xlim=[-ws, ticks[-1] + ws])
         # plot axis 1

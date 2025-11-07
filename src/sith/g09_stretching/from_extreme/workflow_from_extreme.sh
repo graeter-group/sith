@@ -222,7 +222,7 @@ verbose "Starting 'sith continuous_path' after having all
   ${name}-conopt<n>.xyz files"
 
 $(sith continuous_path -path) $c_flag -i "$indexes" -l "$level" -n "$name" \
-                              -p "$n_processors" -P "conopt" -S "$job_options"
+                              -p "$n_processors" -P "conopt" -S "$job_options" \
                               $verbose || \
   fail "submiting continuous path"
 

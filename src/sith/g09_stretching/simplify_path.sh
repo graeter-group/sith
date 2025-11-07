@@ -75,8 +75,8 @@ for i in "${selected[@]}"
 do
   file2copy=$(ls ../*$i*.fchk)
   index=$(printf "%03d" "$new_count")
-  verbose -t "Copying $file2copy"
   file_name=${file2copy##*/}
+  verbose -t "Copying $file2copy into ${file_name//$i/$index}"
   cp $file2copy ${file_name//$i/$index}
   ((new_count++))
 done
