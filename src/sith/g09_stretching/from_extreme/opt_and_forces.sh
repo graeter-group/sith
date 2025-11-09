@@ -23,6 +23,8 @@ output to compute the forces.
   -S  <job_options=''> options for submitting a new job. This flag only makes
       sense in slurm cluster. Please, do not include a name and add the options
       as in the next example: \"--partition=cpu --nice\".
+  -r  if the optimization did not converge, restart it from the last
+      geometry. 
 
   -v  verbose.
   -h  prints this message.
@@ -36,13 +38,14 @@ force_calc='true'
 n_processors=''
 job_options=''
 verbose=''
-while getopts 'cf:F:p:S:vh' flag; do
+while getopts 'cf:F:p:rS:vh' flag; do
   case "${flag}" in
     c) cluster='true' ;;
     f) file=${OPTARG} ;;
     F) force_calc='false' ;;
     p) n_processors=${OPTARG} ;;
     S) job_options=${OPTARG} ;;
+    r) restart='true' ;;
 
     v) verbose='-v' ;;
     h) print_help ;;
@@ -79,6 +82,12 @@ fi
 
 # ----- BODY ------------------------------------------------------------------
 verbose "submit constrained optimization $file"
+if [[ "$restart" == "true" ]]
+then
+  create_bck "$file.com"
+  sed -i "s/opt(modredun,calcfc)/Opt=Restart Guess=Read Geom=Check/g" \
+    "$file.com"
+fi
 gaussian "$file.com" "$file.log"
 
 grep -q "Normal termination of Gaussian" "$file.log" || \
