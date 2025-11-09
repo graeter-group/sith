@@ -218,6 +218,10 @@ def conf2pdb(confile, pdbtemplate, pdboutput=None):
     new_positions = atoms_xyz.positions.copy()
 
     atoms_ref.set_positions(new_positions)
+    atoms_xyz.arrays['residuenames'] = atoms_ref.arrays['residuenames']
+    atoms_xyz.arrays['residuenumbers'] = atoms_ref.arrays['residuenumbers']
+    atoms_xyz.arrays['atomtypes'] = atoms_ref.arrays['atomtypes']
+
     write(pdboutput, atoms_ref)
 
     return pdboutput
