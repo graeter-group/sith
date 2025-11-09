@@ -188,6 +188,7 @@ mkdir -p forces
 
 str_index=0
 speficic_job_options=''
+verbose "Submitting jobs:"
 for file in ${name}-conopt*.dat
 do
   str_index=$(( 10#$str_index + 1 ))
@@ -219,11 +220,13 @@ do
   [ -z "$job_options" ] || \
     speficic_job_options="$job_options -J $(printf "%03d" \
                           $str_index)O$struct_name"
+  verbose -t "$speficic_job_options"
   $speficic_job_options \
     $( sith opt_and_forces -path ) $c_flag -f "$struct_name" \
                                    -p "$n_processors" \
                                    -S "$opt_forces_job_options" \
-                                   $verbose
+                                   $verbose || fail "submitting opt_and_forces
+                                                     for $struct_name"
 done
 
 rm heading_template.out
