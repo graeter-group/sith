@@ -315,7 +315,7 @@ class MoleculeSetter:
         return new_positions
 
     def create_gaussian_input(self, out=None, charge=0, xc='bmk',
-                              basis='6-31+g'):
+                              basis='6-31+g', mem='60GB'):
         """
         Creates a gaussian .com file without specifing the kind of calculus to
         run (optimization, ab-initio md, frequencies...). You would have to add
@@ -340,7 +340,7 @@ class MoleculeSetter:
         if out is None:
             out = self.atoms.get_chemical_formula()
 
-        calculator = Gaussian(mem='60GB',
+        calculator = Gaussian(mem=mem,
                               label=out,
                               chk=out,
                               xc=xc,

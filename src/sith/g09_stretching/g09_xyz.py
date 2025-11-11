@@ -2,7 +2,7 @@
 # https://github.com/chunxiangzheng/gaussian_log_file_converter/
 import re
 from ase import Atoms
-from ase.io import write
+from ase.io import write, read
 from sith.utils.molecules import MoleculeSetter
 
 
@@ -172,5 +172,26 @@ def log2xyz(finput, foutput=None, indexes=None):
 
     foutput = prefix + ".xyz"
     write(foutput, atoms)
+
+    return atoms
+
+# add2executable
+def log2xyz2(finput, foutput=None, indexes=None, frame=-1):
+    atoms = read(finput, index=frame)
+
+    ms = MoleculeSetter(atoms)
+    if indexes is not None:
+        if len(indexes) == 2:
+            indexes.append(None)
+        ms.xy_alignment(indexes[0], indexes[1], index3=indexes[2])
+    atoms = ms.atoms
+
+    if foutput:
+        prefix = foutput
+    else:
+        prefix = finput[:-4]
+
+    foutput = prefix + ".xyz"
+    write(foutput, atoms, format='xyz')
 
     return atoms

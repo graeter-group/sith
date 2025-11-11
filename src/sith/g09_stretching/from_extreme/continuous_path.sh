@@ -186,12 +186,10 @@ rm tmp*.out
 create_bck forces
 mkdir -p forces
 
-str_index=0
 speficic_job_options=''
 verbose "Submitting jobs:"
 for file in ${name}-conopt*.dat
 do
-  str_index=$(( 10#$str_index + 1 ))
   struct_name=${file%.dat}
   cp heading_template.out  $struct_name.com
   sed -i "/chk=/c %chk=$struct_name" $struct_name.com
@@ -216,10 +214,9 @@ do
   sed -i "\$c$index1 $index2 F" $struct_name.com
 
   # and then submits the jobs
-  verbose -t "-  $struct_name $str_index"
+  verbose -t "-  $struct_name"
   [ -z "$job_options" ] || \
-    speficic_job_options="$job_options -J $(printf "%03d" \
-                          $str_index)O$struct_name"
+    speficic_job_options="$job_options -J O$struct_name"
   verbose -t "$speficic_job_options"
   $speficic_job_options \
     $( sith opt_and_forces -path ) $c_flag -f "$struct_name" \

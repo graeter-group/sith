@@ -20,6 +20,8 @@ output to compute the forces.
   -F  use this flag fo AVIOD force calculation after optimization.
   -p  <processors=1> number of processors per gaussian job. See description of
       flag -c.
+  -P  <pattern='conopt'> pattern to be replaced by 'forces' in the name of the
+      output files of the optimization when submitting the forces.
   -S  <job_options=''> options for submitting a new job. This flag only makes
       sense in slurm cluster. Please, do not include a name and add the options
       as in the next example: \"--partition=cpu --nice\".
@@ -38,12 +40,15 @@ force_calc='true'
 n_processors=''
 job_options=''
 verbose=''
-while getopts 'cf:F:p:rS:vh' flag; do
+restart='false'
+pattern='conopt'
+while getopts 'cf:F:p:P:rS:vh' flag; do
   case "${flag}" in
     c) cluster='true' ;;
     f) file=${OPTARG} ;;
     F) force_calc='false' ;;
     p) n_processors=${OPTARG} ;;
+    P) pattern=${OPTARG} ;;
     S) job_options=${OPTARG} ;;
     r) restart='true' ;;
 
@@ -84,10 +89,18 @@ fi
 verbose "submit constrained optimization $file"
 if [[ "$restart" == "true" ]]
 then
+  cp "$file.com" "tmp-$file.com"
   create_bck "$file.com"
-  sed -i "s/opt(modredun,calcfc)/Opt=Restart Guess=Read Geom=Check/g" \
-    "$file.com"
+  mv "tmp-$file.com" "$file.com"
+  if ! grep -q "Geom=Check" "$file.com"
+  then
+    sed -i "/#/a Guess=Read Geom=Check" "$file.com"
+    n_i=$(grep -n "^$" "$file.com" | cut -d : -f 1 | sed -n '2p')
+    n_j=$(grep -n "^$" "$file.com" | cut -d : -f 1 | sed -n '3p')
+    sed -i "$(( n_i + 2 )),$(( n_j - 1 ))d" "$file.com"
+  fi
 fi
+
 gaussian "$file.com" "$file.log"
 
 grep -q "Normal termination of Gaussian" "$file.log" || \
@@ -97,7 +110,7 @@ if $force_calc
 then
   verbose "Submit forces computation $file.chk"
   $job_options \
-    $(sith find_forces -path) $c_flag -f $file.chk -p "conopt" \
+    $(sith find_forces -path) $c_flag -f $file.chk -p "$pattern" \
                               $verbose || fail "submitting forces"
 fi
 

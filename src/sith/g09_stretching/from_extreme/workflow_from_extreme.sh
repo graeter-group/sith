@@ -171,8 +171,9 @@ else
   then
     sith log2xyz "$name-optext.log" --indexes "[$indexes]" > /dev/null || \
       fail "extracting coordinates from $name-optext.log"
-    create_bck $xyz
-    cp $name-optext.xyz $xyz
+    create_bck $alias.xyz
+    cp $name-optext.xyz $alias.xyz
+    create_bck "$name-optext.log"
   fi
 fi
 
@@ -186,7 +187,6 @@ then
     > /dev/null || fail "Preparating the input of gaussian"
   sed -i "1a %NProcShared=$n_processors" "$name-optext.com"
   sed -i "/#P/a opt(modredun,calcfc)" "$name-optext.com"
-  sed -i "1a %mem=60000MB" "$name-optext.com"
 
   gaussian "$name-optext.com" "$name-optext.log" || \
     { if [ "$(grep -c "Atoms too close." \

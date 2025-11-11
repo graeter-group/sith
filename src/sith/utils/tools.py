@@ -293,7 +293,7 @@ def all_hydrogen_atoms(mol):
 
 
 # add2executable
-def distance(file, index1, index2):
+def distance(file, index1, index2, frame=-1):
     """
     Computes the distance between two atoms in the last configuration
     of a trajectory file (e.g. .log file from gaussian).
@@ -317,7 +317,7 @@ def distance(file, index1, index2):
     """
     index1 = int(index1)
     index2 = int(index2)
-    atoms = read(file)
+    atoms = read(file, index=frame)
     d = atoms.get_distance(index1 - 1, index2 - 1)
 
     return d

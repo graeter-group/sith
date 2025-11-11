@@ -172,12 +172,6 @@ search_last_bck() {
   last_woext=${all_bcks[-1]%.*}
   # prints the number of the last config
   echo ${last_woext:0-3}
-  name_file=$1
-  mapfile -t all_bcks < <( ls -1 "$1"-bck_???.* | sort )
-  last_woext=${all_bcks[-1]%.*}
-  # prints the number of the last config
-  echo ${last_woext:0-3}
-
 }
 
 load_modules() {

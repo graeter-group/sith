@@ -14,7 +14,7 @@ This tool computes the forces from a chk files that contains a given structure
 and saves them in a directory called 'forces' that has to be previously
 created.
 
-  -c  run in cascade.
+  -c  run in cluster.
   -f  <file> chk file.
   -p  <pattern> pattern present in the chk files that will be replaced with the
       word 'forces'.
@@ -45,6 +45,10 @@ compute_forces () {
   sed -i "1i %NProcShared=$n_processors" $for_name.com
   sed -i "1i %chk=$for_name" $for_name.com
   sed -i "s/opt(modredun,calcfc)/force/g" $for_name.com
+  # remove unnecessary keywords, they are added sometimes to restart failed
+  # processes of optimization:
+  sed -i "s/Guess=Read Geom=Check//g" $for_name.com
+
   verbose "Executes gaussian computation of forces for $1"
   gaussian $for_name.com || fail "computing forces"
   sith extract_forces -f $for_name.log -c -v
@@ -53,14 +57,14 @@ compute_forces () {
 # ----- definition of functions finishes --------------------------------------
 
 # ---- set-up starts ----------------------------------------------------------
-cascade='false'
+cluster='false'
 directory='./'
 pattern=''
 verbose=''
 n_processors=1
 while getopts 'cf:n:p:vh' flag; do
   case "${flag}" in
-    c) cascade='true' ;;
+    c) cluster='true' ;;
     f) chkfile=${OPTARG} ;;
     n) n_processors=${OPTARG} ;;
     p) pattern=${OPTARG} ;;
@@ -80,10 +84,18 @@ verbose -t $(date)
 verbose -t " \* Command:"
 verbose -t "$0" "$@"
 
-if $cascade
+if $cluster
 then
   load_modules
-  n_processors=$SLURM_CPUS_ON_NODE
+  if [[ -z "$n_processors" ]]
+  then
+    if [[ ! -z "$SLURM_CPUS_ON_NODE" ]]
+    then
+      n_processors=$SLURM_CPUS_ON_NODE
+    else
+      n_processors=1
+    fi
+  fi
 fi
 
 # ---- set-up ends ------------------------------------------------------------
