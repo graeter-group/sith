@@ -41,10 +41,21 @@ exit 0
 }
 
 resubmit () {
-  sleep 23h 58m ; \
-  sbatch "$job_options" -J "$SLURM_JOB_NAME" "$( sith workflow -path)" -p "$1" -c \
-    -r -m "$2" -b "$3" -s "$4" ; \
-  echo "new JOB submitted"
+  sleep 23h 58m
+
+  verbose "Resubmitting the job for another 24h";
+  sbatch "$job_options" -J "$SLURM_JOB_NAME" "$( sith workflow -path)" \
+    -b "$breakages" \
+    $cluster \
+    -i "$indexes" \
+    -l "$level" \
+    -m "$molecule" \
+    -M "$method" \
+    -n "$n_processors" \
+    -r \
+    -s "$size" \
+    -S "$job_options" \
+    $verbose || fail "Resubmission of the job failed"
 }
 
 # ----- definition of functions finishes --------------------------------------
@@ -92,6 +103,7 @@ verbose -t "$(date)"
 verbose -t " \* Command:"
 verbose -t "$0" "$@"
 
+resubmit &
 # ---- Set up -------------------------------------------------------------------
 
 # load modules
