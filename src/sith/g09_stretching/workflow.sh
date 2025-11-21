@@ -149,11 +149,17 @@ Fcounter=0
 for i in "${molecule%.*}"-stretched*.chk
 do
   verbose "Forces of $i"
-  sbatch "$job_options" -J "F${molecule%.*}$Fcounter" \
+  sbatch $job_options -J "F${molecule%.*}" \
     "$(sith find_forces -path)" "$cluster" -f "$i" -p stretched $verbose || \
     fail "Submitting forces calculation"
   Fcounter=$(( Fcounter + 1 ))
 done
+
+cd ../
+sbatch $job_options -J "FE$molecule" \
+  $(sith workflow_from_extreme -path) -a "$molecule" $cluster -m "$molecule" \
+    -t "$molecule/$molecule-stretched00.pdb" $verbose -S "$job_options"
+
 
 #sbatch $single_part -J ${molecule}_WAR $(sith workflow_from_extreme -path) -c -p "." -v
 
