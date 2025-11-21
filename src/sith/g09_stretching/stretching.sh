@@ -118,32 +118,12 @@ mol=${mol_file%.*}
 # ----- set up finishes -------------------------------------------------------
 
 # ---- BODY -------------------------------------------------------------------
-if [[ -z "$indexes" ]] && [[ "${mol_file##*.}" == 'pdb' ]]
-then
-  # reading indexes from pdb file C-CAP indexes in gaussian convention
-  index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
-  index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
-  index3=$( grep ATOM "$mol.pdb" | awk '{if ( $5 == 2 ) print $0}' | grep "CA" \
-            | awk '{print $2}' )
-  indexes="$index1,$index2,$index3"
-else
-  # reading indexes from user input
-  index1=$( echo "$indexes" | cut -d ',' -f 1 )
-  index2=$( echo "$indexes" | cut -d ',' -f 2 )
-fi
-
-# check that the indexes were read properly:
-[[ "$index1" -eq 0 && "$index2" -eq 0 ]] && fail "Not recognized indexes (1)
-  check -i flag"
-[[ "$index1" -eq 1 && "$index2" -eq 1 ]] && fail "Not recognized indexes (1)
-  check -i flag"
-[[ "$index1" == "$index2" ]] && fail "Not recognized indexes (1) check -i
-  flag"
 
 # ----- checking restart ------------------------------------------------------
 if $restart
 then
   [[ -f 'frozen_dofs.dat' ]] || fail "frozen_dofs.dat doesn't exist"
+  indexes=$(head -n 1 frozen_dofs.dat | awk '{print $1","$2}')
 
   # extracting last i with xyz file already created
   mapfile -t previous < <( find . -maxdepth 1 -type f -name "$mol*.xyz" \
@@ -187,6 +167,28 @@ then
   $retake && \
       warning "The stretching of molecule $mol will be restarted from $i"
 else
+  if [[ -z "$indexes" ]] && [[ "${mol_file##*.}" == 'pdb' ]]
+  then
+    # reading indexes from pdb file C-CAP indexes in gaussian convention
+    index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
+    index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
+    index3=$( grep ATOM "$mol.pdb" | awk '{if ( $5 == 2 ) print $0}' | grep "CA" \
+              | awk '{print $2}' )
+    indexes="$index1,$index2,$index3"
+  else
+    # reading indexes from user input
+    index1=$( echo "$indexes" | cut -d ',' -f 1 )
+    index2=$( echo "$indexes" | cut -d ',' -f 2 )
+    indexes="$index1,$index2"
+  fi
+
+  # check that the indexes were read properly:
+  [[ "$index1" -eq 0 && "$index2" -eq 0 ]] && fail "Not recognized indexes (1)
+    check -i flag"
+  [[ "$index1" -eq 1 && "$index2" -eq 1 ]] && fail "Not recognized indexes (1)
+    check -i flag"
+  [[ "$index1" == "$index2" ]] && fail "Not recognized indexes (1) check -i
+    flag"
   if ! [[ -f 'frozen_dofs.dat' ]]
   then
     echo "$index1 $index2 F" > frozen_dofs.dat
@@ -298,7 +300,7 @@ do
   verbose "Testing dofs"
   sith log2xyz "$mol-stretched${nameiplusone}.log" \
     --indexes "[$indexes]" || fail "Transforming
-    log file to xyz"
+    log file to xyz with indexes [$indexes]"
   
   if [ "$i" -eq -1 ]
   then
