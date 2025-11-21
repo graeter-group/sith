@@ -146,7 +146,8 @@ def color_distribution(sith: SITH,
                        cmap: Colormap,
                        absolute: bool = False,
                        div: int = 5,
-                       decimals: int = 3) -> tuple[np.ndarray, BoundaryNorm]:
+                       decimals: int = 3,
+                       respect_to_total_energy: bool = False) -> tuple[np.ndarray, BoundaryNorm]:
     """
     Extract the energies of the specified DOFs and deformation structure, and
     the normalization according to a cmap.
@@ -171,6 +172,11 @@ def color_distribution(sith: SITH,
         number of sets of colors in which the colorbar is divided.
     decimals: Default=3
         number of decimals of the ticks of the colorbar.
+    respect_to_total_energy: bool. Default=False
+        if true, the maximum of energies will be calculated with respect to
+        the total energy of all the DOFs, not only the selected ones. Note
+        that the difference with absolute is that absolute uses the total
+        energy of the selected DOFs but among all the stretched configurations.
 
     Return
     ======
@@ -180,11 +186,21 @@ def color_distribution(sith: SITH,
     energies = []
     dof_ind = sith.dim_indices
     components = np.full(sith.dims[0], False, dtype=bool)
+    
+    energies = [] 
+    if respect_to_total_energy:
+        energies = sith.dofs_energies
+    else:
+        for dof in dofs:
+            dofindofs = np.all(dof_ind == dof, axis=1)
+            components = np.logical_or(dofindofs, components)
+        energies = sith.dofs_energies[:, components]
 
-    for dof in dofs:
-        dofindofs = np.all(dof_ind == dof, axis=1)
-        components = np.logical_or(dofindofs, components)
-    energies = sith.dofs_energies[:, components]
+        assert len(dofs) == len(energies[idef]), "The energy of at least one DOF" \
+          "is missing."
+
+    if len(energies) == 0:
+        energies = np.array([0,  1])
 
     if absolute:
         minval = min(energies.flatten())
@@ -198,11 +214,6 @@ def color_distribution(sith: SITH,
         minval = 0
         maxval = 1
 
-    assert len(dofs) == len(energies[idef]), "The number of DOFs " + \
-        f"({len(dofs)}) does not correspond with the number of " + \
-        f"energies ({len(energies)}). This could happen because " + \
-        "some DOFs that you are trying to map does not belong to" +\
-        "sith.dim_indices"
 
     boundaries = np.linspace(0, round(maxval - minval, decimals), div + 1)
     normalize = BoundaryNorm(boundaries, cmap.N)
@@ -213,7 +224,7 @@ def color_distribution(sith: SITH,
 def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap = None,
                     deci: int = 3, labelsize: float = 10,
                     height: float = 1.7, width: float = None,
-                    dpi: int = 300) -> None:
+                    dpi: int = 300, ax=None) -> None:
     """
     Discrete colorbar according defined by a matplotlib.BoundaryNorm.
 
@@ -242,15 +253,19 @@ def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap = None,
     ======
     (plt.fig, ax) Figure and the axis of the colorbar.
     """
+
     if cmap is None:
         cmap = mpl.cm.YlGn
     fontsize_inches = labelsize / 72
 
     if width is None:
         width = (3 + deci) * fontsize_inches
+    
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(width, height), dpi=dpi)
+    else:
+        fig = ax.figure
 
-    fig, ax = plt.subplots(figsize=(width, height),
-                           dpi=dpi)
     cbar = fig.colorbar(mpl.cm.ScalarMappable(norm=normalize,
                                               cmap=cmap),
                         cax=ax, orientation='vertical',
