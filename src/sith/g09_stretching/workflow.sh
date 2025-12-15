@@ -97,7 +97,7 @@ verbose -t "$0" "$@"
 # load modules
 if [[ "$cluster" == "-c" ]]
 then
-  load_modules "$molecule" "$method" "$breakages" "$size"
+  load_modules # "$molecule" "$method" "$breakages" "$size"
   if [[ -z "$n_processors" ]] 
   then
     if [[ -n "$SLURM_CPUS_ON_NODE" ]]

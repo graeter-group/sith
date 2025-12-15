@@ -123,8 +123,8 @@ then
   # reading indexes from pdb file C-CAP indexes in gaussian convention
   index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
   index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
-  index3=$( grep ATOM "$mol.pdb" | awk '{if ( $5 == 2 ) print $0}' | grep "CA" \
-            | awk '{print $2}' )
+  index3=$( grep ATOM "$mol.pdb" | awk '{if ( $5 == 2 ) print $0}' | \
+           grep "CA"\ | awk '{print $2}' )
   indexes="$index1,$index2,$index3"
 else
   # reading indexes from user input
