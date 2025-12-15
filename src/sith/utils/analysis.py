@@ -655,6 +655,7 @@ class DataSetAnalysis:
                  exclude=None,
                  pdb_pattern='stretched00',
                  struc_pattern='force*.fchk',
+                 alternative_subdir=None,
                  **kwargs):
         if isinstance(data_dir, (Path, str)):
             path = Path(data_dir)
@@ -711,9 +712,22 @@ class DataSetAnalysis:
                 self.outcomes.append(sith)
                 self.analysis.append(SithAnalysis(self.outcomes[-1],
                                                   self.pep_infos[-1]))
-            except:  # noqa: E722
-                self.pep_infos.pop(-1)
-                errors.append(pep.stem)
+            except Exception as e:
+                print(f"Error in {str(pep)}:", e)
+                try:
+                    struc = pep / alternative_subdir
+                    structure_files = list(struc.glob(f'*{struc_pattern}*'))
+                    structure_files.sort()
+                    sith = SITH(inputfiles=structure_files, **kwargs)
+                    sith = inner_steps(sith)
+                    sith.name = pep.stem
+                    self.outcomes.append(sith)
+                    self.analysis.append(SithAnalysis(self.outcomes[-1],
+                                                      self.pep_infos[-1]))
+                except Exception as e:
+                    print(f"Error also in subdir", e)
+                    self.pep_infos.pop(-1)
+                    errors.append(pep.stem)
 
             if n_pep % 20 == 0:
                 print()
