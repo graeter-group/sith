@@ -160,7 +160,7 @@ def plot_matrix(matrix, labels, n_per_ele, cbar_label):
     return sp
 
 
-def plot_matrix2(matrix, labels, cbar_label):
+def plot_matrix2(matrix, labels, cbar_label, sp=None, subspace=None):
     """
     Plot a matrix as a heatmap. The colormap is plt.get_cmap('coolwarm') and is
     divergent, with 0.05 in the middle.
@@ -182,11 +182,17 @@ def plot_matrix2(matrix, labels, cbar_label):
     ====
     Usually applied to show p-values.
     """
-    sp = StandardPlotter(figwidth=8.9, figheight=8.9 / 1.3,
-                         ax_pref={'xticks': np.arange(matrix.shape[1]),
-                                  'xticklabels': labels,
-                                  'yticks': np.arange(matrix.shape[0]),
-                                  'yticklabels': labels})
+    
+
+
+    if sp is None:
+        sp = StandardPlotter(figwidth=8.9, figheight=8.9 / 1.3,
+                             ax_pref={'xticks': np.arange(matrix.shape[1]),
+                                      'xticklabels': labels,
+                                      'yticks': np.arange(matrix.shape[0]),
+                                      'yticklabels': labels})
+    if subspace is None:
+        subspace = sp.spaces[0]
 
     # Plot the heatmap
     cmap = plt.get_cmap('coolwarm')
@@ -216,11 +222,11 @@ def plot_matrix2(matrix, labels, cbar_label):
     side = 0.87
     left = -0.005
     bottom = -0.04
-    sp.spaces[0].locate_ax([[left + 0.0, bottom + (1 - side) / 2],
+    subspace.locate_ax([[left + 0.0, bottom + (1 - side) / 2],
                             [left + side, bottom + side]],
                            ax=sp.ax[0])
     # ColorBar
-    sp.spaces[0].locate_ax([[0.76, bottom + (1 - side) / 2], [0.82, 0.912]],
+    subspace.locate_ax([[0.76, bottom + (1 - side) / 2], [0.82, 0.912]],
                            ax=sp.ax[1])
 
     return sp
