@@ -137,7 +137,7 @@ class SITH:
             f"{self.structures[-1].dims}"
         assert all([(deformn.dim_indices == ref.dim_indices).all()
                     for deformn in self.structures]), "Incompatible " + \
-            f"dimensions.\nreference: {ref.dim_indices}\n"
+            f"dimensions.\nreference\n"
         return True
     # endregion
 
@@ -370,6 +370,37 @@ class SITH:
                     shutil.copy(f, new_dir)
 
         return new_set
+
+    def delta_angles_continuous(self, d_ij, nrs):
+        """
+        Make the difference of the angles continuous considering the periodicity of
+        them.
+
+        Parameters
+        ==========
+        d_ij: numpy.Array
+            set of delta dofs with form [structure][DOF]
+        nrs: int
+            Number of distances.
+
+        Return
+        ======
+        (numpy.Array) new set of delta DOFs with delta angles continuous.
+
+        Note
+        ----
+        Here, it is assumed that the first <nrs> DOFs in d_ij are distances and
+        the rest are angles.
+        """
+        condition = d_ij[:, nrs:] < -np.pi
+        while condition.any():
+            d_ij[:, nrs:][condition] += 2 * np.pi
+            condition = d_ij[:, nrs:] < -np.pi
+        condition = d_ij[:, nrs:] > np.pi
+        while condition.any():
+            d_ij[:, nrs:][condition] -= 2 * np.pi
+            condition = d_ij[:, nrs:] > np.pi
+        return d_ij
     # endregion
 
     # region Energy Analysis
