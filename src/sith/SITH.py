@@ -322,6 +322,54 @@ class SITH:
             self.structure_energies = np.sum(self.dofs_energies, axis=1)
 
         return self.structures
+
+    def reduce_path(self, new_dir: str = None) -> list:
+        """
+        Removes structures that are equivalent in terms of DOFs values selected
+        for the analysis. Notice that those DOFs which were removed from the
+        analysis are not taken into account.
+
+        Parameters
+        ==========
+
+        Return
+        ======
+        (list) new set of structure names after reducing the path.
+
+        Note
+        ----
+        This method keeps the first and last structures.
+        """
+        new_set = []
+        j = 0
+        while j < len(self.all_dofs) - 1:
+            new_set.append(self.structures[j].ref_file)
+            d_ij = (self.all_dofs[j] - self.all_dofs[j + 1:])
+            d_ij = self.delta_angles_continuous(d_ij, self.dims[1])
+            d_ij[:, self.dims[1]:] /= 17.453
+            d_ij = abs(d_ij)
+            close = np.isclose(d_ij, 0, atol=1e-3)
+            by_struc = np.all(close, axis=1)
+            same = np.where(by_struc)[0] + j + 1
+            if len(same) != 0:
+                j = same[-1]
+            j += 1
+        if new_set[-1] != self.structures[-1].ref_file:
+            new_set.append(self.structures[-1].ref_file)
+
+        if new_dir is not None:
+            import shutil
+            from glob import glob
+
+            for file in new_set:
+                file_name = file.split('/')[-1]
+                path = file.replace(file_name, '')
+                all_files = glob(f'{path}/{file_name.replace('.fchk', '')}*')
+
+                for f in all_files:
+                    shutil.copy(f, new_dir)
+
+        return new_set
     # endregion
 
     # region Energy Analysis
