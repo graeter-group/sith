@@ -146,7 +146,8 @@ def color_distribution(sith: SITH,
                        cmap: Colormap,
                        absolute: bool = False,
                        div: int = 5,
-                       decimals: int = 3) -> tuple[np.ndarray, BoundaryNorm]:
+                       decimals: int = 3,
+                       respect_to_total_energy: bool = False) -> tuple[np.ndarray, BoundaryNorm]:
     """
     Extract the energies of the specified DOFs and deformation structure, and
     the normalization according to a cmap.
@@ -171,6 +172,11 @@ def color_distribution(sith: SITH,
         number of sets of colors in which the colorbar is divided.
     decimals: Default=3
         number of decimals of the ticks of the colorbar.
+    respect_to_total_energy: bool. Default=False
+        if true, the maximum of energies will be calculated with respect to
+        the total energy of all the DOFs, not only the selected ones. Note
+        that the difference with absolute is that absolute uses the total
+        energy of the selected DOFs but among all the stretched configurations.
 
     Return
     ======
@@ -181,10 +187,16 @@ def color_distribution(sith: SITH,
     dof_ind = sith.dim_indices
     components = np.full(sith.dims[0], False, dtype=bool)
 
-    for dof in dofs:
-        dofindofs = np.all(dof_ind == dof, axis=1)
-        components = np.logical_or(dofindofs, components)
-    energies = sith.dofs_energies[:, components]
+    if respect_to_total_energy:
+        energies = sith.dofs_energies
+    else:
+        for dof in dofs:
+            dofindofs = np.all(dof_ind == dof, axis=1)
+            components = np.logical_or(dofindofs, components)
+        energies = sith.dofs_energies[:, components]
+
+    if not energies:
+        energies = np.array([0,  1])
 
     if absolute:
         minval = min(energies.flatten())
