@@ -118,6 +118,27 @@ mol=${mol_file%.*}
 # ----- set up finishes -------------------------------------------------------
 
 # ---- BODY -------------------------------------------------------------------
+if [[ -z "$indexes" ]] && [[ "${mol_file##*.}" == 'pdb' ]]
+then
+  # reading indexes from pdb file C-CAP indexes in gaussian convention
+  index1=$( grep ACE "$mol.pdb" | grep CH3 | awk '{print $2}' )
+  index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
+  index3=$( grep ATOM "$mol.pdb" | awk '{if ( $5 == 2 ) print $0}' | \
+           grep "CA"\ | awk '{print $2}' )
+  indexes="$index1,$index2,$index3"
+else
+  # reading indexes from user input
+  index1=$( echo "$indexes" | cut -d ',' -f 1 )
+  index2=$( echo "$indexes" | cut -d ',' -f 2 )
+fi
+
+# check that the indexes were read properly:
+[[ "$index1" -eq 0 && "$index2" -eq 0 ]] && fail "Not recognized indexes (1)
+  check -i flag"
+[[ "$index1" -eq 1 && "$index2" -eq 1 ]] && fail "Not recognized indexes (1)
+  check -i flag"
+[[ "$index1" == "$index2" ]] && fail "Not recognized indexes (1) check -i
+  flag"
 
 # ----- checking restart ------------------------------------------------------
 if $restart

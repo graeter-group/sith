@@ -554,6 +554,7 @@ class SithAnalysis:
                (dof_wo_0 == target_wo_0[::-1]).all():
                 return i
         raise ValueError(f"Non-found dof ({target}).")
+        raise ValueError(f"Non-found dof ({target}).")
 
 
 def set_hes_from_ref(geo_ref, sith_tar, structure):
