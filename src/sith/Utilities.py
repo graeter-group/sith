@@ -225,7 +225,7 @@ def color_distribution(sith: SITH,
 def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap = None,
                     deci: int = 3, labelsize: float = 10,
                     height: float = 1.7, width: float = None,
-                    dpi: int = 300) -> None:
+                    dpi: int = 300, ax=None) -> None:
     """
     Discrete colorbar according defined by a matplotlib.BoundaryNorm.
 
@@ -254,6 +254,12 @@ def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap = None,
     ======
     (plt.fig, ax) Figure and the axis of the colorbar.
     """
+
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(width, height), dpi=dpi)
+    else:
+        fig = ax.figure
+
     if cmap is None:
         cmap = mpl.cm.YlGn
     fontsize_inches = labelsize / 72
@@ -261,8 +267,6 @@ def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap = None,
     if width is None:
         width = (3 + deci) * fontsize_inches
 
-    fig, ax = plt.subplots(figsize=(width, height),
-                           dpi=dpi)
     cbar = fig.colorbar(mpl.cm.ScalarMappable(norm=normalize,
                                               cmap=cmap),
                         cax=ax, orientation='vertical',
