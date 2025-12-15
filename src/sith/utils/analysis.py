@@ -553,7 +553,7 @@ class SithAnalysis:
             if (dof_wo_0 == target_wo_0).all() or \
                (dof_wo_0 == target_wo_0[::-1]).all():
                 return i
-        raise ValueError(f"Non-found dof: {target}.")
+        raise ValueError(f"Non-found dof ({target}).")
 
 
 def set_hes_from_ref(geo_ref, sith_tar, structure):
@@ -606,7 +606,7 @@ def set_hes_from_ref(geo_ref, sith_tar, structure):
 
 class DataSetAnalysis:
     """
-    Creates the objects of to do the analysis of a bunch of peptides in a
+    Creates the objects of to do the analysis of a set of peptides in a
     data set.
 
     Parameters
@@ -758,7 +758,7 @@ class DataSetAnalysis:
             [print(pep + ' ', end='') for pep in prolines]
 
         if len(errors) > 0:
-            print("\n--- The next peptides did not woked for some reason. "
+            print("\n--- The next peptides did not worked for some reason. "
                   "Check them individually:")
             [print(pep + ' ', end='') for pep in errors]
         if len(eff_exclu) > 0:
@@ -933,7 +933,11 @@ class DataSetAnalysis:
             index2 = self.pep_infos[i].amino_info[5]['CH3']
             x = []
             for struc in sith.structures:
-                dist = struc.atoms.get_distance(index1 - 1, index2 - 1)
+                try:
+                    dist = struc.atoms.get_distance(index1 - 1, index2 - 1)
+                except IndexError:
+                    print(f"Error getting distance for {sith.name} setting distance to 0.0")
+                    continue
                 x.append(dist)
             sp.plot_data(x, y, ax=ax, lw=lw, markersize=ms)
             xs.append(x)

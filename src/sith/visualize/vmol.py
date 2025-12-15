@@ -336,7 +336,7 @@ class EnergiesVMol(VMolecule):
                                  + " once in the sith object.")
             energy = self.energies[self.idef][i[0]]
             color = cmap(self.normalize(energy))[:3]
-            dof = self.add_dof(dof, color=color, **kwargs)
+            dof = self.add_dof(dof, color=self._asvector(color), **kwargs)
             self.inner_dofs[dof.name] = dof
             inner_energies[dof.name] = [energy, dof]
 

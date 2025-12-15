@@ -99,7 +99,8 @@ def extract_diff(sith1, sith2):
 
     Return
     ======
-    (tuple), list of indexes in sith1 that are in sith2, organized list.
+    (tuple), list of indexes in sith1 that are not in sith2 and list of indexes
+    in sith2 that are not in sith1.
     """
     sith1_indx = []
     sith2_indx = []
