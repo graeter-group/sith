@@ -122,7 +122,7 @@ fail () {
   # shellcheck disable=SC2068
   adjust "ERROR" $@ "$( date )"
   # shellcheck disable=SC2068
-  finish "ERROR" $@ "$( date )" >&2
+  adjust "ERROR" $@ "$( date )" >&2
   exit 1
 }
 

@@ -36,11 +36,15 @@ def info_from_opt(logfile, pattern):
     # read configurations
     atoms = read(logfile, index=':')
 
-    # read energies
-    energies = output_terminal("grep 'SCF Done:' " + logfile
-                               + " | awk '{print $5}'",
-                               print_output=False)
-    energies = np.array(energies.split('\n')[:-1], dtype=float)
+    try:
+        energies = [conf.get_potential_energy() for conf in atoms]
+        energies = np.array(energies)
+    except:
+        # read energies
+        energies = output_terminal("grep 'SCF Done:' " + logfile
+                                + " | awk '{print $5}'",
+                                print_output=False)
+        energies = np.array(energies.split('\n')[:-1], dtype=float)
 
     # remove configurations that goes up in energy. keep those that goes
     # down only. assuming local optimization

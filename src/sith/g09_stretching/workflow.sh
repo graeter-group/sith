@@ -41,10 +41,21 @@ exit 0
 }
 
 resubmit () {
-  sleep 23h 58m ; \
-  sbatch "$job_options" -J "$SLURM_JOB_NAME" "$( sith workflow -path)" -p "$1" -c \
-    -r -m "$2" -b "$3" -s "$4" ; \
-  echo "new JOB submitted"
+  sleep 23h 58m
+
+  verbose "Resubmitting the job for another 24h";
+  sbatch "$job_options" -J "$SLURM_JOB_NAME" "$( sith workflow -path)" \
+    -b "$breakages" \
+    $cluster \
+    -i "$indexes" \
+    -l "$level" \
+    -m "$molecule" \
+    -M "$method" \
+    -n "$n_processors" \
+    -r \
+    -s "$size" \
+    -S "$job_options" \
+    $verbose || fail "Resubmission of the job failed"
 }
 
 # ----- definition of functions finishes --------------------------------------
@@ -92,6 +103,7 @@ verbose -t "$(date)"
 verbose -t " \* Command:"
 verbose -t "$0" "$@"
 
+resubmit &
 # ---- Set up -------------------------------------------------------------------
 
 # load modules
@@ -137,11 +149,17 @@ Fcounter=0
 for i in "${molecule%.*}"-stretched*.chk
 do
   verbose "Forces of $i"
-  sbatch "$job_options" -J "F${molecule%.*}$Fcounter" \
+  sbatch $job_options -J "F${molecule%.*}" \
     "$(sith find_forces -path)" "$cluster" -f "$i" -p stretched $verbose || \
     fail "Submitting forces calculation"
   Fcounter=$(( Fcounter + 1 ))
 done
+
+cd ../
+sbatch $job_options -J "FE$molecule" \
+  $(sith workflow_from_extreme -path) -a "$molecule" $cluster -m "$molecule" \
+    -t "$molecule/$molecule-stretched00.pdb" $verbose -S "$job_options"
+
 
 #sbatch $single_part -J ${molecule}_WAR $(sith workflow_from_extreme -path) -c -p "." -v
 

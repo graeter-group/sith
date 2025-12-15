@@ -210,11 +210,6 @@ def color_distribution(sith: SITH,
         minval = 0
         maxval = 1
 
-    assert len(dofs) == len(energies[idef]), "The number of DOFs " + \
-        f"({len(dofs)}) does not correspond with the number of " + \
-        f"energies ({len(energies)}). This could happen because " + \
-        "some DOFs that you are trying to map does not belong to" +\
-        "sith.dim_indices"
 
     boundaries = np.linspace(0, round(maxval - minval, decimals), div + 1)
     normalize = BoundaryNorm(boundaries, cmap.N)

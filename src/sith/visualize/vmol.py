@@ -38,6 +38,7 @@ class EnergiesVMol(VMolecule):
                  alignment: Union[list, tuple, np.ndarray] = None,
                  show_axis: bool = False,
                  background: Union[list, vp.color] = vp.color.white,
+                 respect_to_total_energy: bool = False,
                  **kwargs):
         self._hook = False
         self.canvaskwargs = kwargs
@@ -85,7 +86,9 @@ class EnergiesVMol(VMolecule):
 
         self.inner_dofs = {}
         if dofs is not None:
-            self.sith_inDOFs(dofs, **kwargs)
+            self.sith_inDOFs(dofs,
+                             respect_to_total_energy=respect_to_total_energy,
+                             **kwargs)
 
         self.scene.background = self._asvector(background)
         self.traj_buttons()
@@ -134,7 +137,8 @@ class EnergiesVMol(VMolecule):
 
         return selected_dofs
 
-    def create_figure(self, dofs, **kwargs):
+    def create_figure(self, dofs, respect_to_total_energy: bool = False,
+                      **kwargs):
         """
         Creates the Color bar to be displayed at a side.
 
@@ -142,6 +146,9 @@ class EnergiesVMol(VMolecule):
         ==========
         dofs:
             DOFs to be displayed in the distribution.
+        respect_to_total_energy: bool. Default=False
+            if true, the maximum of energies will be calculated with respect to
+            the total energy of all the DOFs, not only the selected ones.
         kwargs for change_def
 
         Return
@@ -158,7 +165,9 @@ class EnergiesVMol(VMolecule):
                                      self.kwargs_edofs['cmap'],
                                      absolute=True,
                                      div=self.kwargs_edofs['div'],
-                                     decimals=self.kwargs_edofs['deci'])
+                                     decimals=self.kwargs_edofs['deci'],
+                                     respect_to_total_energy=\
+                                        respect_to_total_energy)
 
         # Colorbar
         # Note that this colorbar
@@ -180,7 +189,7 @@ class EnergiesVMol(VMolecule):
 
         Parameters
         ==========
-        \*\*kwargs for EnergiesVMol.energies_some_dof
+        **kwargs for EnergiesVMol.energies_some_dof
 
         Return
         ======
@@ -198,7 +207,7 @@ class EnergiesVMol(VMolecule):
 
         Parameters
         ==========
-        \*\* kwargs for EnergiesVMol.energies_some_dof
+        kwargs for EnergiesVMol.energies_some_dof
 
         Return
         ======
@@ -216,7 +225,7 @@ class EnergiesVMol(VMolecule):
 
         Parameters
         ==========
-        \*\* kwargs for EnergiesVMol.energies_some_dof
+        kwargs for EnergiesVMol.energies_some_dof
 
         Return
         ======
@@ -260,7 +269,7 @@ class EnergiesVMol(VMolecule):
 
         Parameters
         ==========
-        \*\*kwargs for EnergiesVMol.energies_some_dof
+        kwargs for EnergiesVMol.energies_some_dof
 
         Return
         ======
@@ -308,7 +317,7 @@ class EnergiesVMol(VMolecule):
         normalize:
             normalization of colors acording to the range of energies and the
             colormap.
-        \*\*kwargs of VMolecule.add_dof
+        kwargs of VMolecule.add_dof
 
         Return
         ======
