@@ -15,7 +15,12 @@ and saves them in a directory called 'forces' that has to be previously
 created.
 
   -c  run in cluster.
-  -f  <file> chk file.
+  -f  <file> chk file or com file to compute the forces from. In case of com
+      file, it is assumed that it contains the right keywords to compute
+      forces. In case of chk file, a com file is created with the right
+      keywords to compute forces and replacing <pattern> with the word
+      'forces'.
+  -n  <n_processors=1> number of processors to be used in the gaussian job.
   -p  <pattern> pattern present in the chk files that will be replaced with the
       word 'forces'.
 
@@ -24,7 +29,6 @@ created.
 
 Note
 ----
-
   Take care with the  files that already exist in the directory 'forces'. They
   may be overwritten. 
 "
@@ -65,7 +69,7 @@ n_processors=1
 while getopts 'cf:n:p:vh' flag; do
   case "${flag}" in
     c) cluster='true' ;;
-    f) chkfile=${OPTARG} ;;
+    f) file=${OPTARG} ;;
     n) n_processors=${OPTARG} ;;
     p) pattern=${OPTARG} ;;
 
@@ -101,16 +105,23 @@ fi
 # ---- set-up ends ------------------------------------------------------------
 
 # ---- BODY -------------------------------------------------------------------
-[[ -d forces ]] || fail "A directory called 'forces' have to exist to run
-  execute the computation of forces"
 
-compute_forces "$chkfile"
-name=${chkfile//${pattern}/forces}
-verbose "Moving result to forces/${name%.*}.*"
-for fil in ${name%.chk}.*
-do
-  mv $fil "forces/${name%.*}.${fil##*.}" || fail "moving results to forces
-    directory."
-done
+if [[ "${file##*.}" == "chk" ]]
+then
+  compute_forces "$file"
+  name=${file//${pattern}/forces}
+  verbose "Moving result to forces/${name%.*}.*"
+  mkdir -p forces
+  for fil in ${name%.chk}.*
+  do
+    mv $fil "forces/${name%.*}.${fil##*.}" || fail "moving results to forces
+      directory."
+  done
+elif [[ "${file##*.}" == "com" ]]
+then
+  gaussian $file || fail "computing forces"
+  for_name=${file//.com/}
+  sith extract_forces -f $for_name.log -c -v
+fi
 
 finish
