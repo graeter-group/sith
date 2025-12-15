@@ -177,7 +177,7 @@ def diff_bonds(conf1, conf2, frozen_dofs='frozen_dofs.dat'):
 
 
 # add2executable
-def conf2pdb(confile, pdbtemplate, pdboutput=None):
+def conf2pdb(confile, pdbtemplate, pdboutput=None, write_new_pdb=True):
     """
     Transform a configuration in a file (xyz, log...) into a pdb using a pdb
     file as template.
@@ -191,6 +191,10 @@ def conf2pdb(confile, pdbtemplate, pdboutput=None):
     pdboutput: str. Default=None
         name of trasnformed config file with pdb format. The default name is
         the same than the confile but with pdb extension.
+    write_new_pdb: bool. Default=True
+        If True, write a new pdb file with the properties of the template
+        (resnames, atomtypes, residuenumbers) but the positions of the
+        confile.
 
     Return
     ======
@@ -221,10 +225,10 @@ def conf2pdb(confile, pdbtemplate, pdboutput=None):
     atoms_xyz.arrays['residuenames'] = atoms_ref.arrays['residuenames']
     atoms_xyz.arrays['residuenumbers'] = atoms_ref.arrays['residuenumbers']
     atoms_xyz.arrays['atomtypes'] = atoms_ref.arrays['atomtypes']
+    if write_new_pdb:
+       write(pdboutput, atoms_ref)
 
-    write(pdboutput, atoms_ref)
-
-    return pdboutput
+    return atoms_ref
 
 
 # add2executable
@@ -240,7 +244,7 @@ def all_xyz2pdb(template, output_patern=None, xyzdir=''):
     output_patern: str. Default=None
         the name of the output will be <this string>-<n>.pdb, where is is an
         increasing index, from 1 to the number of xyz files.
-    xyzdir: str. Default=""
+    xyzdir: str. Default="./"
         directory containing all the xyz files you want to transform.
 
     Return
