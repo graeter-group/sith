@@ -655,6 +655,7 @@ class DataSetAnalysis:
                  exclude=None,
                  pdb_pattern='stretched00',
                  struc_pattern='force*.fchk',
+                 alternative_subdir=None,
                  **kwargs):
         if isinstance(data_dir, (Path, str)):
             path = Path(data_dir)
@@ -711,9 +712,36 @@ class DataSetAnalysis:
                 self.outcomes.append(sith)
                 self.analysis.append(SithAnalysis(self.outcomes[-1],
                                                   self.pep_infos[-1]))
-            except:  # noqa: E722
-                self.pep_infos.pop(-1)
-                errors.append(pep.stem)
+                if not self.test_continuity(self.outcomes[-1],
+                                            self.analysis[-1]):
+                    self.outcomes.pop(-1)
+                    self.analysis.pop(-1)
+                    raise ValueError("Discontinuity detected")
+
+            except Exception as e:
+                print(f"\nError in {str(pep)}:", e)
+                try:
+                    if alternative_subdir is None:
+                        raise ValueError("No alternative subdir defined.")
+                    struc = pep / alternative_subdir
+                    structure_files = list(struc.glob(f'*{struc_pattern}*'))
+                    structure_files.sort()
+                    sith = SITH(inputfiles=structure_files, **kwargs)
+                    sith = inner_steps(sith)
+                    sith.name = pep.stem
+                    self.outcomes.append(sith)
+                    self.analysis.append(SithAnalysis(self.outcomes[-1],
+                                                      self.pep_infos[-1]))
+                    if not self.test_continuity(self.outcomes[-1],
+                                                self.analysis[-1]):
+                        self.outcomes.pop(-1)
+                        self.analysis.pop(-1)
+                        raise ValueError("Discontinuity detected")
+                except Exception as e2:
+                    print(f"\nError also in subdir:", e2)
+                    self.pep_infos.pop(-1)
+                    errors.append(pep.stem)
+            assert len(self.pep_infos[-1].atoms)   == len(self.outcomes[-1].structures[0].atoms), f"Atom count mismatch for {pep.stem}"
 
             if n_pep % 20 == 0:
                 print()
@@ -739,6 +767,23 @@ class DataSetAnalysis:
             [print(pep + ' ', end='') for pep in eff_exclu]
 
         self.test()
+
+    def test_continuity(self, sith, analysis):
+        # atoms
+        ca = analysis.pep_info.amino_info[3]['CA']
+        c = analysis.pep_info.amino_info[3]['C']
+        n = analysis.pep_info.amino_info[3]['N']
+
+        # angle and distances
+        ang = analysis.index_dof(np.array([c, ca, n]))
+        cac = analysis.index_dof(np.array([c, ca]))
+        can = analysis.index_dof(np.array([ca, n]))
+
+        delta_angle = max(abs(sith.delta_q[:, ang].flatten() * 180 / np.pi))
+        delta_dista = max(abs(sith.delta_q[:, [cac, can]].flatten()))
+        if delta_angle > 10 or delta_dista > 0.2:
+            return False
+        return True
 
     def test(self):
         """
