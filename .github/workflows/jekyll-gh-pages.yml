@@ -28,8 +28,11 @@ jobs:
 
       - name: Build Sphinx docs
         run: |
-          pip install sphinxcontrib-mermaid sphinx-rtd-theme numpy
-          cd doc
+          pip install sphinxcontrib-mermaid sphinx-rtd-theme numpy matplotlib nglview ase ipywidgets
+          git clone https://github.com/Sucerquia/PlottingTool.git
+          cd PlottingTool
+          pip install -e .
+          cd ../doc
           make html
 
       - name: Deploy to GitHub Pages
