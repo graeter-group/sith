@@ -26,7 +26,7 @@ extensions = ['sphinx.ext.autodoc',
 
 html_theme = 'sphinx_rtd_theme'
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['html', 'Thumbs.db', '.DS_Store']
 
 
 # -- Options for HTML output -------------------------------------------------

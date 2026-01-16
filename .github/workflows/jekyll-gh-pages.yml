@@ -4,7 +4,7 @@ name: Build & Deploy with GitHub Pages dependencies preinstalled
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
+    branches: ["ds_big_changes"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
       with:
         docs-folder: "doc"
         pre-build-command: "pip install sphinx-rtd-theme && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended"
-        build-command: "sphinx-build -a -b html . html"
+        build-command: "make html"
     - uses: actions/upload-artifact@master
       with:
         name: page

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script of sith stretching &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="sith.readers package" href="../sith.readers.html" />
+    <link rel="prev" title="Script of sith swap_atoms_in_com" href="swap_atoms_in_com.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching.change_dofs">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.utils.html">sith.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../sith.html">sith package</a></li>
+          <li class="breadcrumb-item"><a href="../sith.g09_stretching.html">sith.g09_stretching package</a></li>
+      <li class="breadcrumb-item active">Script of sith stretching</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/bash_rsts_scripts/stretching.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="script-of-sith-stretching">
+<span id="stretching"></span><h1>Script of sith stretching<a class="headerlink" href="#script-of-sith-stretching" title="Link to this heading"></a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1">#SBATCH -N 1                   # number of nodes</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH -t 24:00:00</span>
+<span class="c1">#SBATCH --output=%x-%j.o</span>
+<span class="c1">#SBATCH --error=%x-%j.e</span>
+
+<span class="c1"># ----- definition of functions starts ----------------------------------------</span>
+print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">This tool obtains the stretched configurations of a molecule by increasing the</span>
+<span class="s2">distance between two atoms, constraining and optimizing at every step.</span>
+
+<span class="s2">  -b  &lt;number_of_breakages=1&gt; The simulation will run until get this number of</span>
+<span class="s2">      ruptures.</span>
+<span class="s2">  -c  Use this flag to run in a cluster. When -p is not defined, and you run in</span>
+<span class="s2">      a slurm job manager system, the of processors is equal to the number of</span>
+<span class="s2">      cores asked in the submission of the job.</span>
+<span class="s2">  -e  &lt;extend_method=0&gt; index of stretching method. To see the options, use</span>
+<span class="s2">      &#39;sith change_distance -h&#39; to see the order.</span>
+<span class="s2">      carbons of the capping groups</span>
+<span class="s2">  -i  &lt;index1,index2&gt; indexes of the atoms to use for increasing the distance.</span>
+<span class="s2">      If this flag is not used and &#39;molecule&#39; (flag -m) is a pdb, indexes 1 and</span>
+<span class="s2">      2 will correspond to the CH3 atoms in ACE and NME residues defined in the</span>
+<span class="s2">      pdb if they exist.</span>
+<span class="s2">  -l  &lt;xc,base=&quot;</span>bmk,6-31+g<span class="s2">&quot;&gt; evel of DFT theory.</span>
+<span class="s2">  -m  &lt;molecule&gt; molecule name. In this directory, a file called</span>
+<span class="s2">      &lt;molecule&gt;-stretched00.pdb must exist.</span>
+<span class="s2">  -p  &lt;processors=1&gt; number of processors per gaussian job.</span>
+<span class="s2">  -r  restart stretching. In this case, this code must be executed from</span>
+<span class="s2">      the molecule&#39;s directory.</span>
+<span class="s2">  -s  &lt;size[A]=0.2&gt; Size of the step that increases the distances at each step.</span>
+
+<span class="s2">  -v  verbose</span>
+<span class="s2">  -h  prints this message.</span>
+<span class="s2">&quot;</span>
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+<span class="c1"># ----- definition of functions finishes --------------------------------------</span>
+
+<span class="c1"># ----- set up starts ---------------------------------------------------------</span>
+<span class="c1"># General variables</span>
+<span class="nv">breakages</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">method</span><span class="o">=</span><span class="m">0</span>
+<span class="nv">restart</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">size</span><span class="o">=</span><span class="m">0</span>.2
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">indexes</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">level</span><span class="o">=</span><span class="s2">&quot;bmk,6-31+g&quot;</span>
+<span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">n_processors</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">retake</span><span class="o">=</span><span class="s1">&#39;true&#39;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;b:ce:i:l:m:p:rs:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>b<span class="o">)</span><span class="w"> </span><span class="nv">breakages</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>e<span class="o">)</span><span class="w"> </span><span class="nv">extend_method</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>i<span class="o">)</span><span class="w"> </span><span class="nv">indexes</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>l<span class="o">)</span><span class="w"> </span><span class="nv">level</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>m<span class="o">)</span><span class="w"> </span><span class="nv">mol</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>p<span class="o">)</span><span class="w"> </span><span class="nv">n_processors</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>r<span class="o">)</span><span class="w"> </span><span class="nv">restart</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>s<span class="o">)</span><span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+
+<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">  </span><span class="k">esac</span>
+<span class="k">done</span>
+
+<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>STRETCHING<span class="w"> </span><span class="nv">$verbose</span>
+
+<span class="k">if</span><span class="w"> </span><span class="nv">$cluster</span>
+<span class="k">then</span>
+<span class="w">  </span>load_modules
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_CPUS_ON_NODE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="nv">$SLURM_CPUS_ON_NODE</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="k">fi</span>
+
+<span class="c1"># starting information</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;===============&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Date:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="k">$(</span>date<span class="k">)</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Command:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+
+<span class="c1"># stretching method</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$extend_method</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span>
+<span class="k">then</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$breakages</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">method</span><span class="o">=</span><span class="s1">&#39;scale_distance&#39;</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="nv">method</span><span class="o">=</span><span class="s1">&#39;increase_distance_with_constraints&#39;</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="k">fi</span>
+verbose<span class="w"> </span><span class="s2">&quot;The stretching method will be &#39;</span><span class="nv">$method</span><span class="s2">&#39;&quot;</span>
+
+<span class="c1"># level of theory</span>
+<span class="nv">xc_functional</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$level</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+<span class="nv">basis_set</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$level</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="k">)</span>
+
+<span class="c1"># check dependencies</span>
+ase<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs ASE&quot;</span>
+
+<span class="nv">mol_file</span><span class="o">=</span><span class="nv">$mol</span>
+<span class="nv">mol</span><span class="o">=</span><span class="si">${</span><span class="nv">mol_file</span><span class="p">%.*</span><span class="si">}</span>
+<span class="c1"># ----- set up finishes -------------------------------------------------------</span>
+
+<span class="c1"># ---- BODY -------------------------------------------------------------------</span>
+
+<span class="c1"># ----- checking restart ------------------------------------------------------</span>
+<span class="k">if</span><span class="w"> </span><span class="nv">$restart</span>
+<span class="k">then</span>
+<span class="w">  </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;frozen_dofs.dat&#39;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;frozen_dofs.dat doesn&#39;t exist&quot;</span>
+<span class="w">  </span><span class="nv">indexes</span><span class="o">=</span><span class="k">$(</span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>frozen_dofs.dat<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1&quot;,&quot;$2}&#39;</span><span class="k">)</span>
+
+<span class="w">  </span><span class="c1"># extracting last i with xyz file already created</span>
+<span class="w">  </span>mapfile<span class="w"> </span>-t<span class="w"> </span>previous<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span><span class="w"> </span>find<span class="w"> </span>.<span class="w"> </span>-maxdepth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">*.xyz&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                  </span>-not<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*bck*&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="o">)</span>
+
+<span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="si">${#</span><span class="nv">previous</span><span class="si">}</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Non previous xyz files were found&quot;</span>
+
+<span class="w">  </span><span class="nv">wext</span><span class="o">=</span><span class="si">${</span><span class="nv">previous</span><span class="p">[-1]</span><span class="si">}</span>
+<span class="w">  </span><span class="nv">last</span><span class="o">=</span><span class="si">${</span><span class="nv">wext</span><span class="p">%.*</span><span class="si">}</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">last</span><span class="p">: -1</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;a&#39;</span><span class="w"> </span><span class="o">]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">last</span><span class="o">=</span><span class="si">${</span><span class="nv">last</span><span class="p">:</span><span class="k">:-</span><span class="nv">2</span><span class="si">}</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span><span class="nv">i</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="m">10#</span><span class="si">${</span><span class="nv">last</span><span class="p">:</span><span class="nv">0</span><span class="p">-2</span><span class="si">}</span><span class="w"> </span><span class="k">))</span>
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Restarting </span><span class="nv">$mol</span><span class="s2">, searching last optimization, </span><span class="nv">$i</span><span class="s2"> is the last</span>
+<span class="s2">           stretching step detected&quot;</span>
+
+<span class="w">  </span><span class="c1"># searching incomplete optimization trials</span>
+<span class="w">  </span><span class="nv">nameiplusone</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%02d&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="s2">&quot;</span><span class="k">)</span>
+
+<span class="w">  </span><span class="c1"># searching advances in i+1.</span>
+<span class="w">  </span><span class="c1"># retake=&#39;true&#39; means that the last configuration was not taken from an</span>
+<span class="w">  </span><span class="c1"># incomplete job. In the next block, we search for advances in i+1 and if it</span>
+<span class="w">  </span><span class="c1"># finds one, it restarts from there and sets retake=&#39;false&#39; as a consecuence,</span>
+<span class="w">  </span><span class="c1"># this variable is used later in the loop.</span>
+<span class="w">  </span>sith<span class="w"> </span>log2xyz<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--indexes<span class="w"> </span><span class="s2">&quot;[</span><span class="nv">$indexes</span><span class="s2">]&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>create_bck<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.&quot;</span>*<span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">    </span><span class="nv">lastone</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>search_last_bck<span class="w"> </span><span class="nv">$mol</span>-stretched<span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="w"> </span><span class="k">)</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="nv">lastone</span><span class="w"> </span><span class="k">))</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;this optimization was&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="s2">&quot;restarted more than 3 times and didn&#39;t converged.&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">fi</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;coping </span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">-bck_</span><span class="nv">$lastone</span><span class="s2">.xyz&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">    </span>sith<span class="w"> </span>change_distance<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">-bck_</span><span class="nv">$lastone</span><span class="s2">.xyz&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>frozen_dofs.dat<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--xc<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$xc_functional</span><span class="s2">&#39;&quot;</span><span class="w"> </span>--basis<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$basis_set</span><span class="s2">&#39;&quot;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">retake</span><span class="o">=</span><span class="s1">&#39;false&#39;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>warning<span class="w"> </span><span class="s2">&quot;The stretching of molecule </span><span class="nv">$mol</span><span class="s2"> will be restarted</span>
+<span class="s2">      from </span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="s2">&quot;</span>
+
+<span class="w">  </span><span class="c1"># if i+1 trial doesn&#39;t exist</span>
+<span class="w">  </span><span class="nv">$retake</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>warning<span class="w"> </span><span class="s2">&quot;The stretching of molecule </span><span class="nv">$mol</span><span class="s2"> will be restarted from </span><span class="nv">$i</span><span class="s2">&quot;</span>
+<span class="k">else</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">mol_file</span><span class="p">##*.</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;pdb&#39;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="c1"># reading indexes from pdb file C-CAP indexes in gaussian convention</span>
+<span class="w">    </span><span class="nv">index1</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>ACE<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">.pdb&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CH3<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">    </span><span class="nv">index2</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>NME<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">.pdb&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CH3<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">    </span><span class="nv">index3</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>ATOM<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">.pdb&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{if ( $5 == 2 ) print $0}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;CA&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">              </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">    </span><span class="nv">indexes</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">,</span><span class="nv">$index2</span><span class="s2">,</span><span class="nv">$index3</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="c1"># reading indexes from user input</span>
+<span class="w">    </span><span class="nv">index1</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">)</span>
+<span class="w">    </span><span class="nv">index2</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="k">)</span>
+<span class="w">    </span><span class="nv">indexes</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">,</span><span class="nv">$index2</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="k">fi</span>
+
+<span class="w">  </span><span class="c1"># check that the indexes were read properly:</span>
+<span class="w">  </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index2</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes (1)</span>
+<span class="s2">    check -i flag&quot;</span>
+<span class="w">  </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index2</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes (1)</span>
+<span class="s2">    check -i flag&quot;</span>
+<span class="w">  </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index2</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes (1) check -i</span>
+<span class="s2">    flag&quot;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s1">&#39;frozen_dofs.dat&#39;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2"> </span><span class="nv">$index2</span><span class="s2"> F&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>frozen_dofs.dat
+<span class="w">  </span><span class="k">fi</span>
+
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;This code will stretch the atoms with the indexes </span><span class="nv">$index1</span><span class="s2"> </span><span class="nv">$index2</span>
+<span class="s2">    (1-based indexing).&quot;</span>
+
+<span class="w">  </span><span class="c1"># in case of not restarting</span>
+<span class="w">  </span><span class="nv">i</span><span class="o">=</span>-1
+<span class="k">fi</span>
+<span class="c1"># ----- checking restart finishes ---------------------------------------------</span>
+
+<span class="c1"># ----- stretching starts -----------------------------------------------------</span>
+verbose<span class="w"> </span><span class="s2">&quot;Stretching of </span><span class="nv">$mol</span><span class="s2"> starts and will run until getting </span><span class="nv">$breakages</span>
+<span class="s2">  ruptures&quot;</span>
+
+<span class="k">while</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="w"> </span>&lt;<span class="w"> </span><span class="s2">&quot;frozen_dofs.dat&quot;</span><span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>-le<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$breakages</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="c1"># names by index</span>
+<span class="w">  </span><span class="nv">namei</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%02d&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$i</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="w">  </span><span class="nv">nameiplusone</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%02d&quot;</span><span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">)))</span>
+<span class="w">  </span><span class="nv">nameiplustwo</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%02d&quot;</span><span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="k">)))</span>
+
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Stretched </span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2"> starts&quot;</span>
+<span class="w">  </span><span class="c1"># Creates gaussian input file</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="c1"># initial gaussian optimization</span>
+<span class="w">    </span>verbose<span class="w"> </span><span class="s2">&quot;The first gaussian process is an optimization&quot;</span>
+<span class="w">    </span>sith<span class="w"> </span>change_distance<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched00&quot;</span><span class="w"> </span>frozen_dofs.dat<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--xc<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$xc_functional</span><span class="s2">&#39;&quot;</span><span class="w"> </span>--basis<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$basis_set</span><span class="s2">&#39;&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>fail<span class="w"> </span><span class="s2">&quot;Creating initial gaussian input&quot;</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w">  </span><span class="s1">&#39;/^TV  /d&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched00.com&quot;</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;/opt/d&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched00.com&quot;</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$retake</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="c1"># if the last configuration was not taken from an incomplete job</span>
+<span class="w">      </span>sith<span class="w"> </span>change_distance<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="nv">$namei</span><span class="s2">.xyz&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>frozen_dofs.dat<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$size</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--xc<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$xc_functional</span><span class="s2">&#39;&quot;</span><span class="w"> </span>--basis<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$basis_set</span><span class="s2">&#39;&quot;</span><span class="se">\</span>
+<span class="w">        </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Creating gaussian input of stretching </span><span class="nv">$nameiplusone</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">    </span><span class="nv">retake</span><span class="o">=</span><span class="s1">&#39;true&#39;</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;$d&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span>
+<span class="w">    </span><span class="c1"># add constrains</span>
+<span class="w">    </span>cat<span class="w"> </span>frozen_dofs.dat<span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span><span class="w">  </span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1a %NProcShared=</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span>
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;/#P/a opt(modredun,calcfc)&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span>
+
+<span class="w">  </span><span class="c1"># run gaussian</span>
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Running optmization of stretching </span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">  </span>gaussian<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;Atoms too close.&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Atoms too close for </span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="k">fi</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
+
+<span class="w">  </span><span class="c1"># check convergence from output</span>
+<span class="w">  </span><span class="nv">output</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-i<span class="w"> </span>optimized<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>grep<span class="w"> </span>-c<span class="w"> </span>-i<span class="w"> </span>Non<span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$output</span><span class="s2">&quot;</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="c1"># If the code enters here is because, in a first optimization, it</span>
+<span class="w">    </span><span class="c1"># didn&#39;t converge so it has to run again to get the optimized </span>
+<span class="w">    </span><span class="c1"># structure. As a second chance to converge.</span>
+<span class="w">    </span>verbose<span class="w"> </span><span class="s2">&quot;Optimization did not converge with distance </span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="s2"> *</span>
+<span class="s2">      </span><span class="nv">$size</span><span class="s2"> . Then, a new trial will start now&quot;</span>
+<span class="w">    </span>sith<span class="w"> </span>log2xyz<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--indexes<span class="w"> </span><span class="s2">&quot;[</span><span class="nv">$indexes</span><span class="s2">]&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">      Transforming log file to xyz in second trial of optimization&quot;</span>
+<span class="w">    </span>sith<span class="w"> </span>change_distance<span class="w"> </span><span class="se">\</span>
+<span class="w">            </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.xyz&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplustwo</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>frozen_dofs.dat<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">            </span>--xc<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$xc_functional</span><span class="s2">&#39;&quot;</span><span class="w"> </span>--basis<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$basis_set</span><span class="s2">&#39;&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;changing distance&quot;</span>
+<span class="w">    </span><span class="c1"># save the failed files in ...-stretched&lt;number&gt;a.*</span>
+<span class="w">    </span>create_bck<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">&quot;</span>*
+<span class="w">    </span><span class="c1"># then restart the optimization</span>
+<span class="w">    </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplustwo</span><span class="si">}</span><span class="s2">.com&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/stretched</span><span class="si">${</span><span class="nv">nameiplustwo</span><span class="si">}</span><span class="s2">/stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">/g&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1a %NProcShared=</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;/#P/a opt(modredun,calcfc)&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;$d&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span>
+<span class="w">    </span>cat<span class="w"> </span>frozen_dofs.dat<span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span>
+<span class="w">    </span><span class="c1"># run optimization</span>
+<span class="w">    </span>verbose<span class="w"> </span><span class="s2">&quot;Re-running optimization&quot;</span>
+<span class="w">    </span>gaussian<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.com&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span>
+<span class="w">  </span><span class="k">fi</span>
+
+<span class="w">  </span><span class="c1"># check the output again</span>
+<span class="w">  </span><span class="nv">output</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-i<span class="w"> </span>optimized<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>grep<span class="w"> </span>-c<span class="w"> </span>-i<span class="w"> </span>Non<span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$output</span><span class="s2">&quot;</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>failed<span class="w"> </span><span class="s2">&quot;Optimization when the stretched distance was</span>
+<span class="s2">      </span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="s2">*0.2 didn&#39;t converge. No more stretching will be applied&quot;</span>
+
+<span class="w">  </span><span class="c1"># creating fchk file</span>
+<span class="w">  </span>formchk<span class="w"> </span>-3<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.chk&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Creating fchk file&quot;</span>
+
+<span class="w">  </span><span class="c1"># ==== Testing DOFs</span>
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Testing dofs&quot;</span>
+<span class="w">  </span>sith<span class="w"> </span>log2xyz<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--indexes<span class="w"> </span><span class="s2">&quot;[</span><span class="nv">$indexes</span><span class="s2">]&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Transforming</span>
+<span class="s2">    log file to xyz with indexes [</span><span class="nv">$indexes</span><span class="s2">]&quot;</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$i</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span>-1<span class="w"> </span><span class="o">]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">extrad</span><span class="o">=</span><span class="s2">&quot;..&quot;</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="c1"># check the bonds in &#39;i&#39; that are not in &#39;i+1&#39;. If any, they are added to</span>
+<span class="w">    </span><span class="c1"># frozen_dofs.dat</span>
+<span class="w">    </span><span class="nv">extrad</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>diff_bonds<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">namei</span><span class="si">}</span><span class="s2">.xyz&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">              </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">.xyz&quot;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="k">fi</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="si">${#</span><span class="nv">extrad</span><span class="si">}</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="c1"># create bck in rupture directory in case it already exists</span>
+<span class="w">    </span>verbose<span class="w"> </span><span class="s2">&quot;rupture found in </span><span class="nv">$extrad</span><span class="s2">, this bond will be frozen&quot;</span>
+<span class="w">    </span>mkdir<span class="w"> </span>-p<span class="w"> </span>rupture<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>rupture
+<span class="w">    </span>create_bck<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>..<span class="w"> </span>
+<span class="w">    </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2">-stretched</span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">&quot;</span>*<span class="w"> </span>rupture/
+<span class="w">  </span><span class="k">else</span>
+<span class="w">     </span>verbose<span class="w"> </span><span class="s2">&quot;Non-rupture detected in stretched </span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="k">fi</span>
+
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Stretched </span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2"> finished&quot;</span>
+<span class="w">  </span><span class="c1"># next i</span>
+<span class="w">  </span><span class="nv">i</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
+<span class="k">done</span>
+
+<span class="c1"># ----- stretching finishes ---------------------------------------------------</span>
+
+finish<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$mol</span><span class="s2"> finished&quot;</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="swap_atoms_in_com.html" class="btn btn-neutral float-left" title="Script of sith swap_atoms_in_com" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../sith.readers.html" class="btn btn-neutral float-right" title="sith.readers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
