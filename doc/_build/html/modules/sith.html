@@ -100,9 +100,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.energies_percentage"><code class="docutils literal notranslate"><span class="pre">SITH.energies_percentage</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.removed_dofs"><code class="docutils literal notranslate"><span class="pre">SITH.removed_dofs</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.dim_indices"><code class="docutils literal notranslate"><span class="pre">SITH.dim_indices</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sith.SITH.delta_angles_continuous"><code class="docutils literal notranslate"><span class="pre">SITH.delta_angles_continuous()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.energies_error"><code class="docutils literal notranslate"><span class="pre">SITH.energies_error()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.jedi_analysis"><code class="docutils literal notranslate"><span class="pre">SITH.jedi_analysis()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.killer"><code class="docutils literal notranslate"><span class="pre">SITH.killer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sith.SITH.reduce_path"><code class="docutils literal notranslate"><span class="pre">SITH.reduce_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.rem_first_last"><code class="docutils literal notranslate"><span class="pre">SITH.rem_first_last()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.remove_extra_dofs"><code class="docutils literal notranslate"><span class="pre">SITH.remove_extra_dofs()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sith.SITH.sith_analysis"><code class="docutils literal notranslate"><span class="pre">SITH.sith_analysis()</span></code></a></li>
@@ -200,14 +202,19 @@
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.change_prolines_dofs"><code class="docutils literal notranslate"><span class="pre">change_prolines_dofs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.def_line"><code class="docutils literal notranslate"><span class="pre">def_line()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.extract_dofs"><code class="docutils literal notranslate"><span class="pre">extract_dofs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.extract_proline_atoms"><code class="docutils literal notranslate"><span class="pre">extract_proline_atoms()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.find_CAC_NC"><code class="docutils literal notranslate"><span class="pre">find_CAC_NC()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.permute_atoms"><code class="docutils literal notranslate"><span class="pre">permute_atoms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.reorder_prolines_atoms"><code class="docutils literal notranslate"><span class="pre">reorder_prolines_atoms()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.set1"><code class="docutils literal notranslate"><span class="pre">set1()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.set2"><code class="docutils literal notranslate"><span class="pre">set2()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.set3"><code class="docutils literal notranslate"><span class="pre">set3()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.set4"><code class="docutils literal notranslate"><span class="pre">set4()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.set_backbone"><code class="docutils literal notranslate"><span class="pre">set_backbone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.swaps_to_transform"><code class="docutils literal notranslate"><span class="pre">swaps_to_transform()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.change_dofs.test_dofs"><code class="docutils literal notranslate"><span class="pre">test_dofs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.g09_xyz.log2xyz"><code class="docutils literal notranslate"><span class="pre">log2xyz()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.g09_xyz.log2xyz2"><code class="docutils literal notranslate"><span class="pre">log2xyz2()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.protonate.Protonize"><code class="docutils literal notranslate"><span class="pre">Protonize</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.protonate.Protonize.arg"><code class="docutils literal notranslate"><span class="pre">Protonize.arg()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="sith.g09_stretching.html#sith.g09_stretching.protonate.Protonize.asp"><code class="docutils literal notranslate"><span class="pre">Protonize.asp()</span></code></a></li>
@@ -260,6 +267,7 @@
 <li class="toctree-l4"><a class="reference internal" href="sith.utils.html#sith.utils.analysis.DataSetAnalysis.dof_vs_energy_rescaled"><code class="docutils literal notranslate"><span class="pre">DataSetAnalysis.dof_vs_energy_rescaled()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="sith.utils.html#sith.utils.analysis.DataSetAnalysis.plot_DFT_ener"><code class="docutils literal notranslate"><span class="pre">DataSetAnalysis.plot_DFT_ener()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="sith.utils.html#sith.utils.analysis.DataSetAnalysis.test"><code class="docutils literal notranslate"><span class="pre">DataSetAnalysis.test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sith.utils.html#sith.utils.analysis.DataSetAnalysis.test_continuity"><code class="docutils literal notranslate"><span class="pre">DataSetAnalysis.test_continuity()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="sith.utils.html#sith.utils.analysis.SithAnalysis"><code class="docutils literal notranslate"><span class="pre">SithAnalysis</span></code></a><ul>
@@ -617,7 +625,7 @@ dof, dim_indices, internal_forces, and hessian; updates dims</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.Utilities.color_distribution">
-<span class="sig-prename descclassname"><span class="pre">sith.Utilities.</span></span><span class="sig-name descname"><span class="pre">color_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#sith.SITH" title="sith.SITH"><span class="pre">SITH</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dofs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idef</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Colormap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">absolute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">div</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BoundaryNorm</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#sith.Utilities.color_distribution" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.Utilities.</span></span><span class="sig-name descname"><span class="pre">color_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#sith.SITH" title="sith.SITH"><span class="pre">SITH</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dofs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idef</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Colormap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">absolute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">div</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">respect_to_total_energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">BoundaryNorm</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#sith.Utilities.color_distribution" title="Link to this definition"></a></dt>
 <dd><p>Extract the energies of the specified DOFs and deformation structure, and
 the normalization according to a cmap.</p>
 <dl class="field-list simple">
@@ -634,6 +642,10 @@ based on the maximum energy of the all the DOFS in the present
 stretching conf.</p></li>
 <li><p><strong>div</strong> (<em>int</em>) – number of sets of colors in which the colorbar is divided.</p></li>
 <li><p><strong>decimals</strong> (<em>Default=3</em>) – number of decimals of the ticks of the colorbar.</p></li>
+<li><p><strong>respect_to_total_energy</strong> (<em>bool. Default=False</em>) – if true, the maximum of energies will be calculated with respect to
+the total energy of all the DOFs, not only the selected ones. Note
+that the difference with absolute is that absolute uses the total
+energy of the selected DOFs but among all the stretched configurations.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -648,7 +660,7 @@ stretching conf.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.Utilities.create_colorbar">
-<span class="sig-prename descclassname"><span class="pre">sith.Utilities.</span></span><span class="sig-name descname"><span class="pre">create_colorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BoundaryNorm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Colormap</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#sith.Utilities.create_colorbar" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.Utilities.</span></span><span class="sig-name descname"><span class="pre">create_colorbar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BoundaryNorm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Colormap</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deci</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labelsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#sith.Utilities.create_colorbar" title="Link to this definition"></a></dt>
 <dd><p>Discrete colorbar according defined by a matplotlib.BoundaryNorm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -861,6 +873,29 @@ distances.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sith.SITH.delta_angles_continuous">
+<span class="sig-name descname"><span class="pre">delta_angles_continuous</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d_ij</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nrs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.SITH.delta_angles_continuous" title="Link to this definition"></a></dt>
+<dd><p>Make the difference of the angles continuous considering the periodicity of
+them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d_ij</strong> (<em>numpy.Array</em>) – set of delta dofs with form [structure][DOF]</p></li>
+<li><p><strong>nrs</strong> (<em>int</em>) – Number of distances.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(numpy.Array) new set of delta DOFs with delta angles continuous.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Here, it is assumed that the first &lt;nrs&gt; DOFs in d_ij are distances and
+the rest are angles.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sith.SITH.energies_error">
 <span class="sig-name descname"><span class="pre">energies_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#sith.SITH.energies_error" title="Link to this definition"></a></dt>
 <dd><p>Computes the error of the structure energy computed by the energy
@@ -911,6 +946,23 @@ remove all hydrogens and carbons, use killElements=[‘H’, ‘C’].</p></li>
 <dd class="field-even"><p>(list) [int] indexes of the removed DOFs.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.SITH.reduce_path">
+<span class="sig-name descname"><span class="pre">reduce_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#sith.SITH.reduce_path" title="Link to this definition"></a></dt>
+<dd><p>Removes structures that are equivalent in terms of DOFs values selected
+for the analysis. Notice that those DOFs which were removed from the
+analysis are not taken into account.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list) new set of structure names after reducing the path.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method keeps the first and last structures.</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -980,12 +1032,12 @@ simpson_integration, rectangle_integration.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sith.variables4tests.G">
-<span class="sig-name descname"><span class="pre">G</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PosixPath('/home/mbm/sw/sith/src/sith/../../tests/resources/G')</span></em><a class="headerlink" href="#sith.variables4tests.G" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">G</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PosixPath('/home/mbm/nexus/sw/sith/src/sith/../../tests/resources/G')</span></em><a class="headerlink" href="#sith.variables4tests.G" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sith.variables4tests.resources">
-<span class="sig-name descname"><span class="pre">resources</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PosixPath('/home/mbm/sw/sith/src/sith/../../tests/resources')</span></em><a class="headerlink" href="#sith.variables4tests.resources" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">resources</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PosixPath('/home/mbm/nexus/sw/sith/src/sith/../../tests/resources')</span></em><a class="headerlink" href="#sith.variables4tests.resources" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>

@@ -177,6 +177,10 @@ missed bond is always different.</p>
 </p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function only works when the prolines are not next to capping groups.</p>
+</div>
 </dd></dl>
 
 <dl class="py function">
@@ -218,6 +222,11 @@ dihedral (the four indices) you want to compute.</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.extract_proline_atoms">
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">extract_proline_atoms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pep_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_pro</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.extract_proline_atoms" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.find_CAC_NC">
 <span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">find_CAC_NC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amino_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i_pro</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.find_CAC_NC" title="Link to this definition"></a></dt>
 <dd><p>Finds the C closest to the Ca atom and to the N atom. This is necessary
@@ -225,7 +234,8 @@ because C could be in the same, the previous or in the next amino.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>amino_info</strong> (<em>dict</em>) – dictionary with the amino info</p></li>
+<li><p><strong>amino_info</strong> (<em>dict</em>) – </p></li>
+<li><p><strong>info</strong> (<em>dictionary with the amino</em>) – </p></li>
 <li><p><strong>atoms</strong> (<em>ase.Atoms</em>) – atoms of a given configuration.</p></li>
 <li><p><strong>i_pro</strong> (<em>int</em>) – index of the proline residue.</p></li>
 </ul>
@@ -254,28 +264,67 @@ because C could be in the same, the previous or in the next amino.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.reorder_prolines_atoms">
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">reorder_prolines_atoms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">molecule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdb_template</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.reorder_prolines_atoms" title="Link to this definition"></a></dt>
+<dd><p>Changes the definition of the degrees of freedom in prolines such that the
+missed bond is always different.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>comfile</strong> (<em>str</em>) – gaussian input comfile that you want to modify.</p></li>
+<li><p><strong>molecule</strong> (<em>str</em>) – xyz file representing the molecule.</p></li>
+<li><p><strong>pdb_template</strong> (<em>str</em>) – pdb with the peptide information.</p></li>
+<li><p><strong>option</strong> (<em>str</em>) – ‘1’ misses Cgamma Cdelta.
+‘2’ misses Cbeta Cgamma.
+‘3’ misses Calpha Cbeta.
+‘4’ misses Cdelta N.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(None) However, it changes the comfile. Be sure to back up the original</em></p></li>
+<li><p><em>file.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.set1">
-<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">set1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Ca_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cb_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cg_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cd_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CCA_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CN_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.set1" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">set1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cd_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cg_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cb_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ca_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">O_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.set1" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.set2">
-<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">set2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Cg_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cd_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ca_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.set2" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">set2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cd_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cg_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cb_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ca_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">O_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.set2" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.set3">
-<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">set3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Cb_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cg_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cd_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.set3" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">set3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cd_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cg_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cb_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ca_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">O_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.set3" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.set4">
-<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">set4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Cd_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cg_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cb_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ca_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.set4" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">set4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Cd_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cg_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Cb_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ca_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">O_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HB2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HG2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD1_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HD2_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.set4" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.set_backbone">
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">set_backbone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ca_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">HA_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">C_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">O_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">previous</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">starting</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.set_backbone" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.swaps_to_transform">
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">swaps_to_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.swaps_to_transform" title="Link to this definition"></a></dt>
+<dd><p>Return a list of swaps (i, j) that transform <cite>initial</cite> into <cite>final</cite>.
+Each swap is applied to <cite>initial</cite> in sequence.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="sith.g09_stretching.change_dofs.test_dofs">
-<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">test_dofs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.test_dofs" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.change_dofs.</span></span><span class="sig-name descname"><span class="pre">test_dofs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.change_dofs.test_dofs" title="Link to this definition"></a></dt>
 <dd><p>”
 Tests that the distance, angle and dihedral defined by the given indexes
 correspond to those in the given file.</p>
@@ -283,9 +332,8 @@ correspond to those in the given file.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>atoms</strong> (<em>ase.Atoms</em>) – atoms of a given configuration.</p></li>
-<li><p><strong>indexes</strong> (<em>list</em>) – list of four indexes (1-based) defining the distance (between the
-first two indices), angle (between the first three indices) and
-dihedral (the four indices) you want to compute.</p></li>
+<li><p><strong>indexes</strong> (<em>list</em>) – Indexes (1-based) of an atom in the z-matrix that contains the
+distance, angle and dihedral.</p></li>
 <li><p><strong>file</strong> (<em>str</em>) – file where the distance, angle and dihedral are stored.</p></li>
 </ul>
 </dd>
@@ -321,6 +369,11 @@ optimization process in a xyz file.</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sith.g09_stretching.g09_xyz.log2xyz2">
+<span class="sig-prename descclassname"><span class="pre">sith.g09_stretching.g09_xyz.</span></span><span class="sig-name descname"><span class="pre">log2xyz2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">finput</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">foutput</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.g09_stretching.g09_xyz.log2xyz2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py class" id="module-sith.g09_stretching.protonate">
 <dt class="sig sig-object py" id="sith.g09_stretching.protonate.Protonize">

@@ -34,11 +34,3 @@ Submodules
    :members:
    :undoc-members:
    :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: sith
-   :members:
-   :undoc-members:
-   :show-inheritance:

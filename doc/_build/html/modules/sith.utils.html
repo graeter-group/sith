@@ -102,9 +102,9 @@
 <span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-sith.utils.analysis" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="sith.utils.analysis.DataSetAnalysis">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">DataSetAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inner_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_prolines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdb_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'stretched00'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">struc_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'forces*.fchk'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.DataSetAnalysis" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">DataSetAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inner_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'./'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude_prolines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdb_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'stretched00'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">struc_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'force*.fchk'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alternative_subdir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.DataSetAnalysis" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Creates the objects of to do the analysis of a bunch of peptides in a
+<p>Creates the objects of to do the analysis of a set of peptides in a
 data set.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -244,6 +244,11 @@ the rest also has it</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.utils.analysis.DataSetAnalysis.test_continuity">
+<span class="sig-name descname"><span class="pre">test_continuity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.DataSetAnalysis.test_continuity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -555,7 +560,7 @@ with an specific peptide.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.utils.analysis.reduce_data">
-<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">reduce_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.reduce_data" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.utils.analysis.</span></span><span class="sig-name descname"><span class="pre">reduce_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ys</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.analysis.reduce_data" title="Link to this definition"></a></dt>
 <dd><p>Reduces the data to the range of maximum minimum xs (highest of the lowest)
 and minumim maximum xs (lowest of the highest). Returns a new list of xs
 and ys where all the minum/maximum xs are the same and the ys of the
@@ -566,8 +571,6 @@ transformation new_y -= new_y[:, 0]</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>xs</strong> (<em>list</em><em> of </em><em>arrays</em>) – set of xs data.</p></li>
 <li><p><strong>ys</strong> (<em>list</em><em> of </em><em>arrays</em>) – set of xs data.</p></li>
-<li><p><strong>defmin</strong> (<em>float. Default=-100</em>) – first guest of the minimum.</p></li>
-<li><p><strong>defmax</strong> (<em>float. Default=100</em>) – first guest of the maximum.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -680,8 +683,12 @@ the other way around.</p>
 <li><p><strong>sith2</strong> (<a class="reference internal" href="sith.html#sith.SITH" title="sith.SITH"><em>sith.SITH</em></a>) – object to compare.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>(tuple), list of indexes in sith1 that are in sith2, organized list.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>(tuple), list of indexes in sith1 that are not in sith2 and list of indexes</em></p></li>
+<li><p><em>in sith2 that are not in sith1.</em></p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -872,7 +879,7 @@ the atoms. 1-based numbering.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sith.utils.molecules.MoleculeSetter.create_gaussian_input">
-<span class="sig-name descname"><span class="pre">create_gaussian_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bmk'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'6-31+g'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.create_gaussian_input" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_gaussian_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bmk'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'6-31+g'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'10GB'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.molecules.MoleculeSetter.create_gaussian_input" title="Link to this definition"></a></dt>
 <dd><p>Creates a gaussian .com file without specifing the kind of calculus to
 run (optimization, ab-initio md, frequencies…). You would have to add
 it.</p>
@@ -1334,7 +1341,7 @@ SithPlotter.sith.energies</p>
 <li><p><strong>dofs</strong> (<em>array</em>) – energies per degree of freedom. Usually a matrix where each
 component contains the energies for each DOF for each deformed
 config:
-dofdeformed     0 1  2  3 …
+dof\ deformed     0 1  2  3 …
 0             [[              ]]
 1             [[              ]]
 2             [[              ]]
@@ -1348,7 +1355,7 @@ graph.</p></li>
 <li><p><strong>cbar</strong> (<em>bool. Default=False</em>) – True to show the color bar.</p></li>
 <li><p><strong>step</strong> (<em>int. Default 1</em>) – size of steps separating the labels of the degrees of freedom.</p></li>
 <li><p><strong>pstryle</strong> (<em>str. Default='-o'</em>) – style of the lines of energies</p></li>
-<li><p><strong>ylabel</strong> (<em>str. Default={r'$Delta$E$_{rm{f i}}$' + f'Ha'}</em>) – label in the y axis.</p></li>
+<li><p><strong>ylabel</strong> (<em>str. Default={'$Delta$E$_{\rm{bf i}}$' + f'Ha'}</em>) – label in the y axis.</p></li>
 <li><p><strong>jump_stretching</strong> (<em>int. Default=1</em>) – jumps from one stretching to the other starting from the optimized
 one.</p></li>
 <li><p><strong>show_amino_legends</strong> (<em>bool. Default=False</em>) – True to show the name of the aminoacids painting the background.</p></li>
@@ -1411,7 +1418,7 @@ of samples.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.utils.sith_plots.plot_matrix2">
-<span class="sig-prename descclassname"><span class="pre">sith.utils.sith_plots.</span></span><span class="sig-name descname"><span class="pre">plot_matrix2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.sith_plots.plot_matrix2" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.utils.sith_plots.</span></span><span class="sig-name descname"><span class="pre">plot_matrix2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subspace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.sith_plots.plot_matrix2" title="Link to this definition"></a></dt>
 <dd><p>Plot a matrix as a heatmap. The colormap is plt.get_cmap(‘coolwarm’) and is
 divergent, with 0.05 in the middle.</p>
 <dl class="field-list simple">
@@ -1525,7 +1532,7 @@ using a pdb file as template.</p>
 <li><p><strong>pdbtemplate</strong> (<em>str</em>) – path to the pdb template for the output.</p></li>
 <li><p><strong>output_patern</strong> (<em>str. Default=None</em>) – the name of the output will be &lt;this string&gt;-&lt;n&gt;.pdb, where is is an
 increasing index, from 1 to the number of xyz files.</p></li>
-<li><p><strong>xyzdir</strong> (<em>str. Default=&quot;&quot;</em>) – directory containing all the xyz files you want to transform.</p></li>
+<li><p><strong>xyzdir</strong> (<em>str. Default=&quot;./&quot;</em>) – directory containing all the xyz files you want to transform.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -1571,7 +1578,7 @@ implemented are: ‘scale_distance’, ‘increase_distance’,
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.utils.tools.conf2pdb">
-<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">conf2pdb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdbtemplate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdboutput</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.conf2pdb" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">conf2pdb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdbtemplate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pdboutput</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_new_pdb</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.conf2pdb" title="Link to this definition"></a></dt>
 <dd><p>Transform a configuration in a file (xyz, log…) into a pdb using a pdb
 file as template.</p>
 <dl class="field-list simple">
@@ -1581,6 +1588,9 @@ file as template.</p>
 <li><p><strong>pdbtemplate</strong> (<em>str</em>) – path to the pdb template for the output.</p></li>
 <li><p><strong>pdboutput</strong> (<em>str. Default=None</em>) – name of trasnformed config file with pdb format. The default name is
 the same than the confile but with pdb extension.</p></li>
+<li><p><strong>write_new_pdb</strong> (<em>bool. Default=True</em>) – If True, write a new pdb file with the properties of the template
+(resnames, atomtypes, residuenumbers) but the positions of the
+confile.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -1623,7 +1633,7 @@ find the bonds in conf2 that are not in conf1.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sith.utils.tools.distance">
-<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.distance" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">sith.utils.tools.</span></span><span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.utils.tools.distance" title="Link to this definition"></a></dt>
 <dd><p>Computes the distance between two atoms in the last configuration
 of a trajectory file (e.g. .log file from gaussian).</p>
 <dl class="field-list simple">

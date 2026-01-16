@@ -765,7 +765,7 @@ x axis</p>
 
 <dl class="py class" id="module-sith.visualize.vmol">
 <dt class="sig sig-object py" id="sith.visualize.vmol.EnergiesVMol">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.visualize.vmol.</span></span><span class="sig-name descname"><span class="pre">EnergiesVMol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith_info:</span> <span class="pre">~sith.SITH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dofs:</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idef:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alignment:</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">tuple</span> <span class="pre">|</span> <span class="pre">~numpy.ndarray</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background:</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">~vpython.vpython.color</span> <span class="pre">=</span> <span class="pre">&lt;1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.visualize.vmol.EnergiesVMol" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.visualize.vmol.</span></span><span class="sig-name descname"><span class="pre">EnergiesVMol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sith_info:</span> <span class="pre">~sith.SITH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dofs:</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idef:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alignment:</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">tuple</span> <span class="pre">|</span> <span class="pre">~numpy.ndarray</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_axis:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background:</span> <span class="pre">list</span> <span class="pre">|</span> <span class="pre">~vpython.vpython.color</span> <span class="pre">=</span> <span class="pre">&lt;1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">1&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">respect_to_total_energy:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.visualize.vmol.EnergiesVMol" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">VMolecule</span></code></p>
 <p>Set of graphic tools to visualize the distribution of energies in the
 different degrees of freedom (lengths, angles, dihedrals). Wrap to VMol.</p>
@@ -809,12 +809,14 @@ each one of the arguments from the kwargs.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sith.visualize.vmol.EnergiesVMol.create_figure">
-<span class="sig-name descname"><span class="pre">create_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dofs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.visualize.vmol.EnergiesVMol.create_figure" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">create_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dofs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">respect_to_total_energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.visualize.vmol.EnergiesVMol.create_figure" title="Link to this definition"></a></dt>
 <dd><p>Creates the Color bar to be displayed at a side.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dofs</strong> – DOFs to be displayed in the distribution.</p></li>
+<li><p><strong>respect_to_total_energy</strong> (<em>bool. Default=False</em>) – if true, the maximum of energies will be calculated with respect to
+the total energy of all the DOFs, not only the selected ones.</p></li>
 <li><p><strong>change_def</strong> (<em>kwargs for</em>) – </p></li>
 </ul>
 </dd>
@@ -831,7 +833,7 @@ each one of the arguments from the kwargs.</p>
 energy according to the JEDI method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>EnergiesVMol.energies_some_dof</strong> (<em>**kwargs for</em>) – </p>
+<dd class="field-odd"><p><strong>EnergiesVMol.energies_some_dof</strong> (<em>kwargs for</em>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(tuple) DOFs and their computed energies.</p>
@@ -846,7 +848,7 @@ energy according to the JEDI method.</p>
 energy according to the JEDI method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>EnergiesVMol.energies_some_dof</strong> (<em>** kwargs for</em>) – </p>
+<dd class="field-odd"><p><strong>EnergiesVMol.energies_some_dof</strong> (<em>kwargs for</em>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(tuple) DOFs and their computed energies.</p>
@@ -876,7 +878,7 @@ energy according to the JEDI method.</p>
 distribution of energy according to the JEDI method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>EnergiesVMol.energies_some_dof</strong> (<em>** kwargs for</em>) – </p>
+<dd class="field-odd"><p><strong>EnergiesVMol.energies_some_dof</strong> (<em>kwargs for</em>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>(tuple) DOFs and their computed energies.</p>
@@ -895,7 +897,7 @@ energy according to the SITH method.</p>
 <li><p><strong>dofs</strong> (<em>list</em><em> of </em><em>tuples.</em>) – list of degrees of freedom defined according with 1-based indexing.</p></li>
 <li><p><strong>normalize</strong> – normalization of colors acording to the range of energies and the
 colormap.</p></li>
-<li><p><strong>VMolecule.add_dof</strong> (<em>**kwargs of</em>) – </p></li>
+<li><p><strong>VMolecule.add_dof</strong> (<em>kwargs of</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>

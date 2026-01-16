@@ -292,11 +292,10 @@ rm<span class="w"> </span>tmp*.out
 create_bck<span class="w"> </span>forces
 mkdir<span class="w"> </span>-p<span class="w"> </span>forces
 
-<span class="nv">str_index</span><span class="o">=</span><span class="m">0</span>
 <span class="nv">speficic_job_options</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+verbose<span class="w"> </span><span class="s2">&quot;Submitting jobs:&quot;</span>
 <span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-conopt*.dat
 <span class="k">do</span>
-<span class="w">  </span><span class="nv">str_index</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="m">10#</span><span class="nv">$str_index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
 <span class="w">  </span><span class="nv">struct_name</span><span class="o">=</span><span class="si">${</span><span class="nv">file</span><span class="p">%.dat</span><span class="si">}</span>
 <span class="w">  </span>cp<span class="w"> </span>heading_template.out<span class="w">  </span><span class="nv">$struct_name</span>.com
 <span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;/chk=/c %chk=</span><span class="nv">$struct_name</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$struct_name</span>.com
@@ -317,19 +316,19 @@ mkdir<span class="w"> </span>-p<span class="w"> </span>forces
 <span class="w">    </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Preparating the input of gaussian&quot;</span>
 <span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1a %NProcShared=</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$struct_name</span><span class="s2">.com&quot;</span>
 <span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;/#P/a opt(modredun,calcfc)&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$struct_name</span><span class="s2">.com&quot;</span>
-<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1a %mem=60000MB&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$struct_name</span><span class="s2">.com&quot;</span>
 <span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;\$c</span><span class="nv">$index1</span><span class="s2"> </span><span class="nv">$index2</span><span class="s2"> F&quot;</span><span class="w"> </span><span class="nv">$struct_name</span>.com
 
 <span class="w">  </span><span class="c1"># and then submits the jobs</span>
-<span class="w">  </span>verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;-  </span><span class="nv">$struct_name</span><span class="s2"> </span><span class="nv">$str_index</span><span class="s2">&quot;</span>
+<span class="w">  </span>verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;-  </span><span class="nv">$struct_name</span><span class="s2">&quot;</span>
 <span class="w">  </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="nv">speficic_job_options</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2"> -J </span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%03d&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">                          </span><span class="nv">$str_index</span><span class="k">)</span><span class="s2">O</span><span class="nv">$struct_name</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nv">speficic_job_options</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2"> -J O</span><span class="nv">$struct_name</span><span class="s2">&quot;</span>
+<span class="w">  </span>verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$speficic_job_options</span><span class="s2">&quot;</span>
 <span class="w">  </span><span class="nv">$speficic_job_options</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>opt_and_forces<span class="w"> </span>-path<span class="w"> </span><span class="k">)</span><span class="w"> </span><span class="nv">$c_flag</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$struct_name</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">                                   </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">                                   </span>-S<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$opt_forces_job_options</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">                                   </span><span class="nv">$verbose</span>
+<span class="w">                                   </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;submitting opt_and_forces</span>
+<span class="s2">                                                     for </span><span class="nv">$struct_name</span><span class="s2">&quot;</span>
 <span class="k">done</span>
 
 rm<span class="w"> </span>heading_template.out
