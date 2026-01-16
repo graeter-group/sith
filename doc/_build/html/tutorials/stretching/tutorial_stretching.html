@@ -194,7 +194,7 @@ sith<span class="w"> </span>find_forces<span class="w"> </span>-c<span class="w"
 <cite>&lt;ext&gt;</cite> = <cite>com</cite>, <cite>log</cite>, <cite>chk</cite> and <cite>fchk</cite>. The fchk includes the necessary
 information for energy distribution analysis. Internally, these are generated
 using <code class="code docutils literal notranslate"><span class="pre">formchk</span> <span class="pre">-3</span> <span class="pre">G-force&lt;n&gt;.chk</span></code>  and the corresponding Gaussian log
-file formatted according to <a class="reference internal" href="../../modules/sith.readers.html#module-sith.readers.g09_reader" title="sith.readers.g09_reader"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sith.readers.g09_reader</span></code></a>.</p>
+file formatted according to <code class="xref py py-mod docutils literal notranslate"><span class="pre">sith.readers.g09_reader</span></code>.</p>
 <p>Instead of doing it one by one, you can compute all at once in parallel using:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>forces
 <span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span>G-stretched*.chk
@@ -208,7 +208,7 @@ file formatted according to <a class="reference internal" href="../../modules/si
 <h2>Run SITH Analysis<a class="headerlink" href="#run-sith-analysis" title="Link to this heading"></a></h2>
 <p>Now everything is ready for the actual analysis!</p>
 <p>Load the force data and compute the energy distribution with <code class="code docutils literal notranslate"><span class="pre">sith</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sith.SITH</span> <span class="kn">import</span> <span class="n">SITH</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sith</span> <span class="kn">import</span> <span class="n">SITH</span>
 
 <span class="n">sith</span> <span class="o">=</span> <span class="n">SITH</span><span class="p">(</span><span class="s1">&#39;./forces&#39;</span><span class="p">)</span>
 <span class="n">sith</span><span class="o">.</span><span class="n">sith_analysis</span><span class="p">();</span>

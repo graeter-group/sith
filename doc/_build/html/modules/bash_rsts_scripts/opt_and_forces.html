@@ -53,15 +53,15 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme.info_from_opt">Submodules</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#submodules">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching.change_dofs">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
@@ -69,8 +69,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
@@ -126,9 +126,13 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="s2">  -F  use this flag fo AVIOD force calculation after optimization.</span>
 <span class="s2">  -p  &lt;processors=1&gt; number of processors per gaussian job. See description of</span>
 <span class="s2">      flag -c.</span>
+<span class="s2">  -P  &lt;pattern=&#39;conopt&#39;&gt; pattern to be replaced by &#39;forces&#39; in the name of the</span>
+<span class="s2">      output files of the optimization when submitting the forces.</span>
 <span class="s2">  -S  &lt;job_options=&#39;&#39;&gt; options for submitting a new job. This flag only makes</span>
 <span class="s2">      sense in slurm cluster. Please, do not include a name and add the options</span>
 <span class="s2">      as in the next example: \&quot;--partition=cpu --nice\&quot;.</span>
+<span class="s2">  -r  if the optimization did not converge, restart it from the last</span>
+<span class="s2">      geometry. </span>
 
 <span class="s2">  -v  verbose.</span>
 <span class="s2">  -h  prints this message.</span>
@@ -142,13 +146,17 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="nv">n_processors</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">job_options</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
 <span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;cf:F:p:S:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="nv">restart</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">pattern</span><span class="o">=</span><span class="s1">&#39;conopt&#39;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;cf:F:p:P:rS:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
 <span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>f<span class="o">)</span><span class="w"> </span><span class="nv">file</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>F<span class="o">)</span><span class="w"> </span><span class="nv">force_calc</span><span class="o">=</span><span class="s1">&#39;false&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>p<span class="o">)</span><span class="w"> </span><span class="nv">n_processors</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>P<span class="o">)</span><span class="w"> </span><span class="nv">pattern</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>S<span class="o">)</span><span class="w"> </span><span class="nv">job_options</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>r<span class="o">)</span><span class="w"> </span><span class="nv">restart</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
 
 <span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
 <span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
@@ -185,6 +193,20 @@ verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;
 
 <span class="c1"># ----- BODY ------------------------------------------------------------------</span>
 verbose<span class="w"> </span><span class="s2">&quot;submit constrained optimization </span><span class="nv">$file</span><span class="s2">&quot;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$restart</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;true&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="k">then</span>
+<span class="w">  </span>cp<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.com&quot;</span><span class="w"> </span><span class="s2">&quot;tmp-</span><span class="nv">$file</span><span class="s2">.com&quot;</span>
+<span class="w">  </span>create_bck<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.com&quot;</span>
+<span class="w">  </span>mv<span class="w"> </span><span class="s2">&quot;tmp-</span><span class="nv">$file</span><span class="s2">.com&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.com&quot;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span>!<span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;Geom=Check&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.com&quot;</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;/#/a Guess=Read Geom=Check&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.com&quot;</span>
+<span class="w">    </span><span class="nv">n_i</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;^</span>$<span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.com&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span>:<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;2p&#39;</span><span class="k">)</span>
+<span class="w">    </span><span class="nv">n_j</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;^</span>$<span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.com&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span>:<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;3p&#39;</span><span class="k">)</span>
+<span class="w">    </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;</span><span class="k">$((</span><span class="w"> </span><span class="nv">n_i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="k">))</span><span class="s2">,</span><span class="k">$((</span><span class="w"> </span><span class="nv">n_j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="s2">d&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.com&quot;</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="k">fi</span>
+
 gaussian<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.com&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.log&quot;</span>
 
 grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;Normal termination of Gaussian&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">.log&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
@@ -194,7 +216,7 @@ grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;Nor
 <span class="k">then</span>
 <span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Submit forces computation </span><span class="nv">$file</span><span class="s2">.chk&quot;</span>
 <span class="w">  </span><span class="nv">$job_options</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="k">$(</span>sith<span class="w"> </span>find_forces<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span><span class="nv">$c_flag</span><span class="w"> </span>-f<span class="w"> </span><span class="nv">$file</span>.chk<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;conopt&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="k">$(</span>sith<span class="w"> </span>find_forces<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span><span class="nv">$c_flag</span><span class="w"> </span>-f<span class="w"> </span><span class="nv">$file</span>.chk<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pattern</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">                              </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;submitting forces&quot;</span>
 <span class="k">fi</span>
 

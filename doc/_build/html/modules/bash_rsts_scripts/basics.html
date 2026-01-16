@@ -57,15 +57,15 @@
 <li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.utils.html">sith.utils package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../sith.utils.html#module-sith.utils.analysis">Submodules</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../sith.utils.html#module-sith.utils">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.utils.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
@@ -223,7 +223,7 @@ fail<span class="w"> </span><span class="o">()</span><span class="w"> </span><sp
 <span class="w">  </span><span class="c1"># shellcheck disable=SC2068</span>
 <span class="w">  </span>adjust<span class="w"> </span><span class="s2">&quot;ERROR&quot;</span><span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>date<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
 <span class="w">  </span><span class="c1"># shellcheck disable=SC2068</span>
-<span class="w">  </span>finish<span class="w"> </span><span class="s2">&quot;ERROR&quot;</span><span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>date<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="w">  </span>adjust<span class="w"> </span><span class="s2">&quot;ERROR&quot;</span><span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>date<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
 <span class="w">  </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
 <span class="o">}</span>
 
@@ -273,12 +273,6 @@ search_last_bck<span class="o">()</span><span class="w"> </span><span class="o">
 <span class="w">  </span><span class="nv">last_woext</span><span class="o">=</span><span class="si">${</span><span class="nv">all_bcks</span><span class="p">[-1]%.*</span><span class="si">}</span>
 <span class="w">  </span><span class="c1"># prints the number of the last config</span>
 <span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">last_woext</span><span class="p">:</span><span class="nv">0</span><span class="p">-3</span><span class="si">}</span>
-<span class="w">  </span><span class="nv">name_file</span><span class="o">=</span><span class="nv">$1</span>
-<span class="w">  </span>mapfile<span class="w"> </span>-t<span class="w"> </span>all_bcks<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span><span class="w"> </span>ls<span class="w"> </span>-1<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>-bck_???.*<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="o">)</span>
-<span class="w">  </span><span class="nv">last_woext</span><span class="o">=</span><span class="si">${</span><span class="nv">all_bcks</span><span class="p">[-1]%.*</span><span class="si">}</span>
-<span class="w">  </span><span class="c1"># prints the number of the last config</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">last_woext</span><span class="p">:</span><span class="nv">0</span><span class="p">-3</span><span class="si">}</span>
-
 <span class="o">}</span>
 
 load_modules<span class="o">()</span><span class="w"> </span><span class="o">{</span>

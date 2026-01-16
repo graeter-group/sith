@@ -53,15 +53,15 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme.info_from_opt">Submodules</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#submodules">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching.change_dofs">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
@@ -69,8 +69,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
@@ -277,8 +277,9 @@ verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;
 <span class="w">  </span><span class="k">then</span>
 <span class="w">    </span>sith<span class="w"> </span>log2xyz<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span><span class="w"> </span>--indexes<span class="w"> </span><span class="s2">&quot;[</span><span class="nv">$indexes</span><span class="s2">]&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
 <span class="w">      </span>fail<span class="w"> </span><span class="s2">&quot;extracting coordinates from </span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span>
-<span class="w">    </span>create_bck<span class="w"> </span><span class="nv">$xyz</span>
-<span class="w">    </span>cp<span class="w"> </span><span class="nv">$name</span>-optext.xyz<span class="w"> </span><span class="nv">$xyz</span>
+<span class="w">    </span>create_bck<span class="w"> </span><span class="nv">$alias</span>.xyz
+<span class="w">    </span>cp<span class="w"> </span><span class="nv">$name</span>-optext.xyz<span class="w"> </span><span class="nv">$alias</span>.xyz
+<span class="w">    </span>create_bck<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span>
 <span class="w">  </span><span class="k">fi</span>
 <span class="k">fi</span>
 
@@ -292,7 +293,6 @@ verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;
 <span class="w">    </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Preparating the input of gaussian&quot;</span>
 <span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1a %NProcShared=</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.com&quot;</span>
 <span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;/#P/a opt(modredun,calcfc)&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.com&quot;</span>
-<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1a %mem=60000MB&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.com&quot;</span>
 
 <span class="w">  </span>gaussian<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.com&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="o">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;Atoms too close.&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -328,7 +328,7 @@ verbose<span class="w"> </span><span class="s2">&quot;Starting &#39;sith continu
 <span class="s2">  </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span><span class="s2">-conopt&lt;n&gt;.xyz files&quot;</span>
 
 <span class="k">$(</span>sith<span class="w"> </span>continuous_path<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span><span class="nv">$c_flag</span><span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$level</span><span class="s2">&quot;</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">                              </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span>-P<span class="w"> </span><span class="s2">&quot;conopt&quot;</span><span class="w"> </span>-S<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span>
+<span class="w">                              </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span>-P<span class="w"> </span><span class="s2">&quot;conopt&quot;</span><span class="w"> </span>-S<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">                              </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;submiting continuous path&quot;</span>
 

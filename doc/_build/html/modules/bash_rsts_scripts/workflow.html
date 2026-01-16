@@ -56,8 +56,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching.change_dofs">Submodules</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#submodules">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
@@ -65,8 +65,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
@@ -143,10 +143,21 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="o">}</span>
 
 resubmit<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
-<span class="w">  </span>sleep<span class="w"> </span>23h<span class="w"> </span>58m<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>sbatch<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span><span class="w"> </span>-J<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_JOB_NAME</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>workflow<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-r<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span><span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$3</span><span class="s2">&quot;</span><span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$4</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;new JOB submitted&quot;</span>
+<span class="w">  </span>sleep<span class="w"> </span>23h<span class="w"> </span>58m
+
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Resubmitting the job for another 24h&quot;</span><span class="p">;</span>
+<span class="w">  </span>sbatch<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span><span class="w"> </span>-J<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_JOB_NAME</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>workflow<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$breakages</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$cluster</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-i<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$level</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-M<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-r<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$size</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-S<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Resubmission of the job failed&quot;</span>
 <span class="o">}</span>
 
 <span class="c1"># ----- definition of functions finishes --------------------------------------</span>
@@ -194,12 +205,13 @@ verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Command:&quot;</span>
 verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
 
+resubmit<span class="w"> </span><span class="p">&amp;</span>
 <span class="c1"># ---- Set up -------------------------------------------------------------------</span>
 
 <span class="c1"># load modules</span>
 <span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cluster</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;-c&quot;</span><span class="w"> </span><span class="o">]]</span>
 <span class="k">then</span>
-<span class="w">  </span>load_modules<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$breakages</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$size</span><span class="s2">&quot;</span>
+<span class="w">  </span>load_modules<span class="w"> </span><span class="c1"># &quot;$molecule&quot; &quot;$method&quot; &quot;$breakages&quot; &quot;$size&quot;</span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span>
 <span class="w">  </span><span class="k">then</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_CPUS_ON_NODE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
@@ -239,11 +251,17 @@ mv<span class="w"> </span>./*-bck*.*<span class="w"> </span>bck
 <span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">molecule</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>-stretched*.chk
 <span class="k">do</span>
 <span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Forces of </span><span class="nv">$i</span><span class="s2">&quot;</span>
-<span class="w">  </span>sbatch<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span><span class="w"> </span>-J<span class="w"> </span><span class="s2">&quot;F</span><span class="si">${</span><span class="nv">molecule</span><span class="p">%.*</span><span class="si">}</span><span class="nv">$Fcounter</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sbatch<span class="w"> </span><span class="nv">$job_options</span><span class="w"> </span>-J<span class="w"> </span><span class="s2">&quot;F</span><span class="si">${</span><span class="nv">molecule</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>find_forces<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cluster</span><span class="s2">&quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$i</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="w"> </span>stretched<span class="w"> </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>fail<span class="w"> </span><span class="s2">&quot;Submitting forces calculation&quot;</span>
 <span class="w">  </span><span class="nv">Fcounter</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">Fcounter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
 <span class="k">done</span>
+
+<span class="nb">cd</span><span class="w"> </span>../
+sbatch<span class="w"> </span><span class="nv">$job_options</span><span class="w"> </span>-J<span class="w"> </span><span class="s2">&quot;FE</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="k">$(</span>sith<span class="w"> </span>workflow_from_extreme<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span>-a<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$cluster</span><span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">/</span><span class="nv">$molecule</span><span class="s2">-stretched00.pdb&quot;</span><span class="w"> </span><span class="nv">$verbose</span><span class="w"> </span>-S<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span>
+
 
 <span class="c1">#sbatch $single_part -J ${molecule}_WAR $(sith workflow_from_extreme -path) -c -p &quot;.&quot; -v</span>
 

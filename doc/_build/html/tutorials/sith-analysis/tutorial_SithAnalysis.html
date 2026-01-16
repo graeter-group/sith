@@ -111,7 +111,7 @@ can download them from
 <a class="reference external" href="https://github.com/Sucerquia/Gdata4tut">https://github.com/Sucerquia/Gdata4tut</a>, or check the
 <a class="reference internal" href="../stretching/tutorial_stretching.html#tutorial-stretching"><span class="std std-ref">Stretching Molecule Tutorial</span></a> if you wish to generate them yourself.</p>
 <p>The first step is to load the data into a <code class="xref py py-class docutils literal notranslate"><span class="pre">sith.SITH.SITH</span></code> object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span> <span class="nn">sith.SITH</span> <span class="kn">import</span> <span class="n">SITH</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span> <span class="nn">sith</span> <span class="kn">import</span> <span class="n">SITH</span>
 <span class="linenos">2</span>
 <span class="linenos">3</span><span class="n">sith</span> <span class="o">=</span> <span class="n">SITH</span><span class="p">(</span><span class="s1">&#39;./forces&#39;</span><span class="p">)</span>
 <span class="linenos">4</span><span class="c1"># The next line could also be jedi_analysis if your fchk files</span>
@@ -326,7 +326,7 @@ the indices of the DOFs in <code class="code docutils literal notranslate"><span
 <p>Another important attribute of <code class="code docutils literal notranslate"><span class="pre">sith</span></code> is the change in the values of the
 degrees of freedom (<code class="xref py py-attr docutils literal notranslate"><span class="pre">sith.SITH.SITH.delta_q</span></code>), which in this case
 is defined by
-<a class="reference internal" href="../../modules/sith.energy_analysis.html#sith.energy_analysis.sith_analysis.SithAnalysis.get_sith_dq" title="sith.energy_analysis.sith_analysis.SithAnalysis.get_sith_dq"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sith.energy_analysis.sith_analysis.SithAnalysis.get_sith_dq()</span></code></a>.  This is
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">sith.energy_analysis.sith_analysis.SithAnalysis.get_sith_dq()</span></code>.  This is
 a crucial quantity (along with the forces) because, for numerical
 integration, the steps must be sufficiently small to ensure a reasonable
 discretisation of the energy integral. In this example, all changes in
@@ -521,7 +521,7 @@ treating “amino” as any residue in your PDB file.</p>
 <span class="linenos">4</span><span class="n">plotter_sith</span> <span class="o">=</span> <span class="n">SithPlotter</span><span class="p">(</span><span class="n">sith</span><span class="p">,</span> <span class="n">pdb</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><a class="reference internal" href="../../modules/sith.utils.html#module-sith.utils.sith_plots" title="sith.utils.sith_plots"><code class="xref py py-class docutils literal notranslate"><span class="pre">sith.utils.sith_plots</span></code></a> provides two attributes: <cite>amino_name</cite> and
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">sith.utils.sith_plots</span></code> provides two attributes: <cite>amino_name</cite> and
 <cite>amino_info</cite>. <cite>amino_name</cite> stores the names of the residues, while
 <cite>amino_info</cite> stores the atom names for each residue along with their
 indices (1-based).</p>
@@ -618,7 +618,7 @@ value is the total DFT energy change.</span><a class="headerlink" href="#id11" t
 <h3>Improved Representation of Angle Changes<a class="headerlink" href="#improved-representation-of-angle-changes" title="Link to this heading"></a></h3>
 <p>Normal cartesian plots may not adequately display angle values due to their periodic
 nature. We added the method
-<a class="reference internal" href="../../modules/sith.utils.html#sith.utils.sith_plots.SithPlotter.plot_angles" title="sith.utils.sith_plots.SithPlotter.plot_angles"><code class="xref py py-class docutils literal notranslate"><span class="pre">sith.utils.sith_plots.SithPlotter.plot_angles</span></code></a> to
+<code class="xref py py-class docutils literal notranslate"><span class="pre">sith.utils.sith_plots.SithPlotter.plot_angles</span></code> to
 provide a clearer visualisation. The following plot shows the angle values:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">sp</span> <span class="o">=</span> <span class="n">plotter_sith</span><span class="o">.</span><span class="n">plot_angles</span><span class="p">(</span><span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>

@@ -53,15 +53,15 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme.info_from_opt">Submodules</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#submodules">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
 <li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching.change_dofs">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
@@ -69,8 +69,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
@@ -139,18 +139,19 @@ print_help<span class="o">()</span><span class="w"> </span><span class="o">{</sp
 <span class="c1"># Reduce, optimize and then try to find intermedias.</span>
 <span class="k">for</span><span class="w"> </span>xyzfile<span class="w"> </span><span class="k">in</span><span class="w"> </span>*<span class="s2">&quot;</span><span class="si">${</span><span class="nv">xyzs</span><span class="si">}</span><span class="s2">&quot;</span>*.xyz
 <span class="k">do</span>
+<span class="w">  </span>verbose<span class="w"> </span>-t<span class="w"> </span>extract<span class="w"> </span>matrix<span class="w"> </span>from<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$xyzfile</span><span class="s2">&quot;</span>
 <span class="w">  </span>tail<span class="w"> </span>-n<span class="w"> </span>+3<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$xyzfile</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>tmp.xyz
 <span class="w">  </span>newzmat<span class="w"> </span>-ixyz<span class="w"> </span>-ozmat<span class="w"> </span>-rebuildzmat<span class="w"> </span>-bmodel<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>tmp.xyz<span class="s2">&quot;</span><span class="si">${</span><span class="nv">xyzfile</span><span class="p">%.xyz</span><span class="si">}</span><span class="s2">&quot;</span>-forces.com<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;z-matrix&quot;</span>
-<span class="w">  </span><span class="nv">n</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;Variables:&quot;&quot;</span><span class="si">${</span><span class="nv">xyzfile</span><span class="p">%.xyz</span><span class="si">}</span><span class="s2">&quot;</span>-forces.com<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="k">)</span>
+<span class="w">    </span>tmp.xyz<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">xyzfile</span><span class="p">%.xyz</span><span class="si">}</span><span class="s2">&quot;</span>-forces.com<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;z-matrix&quot;</span>
+<span class="w">  </span><span class="nv">n</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;Variables:&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">xyzfile</span><span class="p">%.xyz</span><span class="si">}</span><span class="s2">&quot;</span>-forces.com<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="k">)</span>
 <span class="w">  </span><span class="nv">n</span><span class="o">=</span><span class="si">${</span><span class="nv">n</span><span class="p">%:</span><span class="si">}</span>
 
 <span class="w">  </span><span class="c1"># check that the new structure has the same dofs in tha z-matrix</span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span>mat_inf.dat<span class="w"> </span><span class="o">]</span>
 <span class="w">  </span><span class="k">then</span>
-<span class="w">    </span>head<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n</span><span class="s2">&quot;&quot;</span><span class="si">${</span><span class="nv">xyzfile</span><span class="p">%.xyz</span><span class="si">}</span><span class="s2">&quot;</span>-forces.com<span class="w"> </span>&gt;<span class="w"> </span>mat_inf.dat
+<span class="w">    </span>head<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">xyzfile</span><span class="p">%.xyz</span><span class="si">}</span><span class="s2">&quot;</span>-forces.com<span class="w"> </span>&gt;<span class="w"> </span>mat_inf.dat
 <span class="w">  </span><span class="k">else</span>
-<span class="w">    </span>head<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n</span><span class="s2">&quot;&quot;</span><span class="si">${</span><span class="nv">xyzfile</span><span class="p">%.xyz</span><span class="si">}</span><span class="s2">&quot;</span>-forces.com<span class="w"> </span>&gt;<span class="w"> </span>tmp2.dat
+<span class="w">    </span>head<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">xyzfile</span><span class="p">%.xyz</span><span class="si">}</span><span class="s2">&quot;</span>-forces.com<span class="w"> </span>&gt;<span class="w"> </span>tmp2.dat
 <span class="w">    </span>diff<span class="w"> </span>-q<span class="w"> </span>mat_inf.dat<span class="w"> </span>tmp2.dat<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;different matrix definition in</span>
 <span class="s2">      </span><span class="nv">$xyzfile</span><span class="s2">&quot;</span>
 <span class="w">  </span><span class="k">fi</span>
