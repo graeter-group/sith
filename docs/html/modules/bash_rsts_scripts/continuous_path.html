@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script of sith continuous_path &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="sith.energy_analysis package" href="../sith.energy_analysis.html" />
+    <link rel="prev" title="Script of sith workflow_from_extreme" href="workflow_from_extreme.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme.info_from_opt">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching.change_dofs">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.utils.html">sith.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../sith.html">sith package</a></li>
+          <li class="breadcrumb-item"><a href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+      <li class="breadcrumb-item active">Script of sith continuous_path</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/bash_rsts_scripts/continuous_path.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="script-of-sith-continuous-path">
+<span id="continuous-path"></span><h1>Script of sith continuous_path<a class="headerlink" href="#script-of-sith-continuous-path" title="Link to this heading"></a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># ----- definition of functions starts ----------------------------------------</span>
+print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+cat<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">Creates the com files from the a set of xyz structures, and submit the jobs</span>
+<span class="s">with :bashscript:`sith.g09_stretching.from_extreme.opt_and_forces` (-S here</span>
+<span class="s">refers to these subjobs)</span>
+
+<span class="s">  -c  Use this flag to run in a cluster. When -p is not defined, and you run in</span>
+<span class="s">      a slurm job manager system, the number of processors is equal to the</span>
+<span class="s">      number of cores asked in the submission of the job.</span>
+<span class="s">  -i  &lt;index1,index2&gt; indexes of the atoms used for constraining the distance</span>
+<span class="s">      of the intermedia structures when optimizing. If this flag is not used</span>
+<span class="s">      and a pdb is given through flag &#39;-t&#39;, indexes 1 and 2 will correspond to</span>
+<span class="s">      the CH3 atoms in ACE and NME residues defined in the pdb if they exist.</span>
+<span class="s">  -l  &lt;xc,base=&quot;bmk,6-31+g&quot;&gt; level of DFT theory.</span>
+<span class="s">  -n  &lt;name&gt; this script will collect all the *&lt;name&gt;*.xyz files sorted in</span>
+<span class="s">      alphabetic order as initial path. If this is a directory, this script</span>
+<span class="s">      will create a subdirectory there called &#39;conopt&#39; and copy the</span>
+<span class="s">      *&lt;name&gt;*.xyz files to that subdirectory first.</span>
+<span class="s">  -p  &lt;processors=1&gt; number of processors per gaussian job. See description of</span>
+<span class="s">      flag -c.</span>
+<span class="s">  -S  &lt;job_options=&#39;&#39;&gt; options for submitting a new job. This flag only makes</span>
+<span class="s">      sense in slurm cluster. Please, do not include a name (-J), nor the</span>
+<span class="s">      number of cores (-n, use -p for this). The input should be as in the next</span>
+<span class="s">      example: \&quot;--partition=cpu --nice\&quot;.</span>
+<span class="s">  -t  &lt;template.pdb&gt; pdb file used to read the indexes if -i is not</span>
+<span class="s">      used.</span>
+
+<span class="s">  -v  verbose</span>
+<span class="s">  -h  prints this message.</span>
+<span class="s">EOF</span>
+
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+<span class="c1"># ----- definition of functions finishes --------------------------------------</span>
+
+<span class="c1"># ----- set up starts ---------------------------------------------------------</span>
+<span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">indexes</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">level</span><span class="o">=</span><span class="s2">&quot;bmk,6-31+g&quot;</span>
+<span class="nv">n_processors</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">job_options</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;ci:l:n:p:P:S:t:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>i<span class="o">)</span><span class="w"> </span><span class="nv">indexes</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>l<span class="o">)</span><span class="w"> </span><span class="nv">level</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>n<span class="o">)</span><span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>p<span class="o">)</span><span class="w"> </span><span class="nv">n_processors</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>P<span class="o">)</span><span class="w"> </span><span class="nv">pattern</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>S<span class="o">)</span><span class="w"> </span><span class="nv">job_options</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>t<span class="o">)</span><span class="w"> </span><span class="nv">template</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+
+<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">  </span><span class="k">esac</span>
+<span class="k">done</span>
+
+
+<span class="nb">source</span><span class="w"> </span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span><span class="s2">&quot;ContiPath&quot;</span><span class="w"> </span><span class="nv">$verbose</span>
+
+<span class="c1"># starting information</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;===============&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Date:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="k">$(</span>date<span class="k">)</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Command:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+
+<span class="nv">c_flag</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="k">if</span><span class="w"> </span><span class="nv">$cluster</span>
+<span class="k">then</span>
+<span class="w">  </span>load_modules
+<span class="w">  </span><span class="nv">c_flag</span><span class="o">=</span><span class="s1">&#39;-c&#39;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_CPUS_ON_NODE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="nv">$SLURM_CPUS_ON_NODE</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span><span class="nv">opt_forces_job_options</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nv">job_options</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2"> -n </span><span class="nv">$n_processors</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nv">job_options</span><span class="o">=</span><span class="s2">&quot;sbatch </span><span class="nv">$job_options</span><span class="s2">&quot;</span>
+<span class="k">fi</span>
+
+<span class="c1"># C-CAP indexes in gaussian convention</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="k">then</span>
+<span class="w">  </span><span class="c1"># reading indexes from pdb file</span>
+<span class="w">  </span><span class="nv">index1</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>ACE<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CH3<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="nv">index2</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>NME<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CH3<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="nv">indexes</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">,</span><span class="nv">$index2</span><span class="s2">&quot;</span>
+<span class="k">fi</span>
+
+<span class="c1"># reading indexes from user input</span>
+<span class="nv">index1</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">)</span>
+<span class="nv">index2</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="k">)</span>
+
+
+<span class="c1"># check that the indexes were read properly:</span>
+<span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes: index 1: &#39;</span><span class="nv">$index1</span><span class="s2">&#39;,</span>
+<span class="s2">  index 2: &#39;</span><span class="nv">$index2</span><span class="s2">&#39; from indexes: &#39;</span><span class="nv">$indexes</span><span class="s2">&#39;&quot;</span>
+<span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index2</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes: index 1: </span><span class="nv">$index1</span><span class="s2">, index 2:</span>
+<span class="s2">  </span><span class="nv">$index2</span><span class="s2"> from indexes: </span><span class="nv">$indexes</span><span class="s2">&quot;</span>
+<span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$index2</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Not recognized indexes: index 1:</span>
+<span class="s2">  &#39;</span><span class="nv">$index1</span><span class="s2">&#39;, index 2: &#39;</span><span class="nv">$index2</span><span class="s2">&#39; from indexes: &#39;</span><span class="nv">$indexes</span><span class="s2">&#39;&quot;</span>
+
+<span class="nv">xc_functional</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$level</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+<span class="nv">basis_set</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$level</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="k">)</span>
+
+<span class="c1"># ---- BODY -------------------------------------------------------------------</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="k">then</span>
+<span class="w">  </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$name</span>
+<span class="w">  </span>mkdir<span class="w"> </span>conopt
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">name</span><span class="p">: 0: 2</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;./&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">name</span><span class="p">#./</span><span class="si">}</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span><span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">name</span><span class="p">%/</span><span class="si">}</span>
+<span class="w">  </span>cp<span class="w"> </span>*<span class="s2">&quot;</span><span class="si">${</span><span class="nv">name</span><span class="si">}</span><span class="s2">&quot;</span>*<span class="si">${</span><span class="nv">pattern</span><span class="si">}</span>*.xyz<span class="w"> </span>conopt
+<span class="w">  </span><span class="nb">cd</span><span class="w"> </span>conopt
+<span class="k">fi</span>
+
+verbose<span class="w"> </span><span class="s2">&quot;collecting and renaming xyz files&quot;</span>
+<span class="nv">j</span><span class="o">=</span><span class="m">0</span>
+<span class="k">for</span><span class="w"> </span>xyz_file<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>*<span class="s2">&quot;</span><span class="si">${</span><span class="nv">name</span><span class="si">}</span><span class="s2">&quot;</span>*<span class="s2">&quot;</span><span class="si">${</span><span class="nv">pattern</span><span class="si">}</span><span class="s2">&quot;</span>*.xyz<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="k">)</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$xyz_file</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-conopt</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%03d&quot;</span><span class="w"> </span><span class="nv">$j</span><span class="k">)</span><span class="s2">.xyz&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span>mv<span class="w"> </span><span class="nv">$xyz_file</span><span class="w"> </span><span class="nv">$name</span>-conopt<span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%03d&quot;</span><span class="w"> </span><span class="nv">$j</span><span class="k">)</span>.xyz
+<span class="w">    </span>verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$xyz_file</span><span class="s2"> --&gt; </span><span class="nv">$name</span><span class="s2">-conopt</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%03d&quot;</span><span class="w"> </span><span class="nv">$j</span><span class="k">)</span><span class="s2">.xyz&quot;</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span><span class="nv">j</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
+<span class="k">done</span>
+
+verbose<span class="w"> </span><span class="s2">&quot;Extract dofs from xyzs. output: </span><span class="nv">$name</span><span class="s2">-conopt&lt;n&gt;-dofs.dat&quot;</span><span class="w"> </span>
+sith<span class="w"> </span>extr_dofs<span class="w"> </span>-f<span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-conopt<span class="w"> </span><span class="nv">$verbose</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;extracting dofs from xyzs&quot;</span>
+<span class="c1"># reduce irrelevant changes and add intermedias when the changes are too large,</span>
+<span class="c1"># store the new subset in a dir called &#39;subset&#39;.</span>
+verbose<span class="w"> </span><span class="s2">&quot;Reduce structures&quot;</span>
+sith<span class="w"> </span>reduce_structs<span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-conopt<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;reducing structures&quot;</span>
+
+<span class="c1"># ==== Create com gaussian files</span>
+verbose<span class="w"> </span><span class="s2">&quot;create template&quot;</span>
+<span class="c1"># Create templete first</span>
+tail<span class="w"> </span>-n<span class="w"> </span>+3<span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-conopt000.xyz<span class="w"> </span>&gt;<span class="w"> </span>tmp.xyz
+newzmat<span class="w"> </span>-ixyz<span class="w"> </span>-ozmat<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>-rebuildzmat<span class="w"> </span>tmp<span class="w"> </span>template<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;executing newzmat&quot;</span>
+rm<span class="w"> </span>tmp.xyz
+
+<span class="c1"># import xyz files of the subset</span>
+rm<span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-conopt*.dat
+rm<span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-conopt*.xyz
+mv<span class="w"> </span>subset/*<span class="w"> </span>.
+rm<span class="w"> </span>-r<span class="w"> </span>subset
+rm<span class="w"> </span>*.xyz
+
+<span class="c1"># Create .com files</span>
+verbose<span class="w"> </span><span class="s2">&quot;Create com files and submitting job from the next dat files:&quot;</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>-1<span class="w"> </span>*.dat<span class="k">)</span>
+<span class="k">do</span>
+<span class="w">  </span>verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; - </span><span class="nv">$i</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+
+sith<span class="w"> </span>find_blocks<span class="w"> </span>-f<span class="w"> </span>template.com<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;Variables:&quot;</span><span class="w"> </span>-o<span class="w"> </span>tmp<span class="w"> </span><span class="nv">$verbose</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+mv<span class="w"> </span>tmp_000.out<span class="w"> </span>heading_template.out
+
+sith<span class="w"> </span>find_blocks<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;\^\$&quot;</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;&#39;^ </span>$<span class="s2">&#39;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                   </span>-f<span class="w"> </span>template.com<span class="w"> </span>-o<span class="w"> </span>tmp<span class="w">  </span><span class="nv">$verbose</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null
+mv<span class="w"> </span>tmp_002.out<span class="w"> </span>connectivity_template.out
+rm<span class="w"> </span>tmp*.out
+
+create_bck<span class="w"> </span>forces
+mkdir<span class="w"> </span>-p<span class="w"> </span>forces
+
+<span class="nv">speficic_job_options</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+verbose<span class="w"> </span><span class="s2">&quot;Submitting jobs:&quot;</span>
+<span class="k">for</span><span class="w"> </span>file<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-conopt*.dat
+<span class="k">do</span>
+<span class="w">  </span><span class="nv">struct_name</span><span class="o">=</span><span class="si">${</span><span class="nv">file</span><span class="p">%.dat</span><span class="si">}</span>
+<span class="w">  </span>cp<span class="w"> </span>heading_template.out<span class="w">  </span><span class="nv">$struct_name</span>.com
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;/chk=/c %chk=</span><span class="nv">$struct_name</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$struct_name</span>.com
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;     Variables:&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$struct_name</span>.com
+<span class="w">  </span>cat<span class="w"> </span><span class="nv">$file</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$struct_name</span>.com
+
+<span class="w">  </span><span class="c1"># reconstruct xyz from the continuous dofs</span>
+<span class="w">  </span>newzmat<span class="w"> </span>-izmat<span class="w"> </span>-oxyz<span class="w"> </span><span class="nv">$struct_name</span>.com<span class="w"> </span><span class="se">\</span>
+<span class="w">          </span><span class="nv">$struct_name</span>.xyz<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fail<span class="w"> </span><span class="s2">&quot;reconstructing xyz from z-matrix for </span><span class="nv">$struct_name</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nv">n_atoms</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span><span class="nv">$struct_name</span>.xyz<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1i </span><span class="nv">$n_atoms</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$struct_name</span>.xyz
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;2i Coordinates Extracted from zmatrix with newzmat&quot;</span><span class="w"> </span><span class="nv">$struct_name</span>.xyz
+
+<span class="w">  </span><span class="c1"># create again com from xyz</span>
+<span class="w">  </span>sith<span class="w"> </span>change_distance<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$struct_name</span><span class="s2">.xyz&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$struct_name</span><span class="s2">&quot;</span><span class="w"> </span>no_frozen_dofs<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;scale_distance&quot;</span><span class="w"> </span>--xc<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$xc_functional</span><span class="s2">&#39;&quot;</span><span class="w"> </span>--basis<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$basis_set</span><span class="s2">&#39;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Preparating the input of gaussian&quot;</span>
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1a %NProcShared=</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$struct_name</span><span class="s2">.com&quot;</span>
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;/#P/a opt(modredun,calcfc)&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$struct_name</span><span class="s2">.com&quot;</span>
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;\$c</span><span class="nv">$index1</span><span class="s2"> </span><span class="nv">$index2</span><span class="s2"> F&quot;</span><span class="w"> </span><span class="nv">$struct_name</span>.com
+
+<span class="w">  </span><span class="c1"># and then submits the jobs</span>
+<span class="w">  </span>verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;-  </span><span class="nv">$struct_name</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">speficic_job_options</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2"> -J O</span><span class="nv">$struct_name</span><span class="s2">&quot;</span>
+<span class="w">  </span>verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$speficic_job_options</span><span class="s2">&quot;</span>
+<span class="w">  </span><span class="nv">$speficic_job_options</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>opt_and_forces<span class="w"> </span>-path<span class="w"> </span><span class="k">)</span><span class="w"> </span><span class="nv">$c_flag</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$struct_name</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                   </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                   </span>-S<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$opt_forces_job_options</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                   </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;submitting opt_and_forces</span>
+<span class="s2">                                                     for </span><span class="nv">$struct_name</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+
+rm<span class="w"> </span>heading_template.out
+rm<span class="w"> </span>connectivity_template.out
+rm<span class="w"> </span>template.com
+rm<span class="w"> </span>*.dat
+
+finish
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="workflow_from_extreme.html" class="btn btn-neutral float-left" title="Script of sith workflow_from_extreme" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../sith.energy_analysis.html" class="btn btn-neutral float-right" title="sith.energy_analysis package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

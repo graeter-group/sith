@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script of sith workflow_from_extreme &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Script of sith continuous_path" href="continuous_path.html" />
+    <link rel="prev" title="Script of sith opt_and_forces" href="opt_and_forces.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme.info_from_opt">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html#module-sith.g09_stretching.from_extreme">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching.change_dofs">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.utils.html">sith.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../sith.html">sith package</a></li>
+          <li class="breadcrumb-item"><a href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+      <li class="breadcrumb-item active">Script of sith workflow_from_extreme</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/bash_rsts_scripts/workflow_from_extreme.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="script-of-sith-workflow-from-extreme">
+<span id="workflow-from-extreme"></span><h1>Script of sith workflow_from_extreme<a class="headerlink" href="#script-of-sith-workflow-from-extreme" title="Link to this heading"></a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1">#SBATCH -N 1</span>
+<span class="c1">#SBATCH -t 24:00:00</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH --output=%x-%j.o</span>
+<span class="c1">#SBATCH --error=%x-%j.e</span>
+
+<span class="c1"># ----- definition of functions starts ----------------------------------------</span>
+print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+cat<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+
+<span class="s">This tool creates the files to do the sith analysis by optimizing a molecule,</span>
+<span class="s">then takes the intermedia steps and prepares a constrained optimization of each</span>
+<span class="s">one of them with :bashscript:`sith.g09_stretching.from_extreme.continuous_path`</span>
+<span class="s">after creating intermedias states that guarantee continuity in the degrees of</span>
+<span class="s">freedom. This script submits in parallel each one of those optimizations with</span>
+<span class="s">:bashscript:`sith.g09_stretching.from_extreme.opt_and_forces` (-S here refers</span>
+<span class="s">to these subjobs).</span>
+
+<span class="s">  -a  &lt;alias&gt; new name of the xyz file and subsequent files in directory</span>
+<span class="s">      &#39;from_extreme&#39;.</span>
+<span class="s">  -c  Use this flag to run in a cluster. When -p is not defined, and you run in</span>
+<span class="s">      a slurm job manager system, the number of processors is equal to the</span>
+<span class="s">      number of cores asked in the submission of the job.</span>
+<span class="s">  -i  &lt;index1,index2&gt; indexes of the atoms used for constraining the distance</span>
+<span class="s">      of the intermedia structures when optimizing. If this flag is not used</span>
+<span class="s">      but a pdb file is given (-t), indexes 1 and 2 will correspond to the CH3</span>
+<span class="s">      atoms in ACE and NME residues defined in the pdb if they exist.</span>
+<span class="s">  -l  &lt;xc,base=&quot;bmk,6-31+g&quot;&gt; level of DFT theory.</span>
+<span class="s">  -m  &lt;molecule&gt; directory or coordinates file of configuration to be relaxed.</span>
+<span class="s">      For example, \&quot;./AAA/\&quot; a trialanine configuration (&#39;last&#39; after</span>
+<span class="s">      organizing all xyz files alphabetically all AAA*.xyz files in ./AAA/).</span>
+<span class="s">  -p  &lt;processors=1&gt; number of processors per gaussian job. See description of</span>
+<span class="s">      flag -c.</span>
+<span class="s">  -r  Use it to restart, in which case no directory will be created and the new</span>
+<span class="s">      &lt;molecule&gt;-optext.log is assumed to exist in the working directory.</span>
+<span class="s">  -S  &lt;job_options=&#39;&#39;&gt; options for submitting a new job. This flag only makes</span>
+<span class="s">      sense in slurm cluster. Please, do not include a name (-J), nor the</span>
+<span class="s">      number of cores (-n, use -p for this). The input should be as in the next</span>
+<span class="s">      example: \&quot;--partition=cpu --nice\&quot;.</span>
+<span class="s">  -t  &lt;template.pdb&gt; template pdb file to define indexes if -i is not used.</span>
+
+<span class="s">  -v  verbose.</span>
+<span class="s">  -h  prints this message.</span>
+
+<span class="s">Note</span>
+<span class="s">----</span>
+
+<span class="s">  The outputs are stored in a directory called &#39;from_extreme&#39;/</span>
+
+<span class="s">  This tool requires gaussian and sklearn.</span>
+<span class="s">EOF</span>
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+<span class="c1"># ----- definition of functions finishes --------------------------------------</span>
+
+<span class="c1"># ----- set up starts ---------------------------------------------------------</span>
+<span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">indexes</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">level</span><span class="o">=</span><span class="s2">&quot;bmk,6-31+g&quot;</span>
+<span class="nv">molecule</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">n_processors</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">restart</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">restart</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">job_options</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">index3</span><span class="o">=</span>None
+
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;a:ci:l:m:p:rS:t:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>a<span class="o">)</span><span class="w"> </span><span class="nv">alias</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>i<span class="o">)</span><span class="w"> </span><span class="nv">indexes</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>l<span class="o">)</span><span class="w"> </span><span class="nv">level</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>m<span class="o">)</span><span class="w"> </span><span class="nv">molecule</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>p<span class="o">)</span><span class="w"> </span><span class="nv">n_processors</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>r<span class="o">)</span><span class="w"> </span><span class="nv">restart</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>S<span class="o">)</span><span class="w"> </span><span class="nv">job_options</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>t<span class="o">)</span><span class="w"> </span><span class="nv">template</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+
+<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">  </span><span class="k">esac</span>
+<span class="k">done</span>
+
+<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;WFromE&quot;</span><span class="w"> </span><span class="nv">$verbose</span>
+
+<span class="c1"># starting information</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;===============&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Date:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="k">$(</span>date<span class="k">)</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Command:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+
+<span class="nv">c_flag</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="k">if</span><span class="w"> </span><span class="nv">$cluster</span>
+<span class="k">then</span>
+<span class="w">  </span>load_modules<span class="w"> </span><span class="c1"># TODO: ADD the parameters to resubmit</span>
+<span class="w">  </span><span class="nv">c_flag</span><span class="o">=</span><span class="s1">&#39;-c&#39;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_CPUS_ON_NODE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="nv">$SLURM_CPUS_ON_NODE</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="k">fi</span>
+
+<span class="nv">xc_functional</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$level</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+<span class="nv">basis_set</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$level</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="k">)</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="k">then</span>
+<span class="w">  </span><span class="c1"># reading indexes from pdb file</span>
+<span class="w">  </span><span class="nv">index1</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>ACE<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CH3<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="nv">index2</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>NME<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$template</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>CH3<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="nv">indexes</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$index1</span><span class="s2">,</span><span class="nv">$index2</span><span class="s2">&quot;</span>
+<span class="w">  </span>verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;Indexes read from </span><span class="nv">$template</span><span class="s2">: </span><span class="nv">$indexes</span><span class="s2">&quot;</span>
+<span class="k">fi</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="nv">$molecule</span><span class="w"> </span><span class="o">]</span>
+<span class="k">then</span><span class="w"> </span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;This code needs a reference  molecule. Please, define it using the flag</span>
+<span class="s2">        -m. For more info, use \&quot;sith workflow_from_extreme -h\&quot;&quot;</span>
+<span class="k">fi</span>
+
+<span class="c1"># ---- BODY -------------------------------------------------------------------</span>
+<span class="c1"># In case pep is a directory, it searches the last xyz in this dir.</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="nv">$molecule</span><span class="w"> </span><span class="o">]</span>
+<span class="k">then</span>
+<span class="w">  </span><span class="nb">cd</span><span class="w"> </span><span class="nv">$molecule</span>
+<span class="w">  </span><span class="nv">molecule</span><span class="o">=</span><span class="si">${</span><span class="nv">molecule</span><span class="p">##*/</span><span class="si">}</span>
+<span class="w">  </span>mapfile<span class="w"> </span>-t<span class="w"> </span>previous<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span><span class="w"> </span>find<span class="w"> </span>.<span class="w"> </span>-maxdepth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-type<span class="w"> </span>f<span class="se">\</span>
+<span class="w">                                  </span>-name<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">*.xyz&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                  </span>-not<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*bck*&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="o">)</span>
+<span class="w">  </span><span class="nv">molecule</span><span class="o">=</span><span class="si">${</span><span class="nv">previous</span><span class="p">[-1]</span><span class="si">}</span>
+<span class="w">  </span>verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$molecule</span><span class="s2">&#39; found to be the last structure.&quot;</span>
+<span class="k">fi</span>
+
+<span class="c1"># ==== Optimization from extreme</span>
+<span class="nv">xyz</span><span class="o">=</span><span class="si">${</span><span class="nv">molecule</span><span class="p">##*/</span><span class="si">}</span>
+<span class="nv">name</span><span class="o">=</span><span class="si">${</span><span class="nv">xyz</span><span class="p">%.*</span><span class="si">}</span>
+
+<span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$alias</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">alias</span><span class="o">=</span><span class="nv">$name</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="nv">$alias</span>
+
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;Create </span><span class="nv">$name</span><span class="s2">-optext.com file.&quot;</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$restart</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;false&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="k">then</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="nv">$molecule</span><span class="w"> </span><span class="o">]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">      </span>fail<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2"> does not exist.&quot;</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="w">  </span><span class="c1"># create from_extreme directory</span>
+<span class="w">  </span>create_bck<span class="w"> </span>from_extreme
+<span class="w">  </span>mkdir<span class="w"> </span>-p<span class="w"> </span>from_extreme
+<span class="w">  </span>cp<span class="w"> </span><span class="nv">$molecule</span><span class="w"> </span>from_extreme/<span class="nv">$alias</span>.xyz
+<span class="w">  </span><span class="nb">cd</span><span class="w"> </span>from_extreme
+<span class="k">else</span>
+<span class="w">  </span><span class="nv">tmp_path</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
+<span class="w">  </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">tmp_path</span><span class="p">##*/</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;from_extreme&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>../
+<span class="w">  </span><span class="nb">cd</span><span class="w"> </span>from_extreme<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;directory &#39;from_extreme&#39; is not [and does not exist</span>
+<span class="s2">      in] the current directory.&quot;</span>
+<span class="w">  </span><span class="k">if</span><span class="w">  </span>!<span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;Normal termination&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext-bck*.log&quot;</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span>sith<span class="w"> </span>log2xyz<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span><span class="w"> </span>--indexes<span class="w"> </span><span class="s2">&quot;[</span><span class="nv">$indexes</span><span class="s2">]&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>fail<span class="w"> </span><span class="s2">&quot;extracting coordinates from </span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span>
+<span class="w">    </span>create_bck<span class="w"> </span><span class="nv">$alias</span>.xyz
+<span class="w">    </span>cp<span class="w"> </span><span class="nv">$name</span>-optext.xyz<span class="w"> </span><span class="nv">$alias</span>.xyz
+<span class="w">    </span>create_bck<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="k">fi</span>
+
+<span class="c1"># run gaussian</span>
+<span class="k">if</span><span class="w">  </span>!<span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;Normal termination&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext-bck*.log&quot;</span>
+<span class="k">then</span>
+<span class="w">  </span>verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;Running optimization from </span><span class="nv">$name</span><span class="s2">-optex.com&quot;</span>
+<span class="w">  </span><span class="c1"># creates gaussian input that optimizes the structure</span>
+<span class="w">  </span>sith<span class="w"> </span>change_distance<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">.xyz&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext&quot;</span><span class="w"> </span>no_frozen_dofs<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;scale_distance&quot;</span><span class="w"> </span>--xc<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$xc_functional</span><span class="s2">&#39;&quot;</span><span class="w"> </span>--basis<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$basis_set</span><span class="s2">&#39;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Preparating the input of gaussian&quot;</span>
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;1a %NProcShared=</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.com&quot;</span>
+<span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;/#P/a opt(modredun,calcfc)&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.com&quot;</span>
+
+<span class="w">  </span>gaussian<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.com&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;Atoms too close.&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.com&quot;</span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>-eq<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Atoms too close for </span><span class="si">${</span><span class="nv">nameiplusone</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span><span class="k">fi</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="o">}</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;running gaussian optimization&quot;</span>
+<span class="w">  </span><span class="c1"># check convergence from output</span>
+<span class="w">  </span><span class="nv">output</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span>-i<span class="w"> </span>optimized<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>grep<span class="w"> </span>-c<span class="w"> </span>-i<span class="w"> </span>Non<span class="w"> </span><span class="k">)</span>
+
+<span class="w">  </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$output</span><span class="s2">&quot;</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Optimization didn&#39;t converged&quot;</span>
+<span class="k">fi</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span>*optext*.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="w"> </span><span class="k">)</span><span class="w"> </span>-gt<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span>
+<span class="k">then</span>
+<span class="w">  </span>verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;Concatenate all the generated logfiles: </span><span class="nv">$name</span><span class="s2">-optext*.log&quot;</span>
+<span class="w">  </span>create_bck<span class="w"> </span><span class="nv">$name</span>-optext.log
+<span class="w">  </span><span class="k">for</span><span class="w"> </span>bck_logfile<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>ls<span class="w"> </span><span class="nv">$name</span>-optext*.log<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="k">)</span>
+<span class="w">  </span><span class="k">do</span>
+<span class="w">    </span>cat<span class="w"> </span><span class="nv">$bck_logfile</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$name</span>-optext.log
+<span class="w">    </span>rm<span class="w"> </span><span class="nv">$bck_logfile</span>
+<span class="w">  </span><span class="k">done</span>
+<span class="k">fi</span>
+
+<span class="c1"># ==== Reduce number of structures with reduced changes of DOFs</span>
+verbose<span class="w"> </span>-t<span class="w">  </span><span class="s2">&quot;Create continuous structutes path with &#39;sith info_from_opt&#39;.&quot;</span>
+<span class="c1"># The output are the xyz files without peak energies, output</span>
+<span class="c1"># &lt;name&gt;-conopt&lt;n&gt;.xyz</span>
+sith<span class="w"> </span>info_from_opt<span class="w"> </span><span class="nv">$name</span>-optext.log<span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>-conopt<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;extracting xyz files from log file from </span><span class="nv">$name</span><span class="s2">-optext.log&quot;</span>
+
+verbose<span class="w"> </span><span class="s2">&quot;Starting &#39;sith continuous_path&#39; after having all</span>
+<span class="s2">  </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span><span class="s2">-conopt&lt;n&gt;.xyz files&quot;</span>
+
+<span class="k">$(</span>sith<span class="w"> </span>continuous_path<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span><span class="nv">$c_flag</span><span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$level</span><span class="s2">&quot;</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$name</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                              </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span>-P<span class="w"> </span><span class="s2">&quot;conopt&quot;</span><span class="w"> </span>-S<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                              </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;submiting continuous path&quot;</span>
+
+finish<span class="w"> </span><span class="s2">&quot;continuous path of </span><span class="nv">$name</span><span class="s2"> finished.&quot;</span>
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="opt_and_forces.html" class="btn btn-neutral float-left" title="Script of sith opt_and_forces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="continuous_path.html" class="btn btn-neutral float-right" title="Script of sith continuous_path" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script of sith workflow &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Script of sith find_forces" href="find_forces.html" />
+    <link rel="prev" title="sith.g09_stretching package" href="../sith.g09_stretching.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching.change_dofs">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.utils.html">sith.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../sith.html">sith package</a></li>
+          <li class="breadcrumb-item"><a href="../sith.g09_stretching.html">sith.g09_stretching package</a></li>
+      <li class="breadcrumb-item active">Script of sith workflow</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/bash_rsts_scripts/workflow.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="script-of-sith-workflow">
+<span id="workflow"></span><h1>Script of sith workflow<a class="headerlink" href="#script-of-sith-workflow" title="Link to this heading"></a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1">#SBATCH -N 1                   # number of nodes</span>
+<span class="c1">#SBATCH --cpus-per-task=1</span>
+<span class="c1">#SBATCH -t 24:00:00</span>
+<span class="c1">#SBATCH --output=%x-%j.o</span>
+<span class="c1">#SBATCH --error=%x-%j.e</span>
+
+
+<span class="c1"># ----- definition of functions -----------------------------------------------</span>
+print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">This tool creates all the stretched structures for a molecule and computes the</span>
+<span class="s2">needed quantities for sith. You can use this code to submit a Job in cluster or</span>
+<span class="s2">to execute it locally. Consider the next options:</span>
+
+<span class="s2">  -b  &lt;number of breakages=1&gt; The simulation will run until getting this number</span>
+<span class="s2">      of ruptures in the bonds.</span>
+<span class="s2">  -c  run in cluster (see the documentation of the installation of sith</span>
+<span class="s2">      -execute &#39;sith doc&#39; in your terminal-)</span>
+<span class="s2">  -i  &lt;index1,index2&gt; indexes of the atoms to use for increasing the distance.</span>
+<span class="s2">      If this flag is not used and &#39;molecule&#39; (flag -m) is a pdb, indexes 1 and</span>
+<span class="s2">      2 will correspond to the CH3 atoms in ACE and NME residues defined in the</span>
+<span class="s2">      pdb if they exist.</span>
+<span class="s2">  -l  &lt;xc,base=&quot;</span>bmk,6-31+g<span class="s2">&quot;&gt; evel of DFT theory.</span>
+<span class="s2">  -m  &lt;molecule&gt; definition of the molecule (xyz, pdb, ...).</span>
+<span class="s2">  -M  &lt;method=0&gt; Index of stretching method. To see the options, use</span>
+<span class="s2">      &#39;sith change_distance -h&#39; to see the order.</span>
+<span class="s2">  -n  &lt;n_processors=1&gt; number of processors per gaussian job.</span>
+<span class="s2">  -r  restart. In this case, run from the directory of the pre-created</span>
+<span class="s2">      stretched molecule.</span>
+<span class="s2">  -s  &lt;size[A]=0.2&gt; of the step that increases the distances.</span>
+<span class="s2">  -S  &lt;job_options=&#39;&#39;&gt; options for submitting a new job. This flag only makes</span>
+<span class="s2">      sense in slurm cluster. Please, do not include a name and add the options</span>
+<span class="s2">      as in the next example: \&quot;--partition=cpu --nice\&quot;.</span>
+
+<span class="s2">  -v  verbose.</span>
+<span class="s2">  -h  prints this message.</span>
+<span class="s2">&quot;</span>
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+resubmit<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span>sleep<span class="w"> </span>23h<span class="w"> </span>58m
+
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Resubmitting the job for another 24h&quot;</span><span class="p">;</span>
+<span class="w">  </span>sbatch<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span><span class="w"> </span>-J<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_JOB_NAME</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="w"> </span>sith<span class="w"> </span>workflow<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$breakages</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$cluster</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-i<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$indexes</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$level</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-M<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-r<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$size</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-S<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Resubmission of the job failed&quot;</span>
+<span class="o">}</span>
+
+<span class="c1"># ----- definition of functions finishes --------------------------------------</span>
+
+<span class="c1"># ----- set up starts ---------------------------------------------------------</span>
+<span class="c1"># General variables</span>
+<span class="nv">breakages</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">indexes</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">level</span><span class="o">=</span><span class="s2">&quot;bmk,6-31+g&quot;</span>
+<span class="nv">method</span><span class="o">=</span><span class="m">0</span>
+<span class="nv">n_processors</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">restart</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="nv">size</span><span class="o">=</span><span class="m">0</span>.2
+<span class="nv">job_options</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;b:ci:l:m:M:n:rs:S:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>b<span class="o">)</span><span class="w"> </span><span class="nv">breakages</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;-c&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>i<span class="o">)</span><span class="w"> </span><span class="nv">indexes</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>l<span class="o">)</span><span class="w"> </span><span class="nv">level</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>m<span class="o">)</span><span class="w"> </span><span class="nv">molecule</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>M<span class="o">)</span><span class="w"> </span><span class="nv">method</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>n<span class="o">)</span><span class="w"> </span><span class="nv">n_processors</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>r<span class="o">)</span><span class="w"> </span><span class="nv">restart</span><span class="o">=</span><span class="s1">&#39;-r&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>s<span class="o">)</span><span class="w"> </span><span class="nv">size</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>S<span class="o">)</span><span class="w"> </span><span class="nv">job_options</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+
+<span class="w">    </span>v<span class="o">)</span><span class="w">  </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">  </span><span class="k">esac</span>
+<span class="k">done</span>
+
+<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>WORKFLOW<span class="w"> </span><span class="nv">$verbose</span>
+
+<span class="c1"># starting information</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;===============&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Date:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Command:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+
+resubmit<span class="w"> </span><span class="p">&amp;</span>
+<span class="c1"># ---- Set up -------------------------------------------------------------------</span>
+
+<span class="c1"># load modules</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cluster</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;-c&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="k">then</span>
+<span class="w">  </span>load_modules<span class="w"> </span><span class="c1"># &quot;$molecule&quot; &quot;$method&quot; &quot;$breakages&quot; &quot;$size&quot;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_CPUS_ON_NODE</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="nv">$SLURM_CPUS_ON_NODE</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="nv">n_processors</span><span class="o">=</span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="k">fi</span>
+
+ase<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs ASE.&quot;</span>
+<span class="nb">command</span><span class="w"> </span>-V<span class="w"> </span>gaussian<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Remeber to define the function</span>
+<span class="s2">  gaussian (check the documentation of the installation -sith doc-).&quot;</span>
+<span class="c1"># gmx -h &amp;&gt; /dev/null || fail &quot;This code needs gmx.&quot;</span>
+sith<span class="w"> </span>-h<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;This code needs sith.&quot;</span>
+
+<span class="c1"># ---- BODY -------------------------------------------------------------------</span>
+verbose<span class="w"> </span><span class="s2">&quot;execute stretching&quot;</span>
+
+sith<span class="w"> </span>stretching<span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$breakages</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$cluster</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$method</span><span class="s2">&quot;</span><span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;&#39;</span><span class="nv">$indexes</span><span class="s2">&#39;&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$level</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$n_processors</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$restart</span><span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$size</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;Stretching of </span><span class="nv">$molecule</span><span class="s2"> failed&quot;</span>
+
+<span class="c1"># TODO: add Classical energies</span>
+
+<span class="c1"># compute forces</span>
+verbose<span class="w"> </span><span class="s2">&quot;submitting comptutation of forces.&quot;</span><span class="p">;</span>
+
+create_bck<span class="w"> </span>forces
+mkdir<span class="w"> </span>-p<span class="w"> </span>forces
+mkdir<span class="w"> </span>-p<span class="w"> </span>bck
+mv<span class="w"> </span>./*-bck*.*<span class="w"> </span>bck
+
+<span class="nv">Fcounter</span><span class="o">=</span><span class="m">0</span>
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">molecule</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>-stretched*.chk
+<span class="k">do</span>
+<span class="w">  </span>verbose<span class="w"> </span><span class="s2">&quot;Forces of </span><span class="nv">$i</span><span class="s2">&quot;</span>
+<span class="w">  </span>sbatch<span class="w"> </span><span class="nv">$job_options</span><span class="w"> </span>-J<span class="w"> </span><span class="s2">&quot;F</span><span class="si">${</span><span class="nv">molecule</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>find_forces<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cluster</span><span class="s2">&quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$i</span><span class="s2">&quot;</span><span class="w"> </span>-p<span class="w"> </span>stretched<span class="w"> </span><span class="nv">$verbose</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>fail<span class="w"> </span><span class="s2">&quot;Submitting forces calculation&quot;</span>
+<span class="w">  </span><span class="nv">Fcounter</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">Fcounter</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
+<span class="k">done</span>
+
+<span class="nb">cd</span><span class="w"> </span>../
+sbatch<span class="w"> </span><span class="nv">$job_options</span><span class="w"> </span>-J<span class="w"> </span><span class="s2">&quot;FE</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="k">$(</span>sith<span class="w"> </span>workflow_from_extreme<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span>-a<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span><span class="nv">$cluster</span><span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$molecule</span><span class="s2">/</span><span class="nv">$molecule</span><span class="s2">-stretched00.pdb&quot;</span><span class="w"> </span><span class="nv">$verbose</span><span class="w"> </span>-S<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$job_options</span><span class="s2">&quot;</span>
+
+
+<span class="c1">#sbatch $single_part -J ${molecule}_WAR $(sith workflow_from_extreme -path) -c -p &quot;.&quot; -v</span>
+
+<span class="c1">#verbose &quot;running grappa and amber&quot;;</span>
+<span class="c1">#final_force=$(sith F_max_stretch ../ $molecule)</span>
+<span class="c1">#sbatch $single_part -J ${molecule}_ff $(sith pulling_with_ff -path) -F $final_force -f $molecule-stretched00.pdb </span>
+
+
+finish
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../sith.g09_stretching.html" class="btn btn-neutral float-left" title="sith.g09_stretching package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="find_forces.html" class="btn btn-neutral float-right" title="Script of sith find_forces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script of sith clean_ds &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Script of sith basics" href="basics.html" />
+    <link rel="prev" title="Script of sith find_blocks" href="find_blocks.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../sith.utils.html">sith.utils package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../sith.utils.html#module-sith.utils.analysis">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.utils.html#module-sith.utils">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../sith.html">sith package</a></li>
+          <li class="breadcrumb-item"><a href="../sith.utils.html">sith.utils package</a></li>
+      <li class="breadcrumb-item active">Script of sith clean_ds</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/bash_rsts_scripts/clean_ds.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="script-of-sith-clean-ds">
+<span id="clean-ds"></span><h1>Script of sith clean_ds<a class="headerlink" href="#script-of-sith-clean-ds" title="Link to this heading"></a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/bash</span>
+
+<span class="c1"># ----- definition of functions starts ----------------------------------------</span>
+print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">This code checks the aminoacids in the &#39;data runnig&#39; directory and evaluates</span>
+<span class="s2">the state of the running (running, completed, failed). In case to be completed,</span>
+<span class="s2">it is moved to the dataset directory.</span>
+
+<span class="s2">  -r  running directory. default ./</span>
+<span class="s2">  -s  data set directory. default ../random3</span>
+<span class="s2">  -u  user. defatult sucerqdl</span>
+
+<span class="s2">  -v  verbose.</span>
+<span class="s2">  -h  prints this message.</span>
+<span class="s2">&quot;</span>
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+<span class="c1"># ----- definition of functions finishes --------------------------------------</span>
+
+<span class="c1"># ----- set up starts ---------------------------------------------------------</span>
+<span class="c1"># General variables</span>
+<span class="nv">running_directory</span><span class="o">=</span><span class="s2">&quot;./&quot;</span>
+<span class="nv">dataset</span><span class="o">=</span><span class="s2">&quot;../random3&quot;</span>
+<span class="nv">user</span><span class="o">=</span><span class="s2">&quot;sucerqdl&quot;</span>
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;r:s:u:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>r<span class="o">)</span><span class="w"> </span><span class="nv">running_directory</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>s<span class="o">)</span><span class="w"> </span><span class="nv">dataset</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>u<span class="o">)</span><span class="w"> </span><span class="nv">user</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+
+<span class="w">    </span>v<span class="o">)</span><span class="w"> </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">  </span><span class="k">esac</span>
+<span class="k">done</span>
+
+<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>CHECK_DS<span class="w"> </span><span class="nv">$verbose</span><span class="w"> </span>
+
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;JOB information&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;===============&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Date:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="k">$(</span>date<span class="k">)</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot; \* Command:&quot;</span>
+verbose<span class="w"> </span>-t<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$0</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+
+<span class="c1"># ---- BODY -------------------------------------------------------------------</span>
+
+<span class="c1"># requierements</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dataset</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="k">then</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;The directory specified as data set does not exist. check</span>
+<span class="s2">    &#39;sith clean_ds -h&#39; for more info&quot;</span>
+<span class="k">fi</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$running_directory</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="k">then</span>
+<span class="w">  </span>fail<span class="w"> </span><span class="s2">&quot;The directory specified as running directory does not exist. check</span>
+<span class="s2">    &#39;sith clean_ds -h&#39; for more info&quot;</span>
+<span class="k">fi</span>
+
+mapfile<span class="w"> </span>-t<span class="w"> </span>job_ids<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span><span class="w"> </span>squeue<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$user</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span>+2<span class="w"> </span><span class="p">|</span><span class="se">\</span>
+<span class="w">                        </span>awk<span class="w"> </span><span class="s1">&#39;{print $1}&#39;</span><span class="w"> </span><span class="o">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                        </span>fail<span class="w"> </span><span class="s2">&quot;You have to run this code in a cluster using</span>
+<span class="s2">                          slurm and specify an existing user with -u option.&quot;</span>
+
+<span class="c1"># ==== creating output</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# amino state (R:running, C: completed, E: error)&quot;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="m">00</span>-aminos.txt
+
+<span class="c1"># ---- collect running peptides</span>
+<span class="nv">running_pep</span><span class="o">=(</span><span class="w"> </span><span class="o">)</span>
+<span class="k">for</span><span class="w"> </span>id<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">job_ids</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="k">if</span><span class="w">  </span>!<span class="w"> </span>find<span class="w"> </span>.<span class="w"> </span>-maxdepth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*</span><span class="nv">$id</span><span class="s2">.o&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span>fail<span class="w"> </span><span class="s2">&quot;non peptide output found. This code is expeting to find a file</span>
+<span class="s2">      with the id of each job in the running directory&quot;</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="nv">random</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">1</span><span class="w"> </span>Command<span class="w"> </span><span class="s2">&quot;peptides_analysis-</span><span class="nv">$id</span><span class="s2">.o&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">              </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;\-R&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$random</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span><span class="nv">com</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">1</span><span class="w"> </span>Command<span class="w"> </span><span class="s2">&quot;peptides_analysis-</span><span class="nv">$id</span><span class="s2">.o&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">      </span><span class="nv">pep</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">com</span><span class="p">##*p </span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39; &#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="nv">string</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span><span class="s2">&quot;WARNING The code created the random peptide &quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                    </span><span class="s2">&quot;peptides_analysis-</span><span class="nv">$id</span><span class="s2">.o&quot;</span><span class="w"> </span><span class="k">)</span>
+<span class="w">      </span><span class="nv">pep</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">string</span><span class="p">#*peptide </span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+<span class="w">    </span><span class="k">fi</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${#</span><span class="nv">pep</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span>fail<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$id</span><span class="s2">  is running but the output (peptides_analysis-&lt;id&gt;.o)</span>
+<span class="s2">        does not exist or does not show the peptide yet.&quot;</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">    </span><span class="nv">running_pep</span><span class="o">+=(</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">)</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;   R&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="m">00</span>-aminos.txt
+<span class="w">    </span><span class="c1"># move other files</span>
+<span class="w">    </span>mapfile<span class="w"> </span>-t<span class="w"> </span>other_files<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span>find<span class="w"> </span>.<span class="w"> </span>-maxdepth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.o&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                      </span>-exec<span class="w"> </span>grep<span class="w"> </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span><span class="o">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>fil<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">other_files</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$fil</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w">  </span><span class="s2">&quot;./peptides_analysis-</span><span class="nv">$id</span><span class="s2">.o&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="w">      </span><span class="k">then</span>
+<span class="w">        </span>verbose<span class="w"> </span><span class="s2">&quot;moving </span><span class="nv">$fil</span><span class="s2"> into </span><span class="nv">$pep</span><span class="s2">&quot;</span>
+<span class="w">        </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$fil</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span>
+<span class="w">        </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">fil</span><span class="p">%*.o</span><span class="si">}</span><span class="s2">.e&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span>
+<span class="w">      </span><span class="k">fi</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="k">done</span>
+
+<span class="c1"># add  peptides already in dataset</span>
+mapfile<span class="w"> </span>-t<span class="w"> </span>completed_pep<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span>ls<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dataset</span><span class="s2">&quot;</span><span class="o">)</span>
+<span class="k">for</span><span class="w"> </span>pep<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">completed_pep</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;   C&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="m">00</span>-aminos.txt
+<span class="k">done</span>
+
+<span class="c1"># ---- collect non-running peptides</span>
+verbose<span class="w"> </span><span class="s2">&quot;Non running peptides&quot;</span>
+mapfile<span class="w"> </span>-t<span class="w"> </span>peps_here<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span><span class="w"> </span>find<span class="w"> </span>.<span class="w"> </span>-maxdepth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-type<span class="w"> </span>d<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span>+2<span class="o">)</span>
+
+<span class="k">for</span><span class="w"> </span>pep<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">peps_here</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="c1"># shellcheck disable=SC2199</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">running_pep</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span><span class="si">${</span><span class="nv">pep</span><span class="p">:</span><span class="nv">2</span><span class="si">}</span><span class="w"> </span><span class="o">]]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="c1"># move files into the proper directory</span>
+<span class="w">    </span>mapfile<span class="w"> </span>-t<span class="w"> </span>out_files<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span>find<span class="w"> </span>.<span class="w"> </span>-maxdepth<span class="w"> </span><span class="m">1</span><span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-name<span class="w"> </span><span class="s2">&quot;*.o&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">                                    </span>-exec<span class="w"> </span>grep<span class="w"> </span>-l<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">pep</span><span class="p">:</span><span class="nv">2</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">{}</span><span class="w"> </span><span class="se">\;</span><span class="o">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>fil<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">out_files</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">      </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$fil</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span>
+<span class="w">      </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">fil</span><span class="p">%*.o</span><span class="si">}</span><span class="s2">.e&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">/rupture&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="w">    </span><span class="k">then</span>
+<span class="w">      </span>warning<span class="w"> </span><span class="s2">&quot;moving </span><span class="nv">$pep</span><span class="s2"> to the dataset directory&quot;</span>
+<span class="w">      </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$pep</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dataset</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;trying to move </span><span class="si">${</span><span class="nv">pep</span><span class="p">:</span><span class="nv">2</span><span class="si">}</span><span class="s2"> to </span><span class="nv">$dataset</span><span class="s2">&quot;</span>
+<span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">pep</span><span class="p">:</span><span class="nv">2</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;   C&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="m">00</span>-aminos.txt
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span>warning<span class="w"> </span><span class="s2">&quot;something happened with the stretching of peptide</span>
+<span class="s2">        </span><span class="si">${</span><span class="nv">pep</span><span class="p">:</span><span class="nv">2</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">pep</span><span class="p">:</span><span class="nv">2</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;   E&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="m">00</span>-aminos.txt
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">  </span><span class="k">fi</span>
+<span class="k">done</span>
+
+<span class="c1"># Now separates the non-running by completed and error. Understanding error as</span>
+<span class="c1"># anything that aviods to complete</span>
+
+verbose<span class="w"> </span><span class="s2">&quot;summary&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;completed Jobs: </span><span class="k">$(</span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;  C&quot;</span><span class="w"> </span><span class="m">00</span>-aminos.txt<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;running Jobs: </span><span class="k">$(</span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;  R&quot;</span><span class="w"> </span><span class="m">00</span>-aminos.txt<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;failed Jobs: </span><span class="k">$(</span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;  E&quot;</span><span class="w"> </span><span class="m">00</span>-aminos.txt<span class="w"> </span><span class="k">)</span><span class="s2">&quot;</span>
+
+finish
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="find_blocks.html" class="btn btn-neutral float-left" title="Script of sith find_blocks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="basics.html" class="btn btn-neutral float-right" title="Script of sith basics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

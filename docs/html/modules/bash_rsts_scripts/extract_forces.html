@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Script of sith extract_forces &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Script of sith create_peptide" href="create_peptide.html" />
+    <link rel="prev" title="Script of sith proline_mod" href="proline_mod.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../sith.html">sith package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../sith.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.energy_analysis.html">sith.energy_analysis package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../sith.g09_stretching.html">sith.g09_stretching package</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching.change_dofs">Submodules</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../sith.g09_stretching.html#module-sith.g09_stretching">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.readers.html">sith.readers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.utils.html">sith.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sith.visualize.html">sith.visualize package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../sith.html#module-sith.SITH">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../sith.html">sith package</a></li>
+          <li class="breadcrumb-item"><a href="../sith.g09_stretching.html">sith.g09_stretching package</a></li>
+      <li class="breadcrumb-item active">Script of sith extract_forces</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/bash_rsts_scripts/extract_forces.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="script-of-sith-extract-forces">
+<span id="extract-forces"></span><h1>Script of sith extract_forces<a class="headerlink" href="#script-of-sith-extract-forces" title="Link to this heading"></a></h1>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/bash</span>
+
+<span class="c1"># ----- definition of functions starts ----------------------------------------</span>
+print_help<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span>
+<span class="s2">Extract the forces and indexes of the DOFs from a log file (gaussian) and fchk</span>
+<span class="s2">file (or chk) when it exists. The output is a set of files called</span>
+<span class="s2">&lt;pep&gt;-forces&lt;n_stretching&gt;.fchk containing the information in fchk gaussian</span>
+<span class="s2">format.</span>
+
+<span class="s2">  -f  &lt;file.log&gt; log file created by gaussian, chk file of this file should</span>
+<span class="s2">      have the same name but different extension. </span>
+
+<span class="s2">  -v  verbose.</span>
+<span class="s2">  -h   prints this message.</span>
+<span class="s2">&quot;</span>
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
+<span class="o">}</span>
+
+write_float_vector<span class="o">(){</span>
+<span class="w">  </span><span class="c1"># vector as the only argument. usage:</span>
+<span class="w">  </span><span class="c1"># write_float_vector &quot;${array[@]}&quot;</span>
+<span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">v</span><span class="o">=(</span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span><span class="o">)</span>
+<span class="w">  </span><span class="nv">lenv</span><span class="o">=</span><span class="si">${#</span><span class="nv">v</span><span class="p">[@]</span><span class="si">}</span>
+<span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">i</span><span class="o">=</span><span class="m">0</span>
+
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="k">))</span><span class="w"> </span>-lt<span class="w"> </span><span class="nv">$lenv</span><span class="w"> </span><span class="o">]</span><span class="p">;</span>
+<span class="w">  </span><span class="k">do</span>
+<span class="w">    </span><span class="nv">line</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>value<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">v</span><span class="p">[@]:</span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="k">))</span><span class="p">: 5</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">      </span><span class="nv">line</span><span class="o">+=</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%16.8E&quot;</span><span class="w"> </span><span class="nv">$value</span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nv">i</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
+<span class="w">  </span><span class="k">done</span>
+<span class="o">}</span>
+
+write_int_vector<span class="o">(){</span>
+<span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">v</span><span class="o">=(</span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span><span class="o">)</span>
+<span class="w">  </span><span class="nv">lenv</span><span class="o">=</span><span class="si">${#</span><span class="nv">v</span><span class="p">[@]</span><span class="si">}</span>
+<span class="w">  </span><span class="nb">local</span><span class="w"> </span><span class="nv">i</span><span class="o">=</span><span class="m">0</span>
+
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="k">))</span><span class="w"> </span>-lt<span class="w"> </span><span class="nv">$lenv</span><span class="w"> </span><span class="o">]</span><span class="p">;</span>
+<span class="w">  </span><span class="k">do</span>
+<span class="w">    </span><span class="nv">line</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span>value<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">v</span><span class="p">[@]:</span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="k">))</span><span class="p">: 6</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">do</span>
+<span class="w">      </span><span class="nv">line</span><span class="o">+=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%12s&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$value</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="w">    </span><span class="k">done</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nv">i</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
+<span class="w">  </span><span class="k">done</span>
+<span class="o">}</span>
+<span class="c1"># ----- definition of functions finishes --------------------------------------</span>
+
+<span class="c1"># ----- set up starts ---------------------------------------------------------</span>
+<span class="c1"># General variables</span>
+<span class="nv">forces_directory</span><span class="o">=</span><span class="s2">&quot;./forces&quot;</span>
+<span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;false&#39;</span>
+<span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+<span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s1">&#39;cf:vh&#39;</span><span class="w"> </span>flag<span class="p">;</span>
+<span class="k">do</span>
+<span class="w">  </span><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">flag</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">    </span>c<span class="o">)</span><span class="w"> </span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;true&#39;</span><span class="p">;;</span>
+<span class="w">    </span>f<span class="o">)</span><span class="w"> </span><span class="nv">file</span><span class="o">=</span><span class="si">${</span><span class="nv">OPTARG</span><span class="si">}</span><span class="w"> </span><span class="p">;;</span>
+
+<span class="w">    </span>v<span class="o">)</span><span class="w">  </span><span class="nv">verbose</span><span class="o">=</span><span class="s1">&#39;-v&#39;</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>h<span class="o">)</span><span class="w"> </span>print_help<span class="w"> </span><span class="p">;;</span>
+<span class="w">    </span>*<span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;for usage check: sith &lt;function&gt; -h&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">;;</span>
+<span class="w">  </span><span class="k">esac</span>
+<span class="k">done</span>
+
+<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>sith<span class="w"> </span>basics<span class="w"> </span>-path<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>ExtrForces<span class="w"> </span><span class="nv">$verbose</span>
+<span class="k">if</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$cluster</span><span class="s2">&quot;</span>
+<span class="k">then</span>
+<span class="w">  </span>load_modules
+<span class="k">fi</span>
+<span class="c1"># ---- BODY -------------------------------------------------------------------</span>
+
+<span class="c1"># extract forces of the all log files in &quot;forces_directory&quot;</span>
+
+<span class="c1"># backing up real fchk file</span>
+<span class="nv">fchk_file</span><span class="o">=</span><span class="nb">false</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.fchk&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="k">then</span>
+<span class="w">  </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;Forces extracted from log file&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.fchk&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="o">{</span><span class="w"> </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.fchk&quot;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span>.fchk<span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="nv">fchk_file</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="o">}</span>
+<span class="k">fi</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$fchk_file</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;false&#39;</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.chk&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="k">then</span>
+<span class="w">  </span>formchk<span class="w"> </span>-3<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.chk&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>fail<span class="w"> </span><span class="s2">&quot;fchk based on </span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.chk&quot;</span>
+<span class="w">  </span>mv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="s2">.fchk&quot;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span>.fchk
+<span class="w">  </span><span class="nv">fchk_file</span><span class="o">=</span><span class="s1">&#39;true&#39;</span>
+<span class="k">fi</span>
+
+<span class="c1"># same name as the log file but with fchk extension</span>
+<span class="nv">output</span><span class="o">=</span><span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span>.fchk
+verbose<span class="w"> </span><span class="s2">&quot;Creating </span><span class="nv">$output</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Forces extracted from log file </span><span class="nv">$file</span><span class="s2"> using sith extract_forces </span><span class="si">${</span><span class="p">@</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$output</span>
+
+<span class="c1"># region AtomicNumbers_n_coords</span>
+<span class="nv">number</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;Center     Atomic      Atomic&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">)</span>
+awk<span class="w"> </span>-v<span class="w"> </span><span class="nv">num</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">number</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="k">))</span><span class="w"> </span><span class="s1">&#39;NR &gt;= num { print $0 }&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt
+
+<span class="c1"># find the end of the block of the internal forces</span>
+<span class="nv">number</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;\-\-\-\-\-\-\-\-&quot;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt<span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">)</span>
+head<span class="w"> </span>-n<span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="nv">number</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt<span class="w"> </span>&gt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt
+
+<span class="c1"># store atomic numbers in an array</span>
+mapfile<span class="w"> </span>-t<span class="w"> </span>atomic_nums<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span>awk<span class="w"> </span><span class="s1">&#39;{ print $2 }&#39;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt<span class="o">)</span>
+mapfile<span class="w"> </span>-t<span class="w"> </span>coords<span class="w"> </span>&lt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&lt;<span class="o">(</span>awk<span class="w"> </span><span class="s1">&#39;{ printf &quot;%f \n %f \n %f \n&quot;, $4, $5, $6 }&#39;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt<span class="o">)</span>
+
+<span class="c1"># write atomic numbers in the file</span>
+<span class="nv">line</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%-43s&quot;</span><span class="w"> </span><span class="s2">&quot;Atomic numbers&quot;</span><span class="k">)</span>
+<span class="nv">line</span><span class="o">+=</span><span class="s2">&quot;I   N=&quot;</span>
+<span class="nv">line</span><span class="o">+=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%12s&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${#</span><span class="nv">atomic_nums</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+write_int_vector<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">atomic_nums</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;atomic numbers&quot;</span>
+
+<span class="c1"># write coordinates in the file</span>
+<span class="nv">line</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%-43s&quot;</span><span class="w"> </span><span class="s2">&quot;Current cartesian coordinates&quot;</span><span class="k">)</span>
+<span class="nv">line</span><span class="o">+=</span><span class="s2">&quot;R   N=&quot;</span>
+<span class="nv">line</span><span class="o">+=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%12s&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${#</span><span class="nv">coords</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+write_float_vector<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">coords</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;coordinates&quot;</span>
+<span class="c1"># endregion</span>
+
+<span class="c1"># region dofs_indexes</span>
+<span class="c1"># find the begining of the block of the internal forces</span>
+<span class="nv">number</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;Internal Coordinate Forces&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">)</span>
+awk<span class="w"> </span>-v<span class="w"> </span><span class="nv">num</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">number</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="k">))</span><span class="w"> </span><span class="s1">&#39;NR &gt;= num { print $0 }&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt
+<span class="nv">number</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;\-\-\-\-\-\-\-\-&quot;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt<span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">)</span>
+head<span class="w"> </span>-n<span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="nv">number</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt<span class="w"> </span>&gt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/)//g ; s/(//g&quot;</span><span class="w">  </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt
+<span class="nv">dist</span><span class="o">=</span><span class="k">$(</span>awk<span class="w"> </span><span class="s1">&#39;BEGIN{count=0;}{if( $3 ){count+=1}}END{print count}&#39;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt<span class="k">)</span>
+<span class="nv">angl</span><span class="o">=</span><span class="k">$(</span>awk<span class="w"> </span><span class="s1">&#39;BEGIN{count=0;}{if( $6 ){count+=1}}END{print count}&#39;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt<span class="k">)</span>
+<span class="nv">dihe</span><span class="o">=</span><span class="k">$(</span>awk<span class="w"> </span><span class="s1">&#39;BEGIN{count=0;}{if( $9 ){count+=1}}END{print count}&#39;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt<span class="k">)</span>
+<span class="nv">ndof</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">dist</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">angl</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">dihe</span><span class="w"> </span><span class="k">))</span>
+<span class="nv">dim</span><span class="o">=(</span><span class="w"> </span><span class="nv">$ndof</span><span class="w"> </span><span class="nv">$dist</span><span class="w"> </span><span class="nv">$angl</span><span class="w"> </span><span class="nv">$dihe</span><span class="w"> </span><span class="o">)</span>
+
+<span class="c1"># write dof dimensions in the file</span>
+<span class="nv">line</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%-43s&quot;</span><span class="w"> </span><span class="s2">&quot;Redundant internal dimensions&quot;</span><span class="k">)</span>
+<span class="nv">line</span><span class="o">+=</span><span class="s2">&quot;I   N=&quot;</span>
+<span class="nv">line</span><span class="o">+=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%12s&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${#</span><span class="nv">dim</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+write_int_vector<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">dim</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;dimensions&quot;</span>
+<span class="c1"># endregion</span>
+
+<span class="c1"># region dofs_indexes</span>
+<span class="c1"># find the begining of the block of the internal forces</span>
+awk<span class="w"> </span><span class="s1">&#39;{if( $3 ){ printf &quot;%d\n%d\n0\n0\n&quot;, $3, $1 }}&#39;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt<span class="w"> </span>&gt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt
+awk<span class="w"> </span><span class="s1">&#39;{if( $6 ){ printf &quot;%d\n%d\n%d\n0\n&quot;, $6, $3, $1 }}&#39;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt<span class="w"> </span>&gt;&gt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt
+awk<span class="w"> </span><span class="s1">&#39;{if( $9 ){ printf &quot;%d\n%d\n%d\n%d\n&quot;, $9, $6, $3, $1 }}&#39;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&gt;&gt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt
+
+mapfile<span class="w"> </span>-t<span class="w"> </span>indexes<span class="w"> </span>&lt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt
+
+<span class="c1"># write indices of internal coordinates in the file</span>
+<span class="nv">line</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%-43s&quot;</span><span class="w"> </span><span class="s2">&quot;Redundant internal coordinate indices&quot;</span><span class="k">)</span>
+<span class="nv">line</span><span class="o">+=</span><span class="s2">&quot;I   N=&quot;</span>
+<span class="nv">line</span><span class="o">+=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%12s&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${#</span><span class="nv">indexes</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+write_int_vector<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">indexes</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;indices of dofs&quot;</span>
+<span class="c1"># endregion</span>
+
+<span class="c1"># region forces</span>
+<span class="k">if</span><span class="w"> </span><span class="nv">$fchk_file</span>
+<span class="k">then</span>
+<span class="w">  </span>sith<span class="w"> </span>find_blocks<span class="w"> </span>-f<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span>.fchk<span class="w"> </span>-s<span class="w"> </span><span class="se">\&quot;</span>Internal<span class="w"> </span>Forces<span class="se">\&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-e<span class="w"> </span><span class="se">\&quot;</span>Internal<span class="w"> </span>Force<span class="w"> </span>Constants<span class="se">\&quot;</span><span class="w"> </span>-o<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span>_000.out<span class="w"> </span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$i</span><span class="p">;</span><span class="w"> </span><span class="k">done</span><span class="w"> </span>&gt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt
+<span class="k">else</span>
+<span class="w">  </span>awk<span class="w"> </span><span class="s1">&#39;{if( $3 ){ printf &quot;%f\n&quot;, $4 }}&#39;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt<span class="w"> </span>&gt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt
+<span class="w">  </span>awk<span class="w"> </span><span class="s1">&#39;{if( $6 ){ printf &quot;%f\n&quot;, $7 }}&#39;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt<span class="w"> </span>&gt;&gt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt
+<span class="w">  </span>awk<span class="w"> </span><span class="s1">&#39;{if( $9 ){ printf &quot;%f\n&quot;, $10 }}&#39;</span><span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">2</span>.txt<span class="w"> </span>&gt;&gt;<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt
+<span class="k">fi</span>
+
+<span class="nb">unset</span><span class="w"> </span>forces
+mapfile<span class="w"> </span>-t<span class="w"> </span>forces<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span><span class="w"> </span>cat<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span><span class="m">1</span>.txt<span class="w"> </span><span class="o">)</span>
+
+<span class="c1"># write indices of internal coordinates in the file</span>
+<span class="nv">line</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%-43s&quot;</span><span class="w"> </span><span class="s2">&quot;Internal Forces&quot;</span><span class="k">)</span>
+<span class="nv">line</span><span class="o">+=</span><span class="s2">&quot;R   N=&quot;</span>
+<span class="nv">line</span><span class="o">+=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%12s&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${#</span><span class="nv">forces</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+write_float_vector<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">forces</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;forces&quot;</span>
+<span class="c1"># endregion</span>
+
+<span class="c1"># region energy</span>
+<span class="nv">ener</span><span class="o">=</span><span class="k">$(</span>grep<span class="w"> </span><span class="s2">&quot;SCF Done:&quot;</span><span class="w"> </span><span class="nv">$file</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $5}&#39;</span><span class="k">)</span>
+<span class="nv">line</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%-43s&quot;</span><span class="w"> </span><span class="s2">&quot;Total Energy&quot;</span><span class="k">)</span>
+<span class="nv">line</span><span class="o">+=</span><span class="s2">&quot;R&quot;</span>
+<span class="nv">line</span><span class="o">+=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%27s&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$ener</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;energy&quot;</span>
+<span class="c1"># endregion</span>
+
+<span class="c1"># region dofs_values</span>
+<span class="nv">head</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;Variables:&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">)</span>
+<span class="nv">end</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span>+<span class="k">$((</span><span class="w"> </span><span class="nv">head</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;^ </span>$<span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;:&quot;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">)</span>
+<span class="c1"># Transform angles in radians</span>
+mapfile<span class="w"> </span>-t<span class="w"> </span>dof_val<span class="w"> </span>&lt;<span class="w"> </span>&lt;<span class="o">(</span>tail<span class="w"> </span>-n<span class="w"> </span>+<span class="k">$((</span><span class="w"> </span><span class="nv">head</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$file</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="k">$((</span><span class="w"> </span><span class="nv">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>awk<span class="w"> </span><span class="s1">&#39;{if ($1 ~ &quot;R&quot;){print $2*1.88972612583}else{print $2*0.0174532925199}}&#39;</span><span class="o">)</span>
+<span class="nv">line</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%-43s&quot;</span><span class="w"> </span><span class="s2">&quot;Redundant internal coordinates&quot;</span><span class="k">)</span>
+<span class="nv">line</span><span class="o">+=</span><span class="s2">&quot;R   N=&quot;</span>
+<span class="nv">line</span><span class="o">+=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;%12s&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${#</span><span class="nv">dof_val</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+write_float_vector<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">dof_val</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span><span class="nv">$output</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;dofs values&quot;</span>
+
+sleep<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="c1"># just to allow buffer to print.</span>
+rm<span class="w"> </span>tmp-<span class="si">${</span><span class="nv">file</span><span class="p">%.*</span><span class="si">}</span>*
+<span class="c1"># endregion</span>
+
+finish
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="proline_mod.html" class="btn btn-neutral float-left" title="Script of sith proline_mod" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="create_peptide.html" class="btn btn-neutral float-right" title="Script of sith create_peptide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

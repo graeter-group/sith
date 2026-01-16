@@ -364,7 +364,7 @@ class SITH:
             for file in new_set:
                 file_name = file.split('/')[-1]
                 path = file.replace(file_name, '')
-                all_files = glob(f'{path}/{file_name.replace('.fchk', '')}*')
+                all_files = glob(f"{path}/{file_name.replace('.fchk', '')}*")
 
                 for f in all_files:
                     shutil.copy(f, new_dir)

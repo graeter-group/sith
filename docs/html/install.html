@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Install &mdash; sith</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8d563738"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Workflow" href="workflow/workflow.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="index.html">
+            
+              <img src="_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#load-modules">Load-modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#option-1-directly-in-the-terminal-or-in-the-bash-script">Option 1: directly in the terminal or in the bash script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#option-2-create-a-template">Option 2: create a template</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Install</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/install.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="install">
+<span id="id1"></span><h1>Install<a class="headerlink" href="#install" title="Link to this heading"></a></h1>
+<p>To install sith, run these lines on your terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:graeter-group/sith.git
+<span class="nb">cd</span><span class="w"> </span>sith
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Note that “-e” flag allows to use sith in such a way that you can make
+changes on it and use them immediately without having to reinstall the package
+again. However, you can avoid this flag, which would generate a copy of sith in
+the python packages path.</p>
+<section id="load-modules">
+<span id="id2"></span><h2>Load-modules<a class="headerlink" href="#load-modules" title="Link to this heading"></a></h2>
+<p>So far, sith is based on gaussian because it has implemented the calculation of
+forces directly in the DOFs. For future releases, we plan to expand the use of
+sith to other QM softwares. We developed our code specifically for g09, but it
+should work well with any newer gaussian version. Given that the gaussian
+version is completely customizable, the implemented tools of sith that use
+gaussian requiere a function that has to be defined in either of the two ways
+shown bellow.</p>
+<p>Also, in HPC (in clusters), it is common to load the necessary softwares as
+modules. This step is also shown in the options bellow. If you do not need to
+load modules, ignore that part.</p>
+<section id="option-1-directly-in-the-terminal-or-in-the-bash-script">
+<h3>Option 1: directly in the terminal or in the bash script<a class="headerlink" href="#option-1-directly-in-the-terminal-or-in-the-bash-script" title="Link to this heading"></a></h3>
+<p>Before executing the sith command (e.g. stretching), define the gaussian
+function directly in the terminal or in the .sh script you want to run.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># load your modules. For example,</span>
+module<span class="w"> </span>load<span class="w"> </span>Gaussian/16.C.01-AVX2
+
+<span class="c1"># Then, define the next function with your specific gaussian version.</span>
+<span class="c1"># In this case, we use g16 as an example.</span>
+gaussian<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">output</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">1</span><span class="p">%.com</span><span class="si">}</span><span class="s2">&quot;</span>.log
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="nv">output</span><span class="o">=</span><span class="nv">$2</span>
+<span class="w">  </span><span class="k">fi</span>
+
+<span class="w">  </span>g16<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$1</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$output</span>
+<span class="o">}</span>
+
+<span class="c1"># source your sith command, in this case &#39;stretching&#39;</span>
+<span class="nb">source</span><span class="w"> </span><span class="k">$(</span>sith<span class="w"> </span>stretching<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span>-p<span class="w"> </span><span class="m">8</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>,37<span class="w"> </span>-m<span class="w"> </span>molecule.pdb
+</pre></div>
+</div>
+</section>
+<section id="option-2-create-a-template">
+<h3>Option 2: create a template<a class="headerlink" href="#option-2-create-a-template" title="Link to this heading"></a></h3>
+<p>The option 1 implies that every time you execute a sith command that requieres
+gaussian, you have to run those lines that are probably always the same. To
+avoid this redundancy, sith can be submitted directly as job script. For
+that, you need to create the file <code class="code docutils literal notranslate"><span class="pre">$HOME/sw/load_modules.sh</span></code> with the
+lines showed in the option 1, before sourcing sith. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/sw
+cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; $HOME</span>/sw/load_modules.sh
+<span class="c1"># load your modules. For example,</span>
+module<span class="w"> </span>load<span class="w"> </span>Gaussian/16.C.01-AVX2
+
+<span class="c1"># Then, define the next function with your specific gaussian version.</span>
+<span class="c1"># In this case, we use g16 as an example.</span>
+gaussian<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span>
+<span class="w">  </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">output</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">1</span><span class="p">%.com</span><span class="si">}</span><span class="s2">&quot;</span>.log
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="nv">output</span><span class="o">=</span><span class="nv">$2</span>
+<span class="w">  </span><span class="k">fi</span>
+
+<span class="w">  </span>g16<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$1</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$output</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Once this is done, you can use sith with the flag -c
+(<code class="code docutils literal notranslate"><span class="pre">sith</span> <span class="pre">&lt;function&gt;</span> <span class="pre">-c</span> <span class="pre">...</span></code>), for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sith<span class="w"> </span>stretching<span class="w"> </span>-c<span class="w"> </span>-p<span class="w"> </span><span class="m">8</span><span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>,37<span class="w"> </span>-m<span class="w"> </span>molecule.pdb
+</pre></div>
+</div>
+<p>Or you can even submit the sith command directly as a slurm job:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We designed sith to run in
+<a class="reference external" href="https://slurm.schedmd.com/documentation.html">slurm workload manager</a>,
+which means you can submit your jobs directly with</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch<span class="w"> </span>-n<span class="w"> </span><span class="m">8</span><span class="w"> </span>-J<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="k">$(</span>sith<span class="w"> </span>stretching<span class="w"> </span>-path<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span>-i<span class="w"> </span><span class="m">1</span>,37<span class="w"> </span>-m<span class="w"> </span>molecule.pdb
+</pre></div>
+</div>
+<p>To check the predefined options, run
+<code class="code docutils literal notranslate"><span class="pre">head</span> <span class="pre">-n</span> <span class="pre">8</span> <span class="pre">$(sith</span> <span class="pre">&lt;function&gt;</span> <span class="pre">-path)</span></code>. If you use any other queue
+manager, ignore this note.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="intro.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="workflow/workflow.html" class="btn btn-neutral float-right" title="Workflow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.readers package &mdash; sith</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="sith.utils package" href="sith.utils.html" />
+    <link rel="prev" title="Script of sith stretching" href="bash_rsts_scripts/stretching.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="sith.html">sith package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="sith.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.from_extreme.html">sith.g09_stretching.from_extreme package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.energy_analysis.html">sith.energy_analysis package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.g09_stretching.html">sith.g09_stretching package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">sith.readers package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-sith.readers.g09_reader">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-sith.readers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sith.utils.html">sith.utils package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sith.visualize.html">sith.visualize package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sith.html#module-sith.SITH">Submodules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="sith.html">sith package</a></li>
+      <li class="breadcrumb-item active">sith.readers package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/sith.readers.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sith-readers-package">
+<h1>sith.readers package<a class="headerlink" href="#sith-readers-package" title="Link to this heading"></a></h1>
+<section id="module-sith.readers.g09_reader">
+<span id="submodules"></span><h2>Submodules<a class="headerlink" href="#module-sith.readers.g09_reader" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="sith.readers.g09_reader.FileReader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.readers.g09_reader.</span></span><span class="sig-name descname"><span class="pre">FileReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extract_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.readers.g09_reader.FileReader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Object used to read info in a .fchk file and store it into a
+<a class="reference internal" href="sith.html#sith.Utilities.Geometry" title="sith.Utilities.Geometry"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Geometry</span></code></a> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Path</em><em> or </em><em>str</em>) – Path to the fchk file to extract into a
+<a class="reference internal" href="sith.html#sith.Utilities.Geometry" title="sith.Utilities.Geometry"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Geometry</span></code></a> object.</p></li>
+<li><p><strong>extract_data</strong> (<em>bool. Default=True</em>) – Automatically try to extract the data from the .fchk file. If
+False, the user should run
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">_extract</span></code>. Defatult=True</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sith.readers.g09_reader.FileReader.dims">
+<span class="sig-name descname"><span class="pre">dims</span></span><a class="headerlink" href="#sith.readers.g09_reader.FileReader.dims" title="Link to this definition"></a></dt>
+<dd><p>counter of the DOFs, organized as:
+[0] Total number of DOFs
+[1] Number of distances
+[2] Number of angles
+[3] Number of dihedrals</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sith.readers.g09_reader.FileReader.geometry">
+<span class="sig-name descname"><span class="pre">geometry</span></span><a class="headerlink" href="#sith.readers.g09_reader.FileReader.geometry" title="Link to this definition"></a></dt>
+<dd><p>object where the info is stored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="sith.html#sith.Utilities.Geometry" title="sith.Utilities.Geometry">sith.Utilities.Geometry</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sith.readers.g09_reader.FileReader.block_readers">
+<span class="sig-name descname"><span class="pre">block_readers</span></span><a class="headerlink" href="#sith.readers.g09_reader.FileReader.block_readers" title="Link to this definition"></a></dt>
+<dd><p>dictionary with the header and the respective reader that stores the
+values in <a class="reference internal" href="sith.html#sith.Utilities.Geometry" title="sith.Utilities.Geometry"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Geometry</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This class should be used only for developers. Use this as a template to
+create other readers. Readers should assign the values to the attributes of
+the class <a class="reference internal" href="sith.html#sith.Utilities.Geometry" title="sith.Utilities.Geometry"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Geometry</span></code></a>.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sith.readers.g09_reader.FileReader.build_atoms">
+<span class="sig-name descname"><span class="pre">build_atoms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Atoms</span></span></span><a class="headerlink" href="#sith.readers.g09_reader.FileReader.build_atoms" title="Link to this definition"></a></dt>
+<dd><p>Creates a ase.Atoms object of the structure in the fchk file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>(ase.Atoms) Atoms object with the molecular information of the</em></p></li>
+<li><p><em>structure.</em></p></li>
+<li><p><strong>Note</strong> (<em>Before using this method, FileReader.cartesian_coordinates and</em>)</p></li>
+<li><p><em>FileReader.atomic_nums must have an assigned value.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sith.readers.g09_reader.G09Reader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sith.readers.g09_reader.</span></span><span class="sig-name descname"><span class="pre">G09Reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputfiles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sith.readers.g09_reader.G09Reader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Tool to read a set of fchk files of g09 corresponding to stretched
+molecules. It creates the geometries for each stretched configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>inputfiles</strong> (<em>list</em><em> or </em><em>str</em>) – list of paths to the fchk files (as strings or paths). The order of
+the elements matters according to the energy anaylis applied. This
+parameter could be also a string of the path to the a directory
+containing the fchk files in alphabetic order.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sith.readers.g09_reader.G09Reader.inputfiles">
+<span class="sig-name descname"><span class="pre">inputfiles</span></span><a class="headerlink" href="#sith.readers.g09_reader.G09Reader.inputfiles" title="Link to this definition"></a></dt>
+<dd><p>paths to the fchk files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Path]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sith.readers.g09_reader.G09Reader.structures">
+<span class="sig-name descname"><span class="pre">structures</span></span><a class="headerlink" href="#sith.readers.g09_reader.G09Reader.structures" title="Link to this definition"></a></dt>
+<dd><p>list of <a class="reference internal" href="sith.html#sith.Utilities.Geometry" title="sith.Utilities.Geometry"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sith.Utilities.Geometry</span></code></a>s for each deformed
+configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="sith.html#sith.Utilities.Geometry" title="sith.Utilities.Geometry">Geometry</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-sith.readers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-sith.readers" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="bash_rsts_scripts/stretching.html" class="btn btn-neutral float-left" title="Script of sith stretching" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sith.utils.html" class="btn btn-neutral float-right" title="sith.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

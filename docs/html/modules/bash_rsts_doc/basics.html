@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>basics &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html#abbreviation-glossary">Abbreviation Glossary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">basics</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/modules/bash_rsts_doc/basics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="basics">
+<h1>basics<a class="headerlink" href="#basics" title="Link to this heading"></a></h1>
+<div class="bash-script-title docutils container">
+<p><a class="reference internal" href="../bash_rsts_scripts/basics.html#basics"><span class="std std-ref">[script]</span></a> <strong>sith/utils/basics.sh</strong></p>
+</div>
+<div class="bash-script-doc docutils container">
+<div class="line-block">
+<div class="line">This script contains basics tools for other bash scripts. With the code in</div>
+<div class="line">here, you can use the next functions</div>
+<div class="line"><br /></div>
+<div class="line">- &lt;first_argument&gt; Add a label in every output of each bash script by giving</div>
+<div class="line-block">
+<div class="line">it as a first argument.</div>
+</div>
+<div class="line">- &lt;second_argument&gt; ‘true’ in order to have verbose printing in the output.</div>
+<div class="line-block">
+<div class="line">Otherwise, your script will ignore all the verbose.</div>
+</div>
+<div class="line">- adjust &lt;text&gt;: print the label with 4 + marks and &lt;text&gt; in an adjusted</div>
+<div class="line-block">
+<div class="line">column of 80 characters. The last line is completed with + marks until have</div>
+<div class="line">80 characters.</div>
+</div>
+<div class="line">- adjust_text &lt;text&gt;: print what &lt;text&gt; in an adjusted column of 80 characters.</div>
+<div class="line">- verbose &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</div>
+<div class="line-block">
+<div class="line">begining of &lt;text&gt; and print the adjusted text.</div>
+</div>
+<div class="line">- warning &lt;text&gt;: besides of the label, it adds the keyword WARNING in to the</div>
+<div class="line-block">
+<div class="line">begining of &lt;text&gt; and print the adjusted text.</div>
+</div>
+<div class="line">- finish &lt;text&gt;: besides of the label, it use verbose to print &lt;text&gt; of the</div>
+<div class="line-block">
+<div class="line">word finish if &lt;text&gt; is not given. It also stops the script with ‘exit 0’</div>
+</div>
+<div class="line">- fail &lt;text&gt;: besides of the label, it adds the keyword VERBOSE in to the</div>
+<div class="line-block">
+<div class="line">begining of &lt;text&gt; and print the adjusted text. It also print the message</div>
+<div class="line">in the std_error and stops the script with ‘exit 1’.</div>
+</div>
+<div class="line">- create_bck [&lt;name1&gt; &lt;name2&gt; …]: function that moves an existing file or</div>
+<div class="line-block">
+<div class="line">directory to &lt;basic_functions_name&gt;-bck_[n][.ext] where n is the number of</div>
+<div class="line">the backup with 3 digits (leading zeros if necessary) and ext is</div>
+<div class="line">automatically extracted from the original file.</div>
+</div>
+<div class="line">- search_last_bck &lt;name&gt;: finds the last [n] created by the function</div>
+<div class="line-block">
+<div class="line">create_bck.</div>
+</div>
+<div class="line">- load_modules: loads the modules I need in my codes when running in a cluster.</div>
+<div class="line">- wait_until_next_file_exist &lt;file_name&gt;: literaly waits untils &lt;file_name&gt;</div>
+<div class="line-block">
+<div class="line">appears after executing ls. This is important for some file systems that</div>
+<div class="line">take a little while to recognize files created in a script.</div>
+</div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

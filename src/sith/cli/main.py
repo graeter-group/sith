@@ -205,7 +205,7 @@ def main():
     # open documentation
     elif sys.argv[1] == 'doc':
         command = "xdg-open " + str(Path(__file__).parent)[:-3] + \
-            "../../doc/_build/html/index.html"
+            "../../docs/html/index.html"
         output_terminal(command)
 
     # Not recognized keyword
