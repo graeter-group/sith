@@ -2,7 +2,7 @@ name: Build and Deploy Docs
 
 on:
   push:
-    branches: [ "ds_big_changes" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
