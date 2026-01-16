@@ -475,7 +475,7 @@ class SithPlotter(PepSetter, SithAnalysis):
                                    orientation='vertical')
             cbar.set_ticks(boundaries[:-1],
                            labels=boundaries[:-1] * jump_stretching)
-            cbar.set_label(label="Stretched",
+            cbar.set_label(label="k-th stretched configuration",
                            fontsize=mpl.rcParams['font.size']
                            * sp.ax_pref['labels_scale'],
                            rotation=90,

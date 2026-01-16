@@ -195,7 +195,7 @@ def color_distribution(sith: SITH,
             components = np.logical_or(dofindofs, components)
         energies = sith.dofs_energies[:, components]
 
-    if not energies:
+    if len(energies) == 0:
         energies = np.array([0,  1])
 
     if absolute:
@@ -250,6 +250,10 @@ def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap = None,
     (plt.fig, ax) Figure and the axis of the colorbar.
     """
 
+    fontsize_inches = labelsize / 72
+    if width is None:
+        width = (3 + deci) * fontsize_inches
+
     if ax is None:
         fig, ax = plt.subplots(figsize=(width, height), dpi=dpi)
     else:
@@ -257,10 +261,6 @@ def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap = None,
 
     if cmap is None:
         cmap = mpl.cm.YlGn
-    fontsize_inches = labelsize / 72
-
-    if width is None:
-        width = (3 + deci) * fontsize_inches
 
     cbar = fig.colorbar(mpl.cm.ScalarMappable(norm=normalize,
                                               cmap=cmap),
