@@ -28,7 +28,7 @@ jobs:
 
       - name: Build Sphinx docs
         run: |
-          pip install sphinxcontrib-mermaid sphinx-rtd-theme && apt-get install -y latexmk texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+          pip install sphinxcontrib-mermaid sphinx-rtd-theme
           cd doc
           make html
 
