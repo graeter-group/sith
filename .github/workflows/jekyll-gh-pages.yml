@@ -28,7 +28,7 @@ jobs:
 
       - name: Build Sphinx docs
         run: |
-          pip install sphinxcontrib-mermaid sphinx-rtd-theme
+          pip install sphinxcontrib-mermaid sphinx-rtd-theme numpy
           cd doc
           make html
 
