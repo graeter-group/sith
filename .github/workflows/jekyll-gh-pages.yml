@@ -51,13 +51,33 @@ jobs:
           pip install sphinxcontrib-mermaid sphinx-rtd-theme
           cd doc
           make html
-
-     # Deployment job
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      
+      - uses: actions/upload-artifact@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: main 
-          publish_dir: ./doc/html
+          name: page
+          path: ./doc/html
+          if-no-files-found: error
+
+  # Deployment job
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docs
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+
+    steps:
+    - uses: actions/download-artifact@master
+      with:
+        name: page
+        path: .
+    - uses: actions/configure-pages@v1
+    - uses: actions/upload-pages-artifact@v1
+      with:
+        path: .
+    - id: deployment
+      uses: actions/deploy-pages@main
+
+
           
 
