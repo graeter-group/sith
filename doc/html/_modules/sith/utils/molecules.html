@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.utils.molecules &mdash; sith</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+        <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+        <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sith.utils.molecules</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sith.utils.molecules</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">ase.calculators.gaussian</span> <span class="kn">import</span> <span class="n">Gaussian</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">ase</span> <span class="kn">import</span> <span class="n">Atom</span>
+
+
+<div class="viewcode-block" id="MoleculeSetter">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter">[docs]</a>
+<span class="k">class</span> <span class="nc">MoleculeSetter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tool to edit or extract information from a molecule.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    atoms: ase.Atoms</span>
+<span class="sd">        molecule to be analyzed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atoms</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span> <span class="o">=</span> <span class="n">atoms</span>
+
+<div class="viewcode-block" id="MoleculeSetter.rot_x">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter.rot_x">[docs]</a>
+    <span class="k">def</span> <span class="nf">rot_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rotation matrix around x axis.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        angle: float</span>
+<span class="sd">            angle to rotate around the x axis in radians.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (numpy.array) [3float x 3float] Rotation matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="o">-</span><span class="n">s</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="MoleculeSetter.rot_y">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter.rot_y">[docs]</a>
+    <span class="k">def</span> <span class="nf">rot_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retuns the rotation matrix around y axis.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        angle: float</span>
+<span class="sd">            angle to rotate around the y axis in radians.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (numpy.array) [3float x 3float] Rotation matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                      <span class="p">[</span><span class="o">-</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="MoleculeSetter.rot_z">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter.rot_z">[docs]</a>
+    <span class="k">def</span> <span class="nf">rot_z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retuns the rotation matrix around z axis.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        angle: float</span>
+<span class="sd">            angle to rotate around the z axis in radians.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (numpy.array) [3float x 3float] Rotation matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">c</span><span class="p">,</span> <span class="o">-</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                      <span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="n">R</span></div>
+
+
+<div class="viewcode-block" id="MoleculeSetter.align_axis">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter.align_axis">[docs]</a>
+    <span class="k">def</span> <span class="nf">align_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply the necessary rotations to set a vector aligned with positive x</span>
+<span class="sd">        axis.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        vector: array</span>
+<span class="sd">            vector to be aligned.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (numpy.array) [3float x 3float] Transformation matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xyproj</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">xyproj</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">vector</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector</span><span class="p">))</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">xyproj</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">vector</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">theta</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rot_y</span><span class="p">(</span><span class="n">phi</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot_z</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">trans</span></div>
+
+
+<div class="viewcode-block" id="MoleculeSetter.align_plane">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter.align_plane">[docs]</a>
+    <span class="k">def</span> <span class="nf">align_plane</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rotation around x axis to set a vector in the xy plane.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        vector: array</span>
+<span class="sd">            vector to be rotated to be in the xy plane.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (numpy.array) [3float x 3float] Transformation matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reference</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">reference</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">reference</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">reference</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">reference</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">angle</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot_x</span><span class="p">(</span><span class="o">-</span><span class="n">angle</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MoleculeSetter.apply_trans">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter.apply_trans">[docs]</a>
+    <span class="k">def</span> <span class="nf">apply_trans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trans</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply a transformation to all vector positions of some atoms.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        trans: array (3x3)</span>
+<span class="sd">            transformation matrix to be applied to all atom positions.</span>
+<span class="sd">        indexes: list or array. Defatult=None</span>
+<span class="sd">            indexes of the atoms to apply the transformation. Default None</span>
+<span class="sd">            that means the transformation is applied to the positions of all</span>
+<span class="sd">            the atoms. 1-based numbering.</span>
+<span class="sd">        shift: list. Default=None</span>
+<span class="sd">            vector to apply a translation.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (numpy.array)[#natoms x 3float] new xyz positions of the N atoms. It</span>
+<span class="sd">            changes the positions of the internal atoms object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">shift</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">shift</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">indexes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">indexes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">new_positions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">atom</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
+                <span class="n">new_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">atom</span><span class="o">.</span><span class="n">position</span><span class="p">)</span> <span class="o">+</span> <span class="n">shift</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">position</span> <span class="o">+</span> <span class="n">shift</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">set_positions</span><span class="p">(</span><span class="n">new_positions</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">new_positions</span></div>
+
+
+<div class="viewcode-block" id="MoleculeSetter.xy_alignment">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter.xy_alignment">[docs]</a>
+    <span class="k">def</span> <span class="nf">xy_alignment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">,</span> <span class="n">index3</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform the positions of the atoms such that the atoms of indexes1</span>
+<span class="sd">        and index2 are aligned in the x axis. The atom with index3 would be in</span>
+<span class="sd">        the xy plane in case to be given.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        index1 and index2: int</span>
+<span class="sd">            indexes of the atoms to be aligned with the x-axis. The positive</span>
+<span class="sd">            direction of x would go from atom 1 to atom 2. 1-based numbering.</span>
+<span class="sd">        index3: int. Default=None</span>
+<span class="sd">            The atom with index 3 would be in the xy plane in case to be given.</span>
+<span class="sd">            1-based numbering.</span>
+<span class="sd">        Center: int. Default=None</span>
+<span class="sd">            It must be index1 or index2, that means the atom with this index</span>
+<span class="sd">            will be placed in the origin. In case center=None (default), the</span>
+<span class="sd">            origin would be in the geometrical center between atoms with index1</span>
+<span class="sd">            and index2.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (numpy.array)[#natoms x 3float] new xyz positions of the N atoms. It</span>
+<span class="sd">            changes the positions of the internal atoms object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Move the origin</span>
+        <span class="k">if</span> <span class="n">center</span> <span class="o">==</span> <span class="n">index1</span> <span class="ow">or</span> <span class="n">center</span> <span class="o">==</span> <span class="n">index2</span><span class="p">:</span>
+            <span class="n">center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="n">center</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pos1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="n">index1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+            <span class="n">pos2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="n">index2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+            <span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos1</span> <span class="o">+</span> <span class="n">pos2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">set_positions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">positions</span> <span class="o">-</span> <span class="n">center</span><span class="p">)</span>
+        <span class="c1"># set index1 and index2 along x axis</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="n">index2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+                <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="n">index1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">apply_trans</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">align_axis</span><span class="p">(</span><span class="n">axis</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">index3</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">third</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="n">index3</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">apply_trans</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">align_plane</span><span class="p">(</span><span class="n">third</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span></div>
+
+
+<div class="viewcode-block" id="MoleculeSetter.increase_distance">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter.increase_distance">[docs]</a>
+    <span class="k">def</span> <span class="nf">increase_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraints</span><span class="p">,</span> <span class="n">deltad</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Increases the distance between two atoms by moving them and keeping the</span>
+<span class="sd">        rest of the atoms in the same place.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        constraints:</span>
+<span class="sd">            constraints with the shape (n, 2), where n is the number of</span>
+<span class="sd">            constraints and the first pair is the one to increase the</span>
+<span class="sd">            distance. 1-based numbering.</span>
+<span class="sd">        deltad: float</span>
+<span class="sd">            amount to add to the distance between atoms.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (ase.Atoms) Internal Atoms object with the corresponding modification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">d1norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_distance</span><span class="p">(</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                                         <span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">set_distance</span><span class="p">(</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">d1norm</span> <span class="o">+</span> <span class="n">deltad</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span></div>
+
+
+<div class="viewcode-block" id="MoleculeSetter.increase_distance_with_constraints">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter.increase_distance_with_constraints">[docs]</a>
+    <span class="k">def</span> <span class="nf">increase_distance_with_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraints</span><span class="p">,</span> <span class="n">deltad</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes a configuration and increases the distance between two atoms by</span>
+<span class="sd">        moving those atoms and all those connected by constraints (all</span>
+<span class="sd">        together) containing them and keeping the rest of the atoms in the same</span>
+<span class="sd">        place.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        constraints:</span>
+<span class="sd">            constraints with the shape (n, 2), where n is the number of</span>
+<span class="sd">            constraints and the first pair is the one to increase the</span>
+<span class="sd">            distance. 1-based numbering.</span>
+<span class="sd">        deltad: float</span>
+<span class="sd">            amount to add to the distance between atoms.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (ase.Atoms) Internal Atoms object with the corresponding modification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c1"># Find all atoms connected by constraints to the first or second</span>
+        <span class="c1"># atom of the first constraint:</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="p">[</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="p">[</span><span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">len_right</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">len_left</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="p">((</span><span class="n">len_left</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="n">len_right</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">))):</span>
+            <span class="n">len_left</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">len_right</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">cons</span> <span class="ow">in</span> <span class="n">constraints</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="k">if</span> <span class="p">((</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">left</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">left</span><span class="p">)):</span>
+                    <span class="n">left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="p">((</span><span class="n">cons</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">left</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">left</span><span class="p">)):</span>
+                    <span class="n">left</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="p">((</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">right</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">right</span><span class="p">)):</span>
+                    <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="p">((</span><span class="n">cons</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">right</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">right</span><span class="p">)):</span>
+                    <span class="n">right</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;These will be the atoms moved to the left: &quot;</span><span class="p">,</span> <span class="n">left</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;These will be the atoms moved to the right: &quot;</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+
+        <span class="c1"># Move to the left the atoms on the left and to the right the atoms</span>
+        <span class="c1"># on the right, the rest of the atoms remain in the same place:</span>
+        <span class="n">new_positions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">atom</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">right</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">deltapos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">deltad</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+                <span class="n">new_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">position</span> <span class="o">+</span> <span class="n">deltapos</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">deltapos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">deltad</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+                <span class="n">new_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">position</span> <span class="o">+</span> <span class="n">deltapos</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">set_positions</span><span class="p">(</span><span class="n">new_positions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span></div>
+
+
+<div class="viewcode-block" id="MoleculeSetter.scale_distance">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter.scale_distance">[docs]</a>
+    <span class="k">def</span> <span class="nf">scale_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">constraints</span><span class="p">,</span> <span class="n">deltad</span><span class="p">,</span> <span class="n">index3</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Increase the distance between two atoms by aligning those atoms with</span>
+<span class="sd">        the x axis and scaling the x-coordinate of all intermedia atoms.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        constraints: list</span>
+<span class="sd">            constraints with the shape (n, 2), where n is the number of</span>
+<span class="sd">            constraints and the first pair is the one to increase the</span>
+<span class="sd">            distance. 1-based numbering.</span>
+<span class="sd">        deltad: float</span>
+<span class="sd">            amount to add to the distance between atoms.</span>
+<span class="sd">        index3: int. Default=None</span>
+<span class="sd">            The atom with index 3 would be in the xy plane in case to be given.</span>
+<span class="sd">            1-based numbering.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (ase.Atoms) Internal Atoms object with the corresponding modification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">index1</span><span class="p">,</span> <span class="n">index2</span> <span class="o">=</span> <span class="n">constraints</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">d1norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_distance</span><span class="p">(</span><span class="n">index1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">index2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Move atom1 to the origin and rotate the molecule such that atom2 is</span>
+        <span class="c1"># aligned with the +x axis:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">index1</span><span class="p">)</span>
+        <span class="n">scale_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">d1norm</span> <span class="o">+</span> <span class="n">deltad</span><span class="p">)</span> <span class="o">/</span> <span class="n">d1norm</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">new_positions</span> <span class="o">=</span> <span class="p">[</span><span class="n">atom</span><span class="o">.</span><span class="n">position</span> <span class="o">*</span> <span class="n">scale_factor</span>
+                         <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">set_positions</span><span class="p">(</span><span class="n">new_positions</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">,</span> <span class="n">index3</span><span class="o">=</span><span class="n">index3</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">new_positions</span></div>
+
+
+<div class="viewcode-block" id="MoleculeSetter.create_gaussian_input">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.MoleculeSetter.create_gaussian_input">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_gaussian_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xc</span><span class="o">=</span><span class="s1">&#39;bmk&#39;</span><span class="p">,</span>
+                              <span class="n">basis</span><span class="o">=</span><span class="s1">&#39;6-31+g&#39;</span><span class="p">,</span> <span class="n">mem</span><span class="o">=</span><span class="s1">&#39;10GB&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a gaussian .com file without specifing the kind of calculus to</span>
+<span class="sd">        run (optimization, ab-initio md, frequencies...). You would have to add</span>
+<span class="sd">        it.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        out: str. Defatult=None</span>
+<span class="sd">            name of the gaussian file (.com) without extension. Default</span>
+<span class="sd">            chemical formula.</span>
+<span class="sd">        charge: int. Default=0</span>
+<span class="sd">            charge of the molecule in electron units. Default 0.</span>
+<span class="sd">        xc: str. Default=&#39;bmk&#39;</span>
+<span class="sd">            exchange correlation functional used in gaussian. Default bmk</span>
+<span class="sd">        basis: str. Default=&#39;6-31+g&#39;</span>
+<span class="sd">            basis set used in gaussian. Default 6-31+g</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (ase.calculator.Gaussian) Calculator used to create the input.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_chemical_formula</span><span class="p">()</span>
+
+        <span class="n">calculator</span> <span class="o">=</span> <span class="n">Gaussian</span><span class="p">(</span><span class="n">mem</span><span class="o">=</span><span class="n">mem</span><span class="p">,</span>
+                              <span class="n">label</span><span class="o">=</span><span class="n">out</span><span class="p">,</span>
+                              <span class="n">chk</span><span class="o">=</span><span class="n">out</span><span class="p">,</span>
+                              <span class="n">xc</span><span class="o">=</span><span class="n">xc</span><span class="p">,</span>
+                              <span class="n">basis</span><span class="o">=</span><span class="n">basis</span><span class="p">,</span>
+                              <span class="n">mult</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                              <span class="n">charge</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">charge</span><span class="p">))</span>
+
+        <span class="n">calculator</span><span class="o">.</span><span class="n">write_input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">calculator</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Alignment">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.Alignment">[docs]</a>
+<span class="k">class</span> <span class="nc">Alignment</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set of tools to apply the necessary transformations for aligning a the</span>
+<span class="sd">    three first eigenvectors of PCA with the x, y, z axis, in that order.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    atoms: ase.Atoms</span>
+<span class="sd">        molecule to be aligned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atoms</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span> <span class="o">=</span> <span class="n">atoms</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ms</span> <span class="o">=</span> <span class="n">MoleculeSetter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Alignment.pca_vectors">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.Alignment.pca_vectors">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">pca_vectors</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find the eigen vectors of the Principal Component Analysis of the</span>
+<span class="sd">        positis of the atoms.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        atoms: ase.Atoms</span>
+<span class="sd">            molecule to be analyzed.</span>
+<span class="sd">        indexes: list. Default=&quot;all&quot;</span>
+<span class="sd">            subset of atoms to be included in the pca analysis. 1-based</span>
+<span class="sd">            numbering.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (array) principal components.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+        <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span><span class="s2">&quot;This code requires sklearn&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">indexes</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="n">indexes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+        <span class="n">components</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">components_</span>
+        <span class="k">return</span> <span class="n">components</span></div>
+
+
+<div class="viewcode-block" id="Alignment.center_geo">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.Alignment.center_geo">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">center_geo</span><span class="p">(</span><span class="n">atoms</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Moves the coordinates origin to the geometrical center atoms.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        atoms: ase.Atoms</span>
+<span class="sd">            Molecule to be moved.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (ase.Atoms) Transformed atoms</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ms</span> <span class="o">=</span> <span class="n">MoleculeSetter</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+        <span class="n">geo_center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">positions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">apply_trans</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">shift</span><span class="o">=-</span><span class="n">geo_center</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ms</span><span class="o">.</span><span class="n">atoms</span></div>
+
+
+<div class="viewcode-block" id="Alignment.align_with_components">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.Alignment.align_with_components">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">align_with_components</span><span class="p">(</span><span class="n">atoms</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Aligns the coordinates x, y, z axis with the main vectors (in that</span>
+<span class="sd">        order).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        atoms: ase.Atoms</span>
+<span class="sd">            Molecule to be aligned.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (ase.Atoms) rotated and shifted molecule.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ms</span> <span class="o">=</span> <span class="n">MoleculeSetter</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">atoms</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">center_geo</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>
+        <span class="n">components</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">pca_vectors</span><span class="p">(</span><span class="n">ms</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>
+
+        <span class="c1"># add dummy atoms</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">atoms</span> <span class="o">+=</span> <span class="n">Atom</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">vec_comp</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+            <span class="n">ms</span><span class="o">.</span><span class="n">atoms</span> <span class="o">+=</span> <span class="n">Atom</span><span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">vec_comp</span><span class="p">)</span>
+
+        <span class="c1"># transform based on dummy atoms: center on the origin, first PCA</span>
+        <span class="c1"># component with the positive x-axis, second PCA component in the</span>
+        <span class="c1"># xy plane.</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># remove dummy atoms</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">atoms</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">atoms</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">ms</span><span class="o">.</span><span class="n">atoms</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PCAMatcher">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.PCAMatcher">[docs]</a>
+<span class="k">class</span> <span class="nc">PCAMatcher</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tools to align two molecules with their PCA main vectors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    reference: ase.Atoms</span>
+<span class="sd">        reference of the molecule to be matched.</span>
+<span class="sd">    to_compare: ase.Atoms</span>
+<span class="sd">        molecule to be compared to the reference.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">to_compare</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_compare</span><span class="p">),</span> <span class="s2">&quot;The reference and the &quot;</span> <span class="o">+</span> \
+            <span class="s2">&quot;structure to compare have to have the same number of atoms&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reference</span> <span class="o">=</span> <span class="n">reference</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">to_compare</span> <span class="o">=</span> <span class="n">to_compare</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<div class="viewcode-block" id="PCAMatcher.align_molecules">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.PCAMatcher.align_molecules">[docs]</a>
+    <span class="k">def</span> <span class="nf">align_molecules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Align each molecule with their own main PCA vectors.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (tuple) aligned reference and molecule to compare.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reference</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">center_geo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reference</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">align_with_components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">to_compare</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">center_geo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_compare</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">to_compare</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">align_with_components</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_compare</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_compare</span></div>
+
+
+<div class="viewcode-block" id="PCAMatcher.matching">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.molecules.PCAMatcher.matching">[docs]</a>
+    <span class="k">def</span> <span class="nf">matching</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds the order of the indices of the molecule which fit with the atoms</span>
+<span class="sd">        of the reference. So, if the outcome of this function is &quot;out&quot;, then</span>
+<span class="sd">        PCAMatcher.to_compare[out[i]] == PCAMatcher.reference[i] should be</span>
+<span class="sd">        true.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (numpy.array) indices of the molecule that match the indices of the</span>
+<span class="sd">        reference.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        align before using this function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">align_molecules</span><span class="p">()</span>
+        <span class="n">n_atoms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference</span><span class="p">)</span>
+        <span class="n">correspondence</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_atoms</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_atoms</span><span class="p">):</span>
+            <span class="n">distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reference</span><span class="o">.</span><span class="n">positions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                                       <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_compare</span><span class="o">.</span><span class="n">positions</span><span class="p">,</span>
+                                       <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">i_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">distances</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">distances</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">correspondence</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">correspondence</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i_min</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">in</span> <span class="n">correspondence</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: check repetitions because the next atoms of the &#39;</span>
+                  <span class="s1">&#39;reference did not get a correspondent in the test:&#39;</span><span class="p">,</span>
+                  <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">correspondence</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">correspondence</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

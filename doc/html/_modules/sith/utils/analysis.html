@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.utils.analysis &mdash; sith</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+        <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+        <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sith.utils.analysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sith.utils.analysis</h1><div class="highlight"><pre>
+<span></span><span class="c1"># TODO: check indices in this file</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sith</span> <span class="kn">import</span> <span class="n">SITH</span>
+<span class="kn">from</span> <span class="nn">sith.utils.peptides</span> <span class="kn">import</span> <span class="n">PepSetter</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">f_oneway</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">PlottingTool</span> <span class="kn">import</span> <span class="n">StandardPlotter</span>
+
+
+<span class="c1"># region AnalyseData</span>
+<div class="viewcode-block" id="closest_indices">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.closest_indices">[docs]</a>
+<span class="k">def</span> <span class="nf">closest_indices</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the indexes of the points after and before certain value</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    ref: numpy.array</span>
+<span class="sd">        list contaning the data.</span>
+<span class="sd">    value: float</span>
+<span class="sd">        threshold value.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (list) indexes of the next-lower and the next-upper elements in the list.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dif</span> <span class="o">=</span> <span class="n">ref</span> <span class="o">-</span> <span class="n">value</span>
+    <span class="n">multi</span> <span class="o">=</span> <span class="n">dif</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">dif</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">upp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">multi</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">low</span> <span class="o">=</span> <span class="n">upp</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">low</span><span class="p">,</span> <span class="n">upp</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="cross_val">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.cross_val">[docs]</a>
+<span class="k">def</span> <span class="nf">cross_val</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds the crossing of a linearly interpolated curve with certain value in</span>
+<span class="sd">    the y data (horizontal line).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    x: numpy.array</span>
+<span class="sd">        x-data of the curve.</span>
+<span class="sd">    y: numpy.array</span>
+<span class="sd">        y-data of the curve.</span>
+<span class="sd">    val: float</span>
+<span class="sd">        threshold value.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (float) x value where the interpolated curve crosses the specified value.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ====</span>
+<span class="sd">    If you want to interpolate to a value of x (vertical line), just change x</span>
+<span class="sd">    by y when you pass the arguments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">closest_indices</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="n">indices</span><span class="p">]</span>
+    <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y</span><span class="p">)[</span><span class="n">indices</span><span class="p">]</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">val</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">y1</span> <span class="o">-</span> <span class="n">y2</span><span class="p">)</span> <span class="o">+</span> <span class="n">x1</span>
+
+    <span class="k">return</span> <span class="n">x</span></div>
+
+
+
+<div class="viewcode-block" id="pep_per_x">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.pep_per_x">[docs]</a>
+<span class="k">def</span> <span class="nf">pep_per_x</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">dsa</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Separate the value of x in which y crosses a certain value, identifying it</span>
+<span class="sd">    with an specific peptide.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    xs: numpy.array</span>
+<span class="sd">        x-data of the curve.</span>
+<span class="sd">    ys: numpy.array</span>
+<span class="sd">        y-data of the curve.</span>
+<span class="sd">    value: float</span>
+<span class="sd">        threshold value.</span>
+<span class="sd">    dsa: DataSetAnalysis</span>
+<span class="sd">        object containing the analysis.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (dict) The name of the peptide as key and the x-value as dict value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sep_info</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">x_cross</span> <span class="o">=</span> <span class="n">cross_val</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="n">pep</span> <span class="o">=</span> <span class="n">dsa</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">sep_info</span><span class="p">[</span><span class="n">pep</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_cross</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> didn&#39;t even get the maximum energy, the maxener is &quot;</span><span class="p">,</span>
+                  <span class="nb">max</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">sep_info</span></div>
+
+
+
+<div class="viewcode-block" id="reduce_data">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.reduce_data">[docs]</a>
+<span class="k">def</span> <span class="nf">reduce_data</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reduces the data to the range of maximum minimum xs (highest of the lowest)</span>
+<span class="sd">    and minumim maximum xs (lowest of the highest). Returns a new list of xs</span>
+<span class="sd">    and ys where all the minum/maximum xs are the same and the ys of the</span>
+<span class="sd">    minumum/maximum xs are found by interpolation. Also makes the</span>
+<span class="sd">    transformation new_y -= new_y[:, 0]</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    xs: list of arrays</span>
+<span class="sd">        set of xs data.</span>
+<span class="sd">    ys: list of arrays</span>
+<span class="sd">        set of xs data.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (tuple) list of new xs and new ys</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    if defmin/defmax is higher/lower than the real minimum/maximum, this code</span>
+<span class="sd">    would not recognize the proper values. Be sure that defmin/defmax is</span>
+<span class="sd">    lower/higher than the lowest/highest of xs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">minx</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="n">maxx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">minx</span><span class="p">:</span>
+            <span class="n">minx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">maxx</span><span class="p">:</span>
+            <span class="n">maxx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">new_x</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">new_y</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
+        <span class="n">miny</span> <span class="o">=</span> <span class="n">cross_val</span><span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">minx</span><span class="p">)</span>
+        <span class="n">maxy</span> <span class="o">=</span> <span class="n">cross_val</span><span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">maxx</span><span class="p">)</span>
+        <span class="n">condition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">minx</span><span class="p">,</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">maxx</span><span class="p">)</span>
+        <span class="n">conca_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">condition</span><span class="p">],</span> <span class="n">maxx</span><span class="p">)</span>
+        <span class="n">conca_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">condition</span><span class="p">]</span> <span class="o">-</span> <span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">-</span> <span class="n">miny</span><span class="p">)</span>
+        <span class="n">conca_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">conca_x</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">minx</span><span class="p">)</span>
+        <span class="n">conca_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">conca_y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">new_x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conca_x</span><span class="p">)</span>
+        <span class="n">new_y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conca_y</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">new_x</span><span class="p">,</span> <span class="n">new_y</span></div>
+
+
+
+<div class="viewcode-block" id="construct_neigh_dic">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.construct_neigh_dic">[docs]</a>
+<span class="k">def</span> <span class="nf">construct_neigh_dic</span><span class="p">(</span><span class="n">dsa</span><span class="p">,</span> <span class="n">es</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a dictionary with all the combination of two amino acids and stores</span>
+<span class="sd">    in each combitation, a list of energies of the peptides with the first</span>
+<span class="sd">    amino acid in the middle and the second in any side of the peptide.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    dsa: DataSetAnalysis</span>
+<span class="sd">        object that contains the information of the molecules in the dataset.</span>
+<span class="sd">    es: list of arrays</span>
+<span class="sd">        list of energies to be analyzed.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (dict) keys: Amino combination, values: list of energies appearing in</span>
+<span class="sd">    peptides with those combinations.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    =======</span>
+<span class="sd">    # if energies per peptides are</span>
+<span class="sd">    peptides = {&#39;ABC&#39;: 1.5, &#39;GBA&#39;: 2.3}</span>
+<span class="sd">    # neigh dictionary would be</span>
+<span class="sd">    combi_neigh = {&#39;BC&#39;: [1.5, 2.3]}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">combi</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">aa1</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">dsa</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
+        <span class="k">for</span> <span class="n">aa2</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">dsa</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
+            <span class="n">combi</span><span class="p">[</span><span class="n">aa1</span> <span class="o">+</span> <span class="n">aa2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">es</span><span class="p">):</span>
+        <span class="n">pep</span> <span class="o">=</span> <span class="n">dsa</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">combi</span><span class="p">[</span><span class="n">pep</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">pep</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">combi</span><span class="p">[</span><span class="n">pep</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">pep</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">combi</span></div>
+
+
+
+<div class="viewcode-block" id="separate_by_position">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.separate_by_position">[docs]</a>
+<span class="k">def</span> <span class="nf">separate_by_position</span><span class="p">(</span><span class="n">dsa</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Stores the last values of &quot;es&quot; that correspond to an amino acid in a</span>
+<span class="sd">    specific position.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    dsa: DataSetAnalysis</span>
+<span class="sd">        object that contains the information of the molecules in the dataset.</span>
+<span class="sd">    es: list of arrays</span>
+<span class="sd">        list of energies to be analyzed.</span>
+<span class="sd">    pos: int</span>
+<span class="sd">        position to be extracted.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (dict) keys: amino acid in the asked position; values: list of energies to</span>
+<span class="sd">    be analyzed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">es</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">dsa</span><span class="o">.</span><span class="n">outcomes</span><span class="p">)</span>
+
+    <span class="n">energies</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">dsa</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">flatten</span><span class="p">()):</span>
+        <span class="n">energies</span><span class="p">[</span><span class="n">aa</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">es</span><span class="p">):</span>
+        <span class="n">pep</span> <span class="o">=</span> <span class="n">dsa</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">energies</span><span class="p">[</span><span class="n">pep</span><span class="p">[</span><span class="n">pos</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">energies</span></div>
+
+
+
+<div class="viewcode-block" id="mean_n_std">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.mean_n_std">[docs]</a>
+<span class="k">def</span> <span class="nf">mean_n_std</span><span class="p">(</span><span class="n">distri</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract the mean and standard deviation of a set of values associated to an</span>
+<span class="sd">    amino acid in distri.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    distri: dict</span>
+<span class="sd">        keys amino acid, values list of values to obtain mean and standard</span>
+<span class="sd">        deviation.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (tuple) dictionary of mean, dictionary of standard deviation. Both</span>
+<span class="sd">    dictionaries have the shape keys: amino acid; values: mean/std</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mean_peps</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">std_peps</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">aa</span> <span class="ow">in</span> <span class="n">distri</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">distri</span><span class="p">[</span><span class="n">aa</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">distri</span><span class="p">[</span><span class="n">aa</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">mean_peps</span><span class="p">[</span><span class="n">aa</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">std_peps</span><span class="p">[</span><span class="n">aa</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mean_peps</span><span class="p">[</span><span class="n">aa</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">distri</span><span class="p">[</span><span class="n">aa</span><span class="p">])</span>
+            <span class="n">std_peps</span><span class="p">[</span><span class="n">aa</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">distri</span><span class="p">[</span><span class="n">aa</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">mean_peps</span><span class="p">,</span> <span class="n">std_peps</span></div>
+
+
+
+<div class="viewcode-block" id="analysis_energy_dof">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.analysis_energy_dof">[docs]</a>
+<span class="k">def</span> <span class="nf">analysis_energy_dof</span><span class="p">(</span><span class="n">dsa</span><span class="p">,</span> <span class="n">es</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a list of distributions per each one of the positions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    dsa: DataSetAnalysis</span>
+<span class="sd">        object that contains the information of the molecules in the dataset.</span>
+<span class="sd">    es: list of arrays</span>
+<span class="sd">        list of energies to be analyzed.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (duple) list of distribution of energies, mean and std per position.</span>
+<span class="sd">    Namely, the first element of the first element of the output is the list of</span>
+<span class="sd">    energies of the amino acid at the first position.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ener_per_pos1</span> <span class="o">=</span> <span class="n">separate_by_position</span><span class="p">(</span><span class="n">dsa</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">ener_per_pos2</span> <span class="o">=</span> <span class="n">separate_by_position</span><span class="p">(</span><span class="n">dsa</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ener_per_pos3</span> <span class="o">=</span> <span class="n">separate_by_position</span><span class="p">(</span><span class="n">dsa</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">ener_per_pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">ener_per_pos1</span><span class="p">,</span>
+                    <span class="n">ener_per_pos2</span><span class="p">,</span>
+                    <span class="n">ener_per_pos3</span><span class="p">]</span>
+
+    <span class="n">mean_per_pos</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">stdr_per_pos</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">e_pos</span> <span class="ow">in</span> <span class="n">ener_per_pos</span><span class="p">:</span>
+        <span class="n">mean</span><span class="p">,</span> <span class="n">std</span> <span class="o">=</span> <span class="n">mean_n_std</span><span class="p">(</span><span class="n">e_pos</span><span class="p">)</span>
+        <span class="n">mean_per_pos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span>
+        <span class="n">stdr_per_pos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">std</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ener_per_pos</span><span class="p">,</span> <span class="n">mean_per_pos</span><span class="p">,</span> <span class="n">stdr_per_pos</span></div>
+
+
+
+<div class="viewcode-block" id="statistics">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.statistics">[docs]</a>
+<span class="k">def</span> <span class="nf">statistics</span><span class="p">(</span><span class="n">ener_per_pos</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">aminos</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the p-value and F-statistic between distributions of the amino</span>
+<span class="sd">    acids in the dataset for a given position.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    ener_per_pos: list</span>
+<span class="sd">        set of energy data per position, per amino acid.</span>
+<span class="sd">    pos: int</span>
+<span class="sd">        position to be analyzed.</span>
+<span class="sd">    aminos: list</span>
+<span class="sd">        list of amino acids in the data set.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (tuple) arrays in shape of sqared matrices containing pval and fstat</span>
+<span class="sd">    matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pval_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">aminos</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">aminos</span><span class="p">)))</span>
+    <span class="n">fstat_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">aminos</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">aminos</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">aa1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">aminos</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">aa2</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">aminos</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ener_per_pos</span><span class="p">[</span><span class="n">pos</span><span class="p">][</span><span class="n">aa2</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="n">ener_per_pos</span><span class="p">[</span><span class="n">pos</span><span class="p">][</span><span class="n">aa1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">pval_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">fstat_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">continue</span>
+            <span class="n">data1</span> <span class="o">=</span> <span class="n">ener_per_pos</span><span class="p">[</span><span class="n">pos</span><span class="p">][</span><span class="n">aa1</span><span class="p">]</span>
+            <span class="n">data2</span> <span class="o">=</span> <span class="n">ener_per_pos</span><span class="p">[</span><span class="n">pos</span><span class="p">][</span><span class="n">aa2</span><span class="p">]</span>
+            <span class="n">f_stat</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">f_oneway</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">)</span>
+            <span class="n">pval_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_value</span>
+            <span class="n">fstat_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_stat</span>
+
+    <span class="k">return</span> <span class="n">pval_matrix</span><span class="p">,</span> <span class="n">fstat_matrix</span></div>
+
+
+<span class="c1"># endregion</span>
+
+
+<div class="viewcode-block" id="dof_classificator_all">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.dof_classificator_all">[docs]</a>
+<span class="k">def</span> <span class="nf">dof_classificator_all</span><span class="p">(</span><span class="n">dofs_indexes</span><span class="p">,</span> <span class="n">atoms_per_aminoacids</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Separates all degrees of freedom defined by atoms (all) of a residue.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    dofs_indexes: list of duples</span>
+<span class="sd">        sith.structures[n].dim_indices containing definition of the degrees of</span>
+<span class="sd">        freedom in term of the atomic indexes.</span>
+<span class="sd">    atoms_per_aminoacids: dict</span>
+<span class="sd">        Atoms in each residue. The keys are the number of the residues, values</span>
+<span class="sd">        should be the indexes of the atoms belonging to the residue of the key.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (dict) [keys: Residues (int), values: (array) [#DOFsPerResidue (int)]]</span>
+<span class="sd">    Indexes of the degrees of freedom containing all atoms of each residue.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ====</span>
+<span class="sd">    atoms_per_aminoacids can be obtained from</span>
+<span class="sd">    sith.utils.peptides.PepSetter.atom_indexes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">list_aminos</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">atoms_per_aminoacids</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">list_aminos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dofs_indexes</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">atoms_per_aminoacids</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">dofs_indexes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">atoms_per_aminoacids</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="n">list_aminos</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_aminos</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+                <span class="k">break</span>
+    <span class="k">return</span> <span class="n">list_aminos</span></div>
+
+
+
+<div class="viewcode-block" id="dof_classificator_one">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.dof_classificator_one">[docs]</a>
+<span class="k">def</span> <span class="nf">dof_classificator_one</span><span class="p">(</span><span class="n">dofs_indexes</span><span class="p">,</span> <span class="n">atoms_per_aminoacids</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Separates all degrees of freedom defined by atoms (at least one) of a</span>
+<span class="sd">    residue.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    dofs_indexes: list of duples</span>
+<span class="sd">        sith.structures[n].dim_indices containing definition of the degrees of</span>
+<span class="sd">        freedom in term of the atomic indexes.</span>
+<span class="sd">    atoms_per_aminoacids: dict</span>
+<span class="sd">        Atoms in each residue. The keys are the number of the residues, values</span>
+<span class="sd">        should be the indexes of the atoms belonging to the residue of the key.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (dict) [keys: Residues (str), values: (array) [#DOFsPerResidue (int)]]</span>
+<span class="sd">    Indexes of the degrees of freedom containing at least one atom of each</span>
+<span class="sd">    residue.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ====</span>
+<span class="sd">    atoms_per_aminoacids can be obtained from</span>
+<span class="sd">    sith.utils.peptides.PepSetter.atom_indexes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">list_aminos</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">atoms_per_aminoacids</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">list_aminos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dofs_indexes</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">atoms_per_aminoacids</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">dofs_indexes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">atoms_per_aminoacids</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+                <span class="n">list_aminos</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_aminos</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+                <span class="k">break</span>
+    <span class="k">return</span> <span class="n">list_aminos</span></div>
+
+
+
+<div class="viewcode-block" id="length_energy">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.length_energy">[docs]</a>
+<span class="k">def</span> <span class="nf">length_energy</span><span class="p">(</span><span class="n">sith</span><span class="p">,</span> <span class="n">aminos_info</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return distances between two atom types in one amino acid and the</span>
+<span class="sd">    energy associated with this DOF as the molecule is stretched.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    sith: sith object</span>
+<span class="sd">        sith object containing the distribution of energies. That implies to</span>
+<span class="sd">        have the class variable &#39;energies&#39; with the energies per deformed</span>
+<span class="sd">        configuration and and per DOF.</span>
+<span class="sd">    aminos_info: dic</span>
+<span class="sd">        name of the atoms of one amino acid associated with the index.</span>
+<span class="sd">    atom_types: str</span>
+<span class="sd">        name of the atoms inside the aminoacid that will be studied,</span>
+<span class="sd">        example [&#39;CA&#39;, &#39;CB&#39;].</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (list) [2 x #Def (float)] values of the DOF and energies associate with</span>
+<span class="sd">    those DOFs per deformed configuration in the selected amino.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ====</span>
+<span class="sd">    aminos_info can be obtained from</span>
+<span class="sd">    sith.utils.peptides.PepSetter.amino_info[n] where n is the selected amino</span>
+<span class="sd">    acid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">defo</span> <span class="o">=</span> <span class="n">sith</span><span class="o">.</span><span class="n">structures</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">i_ric</span> <span class="o">=</span> <span class="n">defo</span><span class="o">.</span><span class="n">dim_indices</span><span class="o">.</span><span class="n">index</span><span class="p">((</span><span class="n">aminos_info</span><span class="p">[</span><span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                                       <span class="n">aminos_info</span><span class="p">[</span><span class="n">atom_types</span><span class="p">[</span><span class="mi">1</span><span class="p">]]))</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">i_ric</span> <span class="o">=</span> <span class="n">defo</span><span class="o">.</span><span class="n">dim_indices</span><span class="o">.</span><span class="n">index</span><span class="p">((</span><span class="n">aminos_info</span><span class="p">[</span><span class="n">atom_types</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                                       <span class="n">aminos_info</span><span class="p">[</span><span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+    <span class="n">energies</span> <span class="o">=</span> <span class="n">sith</span><span class="o">.</span><span class="n">energies</span><span class="o">.</span><span class="n">T</span><span class="p">[</span><span class="n">i_ric</span><span class="p">]</span>
+    <span class="n">values_dof</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">defo</span> <span class="ow">in</span> <span class="n">sith</span><span class="o">.</span><span class="n">structures</span><span class="p">:</span>
+        <span class="n">values_dof</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">defo</span><span class="o">.</span><span class="n">ric</span><span class="p">[</span><span class="n">i_ric</span><span class="p">])</span>
+    <span class="n">values_dof</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">values_dof</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">values_dof</span><span class="p">,</span> <span class="n">energies</span><span class="p">]</span></div>
+
+
+
+<span class="c1"># Deprecated</span>
+<div class="viewcode-block" id="le_same_aminoacids">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.le_same_aminoacids">[docs]</a>
+<span class="k">def</span> <span class="nf">le_same_aminoacids</span><span class="p">(</span><span class="n">sith</span><span class="p">,</span> <span class="n">peptides_info</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">,</span> <span class="n">kind_amino</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return distances between two atom types in the same type of amino acid and</span>
+<span class="sd">    the energy associated with these DOF as the molecule is stretched.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    sith: sith object</span>
+<span class="sd">        sith object containing the distribution of energies. That implies to</span>
+<span class="sd">        have the class variable &#39;energies&#39; with the energies per deformed</span>
+<span class="sd">        configuration and and per DOF.</span>
+<span class="sd">    peptides_info:</span>
+<span class="sd">        object with the info of the peptide.</span>
+<span class="sd">    atom_types: str</span>
+<span class="sd">        name of the atoms inside the aminoacid that will be studied,</span>
+<span class="sd">        example [&#39;CA&#39;, &#39;CB&#39;].</span>
+<span class="sd">    kind_amino: (list) [(str)]</span>
+<span class="sd">        name of the amino acids.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (list) [#kindAmino x [2 x #Def (float)]] values of the DOF and energies</span>
+<span class="sd">    associate with those DOFs per deformed configuration in the selected amino.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ====</span>
+<span class="sd">    peptides_info can be obtained from</span>
+<span class="sd">    sith.utils.peptides.PepSetter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">indexes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">amino_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">peptides_info</span><span class="o">.</span><span class="n">amino_name</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="n">amino_name</span> <span class="ow">in</span> <span class="n">kind_amino</span><span class="p">:</span>
+            <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">all_le</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">length_energy</span><span class="p">(</span><span class="n">sith</span><span class="p">,</span> <span class="n">peptides_info</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">index</span><span class="p">],</span>
+                               <span class="n">atom_types</span><span class="p">)</span>
+        <span class="n">all_le</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">all_le</span></div>
+
+
+
+<div class="viewcode-block" id="SithAnalysis">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.SithAnalysis">[docs]</a>
+<span class="k">class</span> <span class="nc">SithAnalysis</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set of tools to anayze the data extracted from SITH.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    sith: sith.SITH</span>
+<span class="sd">       SITH object with all the information inside.</span>
+<span class="sd">    pepinfo: dict</span>
+<span class="sd">        Information of the peptide. Like amino acids, atoms, and so. It is an</span>
+<span class="sd">        attribute of sith.utils.peptides.PepSetter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sith</span><span class="p">,</span> <span class="n">pepinfo</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sith</span> <span class="o">=</span> <span class="n">sith</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pep_info</span> <span class="o">=</span> <span class="n">pepinfo</span>
+
+<div class="viewcode-block" id="SithAnalysis.le_dof_amino">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.SithAnalysis.le_dof_amino">[docs]</a>
+    <span class="k">def</span> <span class="nf">le_dof_amino</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a_names</span><span class="p">,</span> <span class="n">aminos</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Value and the change of the energy of a DOF.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        a_names: list</span>
+<span class="sd">            atom names of the atoms forminf the DOF.</span>
+<span class="sd">        aminos: list or int</span>
+<span class="sd">            index of the residue from which each atoms belongs to. In case of</span>
+<span class="sd">            only an integer, all the atoms are assumed to belong to the same</span>
+<span class="sd">            residue.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (tuple) array of dof values and change dof energies in the extension</span>
+<span class="sd">        trajectory in respect to the optimized configuration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Note: aminos is actually residues</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">aminos</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="c1"># if all atoms belog to the same aminoacid</span>
+            <span class="n">aminos</span> <span class="o">=</span> <span class="p">[</span><span class="n">aminos</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">a_names</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">aminos</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">a_names</span><span class="p">)</span>
+
+        <span class="n">indexes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">amino</span><span class="p">,</span> <span class="n">atom</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">aminos</span><span class="p">,</span> <span class="n">a_names</span><span class="p">):</span>
+            <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pep_info</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">amino</span><span class="p">][</span><span class="n">atom</span><span class="p">])</span>
+
+        <span class="n">dof</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">dof</span><span class="p">[</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">indexes</span><span class="p">):]</span> <span class="o">=</span> <span class="n">indexes</span>
+        <span class="n">dof_i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index_dof</span><span class="p">(</span><span class="n">dof</span><span class="p">)</span>
+
+        <span class="n">dof_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">all_dofs</span><span class="p">[:,</span> <span class="n">dof_i</span><span class="p">]</span>
+        <span class="n">dof_e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dofs_energies</span><span class="p">[:,</span> <span class="n">dof_i</span><span class="p">]</span>
+        <span class="n">dof_e</span> <span class="o">-=</span> <span class="n">dof_e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">dof_value</span><span class="p">,</span> <span class="n">dof_e</span></div>
+
+
+<div class="viewcode-block" id="SithAnalysis.index_dof">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.SithAnalysis.index_dof">[docs]</a>
+    <span class="k">def</span> <span class="nf">index_dof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search the index of a specific dof.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        target: np.ndarray</span>
+<span class="sd">            degree of freedom.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (int) index of the DOF.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dof</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">):</span>
+            <span class="n">dof_wo_0</span> <span class="o">=</span> <span class="n">dof</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">dof</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">target_wo_0</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">target</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dof_wo_0</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_wo_0</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">dof_wo_0</span> <span class="o">==</span> <span class="n">target_wo_0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="ow">or</span> \
+               <span class="p">(</span><span class="n">dof_wo_0</span> <span class="o">==</span> <span class="n">target_wo_0</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">i</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Non-found dof (</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="set_hes_from_ref">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.set_hes_from_ref">[docs]</a>
+<span class="k">def</span> <span class="nf">set_hes_from_ref</span><span class="p">(</span><span class="n">geo_ref</span><span class="p">,</span> <span class="n">sith_tar</span><span class="p">,</span> <span class="n">structure</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the hessian in in a target sith taken from a geometry of reference.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    geo_ref: sith.Utilities.Geometry</span>
+<span class="sd">        sith object that contains the atribute you want to redefine.</span>
+<span class="sd">    sith_tar: sith.SITH</span>
+<span class="sd">        sith object that will change its property.</span>
+<span class="sd">    structure: int</span>
+<span class="sd">        index of the deformed structure to set the hessian.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (sith.SITH) returns the sith_tar with the hessian in the defined structure.</span>
+
+<span class="sd">    Note: All the sith.sith.structures are Geometry objects with all the</span>
+<span class="sd">    information of the structure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="n">sith_tar</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">:</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">dof</span><span class="p">[</span><span class="n">dof</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">check2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">test</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">),</span>
+                                                      <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">geo_ref</span><span class="o">.</span><span class="n">dim_indices</span> <span class="o">==</span> <span class="n">dof</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+                <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">geo_ref</span><span class="o">.</span><span class="n">dim_indices</span> <span class="o">==</span> <span class="n">check2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()):</span>
+            <span class="k">raise</span> <span class="p">(</span><span class="s1">&#39;this dof does not exist: &#39;</span><span class="p">,</span> <span class="n">dof</span><span class="p">)</span>
+
+    <span class="n">order</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="n">sith_tar</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">:</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">dof</span><span class="p">[</span><span class="n">dof</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">check2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">test</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">),</span>
+                                                      <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">geo_ref</span><span class="o">.</span><span class="n">dim_indices</span> <span class="o">==</span> <span class="n">dof</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">geo_ref</span><span class="o">.</span><span class="n">dim_indices</span> <span class="o">==</span> <span class="n">check2</span><span class="p">,</span>
+                                    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+
+    <span class="n">geo_ref</span><span class="o">.</span><span class="n">hessian</span> <span class="o">=</span> <span class="n">geo_ref</span><span class="o">.</span><span class="n">hessian</span><span class="p">[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">geo_ref</span><span class="o">.</span><span class="n">hessian</span> <span class="o">=</span> <span class="n">geo_ref</span><span class="o">.</span><span class="n">hessian</span><span class="p">[:,</span> <span class="n">order</span><span class="p">]</span>
+
+    <span class="n">sith_tar</span><span class="o">.</span><span class="n">structures</span><span class="p">[</span><span class="n">structure</span><span class="p">]</span><span class="o">.</span><span class="n">hessian</span> <span class="o">=</span> <span class="n">geo_ref</span><span class="o">.</span><span class="n">hessian</span>
+
+    <span class="k">return</span> <span class="n">sith_tar</span></div>
+
+
+
+<div class="viewcode-block" id="DataSetAnalysis">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.DataSetAnalysis">[docs]</a>
+<span class="k">class</span> <span class="nc">DataSetAnalysis</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates the objects of to do the analysis of a set of peptides in a</span>
+<span class="sd">    data set.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    inner_steps: function. Default=None</span>
+<span class="sd">        function with the operations to apply to every sith object -its</span>
+<span class="sd">        unique argument- after initialized. Note that it has to have the</span>
+<span class="sd">        analysis you want to apply. For example,</span>
+<span class="sd">    data_dir: str. Default=&#39;./&#39;</span>
+<span class="sd">        directory containing the directories of the molecules.</span>
+<span class="sd">    subdir: str. Default=&#39;&#39;</span>
+<span class="sd">        subdirectory inside each molecule directory containing the files to be</span>
+<span class="sd">        analyzed by sith.</span>
+<span class="sd">    exclude_prolines: bool. Default=True</span>
+<span class="sd">        if True, neglects all the peptides with a proline in their sequence. In</span>
+<span class="sd">        other words, it ignores all the directories with a &#39;P&#39; in their name.</span>
+<span class="sd">    exclude: list. Default=None</span>
+<span class="sd">        list of molecules to exclude from the analysis.</span>
+<span class="sd">    pdb_pattern: str. Default=&#39;stretched00&#39;</span>
+<span class="sd">        pattern to identify the pdb file in each molecule directory.</span>
+<span class="sd">    struc_pattern: Default=&#39;forces&lt;all&gt;.fchk&#39;</span>
+<span class="sd">        pattern to identify the files to be analyzed by sith in each molecule</span>
+<span class="sd">        directory.</span>
+<span class="sd">    kwargs:</span>
+<span class="sd">        for initializing sith</span>
+
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        The function inner_steps has to have as unique argument a sith object</span>
+<span class="sd">        and return the same sith object after applying the analysis you want.</span>
+<span class="sd">        For example, if you want to remove the first and last structure and</span>
+<span class="sd">        then apply the sith_analysis, you can define the function as:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            def inner_steps(sith):</span>
+<span class="sd">                sith.rem_first_last(from_last_minimum=True)</span>
+<span class="sd">                sith.sith_analysis()</span>
+<span class="sd">                return sith</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inner_steps</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span><span class="p">,</span>
+                 <span class="n">subdir</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">exclude_prolines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">pdb_pattern</span><span class="o">=</span><span class="s1">&#39;stretched00&#39;</span><span class="p">,</span>
+                 <span class="n">struc_pattern</span><span class="o">=</span><span class="s1">&#39;force*.fchk&#39;</span><span class="p">,</span>
+                 <span class="n">alternative_subdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="p">(</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span>
+
+        <span class="n">peptides</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*/&#39;</span><span class="p">))</span>
+        <span class="n">peptides</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">peptides</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;There are not directories in </span><span class="si">{</span><span class="n">data_dir</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pep_infos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Log SITH analysis:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">prolines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">eff_exclu</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">exclude</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">exclude</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">n_pep</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">pep</span> <span class="ow">in</span> <span class="n">peptides</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">exclude_prolines</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;P&#39;</span> <span class="ow">in</span> <span class="n">pep</span><span class="o">.</span><span class="n">stem</span><span class="p">)):</span>
+                <span class="n">prolines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pep</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">pep</span><span class="o">.</span><span class="n">stem</span> <span class="ow">in</span> <span class="n">exclude</span><span class="p">):</span>
+                <span class="n">eff_exclu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pep</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">pep</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+                <span class="k">continue</span>
+
+            <span class="k">assert</span> <span class="n">pep</span><span class="o">.</span><span class="n">is_dir</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pep</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span>
+
+            <span class="n">pdb</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pep</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;*</span><span class="si">{</span><span class="n">pdb_pattern</span><span class="si">}</span><span class="s1">*.pdb&#39;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pdb</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Not &#39;*</span><span class="si">{</span><span class="n">pdb_pattern</span><span class="si">}</span><span class="s2">*.pdb&#39; found in&quot;</span>
+                                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">pep</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pdb</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;There are more than one pdb files with the &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;pattern </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">pep</span><span class="p">)</span><span class="si">}</span><span class="s2">/*</span><span class="si">{</span><span class="n">pdb_pattern</span><span class="si">}</span><span class="s2">*.pdb&quot;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">pep_infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PepSetter</span><span class="p">(</span><span class="n">pdb</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+            <span class="n">struc</span> <span class="o">=</span> <span class="n">pep</span> <span class="o">/</span> <span class="n">subdir</span>
+            <span class="n">structure_files</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">struc</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;*</span><span class="si">{</span><span class="n">struc_pattern</span><span class="si">}</span><span class="s1">*&#39;</span><span class="p">))</span>
+            <span class="n">structure_files</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sith</span> <span class="o">=</span> <span class="n">SITH</span><span class="p">(</span><span class="n">inputfiles</span><span class="o">=</span><span class="n">structure_files</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">sith</span> <span class="o">=</span> <span class="n">inner_steps</span><span class="p">(</span><span class="n">sith</span><span class="p">)</span>
+                <span class="n">sith</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">pep</span><span class="o">.</span><span class="n">stem</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sith</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SithAnalysis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                                  <span class="bp">self</span><span class="o">.</span><span class="n">pep_infos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_continuity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Discontinuity detected&quot;</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Error in </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">pep</span><span class="p">)</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">alternative_subdir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No alternative subdir defined.&quot;</span><span class="p">)</span>
+                    <span class="n">struc</span> <span class="o">=</span> <span class="n">pep</span> <span class="o">/</span> <span class="n">alternative_subdir</span>
+                    <span class="n">structure_files</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">struc</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;*</span><span class="si">{</span><span class="n">struc_pattern</span><span class="si">}</span><span class="s1">*&#39;</span><span class="p">))</span>
+                    <span class="n">structure_files</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+                    <span class="n">sith</span> <span class="o">=</span> <span class="n">SITH</span><span class="p">(</span><span class="n">inputfiles</span><span class="o">=</span><span class="n">structure_files</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                    <span class="n">sith</span> <span class="o">=</span> <span class="n">inner_steps</span><span class="p">(</span><span class="n">sith</span><span class="p">)</span>
+                    <span class="n">sith</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">pep</span><span class="o">.</span><span class="n">stem</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sith</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SithAnalysis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                                      <span class="bp">self</span><span class="o">.</span><span class="n">pep_infos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_continuity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                                <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Discontinuity detected&quot;</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e2</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Error also in subdir:&quot;</span><span class="p">,</span> <span class="n">e2</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">pep_infos</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pep</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pep_infos</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>   <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">structures</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">atoms</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Atom count mismatch for </span><span class="si">{</span><span class="n">pep</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="k">if</span> <span class="n">n_pep</span> <span class="o">%</span> <span class="mi">20</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">()</span>
+            <span class="n">n_pep</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="n">pep</span><span class="o">.</span><span class="n">stem</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- A total of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">)</span><span class="si">}</span><span class="s2"> peptides where added &quot;</span>
+              <span class="s2">&quot;to the analysis&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">prolines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- The next peptides were neglected because they have a &quot;</span>
+                  <span class="s2">&quot;proline at least:&quot;</span><span class="p">)</span>
+            <span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">pep</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">pep</span> <span class="ow">in</span> <span class="n">prolines</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- The next peptides did not worked for some reason. &quot;</span>
+                  <span class="s2">&quot;Check them individually:&quot;</span><span class="p">)</span>
+            <span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">pep</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">pep</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">eff_exclu</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- The next peptides were neglected because they have a &quot;</span>
+                  <span class="s2">&quot;proline at least:&quot;</span><span class="p">)</span>
+            <span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">pep</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">pep</span> <span class="ow">in</span> <span class="n">eff_exclu</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DataSetAnalysis.test_continuity">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.DataSetAnalysis.test_continuity">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_continuity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sith</span><span class="p">,</span> <span class="n">analysis</span><span class="p">):</span>
+        <span class="c1"># atoms</span>
+        <span class="n">ca</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">pep_info</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;CA&#39;</span><span class="p">]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">pep_info</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">pep_info</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;N&#39;</span><span class="p">]</span>
+
+        <span class="c1"># angle and distances</span>
+        <span class="n">ang</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">index_dof</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">c</span><span class="p">,</span> <span class="n">ca</span><span class="p">,</span> <span class="n">n</span><span class="p">]))</span>
+        <span class="n">cac</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">index_dof</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">c</span><span class="p">,</span> <span class="n">ca</span><span class="p">]))</span>
+        <span class="n">can</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">index_dof</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ca</span><span class="p">,</span> <span class="n">n</span><span class="p">]))</span>
+
+        <span class="n">delta_angle</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sith</span><span class="o">.</span><span class="n">delta_q</span><span class="p">[:,</span> <span class="n">ang</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+        <span class="n">delta_dista</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sith</span><span class="o">.</span><span class="n">delta_q</span><span class="p">[:,</span> <span class="p">[</span><span class="n">cac</span><span class="p">,</span> <span class="n">can</span><span class="p">]]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()))</span>
+        <span class="k">if</span> <span class="n">delta_angle</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="ow">or</span> <span class="n">delta_dista</span> <span class="o">&gt;</span> <span class="mf">0.2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="DataSetAnalysis.test">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.DataSetAnalysis.test">[docs]</a>
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        check that the first sith has the basic variables. It assumes that</span>
+<span class="sd">        the rest also has it</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (None)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">structures_scf_energies</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">structure_energies</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dofs_energies</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">structures</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_populate_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method creates the attributes used fot the analysis extracting the</span>
+<span class="sd">        values from the sith_objects.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (DataSetAnalysis) This same object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_dft_energies</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_edm_energies</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># energy distribution method</span>
+        <span class="k">for</span> <span class="n">ed_obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">all_dft_energies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ed_obj</span><span class="o">.</span><span class="n">structures_scf_energies</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">all_edm_energies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ed_obj</span><span class="o">.</span><span class="n">structure_energies</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_dft_energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_dft_energies</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_edm_energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">all_edm_energies</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+<div class="viewcode-block" id="DataSetAnalysis.dof_vs_energy">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.DataSetAnalysis.dof_vs_energy">[docs]</a>
+    <span class="k">def</span> <span class="nf">dof_vs_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aa_names</span><span class="p">,</span> <span class="n">naas</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract the values of the dofs and the associated dofs energies</span>
+<span class="sd">        for a set all the molecules of data set. Check</span>
+<span class="sd">        sith.sith.analysis.SithAnalysis.le_dof_amino</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        aa_names: list</span>
+<span class="sd">            Atom names forming the DOF.</span>
+<span class="sd">        naas: list or int. Default=3</span>
+<span class="sd">            index of the residue from which each atoms belongs to. In case of</span>
+<span class="sd">            only an integer, all the atoms are assumed to belong to the same</span>
+<span class="sd">            residue.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (tuple) list of arrays  with dof values and dof energies in the</span>
+<span class="sd">        extension trajectory of each molecule in the dataset.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        This function returns the absolute value of the DOF, to obtain the</span>
+<span class="sd">        same but computing the change in the DOF in respect to the optimized</span>
+<span class="sd">        configuration of see</span>
+<span class="sd">        sith.sith.analysis.DataSetAnalysis.dofs_vs_energy_rescaled</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">es</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">an</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">le_dof_amino</span><span class="p">(</span><span class="n">aa_names</span><span class="p">,</span> <span class="n">naas</span><span class="p">)</span>
+            <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">es</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">xs</span><span class="p">,</span> <span class="n">es</span></div>
+
+
+<div class="viewcode-block" id="DataSetAnalysis.dof_vs_energy_rescaled">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.DataSetAnalysis.dof_vs_energy_rescaled">[docs]</a>
+    <span class="k">def</span> <span class="nf">dof_vs_energy_rescaled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aa_names</span><span class="p">,</span> <span class="n">naas</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract the values of the delta dofs in respect to the optimized</span>
+<span class="sd">        configuration and the associated dofs energies for a set all the</span>
+<span class="sd">        molecules of data set. Check</span>
+<span class="sd">        sith.sith.analysis.SithAnalysis.le_dof_amino</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        aa_names: list</span>
+<span class="sd">            Atom names forming the DOF.</span>
+<span class="sd">        naas: list or int. Default=3</span>
+<span class="sd">            index of the residue from which each atoms belongs to. In case of</span>
+<span class="sd">            only an integer, all the atoms are assumed to belong to the same</span>
+<span class="sd">            residue.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (tuple) list of arrays with delta dof values and dof energies in the</span>
+<span class="sd">        extension trajectory in respect to the optimized configuration of each</span>
+<span class="sd">        molecule in the dataset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">es</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">an</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">an</span><span class="o">.</span><span class="n">le_dof_amino</span><span class="p">(</span><span class="n">aa_names</span><span class="p">,</span> <span class="n">naas</span><span class="p">)</span>
+            <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">es</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">xs</span><span class="p">,</span> <span class="n">es</span></div>
+
+
+<div class="viewcode-block" id="DataSetAnalysis.plot_DFT_ener">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.DataSetAnalysis.plot_DFT_ener">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot_DFT_ener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">Axes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plots the DFT energy of the extension process</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        ax: plt.Axes Default=None</span>
+<span class="sd">            Axes to plot in. If Nonne, a new axis is created.</span>
+<span class="sd">        sp: StandardPlotter. Default=None</span>
+<span class="sd">            sith.plotters.StandardPlotter</span>
+<span class="sd">        lw: float. Default=1</span>
+<span class="sd">            line width.</span>
+<span class="sd">        ms: float. Default=1</span>
+<span class="sd">            marker size.</span>
+<span class="sd">        kwargs for StandardPlotters.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (StandardPlotter, list, list) Standard plotter, all dofs values,</span>
+<span class="sd">        all energy values used for the plot.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;ax_pref&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">setter</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ax_pref&#39;</span><span class="p">]</span>
+            <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;ax_pref&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">setter</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">sp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sp</span> <span class="o">=</span> <span class="n">StandardPlotter</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">sp</span><span class="o">.</span><span class="n">axis_setter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                       <span class="n">xlabel</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Stretched Structure&#39;</span><span class="p">,</span>
+                       <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;DFT Energy[Ha]&#39;</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">setter</span><span class="p">)</span>
+
+        <span class="n">xs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sith</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">):</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">sith</span><span class="o">.</span><span class="n">structures_scf_energies</span>
+            <span class="n">index1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pep_infos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;CH3&#39;</span><span class="p">]</span>
+            <span class="n">index2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pep_infos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="mi">5</span><span class="p">][</span><span class="s1">&#39;CH3&#39;</span><span class="p">]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">struc</span> <span class="ow">in</span> <span class="n">sith</span><span class="o">.</span><span class="n">structures</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">dist</span> <span class="o">=</span> <span class="n">struc</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_distance</span><span class="p">(</span><span class="n">index1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">index2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error getting distance for </span><span class="si">{</span><span class="n">sith</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> setting distance to 0.0&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+            <span class="n">sp</span><span class="o">.</span><span class="n">plot_data</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="n">ms</span><span class="p">)</span>
+            <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">sp</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span></div>
+
+
+<div class="viewcode-block" id="DataSetAnalysis.amino_freq">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.analysis.DataSetAnalysis.amino_freq">[docs]</a>
+    <span class="k">def</span> <span class="nf">amino_freq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract the name of the peptides in one-letter-convention for</span>
+<span class="sd">        the amino acids.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (numpy.array) set of names.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">sith</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">outcomes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">sith</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

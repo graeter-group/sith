@@ -3,6 +3,8 @@
 swap_atoms_in_com
 =================
 
+
+
 .. container:: bash-script-title
 
    :ref:`[script] <swap_atoms_in_com>` **sith/g09_stretching/swap_atoms_in_com.sh**

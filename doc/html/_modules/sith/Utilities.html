@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.Utilities &mdash; sith</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+        <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+        <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sith.Utilities</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sith.Utilities</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">Output</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sith</span> <span class="kn">import</span> <span class="n">SITH</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">BoundaryNorm</span><span class="p">,</span> <span class="n">Colormap</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">from</span> <span class="nn">matplotlib.transforms</span> <span class="kn">import</span> <span class="n">Bbox</span>
+
+
+<div class="viewcode-block" id="Geometry">
+<a class="viewcode-back" href="../../modules/sith.html#sith.Utilities.Geometry">[docs]</a>
+<span class="k">class</span> <span class="nc">Geometry</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Geometry object that stores the geometric information of each</span>
+<span class="sd">    structure and sith takes to compute the energy distribution analysis. Every</span>
+<span class="sd">    sith.readers.&lt;reader&gt; must assing the values of Geometry attributes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    name: str (optional)</span>
+<span class="sd">        name of the Geometry object, it is arbitrary. Default defined by</span>
+<span class="sd">        reader.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ==========</span>
+<span class="sd">    name: str</span>
+<span class="sd">        Name of geometry, based off of stem of .fchk file path unless</span>
+<span class="sd">        otherwise modified.</span>
+<span class="sd">    n_atoms: int</span>
+<span class="sd">        Number of atoms</span>
+<span class="sd">    scf_energy: float</span>
+<span class="sd">        Potential energy associated with geometry.</span>
+<span class="sd">    dims: np.array</span>
+<span class="sd">        Array of number of DOFs types in 4 components</span>
+<span class="sd">        [0]: total dimensions/DOFs</span>
+<span class="sd">        [1]: bond lengths</span>
+<span class="sd">        [2]: bond angles</span>
+<span class="sd">        [3]: dihedral angles</span>
+<span class="sd">    dim_indices: np.array</span>
+<span class="sd">        Indices that define each DOF with shape (#DOFs, 4). These indices start</span>
+<span class="sd">        in one. Index zero means None for DOFs with less than 4 indices, e.g.</span>
+<span class="sd">        distances.</span>
+<span class="sd">    dof: np.array</span>
+<span class="sd">        values of the DOFs for the given configuration with shape (#DOFs).</span>
+<span class="sd">    hessian: np.array</span>
+<span class="sd">        Hessian matrix associated with the geometry in units of</span>
+<span class="sd">    internal_forces: np.array</span>
+<span class="sd">        Forces in DOFs.</span>
+<span class="sd">    atoms: ase.Atoms</span>
+<span class="sd">        Atoms object associated with geometry.</span>
+
+<span class="sd">    Note: All quantities are in units of Hartrees, Angstrom, radians</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="c1"># region Basic Attributes</span>
+
+        <span class="c1"># Note: All the attributes are marked as &quot;mandatory&quot;, &quot;optional&quot;. This</span>
+        <span class="c1"># refers to the task the reader has to do.</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>  <span class="c1"># optional</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ref_file</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># optional</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_atoms</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># mandatory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scf_energy</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># optional</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dims</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># mandatory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim_indices</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># mandatory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dof</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># mandatory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hessian</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># mandatory for jedi_analysis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">internal_forces</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># mandatory for sith_analysis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># mandatory</span>
+        <span class="c1"># endregion</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__o</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Basic method used to compare two Geometry objects</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        __o: obj</span>
+<span class="sd">            object to compare</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (bool) True if Geometry objects have the same values on the attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">__o</span><span class="p">,</span> <span class="n">Geometry</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">__o</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_atoms</span> <span class="o">==</span> <span class="n">__o</span><span class="o">.</span><span class="n">n_atoms</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">scf_energy</span> <span class="o">==</span> <span class="n">__o</span><span class="o">.</span><span class="n">scf_energy</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">__o</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">,</span> <span class="n">__o</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="ow">and</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">hessian</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">__o</span><span class="o">.</span><span class="n">hessian</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+                   <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hessian</span> <span class="o">==</span> <span class="n">__o</span><span class="o">.</span><span class="n">hessian</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="ow">and</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">internal_forces</span> <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="ow">and</span> <span class="n">__o</span><span class="o">.</span><span class="n">internal_forces</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+                   <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">internal_forces</span> <span class="o">==</span> <span class="n">__o</span><span class="o">.</span><span class="n">internal_forces</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dof</span><span class="p">,</span> <span class="n">__o</span><span class="o">.</span><span class="n">dof</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span> <span class="o">==</span> <span class="n">__o</span><span class="o">.</span><span class="n">atoms</span>
+
+        <span class="k">return</span> <span class="n">b</span>
+
+<div class="viewcode-block" id="Geometry.kill_dofs">
+<a class="viewcode-back" href="../../modules/sith.html#sith.Utilities.Geometry.kill_dofs">[docs]</a>
+    <span class="k">def</span> <span class="nf">kill_dofs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dof_indices</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes in list of indices of degrees of freedom and removes DOFs from</span>
+<span class="sd">        dof, dim_indices, internal_forces, and hessian; updates dims</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        dof_indices: list</span>
+<span class="sd">            list of indices to remove.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (numpy.array) dim_indices of removed dofs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># remove repetition</span>
+        <span class="n">dof_indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">dof_indices</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dof</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dof</span><span class="p">,</span> <span class="n">dof_indices</span><span class="p">)</span>
+
+        <span class="c1"># counter of the number of DOF removed arranged in types (lenght,</span>
+        <span class="c1"># angle, dihedral)</span>
+        <span class="n">tdofremoved</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dof_indices</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">tdofremoved</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">count_nonzero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">[</span><span class="n">index</span><span class="p">])</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">dof_indices2remove</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">[</span><span class="n">dof_indices</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">,</span> <span class="n">dof_indices</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dof_indices</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="n">tdofremoved</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-=</span> <span class="n">tdofremoved</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-=</span> <span class="n">tdofremoved</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">internal_forces</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">internal_forces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">internal_forces</span><span class="p">,</span> <span class="n">dof_indices</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hessian</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hessian</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hessian</span><span class="p">,</span> <span class="n">dof_indices</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hessian</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hessian</span><span class="p">,</span> <span class="n">dof_indices</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dof_indices2remove</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="color_distribution">
+<a class="viewcode-back" href="../../modules/sith.html#sith.Utilities.color_distribution">[docs]</a>
+<span class="k">def</span> <span class="nf">color_distribution</span><span class="p">(</span><span class="n">sith</span><span class="p">:</span> <span class="n">SITH</span><span class="p">,</span>
+                       <span class="n">dofs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                       <span class="n">idef</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                       <span class="n">cmap</span><span class="p">:</span> <span class="n">Colormap</span><span class="p">,</span>
+                       <span class="n">absolute</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="n">div</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+                       <span class="n">decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+                       <span class="n">respect_to_total_energy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">BoundaryNorm</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract the energies of the specified DOFs and deformation structure, and</span>
+<span class="sd">    the normalization according to a cmap.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    sith: SITH</span>
+<span class="sd">        sith object with the distribution of energies and structures</span>
+<span class="sd">        information.</span>
+<span class="sd">    dofs: array</span>
+<span class="sd">        specific set of dofs to extract the energies.</span>
+<span class="sd">    idef: int</span>
+<span class="sd">        index of the structure to extract the energies.</span>
+<span class="sd">    cmap: Colormap</span>
+<span class="sd">        colormap to normalize according the number of divisions.</span>
+<span class="sd">    absolute: bool. Default=False</span>
+<span class="sd">        True to define the color bar based on the maximum energy of the all</span>
+<span class="sd">        the DOFS in all the stretching confs. False to define the color bar</span>
+<span class="sd">        based on the maximum energy of the all the DOFS in the present</span>
+<span class="sd">        stretching conf.</span>
+<span class="sd">    div: int</span>
+<span class="sd">        number of sets of colors in which the colorbar is divided.</span>
+<span class="sd">    decimals: Default=3</span>
+<span class="sd">        number of decimals of the ticks of the colorbar.</span>
+<span class="sd">    respect_to_total_energy: bool. Default=False</span>
+<span class="sd">        if true, the maximum of energies will be calculated with respect to</span>
+<span class="sd">        the total energy of all the DOFs, not only the selected ones. Note</span>
+<span class="sd">        that the difference with absolute is that absolute uses the total</span>
+<span class="sd">        energy of the selected DOFs but among all the stretched configurations.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (np.array, BoundaryNorm) set of energies of DOFs and deformation structure</span>
+<span class="sd">    and the BoundaryNorm object to get the distribution of colors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">energies</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dof_ind</span> <span class="o">=</span> <span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span>
+    <span class="n">components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">sith</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    
+    <span class="n">energies</span> <span class="o">=</span> <span class="p">[]</span> 
+    <span class="k">if</span> <span class="n">respect_to_total_energy</span><span class="p">:</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="n">sith</span><span class="o">.</span><span class="n">dofs_energies</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="n">dofs</span><span class="p">:</span>
+            <span class="n">dofindofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">dof_ind</span> <span class="o">==</span> <span class="n">dof</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">components</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">dofindofs</span><span class="p">,</span> <span class="n">components</span><span class="p">)</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="n">sith</span><span class="o">.</span><span class="n">dofs_energies</span><span class="p">[:,</span> <span class="n">components</span><span class="p">]</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="n">idef</span><span class="p">]),</span> <span class="s2">&quot;The energy of at least one DOF&quot;</span> \
+          <span class="s2">&quot;is missing.&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">energies</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">absolute</span><span class="p">:</span>
+        <span class="n">minval</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">energies</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">maxval</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">energies</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">minval</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="n">idef</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="n">maxval</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">energies</span><span class="p">[</span><span class="n">idef</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+
+    <span class="c1"># In case of all the energies are the same (e.g. 0 stretching)</span>
+    <span class="k">if</span> <span class="n">minval</span> <span class="o">==</span> <span class="n">maxval</span><span class="p">:</span>
+        <span class="n">minval</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">maxval</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+    <span class="n">boundaries</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">maxval</span> <span class="o">-</span> <span class="n">minval</span><span class="p">,</span> <span class="n">decimals</span><span class="p">),</span> <span class="n">div</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">normalize</span> <span class="o">=</span> <span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">boundaries</span><span class="p">,</span> <span class="n">cmap</span><span class="o">.</span><span class="n">N</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">energies</span><span class="p">,</span> <span class="n">normalize</span></div>
+
+
+
+<div class="viewcode-block" id="create_colorbar">
+<a class="viewcode-back" href="../../modules/sith.html#sith.Utilities.create_colorbar">[docs]</a>
+<span class="k">def</span> <span class="nf">create_colorbar</span><span class="p">(</span><span class="n">normalize</span><span class="p">:</span> <span class="n">BoundaryNorm</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cmap</span><span class="p">:</span> <span class="n">Colormap</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">deci</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">labelsize</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                    <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.7</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">dpi</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Discrete colorbar according defined by a matplotlib.BoundaryNorm.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    normalize: BoundaryNorm</span>
+<span class="sd">        normalization function.</span>
+<span class="sd">    label: str</span>
+<span class="sd">        label of the color bar.</span>
+<span class="sd">    cmap: Colormap. Default=None</span>
+<span class="sd">        colormap to of the colorbar. If None, it will be YlGn.</span>
+<span class="sd">    deci: int. Default=3</span>
+<span class="sd">        number of decimals of the ticks in the colorbar.</span>
+<span class="sd">    labelsize: int. Default=10</span>
+<span class="sd">        size of the labels of the colorbar.</span>
+<span class="sd">    height: int. Default=1.7</span>
+<span class="sd">        height (in inches) of the space that will contain the scene and the</span>
+<span class="sd">        color bar.</span>
+<span class="sd">    width: float. Default=None</span>
+<span class="sd">        width (in inches) of the space that will contain the color bar. If</span>
+<span class="sd">        None, it will be (3 + deci) * fontsize.</span>
+<span class="sd">    dpi: int Default=300</span>
+<span class="sd">        dot per inch. it&#39;s a meassurement of resolution.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (plt.fig, ax) Figure and the axis of the colorbar.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">cmap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">YlGn</span>
+    <span class="n">fontsize_inches</span> <span class="o">=</span> <span class="n">labelsize</span> <span class="o">/</span> <span class="mi">72</span>
+
+    <span class="k">if</span> <span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="n">deci</span><span class="p">)</span> <span class="o">*</span> <span class="n">fontsize_inches</span>
+    
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span>
+
+    <span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">ScalarMappable</span><span class="p">(</span><span class="n">norm</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
+                                              <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">),</span>
+                        <span class="n">cax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
+                        <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%1.</span><span class="si">{}</span><span class="s1">f&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">deci</span><span class="p">))</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                   <span class="n">fontsize</span><span class="o">=</span><span class="n">labelsize</span><span class="p">,</span>
+                   <span class="n">labelpad</span><span class="o">=</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">labelsize</span><span class="p">)</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">labelsize</span><span class="p">,</span>
+                        <span class="n">length</span><span class="o">=</span><span class="mf">0.2</span> <span class="o">*</span> <span class="n">labelsize</span><span class="p">,</span>
+                        <span class="n">pad</span><span class="o">=</span><span class="mf">0.2</span> <span class="o">*</span> <span class="n">labelsize</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">Bbox</span><span class="p">([[</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">fontsize_inches</span> <span class="o">/</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span>
+                          <span class="p">[</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">fontsize_inches</span> <span class="o">/</span> <span class="n">width</span><span class="p">,</span>
+                           <span class="mi">1</span> <span class="o">-</span> <span class="n">fontsize_inches</span> <span class="o">/</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]]),</span>
+                    <span class="n">which</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Output</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">out</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">out</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

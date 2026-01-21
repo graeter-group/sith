@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.g09_stretching.g09_xyz &mdash; sith</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+        <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+        <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sith.g09_stretching.g09_xyz</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sith.g09_stretching.g09_xyz</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Code modified from:</span>
+<span class="c1"># https://github.com/chunxiangzheng/gaussian_log_file_converter/</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">ase</span> <span class="kn">import</span> <span class="n">Atoms</span>
+<span class="kn">from</span> <span class="nn">ase.io</span> <span class="kn">import</span> <span class="n">write</span><span class="p">,</span> <span class="n">read</span>
+<span class="kn">from</span> <span class="nn">sith.utils.molecules</span> <span class="kn">import</span> <span class="n">MoleculeSetter</span>
+
+
+<span class="n">code</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;1&quot;</span><span class="p">:</span> <span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">:</span> <span class="s2">&quot;He&quot;</span><span class="p">,</span> <span class="s2">&quot;3&quot;</span><span class="p">:</span> <span class="s2">&quot;Li&quot;</span><span class="p">,</span> <span class="s2">&quot;4&quot;</span><span class="p">:</span> <span class="s2">&quot;Be&quot;</span><span class="p">,</span> <span class="s2">&quot;5&quot;</span><span class="p">:</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;6&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;7&quot;</span><span class="p">:</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;8&quot;</span><span class="p">:</span> <span class="s2">&quot;O&quot;</span><span class="p">,</span> <span class="s2">&quot;9&quot;</span><span class="p">:</span> <span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">:</span> <span class="s2">&quot;Ne&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;11&quot;</span><span class="p">:</span> <span class="s2">&quot;Na&quot;</span><span class="p">,</span> <span class="s2">&quot;12&quot;</span><span class="p">:</span> <span class="s2">&quot;Mg&quot;</span><span class="p">,</span> <span class="s2">&quot;13&quot;</span><span class="p">:</span> <span class="s2">&quot;Al&quot;</span><span class="p">,</span> <span class="s2">&quot;14&quot;</span><span class="p">:</span> <span class="s2">&quot;Si&quot;</span><span class="p">,</span> <span class="s2">&quot;15&quot;</span><span class="p">:</span> <span class="s2">&quot;P&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;16&quot;</span><span class="p">:</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;17&quot;</span><span class="p">:</span> <span class="s2">&quot;Cl&quot;</span><span class="p">,</span> <span class="s2">&quot;18&quot;</span><span class="p">:</span> <span class="s2">&quot;Ar&quot;</span><span class="p">,</span> <span class="s2">&quot;19&quot;</span><span class="p">:</span> <span class="s2">&quot;K&quot;</span><span class="p">,</span> <span class="s2">&quot;20&quot;</span><span class="p">:</span> <span class="s2">&quot;Ca&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;21&quot;</span><span class="p">:</span> <span class="s2">&quot;Sc&quot;</span><span class="p">,</span> <span class="s2">&quot;22&quot;</span><span class="p">:</span> <span class="s2">&quot;Ti&quot;</span><span class="p">,</span> <span class="s2">&quot;23&quot;</span><span class="p">:</span> <span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="s2">&quot;24&quot;</span><span class="p">:</span> <span class="s2">&quot;Cr&quot;</span><span class="p">,</span> <span class="s2">&quot;25&quot;</span><span class="p">:</span> <span class="s2">&quot;Mn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;26&quot;</span><span class="p">:</span> <span class="s2">&quot;Fe&quot;</span><span class="p">,</span> <span class="s2">&quot;27&quot;</span><span class="p">:</span> <span class="s2">&quot;Co&quot;</span><span class="p">,</span> <span class="s2">&quot;28&quot;</span><span class="p">:</span> <span class="s2">&quot;Ni&quot;</span><span class="p">,</span> <span class="s2">&quot;29&quot;</span><span class="p">:</span> <span class="s2">&quot;Cu&quot;</span><span class="p">,</span> <span class="s2">&quot;30&quot;</span><span class="p">:</span> <span class="s2">&quot;Zn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;31&quot;</span><span class="p">:</span> <span class="s2">&quot;Ga&quot;</span><span class="p">,</span> <span class="s2">&quot;32&quot;</span><span class="p">:</span> <span class="s2">&quot;Ge&quot;</span><span class="p">,</span> <span class="s2">&quot;33&quot;</span><span class="p">:</span> <span class="s2">&quot;As&quot;</span><span class="p">,</span> <span class="s2">&quot;34&quot;</span><span class="p">:</span> <span class="s2">&quot;Se&quot;</span><span class="p">,</span> <span class="s2">&quot;35&quot;</span><span class="p">:</span> <span class="s2">&quot;Br&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;36&quot;</span><span class="p">:</span> <span class="s2">&quot;Kr&quot;</span><span class="p">,</span> <span class="s2">&quot;37&quot;</span><span class="p">:</span> <span class="s2">&quot;Rb&quot;</span><span class="p">,</span> <span class="s2">&quot;38&quot;</span><span class="p">:</span> <span class="s2">&quot;Sr&quot;</span><span class="p">,</span> <span class="s2">&quot;39&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;40&quot;</span><span class="p">:</span> <span class="s2">&quot;Zr&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;41&quot;</span><span class="p">:</span> <span class="s2">&quot;Nb&quot;</span><span class="p">,</span> <span class="s2">&quot;42&quot;</span><span class="p">:</span> <span class="s2">&quot;Mo&quot;</span><span class="p">,</span> <span class="s2">&quot;43&quot;</span><span class="p">:</span> <span class="s2">&quot;Tc&quot;</span><span class="p">,</span> <span class="s2">&quot;44&quot;</span><span class="p">:</span> <span class="s2">&quot;Ru&quot;</span><span class="p">,</span> <span class="s2">&quot;45&quot;</span><span class="p">:</span> <span class="s2">&quot;Rh&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;46&quot;</span><span class="p">:</span> <span class="s2">&quot;Pd&quot;</span><span class="p">,</span> <span class="s2">&quot;47&quot;</span><span class="p">:</span> <span class="s2">&quot;Ag&quot;</span><span class="p">,</span> <span class="s2">&quot;48&quot;</span><span class="p">:</span> <span class="s2">&quot;Cd&quot;</span><span class="p">,</span> <span class="s2">&quot;49&quot;</span><span class="p">:</span> <span class="s2">&quot;In&quot;</span><span class="p">,</span> <span class="s2">&quot;50&quot;</span><span class="p">:</span> <span class="s2">&quot;Sn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;51&quot;</span><span class="p">:</span> <span class="s2">&quot;Sb&quot;</span><span class="p">,</span> <span class="s2">&quot;52&quot;</span><span class="p">:</span> <span class="s2">&quot;Te&quot;</span><span class="p">,</span> <span class="s2">&quot;53&quot;</span><span class="p">:</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;54&quot;</span><span class="p">:</span> <span class="s2">&quot;Xe&quot;</span><span class="p">,</span> <span class="s2">&quot;55&quot;</span><span class="p">:</span> <span class="s2">&quot;Cs&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;56&quot;</span><span class="p">:</span> <span class="s2">&quot;Ba&quot;</span><span class="p">,</span> <span class="s2">&quot;57&quot;</span><span class="p">:</span> <span class="s2">&quot;La&quot;</span><span class="p">,</span> <span class="s2">&quot;58&quot;</span><span class="p">:</span> <span class="s2">&quot;Ce&quot;</span><span class="p">,</span> <span class="s2">&quot;59&quot;</span><span class="p">:</span> <span class="s2">&quot;Pr&quot;</span><span class="p">,</span> <span class="s2">&quot;60&quot;</span><span class="p">:</span> <span class="s2">&quot;Nd&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;61&quot;</span><span class="p">:</span> <span class="s2">&quot;Pm&quot;</span><span class="p">,</span> <span class="s2">&quot;62&quot;</span><span class="p">:</span> <span class="s2">&quot;Sm&quot;</span><span class="p">,</span> <span class="s2">&quot;63&quot;</span><span class="p">:</span> <span class="s2">&quot;Eu&quot;</span><span class="p">,</span> <span class="s2">&quot;64&quot;</span><span class="p">:</span> <span class="s2">&quot;Gd&quot;</span><span class="p">,</span> <span class="s2">&quot;65&quot;</span><span class="p">:</span> <span class="s2">&quot;Tb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;66&quot;</span><span class="p">:</span> <span class="s2">&quot;Dy&quot;</span><span class="p">,</span> <span class="s2">&quot;67&quot;</span><span class="p">:</span> <span class="s2">&quot;Ho&quot;</span><span class="p">,</span> <span class="s2">&quot;68&quot;</span><span class="p">:</span> <span class="s2">&quot;Er&quot;</span><span class="p">,</span> <span class="s2">&quot;69&quot;</span><span class="p">:</span> <span class="s2">&quot;Tm&quot;</span><span class="p">,</span> <span class="s2">&quot;70&quot;</span><span class="p">:</span> <span class="s2">&quot;Yb&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;71&quot;</span><span class="p">:</span> <span class="s2">&quot;Lu&quot;</span><span class="p">,</span> <span class="s2">&quot;72&quot;</span><span class="p">:</span> <span class="s2">&quot;Hf&quot;</span><span class="p">,</span> <span class="s2">&quot;73&quot;</span><span class="p">:</span> <span class="s2">&quot;Ta&quot;</span><span class="p">,</span> <span class="s2">&quot;74&quot;</span><span class="p">:</span> <span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="s2">&quot;75&quot;</span><span class="p">:</span> <span class="s2">&quot;Re&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;76&quot;</span><span class="p">:</span> <span class="s2">&quot;Os&quot;</span><span class="p">,</span> <span class="s2">&quot;77&quot;</span><span class="p">:</span> <span class="s2">&quot;Ir&quot;</span><span class="p">,</span> <span class="s2">&quot;78&quot;</span><span class="p">:</span> <span class="s2">&quot;Pt&quot;</span><span class="p">,</span> <span class="s2">&quot;79&quot;</span><span class="p">:</span> <span class="s2">&quot;Au&quot;</span><span class="p">,</span> <span class="s2">&quot;80&quot;</span><span class="p">:</span> <span class="s2">&quot;Hg&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;81&quot;</span><span class="p">:</span> <span class="s2">&quot;Tl&quot;</span><span class="p">,</span> <span class="s2">&quot;82&quot;</span><span class="p">:</span> <span class="s2">&quot;Pb&quot;</span><span class="p">,</span> <span class="s2">&quot;83&quot;</span><span class="p">:</span> <span class="s2">&quot;Bi&quot;</span><span class="p">,</span> <span class="s2">&quot;84&quot;</span><span class="p">:</span> <span class="s2">&quot;Po&quot;</span><span class="p">,</span> <span class="s2">&quot;85&quot;</span><span class="p">:</span> <span class="s2">&quot;At&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;86&quot;</span><span class="p">:</span> <span class="s2">&quot;Rn&quot;</span><span class="p">,</span> <span class="s2">&quot;87&quot;</span><span class="p">:</span> <span class="s2">&quot;Fr&quot;</span><span class="p">,</span> <span class="s2">&quot;88&quot;</span><span class="p">:</span> <span class="s2">&quot;Ra&quot;</span><span class="p">,</span> <span class="s2">&quot;89&quot;</span><span class="p">:</span> <span class="s2">&quot;Ac&quot;</span><span class="p">,</span> <span class="s2">&quot;90&quot;</span><span class="p">:</span> <span class="s2">&quot;Th&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;91&quot;</span><span class="p">:</span> <span class="s2">&quot;Pa&quot;</span><span class="p">,</span> <span class="s2">&quot;92&quot;</span><span class="p">:</span> <span class="s2">&quot;U&quot;</span><span class="p">,</span> <span class="s2">&quot;93&quot;</span><span class="p">:</span> <span class="s2">&quot;Np&quot;</span><span class="p">,</span> <span class="s2">&quot;94&quot;</span><span class="p">:</span> <span class="s2">&quot;Pu&quot;</span><span class="p">,</span> <span class="s2">&quot;95&quot;</span><span class="p">:</span> <span class="s2">&quot;Am&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;96&quot;</span><span class="p">:</span> <span class="s2">&quot;Cm&quot;</span><span class="p">,</span> <span class="s2">&quot;97&quot;</span><span class="p">:</span> <span class="s2">&quot;Bk&quot;</span><span class="p">,</span> <span class="s2">&quot;98&quot;</span><span class="p">:</span> <span class="s2">&quot;Cf&quot;</span><span class="p">,</span> <span class="s2">&quot;99&quot;</span><span class="p">:</span> <span class="s2">&quot;Es&quot;</span><span class="p">,</span> <span class="s2">&quot;100&quot;</span><span class="p">:</span> <span class="s2">&quot;Fm&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;101&quot;</span><span class="p">:</span> <span class="s2">&quot;Md&quot;</span><span class="p">,</span> <span class="s2">&quot;102&quot;</span><span class="p">:</span> <span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="s2">&quot;103&quot;</span><span class="p">:</span> <span class="s2">&quot;Lr&quot;</span><span class="p">,</span> <span class="s2">&quot;104&quot;</span><span class="p">:</span> <span class="s2">&quot;Rf&quot;</span><span class="p">,</span> <span class="s2">&quot;105&quot;</span><span class="p">:</span> <span class="s2">&quot;Db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;106&quot;</span><span class="p">:</span> <span class="s2">&quot;Sg&quot;</span><span class="p">,</span> <span class="s2">&quot;107&quot;</span><span class="p">:</span> <span class="s2">&quot;Bh&quot;</span><span class="p">,</span> <span class="s2">&quot;108&quot;</span><span class="p">:</span> <span class="s2">&quot;Hs&quot;</span><span class="p">,</span> <span class="s2">&quot;109&quot;</span><span class="p">:</span> <span class="s2">&quot;Mt&quot;</span><span class="p">,</span> <span class="s2">&quot;110&quot;</span><span class="p">:</span> <span class="s2">&quot;Ds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;111&quot;</span><span class="p">:</span> <span class="s2">&quot;Rg&quot;</span><span class="p">,</span> <span class="s2">&quot;112&quot;</span><span class="p">:</span> <span class="s2">&quot;Uub&quot;</span><span class="p">,</span> <span class="s2">&quot;113&quot;</span><span class="p">:</span> <span class="s2">&quot;Uut&quot;</span><span class="p">,</span> <span class="s2">&quot;114&quot;</span><span class="p">:</span> <span class="s2">&quot;Uuq&quot;</span><span class="p">,</span> <span class="s2">&quot;115&quot;</span><span class="p">:</span> <span class="s2">&quot;Uup&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;116&quot;</span><span class="p">:</span> <span class="s2">&quot;Uuh&quot;</span><span class="p">,</span> <span class="s2">&quot;117&quot;</span><span class="p">:</span> <span class="s2">&quot;Uus&quot;</span><span class="p">,</span> <span class="s2">&quot;118&quot;</span><span class="p">:</span> <span class="s2">&quot;Uuo&quot;</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_getEnergy</span><span class="p">(</span><span class="n">structure</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract the energy of the logfile.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    structure: str</span>
+<span class="sd">        info of the structure # TODO: check this, I don&#39;t know.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (float) DFT energy found by gaussian. Otherwise, it returns 1000.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">structure</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot; SCF Done:&quot;</span><span class="p">):</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; +&quot;</span><span class="p">,</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="mf">1000.0</span>
+
+
+<span class="k">def</span> <span class="nf">_findInList</span><span class="p">(</span><span class="n">dataList</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find something in a list # TODO: correct this, I put something random</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    dataList:</span>
+<span class="sd">        List of data</span>
+<span class="sd">    target:</span>
+<span class="sd">        target</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (float?) target in the list.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataList</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">dataList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">i</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+
+<span class="k">def</span> <span class="nf">_getCoordinates</span><span class="p">(</span><span class="n">dataList</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    # TODO: Add definition</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    dataList:</span>
+<span class="sd">        # TODO: add documentation of this parameter</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    # TODO: add return information</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">_findInList</span><span class="p">(</span><span class="n">dataList</span><span class="p">,</span> <span class="s2">&quot;Standard orientation&quot;</span><span class="p">)</span>
+    <span class="n">dataList</span> <span class="o">=</span> <span class="n">dataList</span><span class="p">[</span><span class="n">start</span> <span class="o">+</span> <span class="mi">5</span><span class="p">:]</span>
+    <span class="n">dataList</span> <span class="o">=</span> <span class="n">dataList</span><span class="p">[:</span> <span class="n">_findInList</span><span class="p">(</span><span class="n">dataList</span><span class="p">,</span> <span class="s2">&quot;-----&quot;</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">dataList</span>
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="log2xyz">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.g09_xyz.log2xyz">[docs]</a>
+<span class="k">def</span> <span class="nf">log2xyz</span><span class="p">(</span><span class="n">finput</span><span class="p">,</span> <span class="n">foutput</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract the configuration of minumum energy from a .log gaussian file of an</span>
+<span class="sd">    optimization process in a xyz file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    finput: str</span>
+<span class="sd">        path to the log file.</span>
+<span class="sd">    foutput: str. Default=None # TODO: check default value</span>
+<span class="sd">        name of the output file without extension.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    # TODO: add return information</span>
+
+<span class="sd">    Note: if foutput is not given, the name output will be the same than the</span>
+<span class="sd">    input but with xyz extension.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">infoBlock</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">optimized</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">optimized_structure</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">finput</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fin</span><span class="p">:</span>
+        <span class="n">isStructure</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">isInfo</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">structures</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">currentStructure</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fin</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot; GradGrad&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">isInfo</span><span class="p">:</span>
+                    <span class="n">isInfo</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">currentStructure</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                    <span class="n">structures</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">_getEnergy</span><span class="p">(</span><span class="n">currentStructure</span><span class="p">),</span>
+                                       <span class="n">currentStructure</span><span class="p">))</span>
+                    <span class="n">currentStructure</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">isStructure</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">isStructure</span>
+            <span class="k">elif</span> <span class="n">isInfo</span><span class="p">:</span>
+                <span class="n">infoBlock</span> <span class="o">+=</span> <span class="n">line</span>
+            <span class="k">elif</span> <span class="n">isStructure</span><span class="p">:</span>
+                <span class="n">currentStructure</span> <span class="o">+=</span> <span class="n">line</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;Optimized&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">optimized</span><span class="p">:</span>
+                    <span class="n">optimized</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">optimized_structure</span> <span class="o">=</span> <span class="n">structures</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">break</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">optimized</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">currentStructure</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">structures</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">_getEnergy</span><span class="p">(</span><span class="n">currentStructure</span><span class="p">),</span>
+                                   <span class="n">currentStructure</span><span class="p">))</span>
+            <span class="n">structures</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">optimized_structure</span> <span class="o">=</span> <span class="n">structures</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">dataList</span> <span class="o">=</span> <span class="n">optimized_structure</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">_getCoordinates</span><span class="p">(</span><span class="n">dataList</span><span class="p">)</span>
+    <span class="n">mol_pos</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">mol_anames</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">atoms</span><span class="p">:</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">atom</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">symbol</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;X&#39;</span><span class="p">)</span>
+        <span class="n">mol_pos</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">4</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">5</span><span class="p">])])</span>
+        <span class="n">mol_anames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span>
+
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">Atoms</span><span class="p">(</span><span class="n">mol_anames</span><span class="p">,</span> <span class="n">mol_pos</span><span class="p">)</span>
+    <span class="n">ms</span> <span class="o">=</span> <span class="n">MoleculeSetter</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">indexes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">index3</span><span class="o">=</span><span class="n">indexes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">atoms</span>
+
+    <span class="k">if</span> <span class="n">foutput</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">foutput</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">finput</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+
+    <span class="n">foutput</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;.xyz&quot;</span>
+    <span class="n">write</span><span class="p">(</span><span class="n">foutput</span><span class="p">,</span> <span class="n">atoms</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">atoms</span></div>
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="log2xyz2">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.g09_xyz.log2xyz2">[docs]</a>
+<span class="k">def</span> <span class="nf">log2xyz2</span><span class="p">(</span><span class="n">finput</span><span class="p">,</span> <span class="n">foutput</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">frame</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">finput</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">frame</span><span class="p">)</span>
+
+    <span class="n">ms</span> <span class="o">=</span> <span class="n">MoleculeSetter</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">indexes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">index3</span><span class="o">=</span><span class="n">indexes</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">atoms</span>
+
+    <span class="k">if</span> <span class="n">foutput</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">foutput</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">finput</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+
+    <span class="n">foutput</span> <span class="o">=</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s2">&quot;.xyz&quot;</span>
+    <span class="n">write</span><span class="p">(</span><span class="n">foutput</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;xyz&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">atoms</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

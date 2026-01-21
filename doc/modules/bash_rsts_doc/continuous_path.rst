@@ -3,6 +3,8 @@
 continuous_path
 ===============
 
+
+
 .. container:: bash-script-title
 
    :ref:`[script] <continuous_path>` **sith/g09_stretching/from_extreme/continuous_path.sh**

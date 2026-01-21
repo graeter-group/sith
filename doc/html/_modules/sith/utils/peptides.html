@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.utils.peptides &mdash; sith</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+        <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+        <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sith.utils.peptides</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sith.utils.peptides</h1><div class="highlight"><pre>
+<span></span><span class="c1"># TODO: move to moleculeAnalysis</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">ase.io</span> <span class="kn">import</span> <span class="n">read</span>
+<span class="kn">from</span> <span class="nn">sith.utils.molecules</span> <span class="kn">import</span> <span class="n">MoleculeSetter</span>
+
+
+<div class="viewcode-block" id="PepSetter">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.peptides.PepSetter">[docs]</a>
+<span class="k">class</span> <span class="nc">PepSetter</span><span class="p">(</span><span class="n">MoleculeSetter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The equivalent to but used specifically for proteins.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    pdb_file: str or path</span>
+<span class="sd">        path to the pdb file containing the information of the protein.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pdb_file</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">pdb_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">pdb_file</span>
+
+        <span class="n">MoleculeSetter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>
+        <span class="n">indexes_aminos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s1">&#39;residuenumbers&#39;</span><span class="p">]</span>
+        <span class="n">names_aminos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s1">&#39;residuenames&#39;</span><span class="p">]</span>
+        <span class="n">indexes_atoms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name_atoms_raw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s1">&#39;atomtypes&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">atom_names</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amino_name</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atom_indexes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indexes_aminos</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">amino_name</span><span class="p">[</span><span class="n">indexes_aminos</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> \
+                <span class="n">names_aminos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">atom_names</span><span class="p">[</span><span class="n">indexes_aminos</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">atom_indexes</span><span class="p">[</span><span class="n">indexes_aminos</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">indexes_aminos</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indexes_aminos</span><span class="p">)):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">indexes_aminos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">atom_names</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name_atoms_raw</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">atom_indexes</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indexes_atoms</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">name_atoms_raw</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">indexes_atoms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<div class="viewcode-block" id="PepSetter.compute_dihedrals">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.peptides.PepSetter.compute_dihedrals">[docs]</a>
+    <span class="k">def</span> <span class="nf">compute_dihedrals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atom1index</span><span class="p">,</span> <span class="n">atom2index</span><span class="p">,</span> <span class="n">atom3index</span><span class="p">,</span>
+                          <span class="n">atom4index</span><span class="p">,</span> <span class="n">structure</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the dihedral angle between 4 atoms. Consider the nexts facts:</span>
+<span class="sd">        - The dihedral is defined here as the angle between the projection of</span>
+<span class="sd">        the vector 2-&gt;1 and 3-&gt;4 in the plane generated by the normal vector</span>
+<span class="sd">        3-&gt;2.</span>
+<span class="sd">        - The zero of the angle is set at the projection of 2-&gt;1.</span>
+<span class="sd">        - The positive direction of the angle is clock-wise (left-hand-rule</span>
+<span class="sd">        respect to the normal vector) and its range is [-pi, pi].</span>
+<span class="sd">        - The atoms do not have to be bonded.</span>
+<span class="sd">        - vmd also meassures dihedrals as it is explained here.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        atom1index: int</span>
+<span class="sd">            index of the atom 1 in 1-based convention.</span>
+<span class="sd">        atom2index: int</span>
+<span class="sd">            index of the atom 2 in 1-based convention.</span>
+<span class="sd">        atom3index: int</span>
+<span class="sd">            index of the atom 3 in 1-based convention.</span>
+<span class="sd">        atom4index: int</span>
+<span class="sd">            index of the atom 4 in 1-based convention.</span>
+<span class="sd">        structure: ase.Atoms. Default=None</span>
+<span class="sd">            Structure to obtain the dihedrals. This has to be the same peptide</span>
+<span class="sd">            chemistry than the basis.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        dihedral: float</span>
+<span class="sd">            dihedral angle as defined in the description in radians.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">structure</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">atoms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">atoms</span> <span class="o">=</span> <span class="n">structure</span>
+        <span class="c1"># axis of rotation of the dihedral angle</span>
+        <span class="n">posat1</span> <span class="o">=</span> <span class="n">atoms</span><span class="p">[</span><span class="n">atom1index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">posat2</span> <span class="o">=</span> <span class="n">atoms</span><span class="p">[</span><span class="n">atom2index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">posat3</span> <span class="o">=</span> <span class="n">atoms</span><span class="p">[</span><span class="n">atom3index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">posat4</span> <span class="o">=</span> <span class="n">atoms</span><span class="p">[</span><span class="n">atom4index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">posat3</span> <span class="o">-</span> <span class="n">posat2</span>
+        <span class="c1"># vector 2-&gt;1</span>
+        <span class="n">axis1</span> <span class="o">=</span> <span class="n">posat1</span> <span class="o">-</span> <span class="n">posat2</span>
+        <span class="c1"># vector 3-&gt;4</span>
+        <span class="n">axis2</span> <span class="o">=</span> <span class="n">posat4</span> <span class="o">-</span> <span class="n">posat3</span>
+
+        <span class="c1"># projection in the plane generated by axis</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">axis1</span> <span class="o">-</span> <span class="n">axis</span> <span class="o">*</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">axis1</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">axis</span><span class="p">),</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">axis2</span> <span class="o">-</span> <span class="n">axis</span> <span class="o">*</span> <span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">axis2</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">axis</span><span class="p">),</span> <span class="mi">6</span><span class="p">))</span>
+
+        <span class="n">lena</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">lenb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="c1"># value of the angle</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">lena</span> <span class="o">*</span> <span class="n">lenb</span><span class="p">)))</span>
+        <span class="c1"># sign of the angle</span>
+        <span class="n">cross</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="n">sign</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cross</span><span class="p">,</span> <span class="n">axis</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">sign</span> <span class="o">*</span> <span class="n">theta</span></div>
+
+
+<div class="viewcode-block" id="PepSetter.compute_angle">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.peptides.PepSetter.compute_angle">[docs]</a>
+    <span class="k">def</span> <span class="nf">compute_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atom1index</span><span class="p">,</span> <span class="n">atom2index</span><span class="p">,</span> <span class="n">atom3index</span><span class="p">,</span>
+                      <span class="n">structure</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the angle between 3 atoms. Consider the nexts facts:</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        atom1index: int</span>
+<span class="sd">            index of the atom 1 in 1-based convention.</span>
+<span class="sd">        atom2index: int</span>
+<span class="sd">            index of the atom 2 in 1-based convention.</span>
+<span class="sd">        atom3index: int</span>
+<span class="sd">            index of the atom 3 in 1-based convention.</span>
+<span class="sd">        structure: ase.Atoms. Default=None</span>
+<span class="sd">            Structure to obtain the dihedrals. This has to be the same peptide</span>
+<span class="sd">            chemistry than the basis.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (float) Angle as defined in the description in radians.</span>
+
+<span class="sd">        - The index 2 should correspond to the atom in the vertex.</span>
+<span class="sd">        - The angle is always positive and its range is [0, pi].</span>
+<span class="sd">        - The atoms do not have to be bonded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">structure</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">atoms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">atoms</span> <span class="o">=</span> <span class="n">structure</span>
+        <span class="c1"># axis of rotation of the dihedral angle</span>
+        <span class="n">posat1</span> <span class="o">=</span> <span class="n">atoms</span><span class="p">[</span><span class="n">atom1index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">posat2</span> <span class="o">=</span> <span class="n">atoms</span><span class="p">[</span><span class="n">atom2index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">posat3</span> <span class="o">=</span> <span class="n">atoms</span><span class="p">[</span><span class="n">atom3index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+
+        <span class="c1"># vector 2-&gt;3</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">posat3</span> <span class="o">-</span> <span class="n">posat2</span>
+        <span class="c1"># vector 2-&gt;1</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">posat1</span> <span class="o">-</span> <span class="n">posat2</span>
+
+        <span class="c1"># projection in the plane generated by axis</span>
+
+        <span class="n">lena</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">lenb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="c1"># value of the angle</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">lena</span> <span class="o">*</span> <span class="n">lenb</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">theta</span></div>
+
+
+<div class="viewcode-block" id="PepSetter.endo_exo_proline">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.peptides.PepSetter.endo_exo_proline">[docs]</a>
+    <span class="k">def</span> <span class="nf">endo_exo_proline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the dihedral angles a1=(N, Ca, Cb, Cg) and a2=(Cb, Ca, N, Cd)</span>
+<span class="sd">        in proline amino acids of the peptide. This angles meassure the</span>
+<span class="sd">        endo-exo states, which must be given by the combination</span>
+<span class="sd">        [a1 positive, a2 approx 0] for exo, or [a1 negative, a2 approx 0] for</span>
+<span class="sd">        endo. &#39;a&#39;, &#39;b&#39;, &#39;g&#39;, and &#39;d&#39; means &#39;aplha&#39;, &#39;beta&#39;, &#39;gamma&#39; and &#39;delta&#39;</span>
+<span class="sd">        respectively.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (numpy.ndarray) [#prolines x (angle1, angle2)] set of angles 1 and 2 in</span>
+<span class="sd">        each proline.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">prolines</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                            <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amino_name</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="o">==</span> <span class="s1">&#39;PRO&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prolines</span><span class="p">:</span>
+            <span class="n">isolated_proline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">angle1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_dihedrals</span><span class="p">(</span><span class="n">isolated_proline</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">],</span>
+                                            <span class="n">isolated_proline</span><span class="p">[</span><span class="s1">&#39;CA&#39;</span><span class="p">],</span>
+                                            <span class="n">isolated_proline</span><span class="p">[</span><span class="s1">&#39;CB&#39;</span><span class="p">],</span>
+                                            <span class="n">isolated_proline</span><span class="p">[</span><span class="s1">&#39;CG&#39;</span><span class="p">])</span>
+
+            <span class="n">angle2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_dihedrals</span><span class="p">(</span><span class="n">isolated_proline</span><span class="p">[</span><span class="s1">&#39;CB&#39;</span><span class="p">],</span>
+                                            <span class="n">isolated_proline</span><span class="p">[</span><span class="s1">&#39;CA&#39;</span><span class="p">],</span>
+                                            <span class="n">isolated_proline</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">],</span>
+                                            <span class="n">isolated_proline</span><span class="p">[</span><span class="s1">&#39;CD&#39;</span><span class="p">])</span>
+
+            <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="p">[[</span><span class="n">angle1</span><span class="p">,</span> <span class="n">angle2</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PepSetter.build_proline_state">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.peptides.PepSetter.build_proline_state">[docs]</a>
+    <span class="k">def</span> <span class="nf">build_proline_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aminoacid</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes a defined peptide with prolines and changes the prolines to endo</span>
+<span class="sd">        or exo states.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        aminoacid: int</span>
+<span class="sd">            number of the aminoacid to modify. It has to correspond with a</span>
+<span class="sd">            proline aminoacid.</span>
+<span class="sd">        state: str</span>
+<span class="sd">            &#39;endo&#39; or &#39;exo&#39;. States of the proline.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        atoms: ase.Atoms object</span>
+<span class="sd">            Atoms object with the modified structure.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># test for proline</span>
+        <span class="n">name_atoms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">aminoacid</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_atoms</span><span class="p">)</span> <span class="o">==</span> <span class="mi">14</span><span class="p">,</span> <span class="s2">&quot;wrong amino acid, check that the&quot;</span> <span class="o">+</span> \
+            <span class="sa">f</span><span class="s2">&quot;residue number </span><span class="si">{</span><span class="n">aminoacid</span><span class="si">}</span><span class="s2"> is a proline and not another one.&quot;</span>
+
+        <span class="n">proline_atoms</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;CD&#39;</span><span class="p">,</span> <span class="s1">&#39;HD1&#39;</span><span class="p">,</span> <span class="s1">&#39;HD2&#39;</span><span class="p">,</span> <span class="s1">&#39;CG&#39;</span><span class="p">,</span> <span class="s1">&#39;HG1&#39;</span><span class="p">,</span> <span class="s1">&#39;HG2&#39;</span><span class="p">,</span> <span class="s1">&#39;CB&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;HB1&#39;</span><span class="p">,</span> <span class="s1">&#39;HB2&#39;</span><span class="p">,</span> <span class="s1">&#39;CA&#39;</span><span class="p">,</span> <span class="s1">&#39;HA&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;O&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">proline_atoms</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">name_atoms</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;it seems that </span><span class="si">{</span><span class="n">atom</span><span class="si">}</span><span class="s2"> is not &quot;</span> <span class="o">+</span> \
+                <span class="sa">f</span><span class="s2">&quot;defined in your pdb for the </span><span class="si">{</span><span class="n">aminoacid</span><span class="si">}</span><span class="s2"> residue.&quot;</span>
+
+        <span class="c1"># defining ring atoms indexes:</span>
+        <span class="n">ca</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">aminoacid</span><span class="p">][</span><span class="s1">&#39;CA&#39;</span><span class="p">]</span>
+        <span class="n">cb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">aminoacid</span><span class="p">][</span><span class="s1">&#39;CB&#39;</span><span class="p">]</span>
+        <span class="n">cg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">aminoacid</span><span class="p">][</span><span class="s1">&#39;CG&#39;</span><span class="p">]</span>
+        <span class="n">hg1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">aminoacid</span><span class="p">][</span><span class="s1">&#39;HG1&#39;</span><span class="p">]</span>
+        <span class="n">hg2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">aminoacid</span><span class="p">][</span><span class="s1">&#39;HG2&#39;</span><span class="p">]</span>
+        <span class="n">cd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">aminoacid</span><span class="p">][</span><span class="s1">&#39;CD&#39;</span><span class="p">]</span>
+        <span class="n">hd1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">aminoacid</span><span class="p">][</span><span class="s1">&#39;HD1&#39;</span><span class="p">]</span>
+        <span class="n">hd2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">aminoacid</span><span class="p">][</span><span class="s1">&#39;HD2&#39;</span><span class="p">]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">aminoacid</span><span class="p">][</span><span class="s1">&#39;N&#39;</span><span class="p">]</span>
+
+        <span class="c1"># align Ca N  CB in the same plane with Ca N in the x axis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">ca</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">cb</span><span class="p">)</span>
+        <span class="c1"># move Cd to the xy plane</span>
+        <span class="n">vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="n">cd</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">trans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">align_plane</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">apply_trans</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="p">[</span><span class="n">cd</span><span class="p">,</span> <span class="n">hd1</span><span class="p">,</span> <span class="n">hd2</span><span class="p">])</span>
+
+        <span class="c1"># move Cg to the xy plane</span>
+        <span class="n">vec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="n">cg</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">trans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">align_plane</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">apply_trans</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">indexes</span><span class="o">=</span><span class="p">[</span><span class="n">cg</span><span class="p">,</span> <span class="n">hg1</span><span class="p">,</span> <span class="n">hg2</span><span class="p">])</span>
+
+        <span class="c1"># align cb, cd in the x axis, cg in the xy plane</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">cb</span><span class="p">,</span> <span class="n">cd</span><span class="p">,</span> <span class="n">cg</span><span class="p">)</span>
+
+        <span class="c1"># endo-exo state</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="s1">&#39;endo&#39;</span><span class="p">:</span>
+            <span class="n">bending</span> <span class="o">=</span> <span class="o">-</span><span class="mi">30</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span>
+        <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="s1">&#39;exo&#39;</span><span class="p">:</span>
+            <span class="n">bending</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The state of proline has to be either endo&quot;</span>
+                             <span class="s2">&quot; or exo&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">apply_trans</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rot_x</span><span class="p">(</span><span class="n">bending</span><span class="p">),</span>
+                         <span class="n">indexes</span><span class="o">=</span><span class="p">[</span><span class="n">cg</span><span class="p">,</span> <span class="n">hg1</span><span class="p">,</span> <span class="n">hg2</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span></div>
+
+
+<div class="viewcode-block" id="PepSetter.rama_phi_psi">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.peptides.PepSetter.rama_phi_psi">[docs]</a>
+    <span class="k">def</span> <span class="nf">rama_phi_psi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">traj</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute ramachandran angles of the peptide in degrees. It assumes</span>
+<span class="sd">        there are ACE and NME capping atoms.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        traj: array-like. Default=None</span>
+<span class="sd">            chain of ase.Atoms.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (array) [#CA x 2float] dihedral angles per alpha carbon for</span>
+<span class="sd">        Ramachandran plot.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">traj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">traj</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">]</span>
+
+        <span class="n">angles_traj</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">structure</span> <span class="ow">in</span> <span class="n">traj</span><span class="p">:</span>
+            <span class="n">angles</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ACE&#39;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">)):</span>
+                    <span class="n">phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_dihedrals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;N&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;CA&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">],</span>
+                                                 <span class="n">structure</span><span class="o">=</span><span class="n">structure</span><span class="p">)</span>
+                    <span class="n">psi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_dihedrals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s1">&#39;N&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;CA&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;N&#39;</span><span class="p">],</span>
+                                                 <span class="n">structure</span><span class="o">=</span><span class="n">structure</span><span class="p">)</span>
+                    <span class="n">angles</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">phi</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">psi</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">])</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">amino_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;NME&#39;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">)):</span>
+                    <span class="n">phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_dihedrals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;N&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;CA&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">],</span>
+                                                 <span class="n">structure</span><span class="o">=</span><span class="n">structure</span><span class="p">)</span>
+                    <span class="n">psi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_dihedrals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="s1">&#39;N&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;C&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;CA&#39;</span><span class="p">],</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;N&#39;</span><span class="p">],</span>
+                                                 <span class="n">structure</span><span class="o">=</span><span class="n">structure</span><span class="p">)</span>
+                    <span class="n">angles</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">phi</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">psi</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">])</span>
+            <span class="n">angles_traj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">angles_traj</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

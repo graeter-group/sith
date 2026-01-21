@@ -86,8 +86,15 @@
 <div class="line">created.</div>
 <div class="line"><br /></div>
 <div class="line-block">
-<div class="line">-c  run in cascade.</div>
-<div class="line">-f  &lt;file&gt; chk file.</div>
+<div class="line">-c  run in cluster.</div>
+<div class="line">-f  &lt;file&gt; chk file or com file to compute the forces from. In case of com</div>
+<div class="line-block">
+<div class="line">file, it is assumed that it contains the right keywords to compute</div>
+<div class="line">forces. In case of chk file, a com file is created with the right</div>
+<div class="line">keywords to compute forces and replacing &lt;pattern&gt; with the word</div>
+<div class="line">‘forces’.</div>
+</div>
+<div class="line">-n  &lt;n_processors=1&gt; number of processors to be used in the gaussian job.</div>
 <div class="line">-p  &lt;pattern&gt; pattern present in the chk files that will be replaced with the</div>
 <div class="line-block">
 <div class="line">word ‘forces’.</div>
@@ -99,7 +106,6 @@
 </div>
 <div class="line">Note</div>
 <div class="line">—-</div>
-<div class="line"><br /></div>
 <div class="line-block">
 <div class="line">Take care with the  files that already exist in the directory ‘forces’. They</div>
 <div class="line">may be overwritten.</div>

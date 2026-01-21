@@ -3,6 +3,8 @@
 opt_and_forces
 ==============
 
+
+
 .. container:: bash-script-title
 
    :ref:`[script] <opt_and_forces>` **sith/g09_stretching/from_extreme/opt_and_forces.sh**
@@ -22,9 +24,13 @@ opt_and_forces
         -F  use this flag fo AVIOD force calculation after optimization.
         -p  <processors=1> number of processors per gaussian job. See description of
             flag -c.
+        -P  <pattern='conopt'> pattern to be replaced by 'forces' in the name of the
+            output files of the optimization when submitting the forces.
         -S  <job_options=''> options for submitting a new job. This flag only makes
             sense in slurm cluster. Please, do not include a name and add the options
             as in the next example: "--partition=cpu --nice".
+        -r  if the optimization did not converge, restart it from the last
+            geometry. 
       
         -v  verbose.
         -h  prints this message.

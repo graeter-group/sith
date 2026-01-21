@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.utils.compare_siths &mdash; sith</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+        <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+        <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sith.utils.compare_siths</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sith.utils.compare_siths</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="index_dof">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.compare_siths.index_dof">[docs]</a>
+<span class="k">def</span> <span class="nf">index_dof</span><span class="p">(</span><span class="n">sith</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Search the index of a specific dof.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    sith: sith.SITH</span>
+<span class="sd">        SITH object.</span>
+<span class="sd">    target: np.ndarray</span>
+<span class="sd">        degree of freedom.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (int) index</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dof</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">):</span>
+        <span class="n">dof_wo_0</span> <span class="o">=</span> <span class="n">dof</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">dof</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">target_wo_0</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">target</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dof_wo_0</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target_wo_0</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">dof_wo_0</span> <span class="o">==</span> <span class="n">target_wo_0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> <span class="ow">or</span> \
+           <span class="p">(</span><span class="n">dof_wo_0</span> <span class="o">==</span> <span class="n">target_wo_0</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">i</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Non-found dof.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="organize_lengths">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.compare_siths.organize_lengths">[docs]</a>
+<span class="k">def</span> <span class="nf">organize_lengths</span><span class="p">(</span><span class="n">sith1</span><span class="p">,</span> <span class="n">sith2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    sort the distances in sith1 such that they fit with sith2.</span>
+<span class="sd">    # TODO: confirm that the description is correct and it is</span>
+<span class="sd">    # not the other way arround</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    sith1: sith.SITH</span>
+<span class="sd">        obtject of reference.</span>
+<span class="sd">    sith2: sith.SITH</span>
+<span class="sd">        object to be compared.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (numpy.array) set of sorted indexes that makes the distance of sith2 to</span>
+<span class="sd">    coincide with the distances of sith1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_distances</span> <span class="o">=</span> <span class="n">sith2</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">reorder</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sith1</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">[:</span><span class="n">n_distances</span><span class="p">]):</span>
+        <span class="n">new_index</span> <span class="o">=</span> <span class="n">index_dof</span><span class="p">(</span><span class="n">sith2</span><span class="p">,</span> <span class="n">dof</span><span class="p">)</span>
+        <span class="n">reorder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_index</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">reorder</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="extract_common">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.compare_siths.extract_common">[docs]</a>
+<span class="k">def</span> <span class="nf">extract_common</span><span class="p">(</span><span class="n">sith1</span><span class="p">,</span> <span class="n">sith2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds the DOfs that are in common in both sith objects</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    sith1: sith.SITH</span>
+<span class="sd">        obtject of reference.</span>
+<span class="sd">    sith2: sith.SITH</span>
+<span class="sd">        object to be compared.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (tuple), list of indexes in sith1 that are in sith2, organized list.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sith1_indx</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sith2_indx</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dof</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sith1</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">)):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">new_index</span> <span class="o">=</span> <span class="n">index_dof</span><span class="p">(</span><span class="n">sith2</span><span class="p">,</span> <span class="n">dof</span><span class="p">)</span>
+            <span class="n">sith1_indx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">sith2_indx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_index</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sith1_indx</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sith2_indx</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="extract_diff">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.compare_siths.extract_diff">[docs]</a>
+<span class="k">def</span> <span class="nf">extract_diff</span><span class="p">(</span><span class="n">sith1</span><span class="p">,</span> <span class="n">sith2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds the indexes of the DOfs that are in sith1 that are not in sith2 and</span>
+<span class="sd">    the other way around.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    sith1: sith.SITH</span>
+<span class="sd">        object to compare.</span>
+<span class="sd">    sith2: sith.SITH</span>
+<span class="sd">        object to compare.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (tuple), list of indexes in sith1 that are not in sith2 and list of indexes</span>
+<span class="sd">    in sith2 that are not in sith1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sith1_indx</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sith2_indx</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dof</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sith1</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">)):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">index_dof</span><span class="p">(</span><span class="n">sith2</span><span class="p">,</span> <span class="n">dof</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">sith1_indx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dof</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sith2</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">)):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">index_dof</span><span class="p">(</span><span class="n">sith1</span><span class="p">,</span> <span class="n">dof</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">sith2_indx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sith1_indx</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sith2_indx</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

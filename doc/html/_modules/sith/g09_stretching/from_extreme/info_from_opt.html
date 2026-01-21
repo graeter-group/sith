@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.g09_stretching.from_extreme.info_from_opt &mdash; sith</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+        <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+        <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sith.g09_stretching.from_extreme.info_from_opt</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sith.g09_stretching.from_extreme.info_from_opt</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">ase.io</span> <span class="kn">import</span> <span class="n">read</span>
+<span class="kn">from</span> <span class="nn">sith.utils.miscellaneous</span> <span class="kn">import</span> <span class="n">output_terminal</span>
+<span class="kn">from</span> <span class="nn">sith.utils.molecules</span> <span class="kn">import</span> <span class="n">Alignment</span><span class="p">,</span> <span class="n">MoleculeSetter</span>
+<span class="kn">from</span> <span class="nn">ase.io</span> <span class="kn">import</span> <span class="n">write</span>
+<span class="kn">from</span> <span class="nn">ase</span> <span class="kn">import</span> <span class="n">Atoms</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="info_from_opt">
+<a class="viewcode-back" href="../../../../modules/sith.g09_stretching.from_extreme.html#sith.g09_stretching.from_extreme.info_from_opt.info_from_opt">[docs]</a>
+<span class="k">def</span> <span class="nf">info_from_opt</span><span class="p">(</span><span class="n">logfile</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts configurations from a gaussian optimization trajectory and removes</span>
+<span class="sd">    the structures that are outliers in the total energy.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    logfile: str</span>
+<span class="sd">        gaussian log file.</span>
+<span class="sd">    pattern: str</span>
+<span class="sd">        pattern of the output. The results are xyz files called</span>
+<span class="sd">        &lt;pattern&gt;&lt;i&gt;.xyz</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (ase.Atoms) new trajectory without the outliers. It creates the xyz files</span>
+<span class="sd">    in between.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ====</span>
+<span class="sd">    You can use</span>
+<span class="sd">    :func:`sith.g09_stretching.from_extreme.info_from_opt.reduce_struct` to</span>
+<span class="sd">    make the DOFs of output trajectory continuous.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># read configurations</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">logfile</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="p">[</span><span class="n">conf</span><span class="o">.</span><span class="n">get_potential_energy</span><span class="p">()</span> <span class="k">for</span> <span class="n">conf</span> <span class="ow">in</span> <span class="n">atoms</span><span class="p">]</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">energies</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="c1"># read energies</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="n">output_terminal</span><span class="p">(</span><span class="s2">&quot;grep &#39;SCF Done:&#39; &quot;</span> <span class="o">+</span> <span class="n">logfile</span>
+                                <span class="o">+</span> <span class="s2">&quot; | awk &#39;{print $5}&#39;&quot;</span><span class="p">,</span>
+                                <span class="n">print_output</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">energies</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="c1"># remove configurations that goes up in energy. keep those that goes</span>
+    <span class="c1"># down only. assuming local optimization</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">de</span> <span class="o">=</span> <span class="n">energies</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">energies</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">toremove</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">de</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">toremove</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">toremove</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">atoms</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">energies</span><span class="p">,</span> <span class="n">toremove</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># align all the structures in the same plane. This guarantees that</span>
+    <span class="c1"># the average of two structures is the intermedia structure between them</span>
+    <span class="n">all_atoms</span> <span class="o">=</span> <span class="p">[</span><span class="n">Alignment</span><span class="o">.</span><span class="n">align_with_components</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span> <span class="k">for</span> <span class="n">conf</span> <span class="ow">in</span> <span class="n">atoms</span><span class="p">]</span>
+
+    <span class="c1"># write all the trajectory</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">atoms</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_atoms</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}{:03d}</span><span class="s1">.xyz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="n">atoms</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">all_atoms</span></div>
+
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="continuous_e2e">
+<a class="viewcode-back" href="../../../../modules/sith.g09_stretching.from_extreme.html#sith.g09_stretching.from_extreme.info_from_opt.continuous_e2e">[docs]</a>
+<span class="k">def</span> <span class="nf">continuous_e2e</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">,</span> <span class="n">dir_output</span><span class="o">=</span><span class="s1">&#39;e2e_continuous&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    From a set of configurations in xyz files with pattern</span>
+<span class="sd">    &lt;all&gt;&lt;pattern&gt;&lt;all&gt;.xyz, it guarantees that consecutive changes in the</span>
+<span class="sd">    distance between the atoms with index1 and index2 are lower than 0.2A.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    pattern: str</span>
+<span class="sd">        pattern of the input files. All the files with &lt;all&gt;&lt;pattern&gt;&lt;all&gt;.xyz</span>
+<span class="sd">        will be read.</span>
+<span class="sd">    index1: int</span>
+<span class="sd">        index of the first atom to align in the x axis. 1-base indexing.</span>
+<span class="sd">    index2: int</span>
+<span class="sd">        index of the second atom to align in the x axis. 1-base indexing.</span>
+<span class="sd">    dir_output: str. Default=&#39;e2e_continuous&#39;</span>
+<span class="sd">        directory where to save the output files.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (ase.Atoms) new trajectory with continuous distance between index1 and</span>
+<span class="sd">    index2. It creates the xyz files in dir_output.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_atoms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*</span><span class="si">{pattern}</span><span class="s2">*.xyz&quot;</span><span class="p">)</span>
+    <span class="n">files</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+        <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">all_atoms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+
+    <span class="c1"># choose randomlly an atom betweeen index1 and index2 that is not H and not</span>
+    <span class="c1"># in the x axis</span>
+    <span class="c1"># ==== align all the structures with index1 and index2 in the x axis.</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">conf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_atoms</span><span class="p">):</span>
+        <span class="n">ms</span> <span class="o">=</span> <span class="n">MoleculeSetter</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">)</span>
+        <span class="n">all_atoms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">atoms</span>
+    <span class="c1"># ==== inbetween</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">conf</span><span class="o">.</span><span class="n">get_positions</span><span class="p">()</span> <span class="k">for</span> <span class="n">conf</span> <span class="ow">in</span> <span class="n">all_atoms</span><span class="p">])</span>
+    <span class="n">inbetween</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">positions</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+                               <span class="o">&gt;</span> <span class="n">positions</span><span class="p">[:,</span> <span class="n">index1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                               <span class="n">positions</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+                               <span class="o">&lt;</span> <span class="n">positions</span><span class="p">[:,</span> <span class="n">index2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">inbetween</span> <span class="o">=</span> <span class="n">inbetween</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">inbetween</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">inbetween</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># ==== avoid</span>
+    <span class="n">d_xaxis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">positions</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">positions</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">not_xaxis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">d_xaxis</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># A</span>
+    <span class="c1"># ==== heavy atoms</span>
+    <span class="n">heavys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">all_atoms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_chemical_symbols</span><span class="p">())</span> <span class="o">!=</span> <span class="s1">&#39;H&#39;</span>
+    <span class="c1"># ==== random choice</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">heavys</span><span class="p">,</span> <span class="n">not_xaxis</span><span class="p">)</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">condition</span><span class="p">,</span> <span class="n">inbetween</span><span class="p">)</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">condition</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No heavy atom found between index1 and index2 that&quot;</span>
+                         <span class="s2">&quot;is not in the x axis&quot;</span><span class="p">)</span>
+    <span class="n">index3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="c1"># alignment with 3 atoms. All the configurations are aligned with the</span>
+    <span class="c1"># same 3 atoms. This guarantees that the average of two structures is the</span>
+    <span class="c1"># intermedia structure between them</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">conf</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_atoms</span><span class="p">):</span>
+        <span class="n">ms</span> <span class="o">=</span> <span class="n">MoleculeSetter</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+        <span class="n">ms</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">,</span> <span class="n">index3</span><span class="p">)</span>
+        <span class="n">all_atoms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ms</span><span class="o">.</span><span class="n">atoms</span>
+
+    <span class="c1"># now make the trajectory continuos. if the distance between extremes is</span>
+    <span class="c1"># larger than 0.2A, configurations with the intermedia distances are</span>
+    <span class="c1"># created.</span>
+    <span class="n">new_set</span> <span class="o">=</span> <span class="p">[</span><span class="n">all_atoms</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_atoms</span><span class="p">):</span>
+        <span class="n">conf</span> <span class="o">=</span> <span class="n">all_atoms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">di</span> <span class="o">=</span> <span class="n">new_set</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_distance</span><span class="p">(</span><span class="n">index1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">index2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">conf</span><span class="o">.</span><span class="n">get_distance</span><span class="p">(</span><span class="n">index1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">index2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">deltad</span> <span class="o">=</span> <span class="n">df</span> <span class="o">-</span> <span class="n">di</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">deltad</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.2</span><span class="p">:</span>
+            <span class="n">n_intermedia</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">deltad</span> <span class="o">/</span> <span class="mf">0.2</span><span class="p">))</span>
+            <span class="n">fraction</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_intermedia</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">inbetween</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_intermedia</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">at</span> <span class="o">=</span> <span class="n">Atoms</span><span class="p">(</span><span class="n">conf</span><span class="o">.</span><span class="n">get_chemical_symbols</span><span class="p">(),</span>
+                           <span class="n">positions</span><span class="o">=</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">fraction</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
+                                      <span class="o">*</span> <span class="n">new_set</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span>
+                                      <span class="o">+</span> <span class="p">(</span><span class="n">fraction</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">conf</span><span class="o">.</span><span class="n">positions</span><span class="p">))</span>
+                <span class="n">inbetween</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">at</span><span class="p">)</span>
+            <span class="n">new_set</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">inbetween</span><span class="p">)</span>
+        <span class="n">new_set</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># in case of last configurations does not belong to new_set, it is added</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">all_atoms</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span> <span class="o">!=</span> <span class="n">new_set</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span><span class="p">):</span>
+        <span class="n">new_set</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">all_atoms</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># write all the trajectory</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dir_output</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">atoms</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">new_set</span><span class="p">):</span>
+        <span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}{:03d}</span><span class="s2">.xyz&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dir_output</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">i</span><span class="p">),</span> <span class="n">atoms</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">all_atoms</span></div>
+
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="reduce_structs">
+<a class="viewcode-back" href="../../../../modules/sith.g09_stretching.from_extreme.html#sith.g09_stretching.from_extreme.info_from_opt.reduce_structs">[docs]</a>
+<span class="k">def</span> <span class="nf">reduce_structs</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">print_reduced</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check all the &lt;all&gt;-dofs.dat files and remove those files that represent</span>
+<span class="sd">    irrelevant changes. It creates intermedias to guarantee continuous dofs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    dir: str</span>
+<span class="sd">        path to the directory containing all the &lt;all&gt;-dofs.dat files.</span>
+<span class="sd">    pattern: str</span>
+<span class="sd">        pattern for the output files, all of them will be then</span>
+<span class="sd">        &lt;pattern&gt;&lt;i&gt;.dat</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (numpy.array) new set of DOFs [structure][DOF], which are reduced. In</span>
+<span class="sd">    between, it also creates all &lt;pattern&gt;&lt;i&gt;,dat.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># find dofs files</span>
+    <span class="n">all_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">dir</span><span class="si">}</span><span class="s2">/*-dofs.dat&quot;</span><span class="p">)</span>
+    <span class="n">all_files</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+    <span class="c1"># extract dofs definitions and dofs values</span>
+    <span class="n">dofs_ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">all_files</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;=&#39;</span><span class="p">,</span>
+                          <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;      Variables:&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">nrs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">dofs_ref</span> <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;R&#39;</span><span class="p">])</span>
+    <span class="n">all_dofs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">all_files</span><span class="p">:</span>
+        <span class="n">dofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;=&#39;</span><span class="p">,</span>
+                          <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;      Variables:&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">dofs</span> <span class="o">==</span> <span class="n">dofs_ref</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> \
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> has different dofs than </span><span class="si">{</span><span class="n">all_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">dofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;=&#39;</span><span class="p">,</span>
+                          <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;      Variables:&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">all_dofs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span>
+    <span class="n">all_dofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">all_dofs</span><span class="p">)</span>  <span class="c1"># [struct][dof]</span>
+
+    <span class="c1"># jump to the furthest repeated structure and save the new order in new_set</span>
+    <span class="n">new_set</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># it will contain the indices of the selected indexes</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_files</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">new_set</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="n">d_ij</span> <span class="o">=</span> <span class="p">(</span><span class="n">all_dofs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">all_dofs</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:])</span>
+        <span class="c1"># rescale distances to have them in the same order of magnitude of the</span>
+        <span class="c1"># angles.</span>
+        <span class="n">d_ij</span> <span class="o">=</span> <span class="n">delta_angles_continuous</span><span class="p">(</span><span class="n">d_ij</span><span class="p">,</span> <span class="n">nrs</span><span class="p">)</span>
+        <span class="n">d_ij</span><span class="p">[:,</span> <span class="n">nrs</span><span class="p">:]</span> <span class="o">*=</span> <span class="mf">1e-3</span>  <span class="c1"># trans 1 degree</span>
+        <span class="n">d_ij</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">d_ij</span><span class="p">)</span>
+        <span class="n">close</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">d_ij</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+        <span class="n">by_struc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">close</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">same</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">by_struc</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">j</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">same</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">same</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">new_set</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_files</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">new_set</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">all_files</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">print_reduced</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">new_set</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">all_files</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="c1"># make it continuous</span>
+    <span class="n">subdofs</span> <span class="o">=</span> <span class="n">all_dofs</span><span class="p">[</span><span class="n">new_set</span><span class="p">]</span>
+    <span class="n">search_intermedia</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">while</span> <span class="n">search_intermedia</span><span class="p">:</span>
+        <span class="n">search_intermedia</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># make distances continuous</span>
+        <span class="n">d_ij</span> <span class="o">=</span> <span class="n">subdofs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">subdofs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">d_ij</span> <span class="o">=</span> <span class="n">delta_angles_continuous</span><span class="p">(</span><span class="n">d_ij</span><span class="p">,</span> <span class="n">nrs</span><span class="p">)</span>
+        <span class="c1"># Create intermedias between distances larger than 0.05A or angles</span>
+        <span class="c1"># larger than 10 degrees.</span>
+        <span class="n">condition1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">d_ij</span><span class="p">[:,</span> <span class="p">:</span><span class="n">nrs</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">condition2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">d_ij</span><span class="p">[:,</span> <span class="n">nrs</span><span class="p">:])</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">toModify</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">condition1</span><span class="p">,</span>
+                                          <span class="n">condition2</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">toModify</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">search_intermedia</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="c1"># make angles continuous</span>
+            <span class="n">subdofs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">subdofs</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                <span class="n">d_ij</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">subdofs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># copy relevant files to a directory called subset</span>
+    <span class="n">output_terminal</span><span class="p">(</span><span class="s2">&quot;mkdir -p subset&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">struct</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subdofs</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./subset/</span><span class="si">{}{:03d}</span><span class="s1">.dat&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span>
+                                                 <span class="n">i</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">i_struct_file</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">dof</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">struct</span><span class="p">):</span>
+                <span class="n">i_struct_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dofs_ref</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">dof</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">subdofs</span></div>
+
+
+
+<div class="viewcode-block" id="delta_angles_continuous">
+<a class="viewcode-back" href="../../../../modules/sith.g09_stretching.from_extreme.html#sith.g09_stretching.from_extreme.info_from_opt.delta_angles_continuous">[docs]</a>
+<span class="k">def</span> <span class="nf">delta_angles_continuous</span><span class="p">(</span><span class="n">d_ij</span><span class="p">,</span> <span class="n">nrs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Make the difference of the angles continuous considering the periodicity of</span>
+<span class="sd">    them.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    d_ij: numpy.Array</span>
+<span class="sd">        set of delta dofs with form [structure][DOF]</span>
+<span class="sd">    nrs: int</span>
+<span class="sd">        Number of distances.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (numpy.Array) new set of delta DOFs with delta angles continuous.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    Here, it is assumed that the first &lt;nrs&gt; DOFs in d_ij are distances and</span>
+<span class="sd">    the rest are angles.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="n">d_ij</span><span class="p">[:,</span> <span class="n">nrs</span><span class="p">:]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">180</span>
+    <span class="k">while</span> <span class="n">condition</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="n">d_ij</span><span class="p">[:,</span> <span class="n">nrs</span><span class="p">:][</span><span class="n">condition</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">360</span>
+        <span class="n">condition</span> <span class="o">=</span> <span class="n">d_ij</span><span class="p">[:,</span> <span class="n">nrs</span><span class="p">:]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">180</span>
+    <span class="n">condition</span> <span class="o">=</span> <span class="n">d_ij</span><span class="p">[:,</span> <span class="n">nrs</span><span class="p">:]</span> <span class="o">&gt;</span> <span class="mi">180</span>
+    <span class="k">while</span> <span class="n">condition</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="n">d_ij</span><span class="p">[:,</span> <span class="n">nrs</span><span class="p">:][</span><span class="n">condition</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">360</span>
+        <span class="n">condition</span> <span class="o">=</span> <span class="n">d_ij</span><span class="p">[:,</span> <span class="n">nrs</span><span class="p">:]</span> <span class="o">&gt;</span> <span class="mi">180</span>
+    <span class="k">return</span> <span class="n">d_ij</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

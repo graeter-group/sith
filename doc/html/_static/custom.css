@@ -32,3 +32,7 @@
 .bashscript .headerlink {
     display: none !important;
 }
+
+.wy-nav-content {
+    max-width: none;
+}

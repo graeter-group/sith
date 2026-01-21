@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.g09_stretching.change_dofs &mdash; sith</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+        <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+        <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sith.g09_stretching.change_dofs</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sith.g09_stretching.change_dofs</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sith.utils.peptides</span> <span class="kn">import</span> <span class="n">PepSetter</span>
+<span class="kn">from</span> <span class="nn">sith.utils.miscellaneous</span> <span class="kn">import</span> <span class="n">output_terminal</span>
+<span class="kn">from</span> <span class="nn">ase.io</span> <span class="kn">import</span> <span class="n">read</span><span class="p">,</span> <span class="n">write</span>
+<span class="kn">from</span> <span class="nn">pytest</span> <span class="kn">import</span> <span class="n">approx</span>
+<span class="kn">from</span> <span class="nn">sith.utils.tools</span> <span class="kn">import</span> <span class="n">conf2pdb</span>
+
+
+<div class="viewcode-block" id="permute_atoms">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.permute_atoms">[docs]</a>
+<span class="k">def</span> <span class="nf">permute_atoms</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">indexes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Permutes two atoms in an Atoms object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    atoms: ase.Atoms</span>
+<span class="sd">        atoms object to be permuted.</span>
+<span class="sd">    indexes: list</span>
+<span class="sd">        list of two indexes to be permuted (1-based).</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (ase.Atoms) permuted atoms object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">indexes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">indexes</span><span class="p">)</span>
+    <span class="n">indexes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+    <span class="n">atoms</span> <span class="o">=</span> <span class="p">(</span><span class="n">atoms</span><span class="p">[:</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">atoms</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">atoms</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">atoms</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="o">+</span> <span class="n">atoms</span><span class="p">[</span><span class="n">indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">]:])</span>
+
+    <span class="k">return</span> <span class="n">atoms</span></div>
+
+
+
+<div class="viewcode-block" id="extract_dofs">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.extract_dofs">[docs]</a>
+<span class="k">def</span> <span class="nf">extract_dofs</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">atoms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts the distance, angle and dihedral defined by the given indexes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    indexes: list</span>
+<span class="sd">        list of four indexes (1-based) defining the distance (between the</span>
+<span class="sd">        first two indices), angle (between the first three indices) and</span>
+<span class="sd">        dihedral (the four indices) you want to compute.</span>
+<span class="sd">    atoms: ase.Atoms</span>
+<span class="sd">        atoms of a given configuration.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (tuple) distance, angle and dihedral defined by the given indexes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">((</span><span class="n">indexes</span><span class="p">))):</span>
+        <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">indexes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">get_distance</span><span class="p">(</span><span class="o">*</span><span class="n">indexes</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">get_angle</span><span class="p">(</span><span class="o">*</span><span class="n">indexes</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">dihedral</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">get_dihedral</span><span class="p">(</span><span class="o">*</span><span class="n">indexes</span><span class="p">)</span>
+    <span class="c1"># dihedral in range -180 to 180</span>
+    <span class="k">while</span> <span class="n">dihedral</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">:</span>
+        <span class="n">dihedral</span> <span class="o">-=</span> <span class="mi">360</span>
+
+    <span class="k">return</span> <span class="n">distance</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">dihedral</span></div>
+
+
+
+<div class="viewcode-block" id="test_dofs">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.test_dofs">[docs]</a>
+<span class="k">def</span> <span class="nf">test_dofs</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;&quot;</span>
+<span class="sd">    Tests that the distance, angle and dihedral defined by the given indexes</span>
+<span class="sd">    correspond to those in the given file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    atoms: ase.Atoms</span>
+<span class="sd">        atoms of a given configuration.</span>
+<span class="sd">    indexes: list</span>
+<span class="sd">        Indexes (1-based) of an atom in the z-matrix that contains the</span>
+<span class="sd">        distance, angle and dihedral.</span>
+<span class="sd">    file: str</span>
+<span class="sd">        file where the distance, angle and dihedral are stored.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (bool) True if the test passes. It raises an assertion error if the values</span>
+<span class="sd">    do not</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">indexes</span> <span class="o">=</span> <span class="n">output_terminal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;grep &#39;,R</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">,&#39; </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> | &quot;</span> <span class="o">+</span>
+                            <span class="s2">&quot;awk -F &#39;,&#39; &#39;{print $2, $4, $6}&#39;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">indexes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">]</span>
+    <span class="n">indexes</span> <span class="o">=</span> <span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">+</span> <span class="n">indexes</span>
+
+    <span class="n">dist</span><span class="p">,</span> <span class="n">angl</span><span class="p">,</span> <span class="n">dihe</span> <span class="o">=</span> <span class="n">extract_dofs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">indexes</span><span class="p">),</span> <span class="n">atoms</span><span class="p">)</span>
+    <span class="n">old_dist</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">output_terminal</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sed -n &quot;/R</span><span class="si">{</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">=/p&quot; </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s1">&#39;</span>
+                                    <span class="o">+</span> <span class="s1">&#39; | cut -d = -f 2&#39;</span><span class="p">,</span> <span class="n">print_output</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">old_angl</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">output_terminal</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sed -n &quot;/A</span><span class="si">{</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">=/p&quot; </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s1">&#39;</span>
+                                    <span class="o">+</span> <span class="s1">&#39; | cut -d = -f 2&#39;</span><span class="p">,</span> <span class="n">print_output</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">old_dihe</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">output_terminal</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sed -n &quot;/D</span><span class="si">{</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">=/p&quot; </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s1">&#39;</span>
+                                    <span class="o">+</span> <span class="s1">&#39; | cut -d = -f 2&#39;</span><span class="p">,</span> <span class="n">print_output</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+    <span class="k">assert</span> <span class="n">old_dist</span> <span class="o">==</span> <span class="n">approx</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="nb">abs</span><span class="o">=</span><span class="mf">3e-2</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;R</span><span class="si">{</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">old_dist</span><span class="si">}</span><span class="s2">) &quot;</span> <span class="o">+</span>\
+        <span class="sa">f</span><span class="s2">&quot;does not correspond to the expected from the xyz file(</span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="k">assert</span> <span class="n">old_angl</span> <span class="o">==</span> <span class="n">approx</span><span class="p">(</span><span class="n">angl</span><span class="p">,</span> <span class="nb">abs</span><span class="o">=</span><span class="mf">5e-1</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;A</span><span class="si">{</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">old_angl</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="o">+</span>\
+        <span class="sa">f</span><span class="s2">&quot;does not correspond to the expected from the xyz file(</span><span class="si">{</span><span class="n">angl</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="k">assert</span> <span class="n">old_dihe</span> <span class="o">==</span> <span class="n">approx</span><span class="p">(</span><span class="n">dihe</span><span class="p">,</span> <span class="nb">abs</span><span class="o">=</span><span class="mf">5e-1</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;D</span><span class="si">{</span><span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">old_dihe</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="o">+</span>\
+        <span class="sa">f</span><span class="s2">&quot;does not correspond to the expected from the xyz file(</span><span class="si">{</span><span class="n">dihe</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="def_line">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.def_line">[docs]</a>
+<span class="k">def</span> <span class="nf">def_line</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a line defining an atom in a gaussian input comfile.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    indexes: list</span>
+<span class="sd">        list of four indexes (1-based) defining the distance (between the</span>
+<span class="sd">        first two indices), angle (between the first three indices) and</span>
+<span class="sd">        dihedral (the four indices).</span>
+<span class="sd">    element: str</span>
+<span class="sd">        element of the atom you want to define. E.g. &#39;C&#39;, &#39;H&#39;, &#39;O&#39;, etc.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (str) line defining the atom in a gaussian input comfile.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">a3</span><span class="p">,</span> <span class="n">a4</span> <span class="o">=</span> <span class="n">indexes</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">element</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">a2</span><span class="si">}</span><span class="s1">,R</span><span class="si">{</span><span class="n">a1</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">a3</span><span class="si">}</span><span class="s1">,A</span><span class="si">{</span><span class="n">a1</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">a4</span><span class="si">}</span><span class="s1">,D</span><span class="si">{</span><span class="n">a1</span><span class="si">}</span><span class="s1">,0&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="change_def">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.change_def">[docs]</a>
+<span class="k">def</span> <span class="nf">change_def</span><span class="p">(</span><span class="n">new_i</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Changes the definition of a given DOF and updates the comfile including the</span>
+<span class="sd">    value of the DOFs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    new_i: list</span>
+<span class="sd">        list of four indexes (1-based) defining the distance (between the</span>
+<span class="sd">        first two indices), angle (between the first three indices) and</span>
+<span class="sd">        dihedral (the four indices) you want to define.</span>
+<span class="sd">    element: str</span>
+<span class="sd">        element of the atom you want to define. E.g. &#39;C&#39;, &#39;H&#39;, &#39;O&#39;, etc.</span>
+<span class="sd">    atoms: ase.Atoms</span>
+<span class="sd">        atoms of a given configuration.</span>
+<span class="sd">    file: str</span>
+<span class="sd">        gaussian input comfile that you want to modify. Be sure to back up</span>
+<span class="sd">        the original file.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (None) However, it changes the comfile. Be sure to back up the original</span>
+<span class="sd">    file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># All the atoms used to define a new atom should already exist; they</span>
+    <span class="c1"># should have lower index.</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">new_i</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="n">new_i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;At least two atoms have to be swaped. You are trying to &quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;redefine </span><span class="si">{</span><span class="n">new_i</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Create new and old lines</span>
+    <span class="n">new_line</span> <span class="o">=</span> <span class="n">def_line</span><span class="p">(</span><span class="n">new_i</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span>
+
+    <span class="c1"># Find variables</span>
+    <span class="n">tochange</span> <span class="o">=</span> <span class="n">new_i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">new_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_i</span><span class="p">)</span>
+    <span class="n">dist</span><span class="p">,</span> <span class="n">angl</span><span class="p">,</span> <span class="n">dihe</span> <span class="o">=</span> <span class="n">extract_dofs</span><span class="p">(</span><span class="n">new_i</span><span class="p">,</span> <span class="n">atoms</span><span class="p">)</span>
+
+    <span class="c1"># Change value</span>
+    <span class="n">output_terminal</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sed -i &quot;/,R</span><span class="si">{</span><span class="n">tochange</span><span class="si">}</span><span class="s1">,/c\ </span><span class="si">{</span><span class="n">new_line</span><span class="si">}</span><span class="s1">&quot; </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">output_terminal</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sed -i &quot;/R</span><span class="si">{</span><span class="n">tochange</span><span class="si">}</span><span class="s1">=/c\ R</span><span class="si">{</span><span class="n">tochange</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s1">&quot; </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">output_terminal</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sed -i &quot;/A</span><span class="si">{</span><span class="n">tochange</span><span class="si">}</span><span class="s1">=/c\ A</span><span class="si">{</span><span class="n">tochange</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">angl</span><span class="si">}</span><span class="s1">&quot; </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">output_terminal</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;sed -i &quot;/D</span><span class="si">{</span><span class="n">tochange</span><span class="si">}</span><span class="s1">=/c\ D</span><span class="si">{</span><span class="n">tochange</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">dihe</span><span class="si">}</span><span class="s1">&quot; </span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<span class="c1"># TODO: remove this function. it&#39;s deprecated</span>
+<div class="viewcode-block" id="find_CAC_NC">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.find_CAC_NC">[docs]</a>
+<span class="k">def</span> <span class="nf">find_CAC_NC</span><span class="p">(</span><span class="n">amino_info</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">i_pro</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds the C closest to the Ca atom and to the N atom. This is necessary</span>
+<span class="sd">    because C could be in the same, the previous or in the next amino.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    amino_info: dict</span>
+<span class="sd">    dictionary with the amino info</span>
+<span class="sd">    atoms: ase.Atoms</span>
+<span class="sd">        atoms of a given configuration.</span>
+<span class="sd">    i_pro: int</span>
+<span class="sd">        index of the proline residue.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    =======</span>
+<span class="sd">    (tuple), index of C closest to Ca and index of the C closest to N. 1-based.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pre_amino</span> <span class="o">=</span> <span class="n">amino_info</span><span class="p">[</span><span class="n">i_pro</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">amino</span> <span class="o">=</span> <span class="n">amino_info</span><span class="p">[</span><span class="n">i_pro</span><span class="p">]</span>
+    <span class="n">post_amino</span> <span class="o">=</span> <span class="n">amino_info</span><span class="p">[</span><span class="n">i_pro</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># obtain indices</span>
+    <span class="n">c_pre</span> <span class="o">=</span> <span class="n">pre_amino</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span>
+    <span class="n">c_cur</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span>
+    <span class="n">c_pos</span> <span class="o">=</span> <span class="n">post_amino</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span>
+    <span class="n">ca_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;CA&#39;</span><span class="p">]</span>
+    <span class="n">n_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span>
+
+    <span class="c1"># find Ca-C and N-C</span>
+    <span class="n">ca_dist</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">n_dist</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">cac</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">cn</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">c_pre</span><span class="p">,</span> <span class="n">c_cur</span><span class="p">,</span> <span class="n">c_pos</span><span class="p">]:</span>
+        <span class="c1"># Ca-C</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">get_distance</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ca_i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="n">ca_dist</span><span class="p">:</span>
+            <span class="n">ca_dist</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">cac</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="c1"># C-N</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">get_distance</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="n">n_dist</span><span class="p">:</span>
+            <span class="n">n_dist</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">cn</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">return</span> <span class="n">cac</span><span class="p">,</span> <span class="n">cn</span></div>
+
+
+
+<div class="viewcode-block" id="extract_proline_atoms">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.extract_proline_atoms">[docs]</a>
+<span class="k">def</span> <span class="nf">extract_proline_atoms</span><span class="p">(</span><span class="n">pep_set</span><span class="p">,</span> <span class="n">i_pro</span><span class="p">):</span>
+    <span class="n">amino</span> <span class="o">=</span> <span class="n">pep_set</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i_pro</span><span class="p">]</span>
+
+    <span class="n">N_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span>
+    <span class="n">Cd_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;CD&#39;</span><span class="p">]</span>
+    <span class="n">Cg_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;CG&#39;</span><span class="p">]</span>
+    <span class="n">Cb_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;CB&#39;</span><span class="p">]</span>
+    <span class="n">Ca_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;CA&#39;</span><span class="p">]</span>
+    <span class="n">HA_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;HA&#39;</span><span class="p">]</span>
+    <span class="n">C_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]</span>
+    <span class="n">O_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">HB1_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;1HB&#39;</span><span class="p">]</span>
+        <span class="n">HB2_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;2HB&#39;</span><span class="p">]</span>
+        <span class="n">HG1_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;1HG&#39;</span><span class="p">]</span>
+        <span class="n">HG2_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;2HG&#39;</span><span class="p">]</span>
+        <span class="n">HD1_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;1HD&#39;</span><span class="p">]</span>
+        <span class="n">HD2_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;2HD&#39;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">HB1_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;HB1&#39;</span><span class="p">]</span>
+        <span class="n">HB2_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;HB2&#39;</span><span class="p">]</span>
+        <span class="n">HG1_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;HG1&#39;</span><span class="p">]</span>
+        <span class="n">HG2_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;HG2&#39;</span><span class="p">]</span>
+        <span class="n">HD1_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;HD1&#39;</span><span class="p">]</span>
+        <span class="n">HD2_i</span> <span class="o">=</span> <span class="n">amino</span><span class="p">[</span><span class="s1">&#39;HD2&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">HA_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span> \
+        <span class="n">HG2_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span></div>
+
+
+
+<div class="viewcode-block" id="reorder_prolines_atoms">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.reorder_prolines_atoms">[docs]</a>
+<span class="k">def</span> <span class="nf">reorder_prolines_atoms</span><span class="p">(</span><span class="n">comfile</span><span class="p">,</span> <span class="n">molecule</span><span class="p">,</span> <span class="n">pdb_template</span><span class="p">,</span> <span class="n">option</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Changes the definition of the degrees of freedom in prolines such that the</span>
+<span class="sd">    missed bond is always different.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    comfile: str</span>
+<span class="sd">        gaussian input comfile that you want to modify.</span>
+<span class="sd">    molecule: str</span>
+<span class="sd">        xyz file representing the molecule.</span>
+<span class="sd">    pdb_template: str</span>
+<span class="sd">        pdb with the peptide information.</span>
+<span class="sd">    option: str</span>
+<span class="sd">        &#39;1&#39; misses Cgamma Cdelta.</span>
+<span class="sd">        &#39;2&#39; misses Cbeta Cgamma.</span>
+<span class="sd">        &#39;3&#39; misses Calpha Cbeta.</span>
+<span class="sd">        &#39;4&#39; misses Cdelta N.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    =======</span>
+<span class="sd">    (None) However, it changes the comfile. Be sure to back up the original</span>
+<span class="sd">    file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pep_set</span> <span class="o">=</span> <span class="n">PepSetter</span><span class="p">(</span><span class="n">pdb_template</span><span class="p">)</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">molecule</span><span class="p">)</span>
+    <span class="n">pros_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pep_set</span><span class="o">.</span><span class="n">amino_name</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+                      <span class="o">==</span> <span class="s1">&#39;PRO&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">i_pro</span> <span class="ow">in</span> <span class="n">pros_i</span><span class="p">:</span>
+        <span class="n">pep_set</span> <span class="o">=</span> <span class="n">PepSetter</span><span class="p">(</span><span class="n">pdb_template</span><span class="p">)</span>
+        <span class="n">N_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">HA_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span> \
+            <span class="n">HG2_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span> <span class="o">=</span> <span class="n">extract_proline_atoms</span><span class="p">(</span><span class="n">pep_set</span><span class="p">,</span> <span class="n">i_pro</span><span class="p">)</span>
+
+        <span class="c1"># test that xyz does does correspond to the com file</span>
+        <span class="n">test_dofs</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">test_dofs</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">test_dofs</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">test_dofs</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">test_dofs</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">test_dofs</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">test_dofs</span><span class="p">(</span><span class="n">atoms</span><span class="p">,</span> <span class="n">HG2_i</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">N_i</span> <span class="o">&lt;</span> <span class="n">C_i</span><span class="p">:</span>
+            <span class="n">backbone</span> <span class="o">=</span> <span class="p">[</span><span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">HA_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">backbone</span> <span class="o">=</span> <span class="p">[</span><span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">HA_i</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span> <span class="ow">or</span> <span class="n">option</span> <span class="o">==</span> <span class="s1">&#39;4&#39;</span><span class="p">:</span>
+            <span class="n">side</span> <span class="o">=</span> <span class="p">[</span><span class="n">Cb_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span> <span class="n">HG2_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="s1">&#39;2&#39;</span><span class="p">:</span>
+            <span class="n">side</span> <span class="o">=</span> <span class="p">[</span><span class="n">Cb_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span> <span class="n">HG2_i</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="s1">&#39;3&#39;</span><span class="p">:</span>
+            <span class="n">side</span> <span class="o">=</span> <span class="p">[</span><span class="n">Cd_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span> <span class="n">HG2_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">]</span>
+        
+        <span class="n">reorder</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">backbone</span> <span class="o">+</span> <span class="n">side</span><span class="p">)</span>
+
+        <span class="n">new_atoms</span> <span class="o">=</span> <span class="n">conf2pdb</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">pdb_template</span><span class="p">,</span> <span class="n">write_new_pdb</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">reorder</span><span class="p">)</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">reorder</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">reorder</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;The number of atoms in the &quot;</span> <span class="o">+</span>\
+            <span class="s2">&quot;pdb template and in the xyz file do not match.&quot;</span>
+        <span class="n">new_atoms</span> <span class="o">=</span> <span class="n">new_atoms</span><span class="p">[:</span> <span class="nb">min</span><span class="p">(</span><span class="n">reorder</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>  <span class="o">+</span> <span class="n">new_atoms</span><span class="p">[</span><span class="n">reorder</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> \
+                    <span class="o">+</span> <span class="n">new_atoms</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">reorder</span><span class="p">):]</span>
+        
+        <span class="n">original_order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">reorder</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">reorder</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;finding permutations&quot;</span><span class="p">)</span>
+        <span class="n">permitations</span> <span class="o">=</span> <span class="n">swaps_to_transform</span><span class="p">(</span><span class="n">reorder</span><span class="p">,</span>
+                                          <span class="n">original_order</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;found permitations:&quot;</span><span class="p">,</span> <span class="n">permitations</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">swap</span> <span class="ow">in</span> <span class="n">permitations</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">original_order</span><span class="p">[</span><span class="n">swap</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">original_order</span><span class="p">[</span><span class="n">swap</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+            <span class="n">original_order</span><span class="p">[</span><span class="n">swap</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">original_order</span><span class="p">[</span><span class="n">swap</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
+
+            <span class="n">output_terminal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sith swap_atoms_in_com -a </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span>\
+                            <span class="sa">f</span><span class="s2">&quot;-b </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2"> -f </span><span class="si">{</span><span class="n">comfile</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># save the new order</span>
+        <span class="n">pdb_template</span> <span class="o">=</span> <span class="n">molecule</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.xyz&#39;</span><span class="p">,</span> <span class="s1">&#39;.pdb&#39;</span><span class="p">)</span>
+        <span class="n">write</span><span class="p">(</span><span class="n">pdb_template</span><span class="p">,</span> <span class="n">new_atoms</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pdb_template</span></div>
+
+
+<div class="viewcode-block" id="swaps_to_transform">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.swaps_to_transform">[docs]</a>
+<span class="k">def</span> <span class="nf">swaps_to_transform</span><span class="p">(</span><span class="n">initial</span><span class="p">,</span> <span class="n">final</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a list of swaps (i, j) that transform `initial` into `final`.</span>
+<span class="sd">    Each swap is applied to `initial` in sequence.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">arr</span> <span class="o">=</span> <span class="n">initial</span><span class="p">[:]</span>          <span class="c1"># make a copy</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">arr</span><span class="p">)}</span>
+    <span class="n">swaps</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">final</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="c1"># Find where the desired element currently is</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="n">final</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+
+            <span class="c1"># Record this swap</span>
+            <span class="n">swaps</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+
+            <span class="c1"># Perform the swap</span>
+            <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="c1"># Update the position map</span>
+            <span class="n">pos</span><span class="p">[</span><span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="n">j</span>
+            <span class="n">pos</span><span class="p">[</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span>
+
+    <span class="k">return</span> <span class="n">swaps</span></div>
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="change_prolines_dofs">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.change_prolines_dofs">[docs]</a>
+<span class="k">def</span> <span class="nf">change_prolines_dofs</span><span class="p">(</span><span class="n">comfile</span><span class="p">,</span> <span class="n">molecule</span><span class="p">,</span> <span class="n">pdb_template</span><span class="p">,</span> <span class="n">option</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Changes the definition of the degrees of freedom in prolines such that the</span>
+<span class="sd">    missed bond is always different.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    comfile: str</span>
+<span class="sd">        gaussian input comfile that you want to modify.</span>
+<span class="sd">    molecule: str</span>
+<span class="sd">        xyz file representing the molecule.</span>
+<span class="sd">    pdb_template: str</span>
+<span class="sd">        pdb with the peptide information.</span>
+<span class="sd">    option: str</span>
+<span class="sd">        &#39;1&#39; misses Cgamma Cdelta.</span>
+<span class="sd">        &#39;2&#39; misses Cbeta Cgamma.</span>
+<span class="sd">        &#39;3&#39; misses Calpha Cbeta.</span>
+<span class="sd">        &#39;4&#39; misses Cdelta N.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    =======</span>
+<span class="sd">    (None) However, it changes the comfile. Be sure to back up the original</span>
+<span class="sd">    file.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ====</span>
+<span class="sd">    This function only works when the prolines are not next to capping groups.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># first reorder the atoms in the prolines to avodid to define distances,</span>
+    <span class="c1"># angles and dihedrals between atoms that are not yet defined in the</span>
+    <span class="c1"># z-matrix</span>
+    <span class="n">pdb</span> <span class="o">=</span> <span class="n">reorder_prolines_atoms</span><span class="p">(</span><span class="n">comfile</span><span class="p">,</span>
+                                 <span class="n">molecule</span><span class="p">,</span>
+                                 <span class="n">pdb_template</span><span class="p">,</span>
+                                 <span class="n">option</span><span class="p">)</span>
+    <span class="c1"># after reordering all the atoms in the prolines, change the dofs</span>
+    <span class="n">pep_set</span> <span class="o">=</span> <span class="n">PepSetter</span><span class="p">(</span><span class="n">pdb</span><span class="p">)</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">pdb</span><span class="p">)</span>
+    <span class="n">write</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">atoms</span><span class="p">)</span>
+    <span class="n">pros_i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pep_set</span><span class="o">.</span><span class="n">amino_name</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+                      <span class="o">==</span> <span class="s1">&#39;PRO&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">i_pro</span> <span class="ow">in</span> <span class="n">pros_i</span><span class="p">:</span>
+        <span class="n">amino_prev</span> <span class="o">=</span> <span class="n">pep_set</span><span class="o">.</span><span class="n">amino_info</span><span class="p">[</span><span class="n">i_pro</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># extract the new definition of atoms</span>
+        <span class="n">N_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">HA_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span> \
+            <span class="n">HG2_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span> <span class="o">=</span> <span class="n">extract_proline_atoms</span><span class="p">(</span><span class="n">pep_set</span><span class="p">,</span> <span class="n">i_pro</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">N_i</span> <span class="o">&lt;</span> <span class="n">C_i</span><span class="p">:</span>
+            <span class="n">starting</span> <span class="o">=</span> <span class="s1">&#39;N&#39;</span>
+            <span class="n">previous</span> <span class="o">=</span> <span class="p">[</span><span class="n">amino_prev</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">],</span> <span class="n">amino_prev</span><span class="p">[</span><span class="s1">&#39;CA&#39;</span><span class="p">],</span> <span class="n">amino_prev</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">starting</span> <span class="o">=</span> <span class="s1">&#39;C&#39;</span>
+            <span class="n">previous</span> <span class="o">=</span> <span class="p">[</span><span class="n">amino_prev</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">],</span> <span class="n">amino_prev</span><span class="p">[</span><span class="s1">&#39;CA&#39;</span><span class="p">],</span> <span class="n">amino_prev</span><span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">]]</span>
+
+        <span class="n">set_backbone</span><span class="p">(</span><span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">HA_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">previous</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">,</span>
+                     <span class="n">starting</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span>
+            <span class="n">set1</span><span class="p">(</span><span class="n">N_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span>
+                 <span class="n">HG2_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="s1">&#39;2&#39;</span><span class="p">:</span>
+            <span class="n">set2</span><span class="p">(</span><span class="n">N_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span>
+                 <span class="n">HG2_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="s1">&#39;3&#39;</span><span class="p">:</span>
+            <span class="n">set3</span><span class="p">(</span><span class="n">N_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span>
+                 <span class="n">HG2_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="s1">&#39;4&#39;</span><span class="p">:</span>
+            <span class="n">set4</span><span class="p">(</span><span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span>
+                 <span class="n">HG2_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">atoms</span></div>
+
+
+
+<div class="viewcode-block" id="set_backbone">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.set_backbone">[docs]</a>
+<span class="k">def</span> <span class="nf">set_backbone</span><span class="p">(</span><span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">HA_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">previous</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">,</span>
+                 <span class="n">starting</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">starting</span> <span class="o">==</span> <span class="s1">&#39;N&#39;</span><span class="p">:</span>
+        <span class="n">change_def</span><span class="p">([</span><span class="n">N_i</span><span class="p">,</span> <span class="n">previous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span>
+                   <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">change_def</span><span class="p">([</span><span class="n">Ca_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">previous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                   <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">change_def</span><span class="p">([</span><span class="n">HA_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">previous</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                   <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">change_def</span><span class="p">([</span><span class="n">C_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">previous</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                   <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">change_def</span><span class="p">([</span><span class="n">O_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">],</span>
+                   <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">starting</span> <span class="o">==</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span>
+        <span class="n">change_def</span><span class="p">([</span><span class="n">C_i</span><span class="p">,</span> <span class="n">previous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="mi">2</span><span class="p">]],</span>
+                   <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">change_def</span><span class="p">([</span><span class="n">O_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">previous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                   <span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">change_def</span><span class="p">([</span><span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">previous</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">previous</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                   <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">change_def</span><span class="p">([</span><span class="n">HA_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">previous</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                   <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+        <span class="n">change_def</span><span class="p">([</span><span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">previous</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                   <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set1">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.set1">[docs]</a>
+<span class="k">def</span> <span class="nf">set1</span><span class="p">(</span><span class="n">N_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span>
+         <span class="n">HG2_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">):</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HB1_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HB2_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HG1_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HG2_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HD1_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HD2_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="set2">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.set2">[docs]</a>
+<span class="k">def</span> <span class="nf">set2</span><span class="p">(</span><span class="n">N_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span>
+         <span class="n">HG2_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">):</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HB1_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HB2_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HD1_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HD2_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HG1_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HG2_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set3">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.set3">[docs]</a>
+<span class="k">def</span> <span class="nf">set3</span><span class="p">(</span><span class="n">N_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span>
+         <span class="n">HG2_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">):</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HD1_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HD2_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HG1_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HG2_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cb_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">N_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HB1_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HB2_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="set4">
+<a class="viewcode-back" href="../../../modules/sith.g09_stretching.html#sith.g09_stretching.change_dofs.set4">[docs]</a>
+<span class="k">def</span> <span class="nf">set4</span><span class="p">(</span><span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">,</span> <span class="n">HB1_i</span><span class="p">,</span> <span class="n">HB2_i</span><span class="p">,</span> <span class="n">HG1_i</span><span class="p">,</span>
+         <span class="n">HG2_i</span><span class="p">,</span> <span class="n">HD1_i</span><span class="p">,</span> <span class="n">HD2_i</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">):</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">,</span> <span class="n">O_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HB1_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HB2_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">,</span> <span class="n">C_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HG1_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HG2_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">,</span> <span class="n">Ca_i</span><span class="p">],</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HD1_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span>
+    <span class="n">change_def</span><span class="p">([</span><span class="n">HD2_i</span><span class="p">,</span> <span class="n">Cd_i</span><span class="p">,</span> <span class="n">Cg_i</span><span class="p">,</span> <span class="n">Cb_i</span><span class="p">],</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span> <span class="n">comfile</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

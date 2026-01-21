@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.utils.tools &mdash; sith</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+        <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+        <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sith.utils.tools</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sith.utils.tools</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sith.utils.molecules</span> <span class="kn">import</span> <span class="n">Alignment</span><span class="p">,</span> <span class="n">MoleculeSetter</span>
+<span class="kn">from</span> <span class="nn">ase.geometry.analysis</span> <span class="kn">import</span> <span class="n">Analysis</span>
+<span class="kn">from</span> <span class="nn">ase.io</span> <span class="kn">import</span> <span class="n">read</span><span class="p">,</span> <span class="n">write</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">ase.constraints</span> <span class="kn">import</span> <span class="n">FixAtoms</span>
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="shake_except">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.tools.shake_except">[docs]</a>
+<span class="k">def</span> <span class="nf">shake_except</span><span class="p">(</span><span class="n">xyz_file</span><span class="p">,</span> <span class="n">file_cons</span><span class="p">,</span> <span class="n">modify_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stdev</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modify a xyz file by adding random noise to the position of the atoms</span>
+<span class="sd">    except for those listed in the first line of a file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    xyz_file: int</span>
+<span class="sd">        original xyz file to be modified.</span>
+<span class="sd">    file_cons:</span>
+<span class="sd">        file containing the atoms (1-based indices) to avoid to be modified by</span>
+<span class="sd">        the shaking.</span>
+<span class="sd">    modify_input: bool. Default=True</span>
+<span class="sd">        True to modify the input file.</span>
+<span class="sd">    scale: float. Default=0.05</span>
+<span class="sd">        max magnitud of the noise to be added in each coordinate of each atom</span>
+<span class="sd">        in Angstrom.</span>
+<span class="sd">    stdev: float. Default=0.05</span>
+<span class="sd">        standard deviation of the normal distribution used to generate the</span>
+<span class="sd">        random noise.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (ase.Atoms) new object atoms with the modified positions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">xyz_file</span><span class="p">)</span>
+    <span class="n">cons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">file_cons</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">:</span>
+        <span class="n">cons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="n">cons</span><span class="p">)])</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="n">FixAtoms</span><span class="p">(</span><span class="n">indices</span><span class="o">=</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">atoms</span><span class="o">.</span><span class="n">set_constraint</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">atoms</span><span class="o">.</span><span class="n">rattle</span><span class="p">(</span><span class="n">stdev</span><span class="o">=</span><span class="n">stdev</span><span class="p">,</span> <span class="n">rng</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="p">)</span>
+
+    <span class="n">manipulator</span> <span class="o">=</span> <span class="n">MoleculeSetter</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+    <span class="n">manipulator</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">modify_input</span><span class="p">:</span>
+        <span class="n">write</span><span class="p">(</span><span class="n">xyz_file</span><span class="p">,</span> <span class="n">manipulator</span><span class="o">.</span><span class="n">atoms</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">atoms</span></div>
+
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="change_distance">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.tools.change_distance">[docs]</a>
+<span class="k">def</span> <span class="nf">change_distance</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">file_cons</span><span class="p">,</span> <span class="n">deltad</span><span class="p">,</span> <span class="n">charge</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes a configuration and increase the distance between two atoms. With the</span>
+<span class="sd">    new structure, it creates a gaussian file without specifing the kind of</span>
+<span class="sd">    calculation to run (optimization, ab-initio md, frequencies...).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    inp: str</span>
+<span class="sd">        input file containing the structure to modify.</span>
+<span class="sd">    out: str</span>
+<span class="sd">        name of the gaussian file (.com) without extension.</span>
+<span class="sd">    file_cons: str</span>
+<span class="sd">        file with the constraints sorted in the first two columns. The two</span>
+<span class="sd">        atoms in the first row are the selected to change the distance.</span>
+<span class="sd">    deltad: float</span>
+<span class="sd">        amount to add to the distance between atoms.</span>
+<span class="sd">    charge: int</span>
+<span class="sd">        charge in electron charge units to create the gaussian input file. The</span>
+<span class="sd">        multiplicity is assumed to be one.</span>
+<span class="sd">    method: str</span>
+<span class="sd">        method defined in sith.ase_utils.tools. So far, the methods already</span>
+<span class="sd">        implemented are: &#39;scale_distance&#39;, &#39;increase_distance&#39;,</span>
+<span class="sd">        &#39;increase_distance_with_constraints&#39;.</span>
+<span class="sd">    kwargs:</span>
+<span class="sd">        additional arguments to be passed to create_gaussian_input function.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (str) name of the output file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;scale_distance&#39;</span><span class="p">,</span> <span class="s1">&#39;increase_distance&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;increase_distance_with_constraints&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Non-recognized stretching method. To see the &quot;</span>
+                         <span class="s2">&quot;options, check &#39;sith change_distance -h&#39;&quot;</span><span class="p">)</span>
+
+    <span class="n">deltad</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">deltad</span><span class="p">)</span>
+    <span class="c1"># Read previus file</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">Alignment</span><span class="o">.</span><span class="n">align_with_components</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+    <span class="n">manipulator</span> <span class="o">=</span> <span class="n">MoleculeSetter</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">deltad</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">cons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">file_cons</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">:</span>
+            <span class="n">cons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="n">cons</span><span class="p">)])</span>
+        <span class="n">manipulator</span><span class="o">.</span><span class="n">xy_alignment</span><span class="p">(</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">center</span><span class="o">=</span><span class="n">cons</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="nb">eval</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;manipulator.</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1">(cons, deltad)&#39;</span><span class="p">)</span>
+
+    <span class="n">manipulator</span><span class="o">.</span><span class="n">create_gaussian_input</span><span class="p">(</span><span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">,</span> <span class="n">charge</span><span class="o">=</span><span class="n">charge</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">out</span><span class="si">}</span><span class="s2">.com&quot;</span></div>
+
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="extract_bonds">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.tools.extract_bonds">[docs]</a>
+<span class="k">def</span> <span class="nf">extract_bonds</span><span class="p">(</span><span class="n">readable_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Guesses the bonds in a molecule according to</span>
+<span class="sd">    ase.neighborlist.natural_cutoffs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    readable_file: str</span>
+<span class="sd">        string to the configuration file in any of the ASE readable formats.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (list) [#bonds x 2(int)] Bonds in the molecule.</span>
+
+<span class="sd">    E.g.</span>
+<span class="sd">    sith extract_bonds optimization.xyz</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">readable_file</span><span class="p">)</span>
+    <span class="n">ana</span> <span class="o">=</span> <span class="n">Analysis</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+    <span class="n">bonds_zm</span> <span class="o">=</span> <span class="n">ana</span><span class="o">.</span><span class="n">unique_bonds</span>
+
+    <span class="n">bonds</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pairs</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bonds_zm</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+                <span class="n">bonds</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pair</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">bonds</span></div>
+
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="diff_bonds">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.tools.diff_bonds">[docs]</a>
+<span class="k">def</span> <span class="nf">diff_bonds</span><span class="p">(</span><span class="n">conf1</span><span class="p">,</span> <span class="n">conf2</span><span class="p">,</span> <span class="n">frozen_dofs</span><span class="o">=</span><span class="s1">&#39;frozen_dofs.dat&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function returns the bonds that are in one conf but not in the other.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    conf11: str</span>
+<span class="sd">        first configuration file to be compared.</span>
+<span class="sd">    conf2: str</span>
+<span class="sd">        second configuration file to be compared.</span>
+<span class="sd">    frozen_dofs: str. Default=&quot;frozen_dofs.dat&quot;</span>
+<span class="sd">        file with the frozen DOFs. If a rupture is obtained, it will be</span>
+<span class="sd">        added to this file.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (list) [#brocken_bonds x 2(int)] pair of brocken bonds</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ====</span>
+<span class="sd">    The comparison is only in one direction, namely, this function does not</span>
+<span class="sd">    find the bonds in conf2 that are not in conf1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bonds1</span> <span class="o">=</span> <span class="n">extract_bonds</span><span class="p">(</span><span class="n">conf1</span><span class="p">)</span>
+    <span class="n">bonds2</span> <span class="o">=</span> <span class="n">extract_bonds</span><span class="p">(</span><span class="n">conf2</span><span class="p">)</span>
+
+    <span class="n">different_bonds</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="n">bonds1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bond</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bonds2</span><span class="p">:</span>
+            <span class="n">different_bonds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">frozen_dofs</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdofs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="n">different_bonds</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">bond</span><span class="p">:</span>
+                <span class="n">fdofs</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">fdofs</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;F</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">different_bonds</span></div>
+
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="conf2pdb">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.tools.conf2pdb">[docs]</a>
+<span class="k">def</span> <span class="nf">conf2pdb</span><span class="p">(</span><span class="n">confile</span><span class="p">,</span> <span class="n">pdbtemplate</span><span class="p">,</span> <span class="n">pdboutput</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">write_new_pdb</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform a configuration in a file (xyz, log...) into a pdb using a pdb</span>
+<span class="sd">    file as template.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    confile: str</span>
+<span class="sd">        path to the config file to be transformed to pdb.</span>
+<span class="sd">    pdbtemplate: str</span>
+<span class="sd">        path to the pdb template for the output.</span>
+<span class="sd">    pdboutput: str. Default=None</span>
+<span class="sd">        name of trasnformed config file with pdb format. The default name is</span>
+<span class="sd">        the same than the confile but with pdb extension.</span>
+<span class="sd">    write_new_pdb: bool. Default=True</span>
+<span class="sd">        If True, write a new pdb file with the properties of the template</span>
+<span class="sd">        (resnames, atomtypes, residuenumbers) but the positions of the</span>
+<span class="sd">        confile.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (str) The name of the output pdb file.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ====</span>
+<span class="sd">        the pdb file must contain the same atoms in the same order than the xyz</span>
+<span class="sd">        file, this file only would change the coordinates.</span>
+
+<span class="sd">    E.g.</span>
+<span class="sd">    sith conf2pdb optimization.log template.pdb</span>
+<span class="sd">    sith conf2pdb optimization.xyz template.pdb</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">pdboutput</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pdboutput</span> <span class="o">=</span> <span class="n">confile</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.pdb&#39;</span>
+
+    <span class="n">atoms_ref</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">pdbtemplate</span><span class="p">)</span>
+    <span class="n">atoms_xyz</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">confile</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">atoms_ref</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">atoms_xyz</span><span class="p">),</span> <span class="s2">&quot;The number of atoms in the&quot;</span> <span class="o">+</span> \
+        <span class="s2">&quot; reference and the template does not coincide&quot;</span>
+    <span class="k">assert</span> \
+        <span class="n">atoms_ref</span><span class="o">.</span><span class="n">get_chemical_symbols</span><span class="p">()</span> <span class="o">==</span> <span class="n">atoms_xyz</span><span class="o">.</span><span class="n">get_chemical_symbols</span><span class="p">(),</span> \
+        <span class="s2">&quot;The atoms in the reference and the template does not coincide&quot;</span>
+    <span class="n">new_positions</span> <span class="o">=</span> <span class="n">atoms_xyz</span><span class="o">.</span><span class="n">positions</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="n">atoms_ref</span><span class="o">.</span><span class="n">set_positions</span><span class="p">(</span><span class="n">new_positions</span><span class="p">)</span>
+    <span class="n">atoms_xyz</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s1">&#39;residuenames&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">atoms_ref</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s1">&#39;residuenames&#39;</span><span class="p">]</span>
+    <span class="n">atoms_xyz</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s1">&#39;residuenumbers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">atoms_ref</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s1">&#39;residuenumbers&#39;</span><span class="p">]</span>
+    <span class="n">atoms_xyz</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s1">&#39;atomtypes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">atoms_ref</span><span class="o">.</span><span class="n">arrays</span><span class="p">[</span><span class="s1">&#39;atomtypes&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">write_new_pdb</span><span class="p">:</span>
+       <span class="n">write</span><span class="p">(</span><span class="n">pdboutput</span><span class="p">,</span> <span class="n">atoms_ref</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">atoms_ref</span></div>
+
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="all_xyz2pdb">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.tools.all_xyz2pdb">[docs]</a>
+<span class="k">def</span> <span class="nf">all_xyz2pdb</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">output_patern</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xyzdir</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform all xyz files of the directory where it is executed into a pdb</span>
+<span class="sd">    using a pdb file as template.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    pdbtemplate: str</span>
+<span class="sd">        path to the pdb template for the output.</span>
+<span class="sd">    output_patern: str. Default=None</span>
+<span class="sd">        the name of the output will be &lt;this string&gt;-&lt;n&gt;.pdb, where is is an</span>
+<span class="sd">        increasing index, from 1 to the number of xyz files.</span>
+<span class="sd">    xyzdir: str. Default=&quot;./&quot;</span>
+<span class="sd">        directory containing all the xyz files you want to transform.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (str) The name of the outputs of each pdb file.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ====</span>
+<span class="sd">        the pdb file must contain the same atoms in the same order than the xyz</span>
+<span class="sd">        file, this file only would change the coordinates.</span>
+
+<span class="sd">    E.g.</span>
+<span class="sd">    cd dir_with_xyz_files ; sith all_xyz2pdb</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">configs</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">xyzdir</span> <span class="o">+</span> <span class="s1">&#39;*.xyz&#39;</span><span class="p">)</span>
+    <span class="n">configs</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">outfiles</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="n">configs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">output_patern</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">pdboutput</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.pdb&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pdboutput</span> <span class="o">=</span> <span class="n">output_patern</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;-</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">.pdb&#39;</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">pdboutput</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">outfiles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conf2pdb</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">pdboutput</span><span class="o">=</span><span class="n">pdboutput</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">outfiles</span></div>
+
+
+
+<div class="viewcode-block" id="all_hydrogen_atoms">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.tools.all_hydrogen_atoms">[docs]</a>
+<span class="k">def</span> <span class="nf">all_hydrogen_atoms</span><span class="p">(</span><span class="n">mol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finds the indexes of all the hydrogen atoms in the peptide from Atoms</span>
+<span class="sd">    object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    mol: string to config file or ase.Atoms object</span>
+<span class="sd">        ASE.Atoms object to extract the hydrogen indexes.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (list) [#h_atoms(int)] Indexes corresponding to Hydrogen atoms in 1-based</span>
+<span class="sd">    index.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+    <span class="n">indexes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">get_atomic_numbers</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">indexes</span> <span class="o">+</span> <span class="mi">1</span></div>
+
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="distance">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.tools.distance">[docs]</a>
+<span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">,</span> <span class="n">frame</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the distance between two atoms in the last configuration</span>
+<span class="sd">    of a trajectory file (e.g. .log file from gaussian).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    file: str</span>
+<span class="sd">        name of the file that contains the trajectory.</span>
+<span class="sd">    index1: int</span>
+<span class="sd">        index of the first atom to compute distances</span>
+<span class="sd">    index2: int</span>
+<span class="sd">        index of the second atom to compute distances</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (float)  Distance between atoms corresponding with atom with index1 and</span>
+<span class="sd">    index2.</span>
+
+<span class="sd">    E.g.</span>
+<span class="sd">    sith distance optimization.log 1 20</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">index1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">index1</span><span class="p">)</span>
+    <span class="n">index2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">index2</span><span class="p">)</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">frame</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">atoms</span><span class="o">.</span><span class="n">get_distance</span><span class="p">(</span><span class="n">index1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">index2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">d</span></div>
+
+
+
+<span class="c1"># add2executable</span>
+<div class="viewcode-block" id="F_max_stretch">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.tools.F_max_stretch">[docs]</a>
+<span class="k">def</span> <span class="nf">F_max_stretch</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">pep</span><span class="p">,</span> <span class="n">fd</span><span class="o">=</span><span class="s1">&#39;frozen_dofs.dat&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the force in the end atoms of the configuration of</span>
+<span class="sd">    maximum stretching.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    ds: str</span>
+<span class="sd">        path to the directory containing the peptide.</span>
+<span class="sd">    pep: str</span>
+<span class="sd">        name of the peptide on one letter amino acid code.</span>
+<span class="sd">    fd: str. Default=frozen_dofs.dat</span>
+<span class="sd">        name of the file containing the constrained atoms in the first</span>
+<span class="sd">        line.</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (float) Force applied at the extremes of the peptide for the</span>
+<span class="sd">    maximum stretched configuration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">fd</span> <span class="o">=</span> <span class="n">ds</span> <span class="o">+</span> <span class="n">pep</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">fd</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">files</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">dof</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">lines</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># find the last stretched conf</span>
+    <span class="n">all_files</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">ds</span> <span class="o">+</span> <span class="n">pep</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">pep</span> <span class="o">+</span> <span class="s1">&#39;*.log&#39;</span><span class="p">)</span>
+    <span class="n">all_files</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">last_conf</span> <span class="o">=</span> <span class="n">all_files</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">last_conf</span><span class="p">)</span>
+    <span class="n">force_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_forces</span><span class="p">()[</span><span class="n">dof</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">force_mag</span> <span class="o">*</span> <span class="mi">960</span>  <span class="c1"># KJmol-1/nm</span></div>
+
+
+
+<div class="viewcode-block" id="F_stretch">
+<a class="viewcode-back" href="../../../modules/sith.utils.html#sith.utils.tools.F_stretch">[docs]</a>
+<span class="k">def</span> <span class="nf">F_stretch</span><span class="p">(</span><span class="n">logfile</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts the magnitud of the force applied to an atoms of the configuration</span>
+<span class="sd">    of maximum stretching.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    logfile:</span>
+<span class="sd">        file containing the optmimization or force calculation info.</span>
+<span class="sd">    index:</span>
+<span class="sd">        index of the atom that you want to extract the force. 1-based (like</span>
+<span class="sd">        gaussian).</span>
+
+<span class="sd">    Return</span>
+<span class="sd">    ======</span>
+<span class="sd">    (float) Force applied at the selected atom.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dof</span> <span class="o">=</span> <span class="n">index</span>
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">logfile</span>
+
+    <span class="n">atoms</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span>
+    <span class="n">force_mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">atoms</span><span class="o">.</span><span class="n">get_forces</span><span class="p">()[</span><span class="n">dof</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">force_mag</span> <span class="o">*</span> <span class="mi">960</span>  <span class="c1"># KJmol-1/nm</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sith.visualize.vmol &mdash; sith</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+        <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+        <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+        <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #3434348D" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/favicon.ico" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../workflow/workflow.html">Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sith.html">sith package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/tutorials.html">Tutorials</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #3434348D" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sith</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">sith.visualize.vmol</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for sith.visualize.vmol</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">vmol.view</span> <span class="kn">import</span> <span class="n">VMolecule</span>
+<span class="kn">import</span> <span class="nn">vpython</span> <span class="k">as</span> <span class="nn">vp</span>
+<span class="kn">from</span> <span class="nn">sith</span> <span class="kn">import</span> <span class="n">SITH</span>
+<span class="kn">from</span> <span class="nn">sith.Utilities</span> <span class="kn">import</span> <span class="n">color_distribution</span><span class="p">,</span> <span class="n">create_colorbar</span>
+
+
+<div class="viewcode-block" id="EnergiesVMol">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol">[docs]</a>
+<span class="k">class</span> <span class="nc">EnergiesVMol</span><span class="p">(</span><span class="n">VMolecule</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set of graphic tools to visualize the distribution of energies in the</span>
+<span class="sd">    different degrees of freedom (lengths, angles, dihedrals). Wrap to VMol.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ==========</span>
+<span class="sd">    sith_info: SITH object.</span>
+<span class="sd">        SITH object with the information of the system.</span>
+<span class="sd">    dofs: list. Default=None</span>
+<span class="sd">        list of degrees of freedom defined according with 1-based indexing.</span>
+<span class="sd">        It could also be &#39;all&#39;, &#39;bonds&#39;, &#39;angles&#39; or &#39;dihedrals&#39; to</span>
+<span class="sd">        display all the corresponding DOFs.</span>
+<span class="sd">    idef: int. Default=0</span>
+<span class="sd">        index of the stretching to be displayed.</span>
+<span class="sd">    alignment: list, tuple or np.ndarray. Default=None.</span>
+<span class="sd">        indexes for the alignment of the molecule. See VMolecule.xy_alignment</span>
+<span class="sd">        for more details.</span>
+<span class="sd">    show_axis: bool. Default=False.</span>
+<span class="sd">        True if you want to show the axis in the scene.</span>
+<span class="sd">    background: list or vp.color. Default=vp.color.white.</span>
+<span class="sd">        color of the background of the scene.</span>
+<span class="sd">    kwargs:</span>
+<span class="sd">        other arguments for VMolecule.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sith_info</span><span class="p">:</span> <span class="n">SITH</span><span class="p">,</span>
+                 <span class="n">dofs</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">idef</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                 <span class="n">alignment</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">show_axis</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">background</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="n">vp</span><span class="o">.</span><span class="n">color</span><span class="p">]</span> <span class="o">=</span> <span class="n">vp</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">white</span><span class="p">,</span>
+                 <span class="n">respect_to_total_energy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hook</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvaskwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sith</span> <span class="o">=</span> <span class="n">sith_info</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">energies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dofs_energies</span>
+        <span class="n">dims</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dims</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbonds</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nangles</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ndihedral</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+        <span class="n">atoms</span> <span class="o">=</span> <span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">atoms</span> <span class="k">for</span> <span class="n">config</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">structures</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">idef</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">idef</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idef</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span> <span class="o">+</span> <span class="n">idef</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idef</span> <span class="o">=</span> <span class="n">idef</span>
+
+        <span class="k">if</span> <span class="s1">&#39;height&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">height</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">height</span> <span class="o">=</span> <span class="mi">500</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">height</span>
+
+        <span class="c1"># matplotlib figure for colorbar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span> <span class="n">mpl</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;Blues&quot;</span><span class="p">),</span>
+                             <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;$\Delta$ Energy [Ha]&quot;</span><span class="p">,</span>
+                             <span class="s1">&#39;labelsize&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                             <span class="s1">&#39;orientation&#39;</span><span class="p">:</span> <span class="s2">&quot;vertical&quot;</span><span class="p">,</span>
+                             <span class="s1">&#39;div&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                             <span class="s1">&#39;deci&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                             <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">700</span><span class="p">,</span>
+                             <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">}</span>
+
+        <span class="c1"># The next fills the variable dofs with the definition of the degrees</span>
+        <span class="c1"># of freedom</span>
+        <span class="c1"># Create scene</span>
+        <span class="n">VMolecule</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">atoms</span><span class="p">,</span>
+                           <span class="n">show_axis</span><span class="o">=</span><span class="n">show_axis</span><span class="p">,</span>
+                           <span class="n">alignment</span><span class="o">=</span><span class="n">alignment</span><span class="p">,</span>
+                           <span class="n">frame</span><span class="o">=</span><span class="n">idef</span><span class="p">,</span>
+                           <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hook</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">inner_dofs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">dofs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sith_inDOFs</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span>
+                             <span class="n">respect_to_total_energy</span><span class="o">=</span><span class="n">respect_to_total_energy</span><span class="p">,</span>
+                             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">background</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_asvector</span><span class="p">(</span><span class="n">background</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">traj_buttons</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hook</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="EnergiesVMol.sith_inDOFs">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.sith_inDOFs">[docs]</a>
+    <span class="k">def</span> <span class="nf">sith_inDOFs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dofs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># create the list of dofs and color scale</span>
+        <span class="n">dofs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_dofs_list</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_figure</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># show energies in dofs</span>
+        <span class="n">inner_energies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energies_some_dof</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">inner_energies</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_create_dofs_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dofs</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the list of dofs to be displayed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        dofs: list of tuples or str.</span>
+<span class="sd">            list of degrees of freedom defined according with 1-based indexing.</span>
+<span class="sd">            It could also be &#39;all&#39;, &#39;bonds&#39;, &#39;angles&#39; or &#39;dihedrals&#39; to</span>
+<span class="sd">            display all the corresponding DOFs.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (list) list of lists with the dofs to be displayed according to SITH</span>
+<span class="sd">        convention.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dofs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dofs</span><span class="p">)</span>
+        <span class="n">selected_dofs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="s1">&#39;all&#39;</span> <span class="ow">in</span> <span class="n">dofs</span><span class="p">:</span>
+            <span class="n">selected_dofs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;bonds&#39;</span> <span class="ow">in</span> <span class="n">dofs</span><span class="p">:</span>
+                <span class="n">bonds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">nbonds</span><span class="p">]</span>
+                <span class="n">selected_dofs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">bonds</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;angles&#39;</span> <span class="ow">in</span> <span class="n">dofs</span><span class="p">:</span>
+                <span class="n">angles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nbonds</span><span class="p">:(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbonds</span>
+                                                            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nangles</span><span class="p">)]</span>
+                <span class="n">selected_dofs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;dihedrals&#39;</span> <span class="ow">in</span> <span class="n">dofs</span><span class="p">:</span>
+                <span class="n">dihedrals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">ndihedral</span><span class="p">:]</span>
+                <span class="n">selected_dofs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">dihedrals</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">selected_dofs</span>
+
+<div class="viewcode-block" id="EnergiesVMol.create_figure">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.create_figure">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dofs</span><span class="p">,</span> <span class="n">respect_to_total_energy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the Color bar to be displayed at a side.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        dofs:</span>
+<span class="sd">            DOFs to be displayed in the distribution.</span>
+<span class="sd">        respect_to_total_energy: bool. Default=False</span>
+<span class="sd">            if true, the maximum of energies will be calculated with respect to</span>
+<span class="sd">            the total energy of all the DOFs, not only the selected ones.</span>
+<span class="sd">        kwargs for change_def</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (list, kwargs) normalized energies, not used kwargs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_def</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">,</span>
+                                                    <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">norm</span> <span class="o">=</span> <span class="n">color_distribution</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="p">,</span>
+                                     <span class="n">dofs</span><span class="p">,</span>
+                                     <span class="bp">self</span><span class="o">.</span><span class="n">idef</span><span class="p">,</span>
+                                     <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span>
+                                     <span class="n">absolute</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                     <span class="n">div</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">[</span><span class="s1">&#39;div&#39;</span><span class="p">],</span>
+                                     <span class="n">decimals</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">[</span><span class="s1">&#39;deci&#39;</span><span class="p">],</span>
+                                     <span class="n">respect_to_total_energy</span><span class="o">=</span>\
+                                        <span class="n">respect_to_total_energy</span><span class="p">)</span>
+
+        <span class="c1"># Colorbar</span>
+        <span class="c1"># Note that this colorbar</span>
+        <span class="n">labelsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">[</span><span class="s1">&#39;labelsize&#39;</span><span class="p">]</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">[</span><span class="s1">&#39;height&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">300</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">create_colorbar</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span>
+                                         <span class="n">cmap</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">],</span>
+                                         <span class="n">deci</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">[</span><span class="s1">&#39;deci&#39;</span><span class="p">],</span>
+                                         <span class="n">labelsize</span><span class="o">=</span><span class="n">labelsize</span><span class="p">,</span>
+                                         <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
+                                         <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">norm</span><span class="p">,</span> <span class="n">kwargs</span></div>
+
+
+<div class="viewcode-block" id="EnergiesVMol.energies_bonds">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.energies_bonds">[docs]</a>
+    <span class="k">def</span> <span class="nf">energies_bonds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add the bonds with a color scale that represents the distribution of</span>
+<span class="sd">        energy according to the JEDI method.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        **kwargs for EnergiesVMol.energies_some_dof</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (tuple) DOFs and their computed energies.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dofs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">nbonds</span><span class="p">]</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energies_some_dof</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="EnergiesVMol.energies_angles">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.energies_angles">[docs]</a>
+    <span class="k">def</span> <span class="nf">energies_angles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add the angles with a color scale that represents the distribution of</span>
+<span class="sd">        energy according to the JEDI method.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        kwargs for EnergiesVMol.energies_some_dof</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (tuple) DOFs and their computed energies.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dofs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nbonds</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbonds</span>
+                                                   <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nangles</span><span class="p">)]</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energies_some_dof</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="EnergiesVMol.energies_dihedrals">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.energies_dihedrals">[docs]</a>
+    <span class="k">def</span> <span class="nf">energies_dihedrals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add the dihedral angles with a color scale that represents the</span>
+<span class="sd">        distribution of energy according to the JEDI method.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        kwargs for EnergiesVMol.energies_some_dof</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (tuple) DOFs and their computed energies.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dofs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nbonds</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">nangles</span><span class="p">:]</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energies_some_dof</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="EnergiesVMol.update_stretching">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.update_stretching">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_stretching</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idef</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function that is called when the frame is changed. Set the internal</span>
+<span class="sd">        atribute self.kwargs_edofs to keep fixed the parameters to update the</span>
+<span class="sd">        visualization of dofs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        idef: int</span>
+<span class="sd">            index of the stretching to be updated to.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (None)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idef</span> <span class="o">=</span> <span class="n">idef</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">idef</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atoms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trajectory</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">frame</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">atom</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vatoms</span><span class="p">):</span>
+            <span class="n">atom</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">vp</span><span class="o">.</span><span class="n">vector</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">atoms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+
+        <span class="n">udofs</span> <span class="o">=</span> <span class="p">[</span><span class="n">dof</span><span class="o">.</span><span class="n">indices</span> <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inner_dofs</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">udofs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">energies_some_dof</span><span class="p">(</span><span class="n">udofs</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_counter</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">idef</span><span class="si">}</span><span class="s2">   &quot;</span></div>
+
+
+<div class="viewcode-block" id="EnergiesVMol.energies_all_dof">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.energies_all_dof">[docs]</a>
+    <span class="k">def</span> <span class="nf">energies_all_dof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add all DOF with a color scale that represents the distribution of</span>
+<span class="sd">        energy according to the JEDI method.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        kwargs for EnergiesVMol.energies_some_dof</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (tuple) DOFs and their computed energies.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dofs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">energies_some_dof</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EnergiesVMol.change_def">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.change_def">[docs]</a>
+    <span class="k">def</span> <span class="nf">change_def</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">def_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This functions change the values stored in a dictionary and removes</span>
+<span class="sd">        each one of the arguments from the kwargs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        def_dict: dict</span>
+<span class="sd">            dictionary with the default values.</span>
+<span class="sd">        **kwargs: all the arguments you want to change.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (dict, dict) modified dictionary withe the default values and set of</span>
+<span class="sd">        kwargs without the used keys.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rem_keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">def_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">rem_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="n">def_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">rem_keys</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">def_dict</span><span class="p">,</span> <span class="n">kwargs</span></div>
+
+
+<div class="viewcode-block" id="EnergiesVMol.energies_some_dof">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.energies_some_dof">[docs]</a>
+    <span class="k">def</span> <span class="nf">energies_some_dof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dofs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add the dofs with a color scale that represents the distribution of</span>
+<span class="sd">        energy according to the SITH method.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        dofs: list of tuples.</span>
+<span class="sd">            list of degrees of freedom defined according with 1-based indexing.</span>
+<span class="sd">        normalize:</span>
+<span class="sd">            normalization of colors acording to the range of energies and the</span>
+<span class="sd">            colormap.</span>
+<span class="sd">        kwargs of VMolecule.add_dof</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (list) VPython objects of the visual representation of DOFs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hook</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_def</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">,</span>
+                                                    <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">cmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs_edofs</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">]</span>
+
+        <span class="n">inner_energies</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="n">dofs</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span> <span class="o">==</span> <span class="n">dof</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dof </span><span class="si">{</span><span class="n">dof</span><span class="si">}</span><span class="s2"> not found or defined more than&quot;</span>
+                                 <span class="o">+</span> <span class="s2">&quot; once in the sith object.&quot;</span><span class="p">)</span>
+            <span class="n">energy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idef</span><span class="p">][</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">energy</span><span class="p">))[:</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">dof</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_dof</span><span class="p">(</span><span class="n">dof</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_asvector</span><span class="p">(</span><span class="n">color</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">inner_dofs</span><span class="p">[</span><span class="n">dof</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">dof</span>
+            <span class="n">inner_energies</span><span class="p">[</span><span class="n">dof</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">energy</span><span class="p">,</span> <span class="n">dof</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hook</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">inner_energies</span></div>
+
+
+<div class="viewcode-block" id="EnergiesVMol.show_bonds_of_DOF">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.show_bonds_of_DOF">[docs]</a>
+    <span class="k">def</span> <span class="nf">show_bonds_of_DOF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dof</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">unique</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                          <span class="n">color</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Show bonds of a specific dof.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        dof: int.</span>
+<span class="sd">            index in sith object that corresponds to the dof you want to show.</span>
+<span class="sd">        unique: Bool. default False.. Default=False</span>
+<span class="sd">            True if you want to remove all the other bonds and only keeping</span>
+<span class="sd">            these ones.</span>
+<span class="sd">        color: list[3(int)]. default R G B for angles, distances, dihedrals.</span>
+<span class="sd">            color that you want to use in this dof.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (dict) all the DOFs in the system. keys -&gt; dof names,</span>
+<span class="sd">        values -&gt; vpython.objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dof_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">[</span><span class="n">dof</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">dof_indices</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">atoms1</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">atoms2</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dof_indices</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">atoms1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dof_indices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">atoms2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dof_indices</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">unique</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_bonds</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_bonds</span><span class="p">(</span><span class="n">atoms1</span><span class="p">,</span> <span class="n">atoms2</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">color</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EnergiesVMol.show_dof">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.show_dof">[docs]</a>
+    <span class="k">def</span> <span class="nf">show_dof</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dofs</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Show specific degrees of freedom.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        dofs: list of tuples.</span>
+<span class="sd">            list of degrees of freedom defined according with 1-based indexing.</span>
+<span class="sd">        kwargs for add_dof.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (dict) all the DOFs in the system. keys -&gt; dof names,</span>
+<span class="sd">        values -&gt; vpython.objects</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The color is not related with the JEDI method. It</span>
+<span class="sd">        could be changed with the kwarg color=rgb list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">dof</span> <span class="ow">in</span> <span class="n">dofs</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_dof</span><span class="p">(</span><span class="n">dof</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="EnergiesVMol.show_bonds">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.show_bonds">[docs]</a>
+    <span class="k">def</span> <span class="nf">show_bonds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Show the bonds in the molecule.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ==========</span>
+<span class="sd">        kwargs for add_dof</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (None)</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The color is not related with the JEDI method. It</span>
+<span class="sd">        could be changed with the kwarg color=rgb list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dofs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sith</span><span class="o">.</span><span class="n">dim_indices</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">nbonds</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_dof</span><span class="p">(</span><span class="n">dofs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EnergiesVMol.traj_buttons">
+<a class="viewcode-back" href="../../../modules/sith.visualize.html#sith.visualize.vmol.EnergiesVMol.traj_buttons">[docs]</a>
+    <span class="k">def</span> <span class="nf">traj_buttons</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">vp</span><span class="o">.</span><span class="n">button</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the buttons to move between stretching configurations.</span>
+
+<span class="sd">        Return</span>
+<span class="sd">        ======</span>
+<span class="sd">        (vpython.button) Button that shows the index of the stretched</span>
+<span class="sd">        configuration displayed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">counter</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="k">def</span> <span class="nf">go_up</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">vmol</span><span class="o">=</span><span class="bp">self</span><span class="p">):</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="n">vmol</span><span class="o">.</span><span class="n">idef</span>
+            <span class="k">if</span> <span class="n">frame</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">vmol</span><span class="o">.</span><span class="n">trajectory</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">vmol</span><span class="o">.</span><span class="n">update_stretching</span><span class="p">(</span><span class="n">frame</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">go_down</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">vmol</span><span class="o">=</span><span class="bp">self</span><span class="p">):</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="n">vmol</span><span class="o">.</span><span class="n">idef</span>
+            <span class="k">if</span> <span class="n">frame</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">vmol</span><span class="o">.</span><span class="n">update_stretching</span><span class="p">(</span><span class="n">frame</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># button to go down</span>
+        <span class="n">vp</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\u25C4</span><span class="s1">&#39;</span><span class="p">,</span>
+                  <span class="n">pos</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">title_anchor</span><span class="p">,</span>
+                  <span class="n">bind</span><span class="o">=</span><span class="n">go_down</span><span class="p">)</span>
+
+        <span class="c1"># counter box</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_counter</span> <span class="o">=</span> <span class="n">vp</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;   </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">idef</span><span class="si">}</span><span class="s2">   &quot;</span><span class="p">,</span>
+                                   <span class="n">pos</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">title_anchor</span><span class="p">,</span>
+                                   <span class="n">bind</span><span class="o">=</span><span class="n">counter</span><span class="p">)</span>
+        <span class="c1"># button to go up</span>
+        <span class="n">vp</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\u25BA</span><span class="s1">&#39;</span><span class="p">,</span>
+                  <span class="n">pos</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">title_anchor</span><span class="p">,</span>
+                  <span class="n">bind</span><span class="o">=</span><span class="n">go_up</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_counter</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Daniel Sucerquia, Mikaela Farrugia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

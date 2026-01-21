@@ -47,6 +47,8 @@ Module contents
 .. toctree::
    :hidden:
 
+   bash_rsts_scripts/restart_g09
+   bash_rsts_scripts/simplify_path
    bash_rsts_scripts/workflow
    bash_rsts_scripts/find_forces
    bash_rsts_scripts/proline_mod
@@ -83,3 +85,11 @@ Module contents
 .. _sith-g09-stretching-workflow:
 
 .. include:: bash_rsts_doc/workflow.rst
+
+.. _sith-g09-stretching-simplify-path:
+
+.. include:: bash_rsts_doc/simplify_path.rst
+
+.. _sith-g09-stretching-restart-g09:
+
+.. include:: bash_rsts_doc/restart_g09.rst
