@@ -1,10 +1,15 @@
-# sith
-Stretched Intramolecular Tension via Hypersurfaces
+# SITH
+Splitting Intramolecular Tension via stretcHing
 
-A redesign and simplification of the JEDI approach outlined in https://aip.scitation.org/doi/abs/10.1063/1.4870334.
+SITH is a novel method that decomposes the total electronic energy change of a
+stretched molecule into contributions from individual degrees of freedom —such
+as bond lengths, angles, and dihedrals— using numerical integration of the
+work-energy theorem.
 
-API is documented and examples are attached, but full documentation of the sith package is still active, albeit slowly.
-Thank you for your patience and please do not hesitate to direct any questions to the maintainer at mfarrugi@nd.edu, daniel.sucerquia@h-its.org.
+API is documented and examples are attached, but full documentation of the sith
+package is still active, albeit slowly. Thank you for your patience and please
+do not hesitate to direct any questions to the maintainer at
+daniel.sucerquia@h-its.org, mfarrugi@nd.edu.
 
 ## Version 2.0
 - Every energy distribution analysis method is a different module in the package.
@@ -16,9 +21,3 @@ Thank you for your patience and please do not hesitate to direct any questions t
 - Lmatrix class is not necessary anymore, completely removed and replaced by _hessian_reader in g09_reader
 - UnitConverter class in .Utilities is not necessary, completely removed and replaced by ase.units
 - all attributes called "._deformed" renamed as "structures"
-
-Possibility:
-change energy units from Hartrees to eV
-
-# TODO
-remove print and replace with logging
