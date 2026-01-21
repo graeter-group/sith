@@ -1,4 +1,3 @@
-# TODO: check indices in this file
 import numpy as np
 from sith import SITH
 from sith.utils.peptides import PepSetter
@@ -632,7 +631,9 @@ class DataSetAnalysis:
         directory.
     kwargs:
         for initializing sith
-
+    alternative_subdir: Default=None
+        subdirectory inside each molecule directory containing the files to be
+        analyzed by SITH. If None, the molecule directory will be used.
 
     .. note::
 
@@ -769,6 +770,22 @@ class DataSetAnalysis:
         self.test()
 
     def test_continuity(self, sith, analysis):
+        """
+        Test that the changes in the Ca-C-N angle are lower than 10 degrees and
+        the Ca-C and Ca-N distances are lower than 0.2 Angstroms between
+        stretched configurations.
+
+        Parameters
+        ==========
+        sith: 
+            SITH object containing the information of the current peptide.
+        analysis: 
+            Analysis object containing the information of the current peptide.
+
+        Return
+        ======
+        (bool) True if the test passes, False otherwise.
+        """
         # atoms
         ca = analysis.pep_info.amino_info[3]['CA']
         c = analysis.pep_info.amino_info[3]['C']

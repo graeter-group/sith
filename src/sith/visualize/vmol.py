@@ -29,6 +29,9 @@ class EnergiesVMol(VMolecule):
         True if you want to show the axis in the scene.
     background: list or vp.color. Default=vp.color.white.
         color of the background of the scene.
+    respect_to_total_energy: Default=False
+        if true, the maximum of energies will be calculated with respect to
+        the total energy of all the DOFs, not only the selected ones.
     kwargs:
         other arguments for VMolecule.
     """
@@ -287,7 +290,7 @@ class EnergiesVMol(VMolecule):
         ==========
         def_dict: dict
             dictionary with the default values.
-        **kwargs: all the arguments you want to change.
+        kwargs: all the arguments you want to change.
 
         Return
         ======

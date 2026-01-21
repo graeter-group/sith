@@ -172,54 +172,6 @@ def change_def(new_i, element, atoms, file):
     output_terminal(f'sed -i "/A{tochange}=/c\ A{tochange}={angl}" {file}')
     output_terminal(f'sed -i "/D{tochange}=/c\ D{tochange}={dihe}" {file}')
 
-# TODO: remove this function. it's deprecated
-def find_CAC_NC(amino_info, atoms, i_pro):
-    """
-    Finds the C closest to the Ca atom and to the N atom. This is necessary
-    because C could be in the same, the previous or in the next amino.
-
-    Parameters
-    ==========
-    amino_info: dict
-    dictionary with the amino info
-    atoms: ase.Atoms
-        atoms of a given configuration.
-    i_pro: int
-        index of the proline residue.
-
-    Returns
-    =======
-    (tuple), index of C closest to Ca and index of the C closest to N. 1-based.
-    """
-    pre_amino = amino_info[i_pro - 1]
-    amino = amino_info[i_pro]
-    post_amino = amino_info[i_pro + 1]
-
-    # obtain indices
-    c_pre = pre_amino['C']
-    c_cur = amino['C']
-    c_pos = post_amino['C']
-    ca_i = amino['CA']
-    n_i = amino['N']
-
-    # find Ca-C and N-C
-    ca_dist = 100
-    n_dist = 100
-    cac = 0
-    cn = 0
-    for i in [c_pre, c_cur, c_pos]:
-        # Ca-C
-        d = atoms.get_distance(i - 1, ca_i - 1)
-        if d < ca_dist:
-            ca_dist = d.copy()
-            cac = i
-        # C-N
-        d = atoms.get_distance(i - 1, n_i - 1)
-        if d < n_dist:
-            n_dist = d.copy()
-            cn = i
-    return cac, cn
-
 
 def extract_proline_atoms(pep_set, i_pro):
     amino = pep_set.amino_info[i_pro]

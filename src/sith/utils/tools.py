@@ -310,6 +310,8 @@ def distance(file, index1, index2, frame=-1):
         index of the first atom to compute distances
     index2: int
         index of the second atom to compute distances
+    frame: Default=-1
+        frame of the trajectory to compute the distance.
 
     Return
     ======

@@ -332,6 +332,8 @@ class MoleculeSetter:
             exchange correlation functional used in gaussian. Default bmk
         basis: str. Default='6-31+g'
             basis set used in gaussian. Default 6-31+g
+        mem: Default=10GB
+            memory assigned to gaussian calculation.
 
         Return
         ======
