@@ -4,8 +4,24 @@
 SITH
 ####
 
-citation: coming soon.
-~~~~~~~~~~~~~~~~~~~~~~
+**Citation**: SITH: A quantum-chemical framework for predicting bond destabilization in stretched molecules
+
+Daniel Sucerquia, Mikaela Farrugia, Benedikt Rennekamp, Andreas Dreuw, Frauke Gräter
+
+`10.1063/5.0325167 <https://doi.org/10.1063/5.0325167>`_
+
+.. code-block:: bibtex
+
+   @article{sucerquia2026sith,
+     title={SITH: A quantum-chemical framework for predicting bond destabilization in stretched molecules},
+     author={Sucerquia, Daniel and Farrugia, Mikaela and Rennekamp, Benedikt and Dreuw, Andreas and Gr{\"a}ter, Frauke},
+     journal={The Journal of Chemical Physics},
+     volume={164},
+     number={23},
+     year={2026},
+     publisher={AIP Publishing}
+   }
+
 
 .. figure:: tutorials/stretching/G-distribution.png
   :align: center
