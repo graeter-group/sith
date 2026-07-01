@@ -1,6 +1,22 @@
 # SITH
 Splitting Intramolecular Tension via stretcHing
 
+**Paper**: SITH: A quantum-chemical framework for predicting bond destabilization in stretched molecules ( [10.1063/5.0325167](https://doi.org/10.1063/5.0325167) )
+
+Daniel Sucerquia, Mikaela Farrugia, Benedikt Rennekamp, Andreas Dreuw, Frauke Gräter
+
+```bibtex
+@article{sucerquia2026sith,
+  title={SITH: A quantum-chemical framework for predicting bond destabilization in stretched molecules},
+  author={Sucerquia, Daniel and Farrugia, Mikaela and Rennekamp, Benedikt and Dreuw, Andreas and Gr{\"a}ter, Frauke},
+  journal={The Journal of Chemical Physics},
+  volume={164},
+  number={23},
+  year={2026},
+  publisher={AIP Publishing}
+}
+```
+
 SITH is a novel method that decomposes the total electronic energy change of a
 stretched molecule into contributions from individual degrees of freedom —such
 as bond lengths, angles, and dihedrals— using numerical integration of the
