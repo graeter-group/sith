@@ -94,6 +94,11 @@ verbose -t $(date)
 verbose -t " \* Command:"
 verbose -t "$0" "$@"
 
+list_methods=( 'scale_distance' 'increase_distance' \
+               'increase_distance_with_constraints' )
+
+method=${list_methods[$extend_method]}
+
 # stretching method
 if [[ "$extend_method" -eq 0 ]]
 then
@@ -149,13 +154,15 @@ then
   # incomplete job. In the next block, we search for advances in i+1 and if it
   # finds one, it restarts from there and sets retake='false' as a consecuence,
   # this variable is used later in the loop.
-  sith log2xyz "$mol-stretched${nameiplusone}.log" \
-    --indexes "[$indexes]" 2> /dev/null && \
+
+  [[ "$( wc -l < "frozen_dofs.dat" )" -le "$breakages" ]] && \
+    sith log2xyz "$mol-stretched${nameiplusone}.log" \
+      --indexes "[$indexes]" 2> /dev/null && \
     create_bck "$mol-stretched${nameiplusone}."* &&
     lastone=$( search_last_bck $mol-stretched${nameiplusone} ) &&
     if [ $(( lastone )) -gt 2 ]; then fail "this optimization was" \
       "restarted more than 3 times and didn't converged."; fi &&
-    echo "coping $mol-stretched${nameiplusone}-bck_$lastone.xyz" &&
+    echo "copying $mol-stretched${nameiplusone}-bck_$lastone.xyz" &&
     sith change_distance "$mol-stretched${nameiplusone}-bck_$lastone.xyz" \
       "$mol-stretched${nameiplusone}" frozen_dofs.dat 0 0 "$method" \
       --xc "'$xc_functional'" --basis "'$basis_set'" && \
@@ -174,7 +181,7 @@ else
     index2=$( grep NME "$mol.pdb" | grep CH3 | awk '{print $2}' )
     index3=$( grep ATOM "$mol.pdb" | awk '{if ( $5 == 2 ) print $0}' | grep "CA" \
               | awk '{print $2}' )
-    indexes="$index1,$index2,$index3"
+    indexes="$index1,$index2"
   else
     # reading indexes from user input
     index1=$( echo "$indexes" | cut -d ',' -f 1 )
@@ -290,7 +297,7 @@ do
   # check the output again
   output=$(grep -i optimized "$mol-stretched${nameiplusone}.log" | \
            grep -c -i Non )
-  [ "$output" -ne 0 ] && failed "Optimization when the stretched distance was
+  [ "$output" -ne 0 ] && fail "Optimization when the stretched distance was
       $(( i + 1 ))*0.2 didn't converge. No more stretching will be applied"
 
   # creating fchk file
