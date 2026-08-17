@@ -42,7 +42,7 @@ job_options=''
 verbose=''
 restart='false'
 pattern='conopt'
-while getopts 'cf:F:p:P:rS:vh' flag; do
+while getopts 'cf:Fp:P:rS:vh' flag; do
   case "${flag}" in
     c) cluster='true' ;;
     f) file=${OPTARG} ;;
@@ -89,9 +89,10 @@ fi
 verbose "submit constrained optimization $file"
 if [[ "$restart" == "true" ]]
 then
-  cp "$file.com" "tmp-$file.com"
-  create_bck "$file.com"
-  mv "tmp-$file.com" "$file.com"
+  cp "$file.com" "tmp-$file.com" && create_bck "$file.com" && \
+    sleep 1 && mv "tmp-$file.com" "$file.com" || \
+    fail "creating copy of com file"
+
   if ! grep -q "Geom=Check" "$file.com"
   then
     sed -i "/#/a Guess=Read Geom=Check" "$file.com"
