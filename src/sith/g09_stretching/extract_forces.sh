@@ -9,7 +9,8 @@ file (or chk) when it exists. The output is a set of files called
 format.
 
   -f  <file.log> log file created by gaussian, chk file of this file should
-      have the same name but different extension. 
+      have the same name but different extension.
+  -K  use this flag to avoid using chk file to extract forces.
 
   -v  verbose.
   -h   prints this message.
@@ -59,17 +60,20 @@ write_int_vector(){
 forces_directory="./forces"
 cluster='false'
 verbose=''
-while getopts 'cf:vh' flag;
+use_chk='true'
+while getopts 'cf:Kvh' flag;
 do
   case "${flag}" in
     c) cluster='true';;
     f) file=${OPTARG} ;;
+    K) use_chk='false';;
 
     v)  verbose='-v' ;;
     h) print_help ;;
     *) echo "for usage check: sith <function> -h" >&2 ; exit 1 ;;
   esac
 done
+
 
 source "$(sith basics -path)" ExtrForces $verbose
 if "$cluster"
@@ -88,7 +92,7 @@ then
     { mv "${file%.*}.fchk" tmp-${file%.*}.fchk ; fchk_file=true ; }
 fi
 
-if [ "$fchk_file" == 'false' ] && [ -f "${file%.*}.chk" ]
+if [ "$fchk_file" == 'false' ] && [ -f "${file%.*}.chk" ] && [ "$use_chk" == 'true' ] 
 then
   formchk -3 "${file%.*}.chk" || fail "fchk based on ${file%.*}.chk"
   mv "${file%.*}.fchk" tmp-${file%.*}.fchk
@@ -172,7 +176,7 @@ echo "indices of dofs"
 # endregion
 
 # region forces
-if $fchk_file
+if $fchk_file && $use_chk
 then
   sith find_blocks -f tmp-${file%.*}.fchk -s \"Internal Forces\" \
     -e \"Internal Force Constants\" -o tmp-${file%.*}
@@ -196,8 +200,14 @@ echo "forces"
 # endregion
 
 # region energy
-ener=$(grep "SCF Done:" $file | \
+if $fchk_file && $use_chk
+then
+  ener=$(grep "Total Energy" tmp-${file%.*}.fchk | awk '{print $4}')
+else
+  ener=$(grep "SCF Done:" $file | \
         tail -n 1 | awk '{print $5}')
+fi
+
 line=$(printf "%-43s" "Total Energy")
 line+="R"
 line+=$(printf "%27s" "$ener")
