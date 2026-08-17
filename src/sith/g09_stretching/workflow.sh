@@ -155,6 +155,11 @@ do
   Fcounter=$(( Fcounter + 1 ))
 done
 
+if [[ -f "$molecule" ]]
+then
+  molecule=${molecule%.*}
+fi
+
 cd ../
 sbatch $job_options -J "FE$molecule" \
   $(sith workflow_from_extreme -path) -a "$molecule" $cluster -m "$molecule" \
