@@ -135,9 +135,10 @@ class SITH:
                     for deformn in self.structures]), \
             f"Incompatible dimensions {ref.dims} " +\
             f"{self.structures[-1].dims}"
-        assert all([(deformn.dim_indices == ref.dim_indices).all()
-                    for deformn in self.structures]), "Incompatible " + \
-            f"dimensions.\nreference\n"
+        for deformn in self.structures:
+            assert (deformn.dim_indices == ref.dim_indices).all(), \
+                f"Incompatible dimensions ({deformn.name}), " +\
+                f"{np.where(np.all(deformn.dim_indices != ref.dim_indices, axis=0))[0]}"
         return True
     # endregion
 

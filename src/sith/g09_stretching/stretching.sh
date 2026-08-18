@@ -28,9 +28,11 @@ distance between two atoms, constraining and optimizing at every step.
   -m  <molecule> molecule name. In this directory, a file called
       <molecule>-stretched00.pdb must exist.
   -p  <processors=1> number of processors per gaussian job.
+  -q  <charge=0> charge of the molecule in electron units.
   -r  restart stretching. In this case, this code must be executed from
       the molecule's directory.
   -s  <size[A]=0.2> Size of the step that increases the distances at each step.
+  -u  <multiplicity=1> spin multiplicity of the molecule.
 
   -v  verbose
   -h  prints this message.
@@ -49,10 +51,12 @@ size=0.2
 verbose=''
 indexes=''
 level="bmk,6-31+g"
+charge=0
+multiplicity=1
 cluster='false'
 n_processors=''
 retake='true'
-while getopts 'b:ce:i:l:m:p:rs:vh' flag; do
+while getopts 'b:ce:i:l:m:p:q:rs:u:vh' flag; do
   case "${flag}" in
     b) breakages=${OPTARG} ;;
     c) cluster='true' ;;
@@ -61,8 +65,10 @@ while getopts 'b:ce:i:l:m:p:rs:vh' flag; do
     l) level=${OPTARG} ;;
     m) mol=${OPTARG} ;;
     p) n_processors=${OPTARG} ;;
+    q) charge=${OPTARG} ;;
     r) restart='true' ;;
     s) size=${OPTARG} ;;
+    u) multiplicity=${OPTARG} ;;
 
     v) verbose='-v' ;;
     h) print_help ;;
@@ -164,8 +170,8 @@ then
       "restarted more than 3 times and didn't converged."; fi &&
     echo "copying $mol-stretched${nameiplusone}-bck_$lastone.xyz" &&
     sith change_distance "$mol-stretched${nameiplusone}-bck_$lastone.xyz" \
-      "$mol-stretched${nameiplusone}" frozen_dofs.dat 0 0 "$method" \
-      --xc "'$xc_functional'" --basis "'$basis_set'" && \
+      "$mol-stretched${nameiplusone}" frozen_dofs.dat 0 "$charge" "$method" \
+      --xc "'$xc_functional'" --basis "'$basis_set'" --mult "$multiplicity" && \
     retake='false' && \
     warning "The stretching of molecule $mol will be restarted
       from $(( i + 1 ))"
@@ -227,8 +233,8 @@ do
     # initial gaussian optimization
     verbose "The first gaussian process is an optimization"
     sith change_distance "$mol_file" \
-      "$mol-stretched00" frozen_dofs.dat 0 0 "$method" \
-      --xc "'$xc_functional'" --basis "'$basis_set'" || \
+      "$mol-stretched00" frozen_dofs.dat 0 "$charge" "$method" \
+      --xc "'$xc_functional'" --basis "'$basis_set'" --mult "$multiplicity" || \
       fail "Creating initial gaussian input"
     sed -i  '/^TV  /d' "$mol-stretched00.com"
     sed -i "/opt/d" "$mol-stretched00.com"
@@ -238,8 +244,8 @@ do
       # if the last configuration was not taken from an incomplete job
       sith change_distance \
         "$mol-stretched$namei.xyz" "$mol-stretched${nameiplusone}" \
-        frozen_dofs.dat "$size" 0 "$method" \
-        --xc "'$xc_functional'" --basis "'$basis_set'"\
+        frozen_dofs.dat "$size" "$charge" "$method" \
+        --xc "'$xc_functional'" --basis "'$basis_set'" --mult "$multiplicity"\
         || fail "Creating gaussian input of stretching $nameiplusone"
     fi
     retake='true'
@@ -275,8 +281,9 @@ do
       Transforming log file to xyz in second trial of optimization"
     sith change_distance \
             "$mol-stretched${nameiplusone}.xyz" \
-            "$mol-stretched${nameiplustwo}" frozen_dofs.dat 0 0 "$method" \
-            --xc "'$xc_functional'" --basis "'$basis_set'" || fail "changing distance"
+            "$mol-stretched${nameiplustwo}" frozen_dofs.dat 0 "$charge" "$method" \
+            --xc "'$xc_functional'" --basis "'$basis_set'" --mult "$multiplicity" \
+            || fail "changing distance"
     # save the failed files in ...-stretched<number>a.*
     create_bck "$mol-stretched${nameiplusone}"*
     # then restart the optimization

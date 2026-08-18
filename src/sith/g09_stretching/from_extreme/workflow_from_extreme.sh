@@ -33,6 +33,7 @@ to these subjobs).
       organizing all xyz files alphabetically all AAA*.xyz files in ./AAA/).
   -p  <processors=1> number of processors per gaussian job. See description of
       flag -c.
+  -q  <charge=0> charge of the molecule in electron units.
   -r  Use it to restart, in which case no directory will be created and the new
       <molecule>-optext.log is assumed to exist in the working directory.
   -S  <job_options=''> options for submitting a new job. This flag only makes
@@ -40,6 +41,7 @@ to these subjobs).
       number of cores (-n, use -p for this). The input should be as in the next
       example: \"--partition=cpu --nice\".
   -t  <template.pdb> template pdb file to define indexes if -i is not used.
+  -u  <multiplicity=1> spin multiplicity of the molecule.
 
   -v  verbose.
   -h  prints this message.
@@ -60,6 +62,8 @@ exit 0
 cluster='false'
 indexes=''
 level="bmk,6-31+g"
+charge=0
+multiplicity=1
 molecule=''
 n_processors=''
 restart='false'
@@ -68,7 +72,7 @@ job_options=''
 index3=None
 
 verbose=''
-while getopts 'a:ci:l:m:p:rS:t:vh' flag;
+while getopts 'a:ci:l:m:p:q:rS:t:u:vh' flag;
 do
   case "${flag}" in
     a) alias=${OPTARG} ;;
@@ -77,9 +81,11 @@ do
     l) level=${OPTARG} ;;
     m) molecule=${OPTARG} ;;
     p) n_processors=${OPTARG} ;;
+    q) charge=${OPTARG} ;;
     r) restart='true' ;;
     S) job_options=${OPTARG} ;;
     t) template=${OPTARG} ;;
+    u) multiplicity=${OPTARG} ;;
 
     v) verbose='-v' ;;
     h) print_help ;;
@@ -182,8 +188,9 @@ if  ! grep -q "Normal termination" "$name-optext.log" "$name-optext-bck*.log"
 then
   verbose -t "Running optimization from $name-optex.com"
   # creates gaussian input that optimizes the structure
-  sith change_distance "$name.xyz" "$name-optext" no_frozen_dofs 0 0 \
-    "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \
+  sith change_distance "$name.xyz" "$name-optext" no_frozen_dofs 0 \
+    "$charge" "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \
+    --mult "$multiplicity" \
     > /dev/null || fail "Preparating the input of gaussian"
   sed -i "1a %NProcShared=$n_processors" "$name-optext.com"
   sed -i "/#P/a opt(modredun,calcfc)" "$name-optext.com"
@@ -222,7 +229,8 @@ verbose "Starting 'sith continuous_path' after having all
   ${name}-conopt<n>.xyz files"
 
 $(sith continuous_path -path) $c_flag -i "$indexes" -l "$level" -n "$name" \
-                              -p "$n_processors" -P "conopt" -S "$job_options" \
+                              -p "$n_processors" -P "conopt" -q "$charge" \
+                              -S "$job_options" -u "$multiplicity" \
                               $verbose || \
   fail "submiting continuous path"
 

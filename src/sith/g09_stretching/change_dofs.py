@@ -257,7 +257,15 @@ def reorder_prolines_atoms(comfile, molecule, pdb_template, option):
             side = [Cb_i, HB1_i, HB2_i, Cd_i, HD1_i, HD2_i, Cg_i, HG1_i, HG2_i]
         elif option == '3':
             side = [Cd_i, HD1_i, HD2_i, Cg_i, HG1_i, HG2_i, Cb_i, HB1_i, HB2_i]
-        
+        elif option == '5':
+            backbone = []
+            side = [N_i,
+                    Cd_i, HD1_i, HD2_i,
+                    Cg_i, HG1_i, HG2_i,
+                    Cb_i, HB1_i, HB2_i,
+                    Ca_i, HA_i,
+                    C_i, O_i]
+
         reorder = np.array(backbone + side)
 
         new_atoms = conf2pdb(molecule, pdb_template, write_new_pdb=False)
@@ -312,6 +320,7 @@ def swaps_to_transform(initial, final):
 
     return swaps
 
+
 # add2executable
 def change_prolines_dofs(comfile, molecule, pdb_template, option):
     """
@@ -341,7 +350,7 @@ def change_prolines_dofs(comfile, molecule, pdb_template, option):
     ====
     This function only works when the prolines are not next to capping groups.
     """
-    # first reorder the atoms in the prolines to avodid to define distances,
+    # first reorder the atoms in the prolines to avoid to define distances,
     # angles and dihedrals between atoms that are not yet defined in the
     # z-matrix
     pdb = reorder_prolines_atoms(comfile,
@@ -374,16 +383,22 @@ def change_prolines_dofs(comfile, molecule, pdb_template, option):
         if option == '1':
             set1(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
                  HG2_i, HD1_i, HD2_i, atoms, comfile)
-        if option == '2':
+        elif option == '2':
             set2(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
                  HG2_i, HD1_i, HD2_i, atoms, comfile)
-        if option == '3':
+        elif option == '3':
             set3(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
                  HG2_i, HD1_i, HD2_i, atoms, comfile)
-        if option == '4':
+        elif option == '4':
             set4(Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
                  HG2_i, HD1_i, HD2_i, atoms, comfile)
-    
+        elif option == '5':
+            set5(N_i, Ca_i, HA_i, C_i, O_i,
+                 Cd_i, Cg_i, Cb_i, HB1_i, HB2_i, HG1_i,
+                 HG2_i, HD1_i, HD2_i,  previous, starting, atoms, comfile)
+        else:
+            raise ValueError("Option should be '1', '2', '3', '4' or '5'.")
+
     return atoms
 
 
@@ -461,3 +476,65 @@ def set4(Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
     change_def([Cd_i, Cg_i, Cb_i, Ca_i], 'C', atoms, comfile)
     change_def([HD1_i, Cd_i, Cg_i, Cb_i], 'H', atoms, comfile)
     change_def([HD2_i, Cd_i, Cg_i, Cb_i], 'H', atoms, comfile)
+
+def set5(N_i, Ca_i, HA_i, C_i, O_i,
+         Cd_i, Cg_i, Cb_i, HB1_i, HB2_i, HG1_i,
+         HG2_i, HD1_i, HD2_i,  previous, starting, atoms, comfile):
+    if starting == 'N':
+        change_def([N_i, previous[0], previous[1], previous[2]],
+                   'N', atoms, comfile)
+        change_def([Cd_i, N_i, previous[0], previous[1]],
+                   'C', atoms, comfile)
+        change_def([HD1_i, Cd_i, N_i, previous[0]],
+                   'H', atoms, comfile)
+        change_def([HD2_i, Cd_i, N_i, previous[0]],
+                   'H', atoms, comfile)
+        change_def([Cg_i, Cd_i, N_i, previous[0]],
+                   'C', atoms, comfile)
+        change_def([HG1_i, Cg_i, Cd_i, N_i],
+                   'H', atoms, comfile)
+        change_def([HG2_i, Cg_i, Cd_i, N_i],
+                   'H', atoms, comfile)
+        change_def([Cb_i, Cg_i, Cd_i, N_i],
+                   'C', atoms, comfile)
+        change_def([HB1_i, Cb_i, Cg_i, Cd_i],
+                   'H', atoms, comfile)
+        change_def([HB2_i, Cb_i, Cg_i, Cd_i],
+                   'H', atoms, comfile)
+        change_def([Ca_i, Cb_i, Cg_i, Cd_i],
+                   'C', atoms, comfile)
+        change_def([HA_i, Ca_i, Cb_i, Cg_i],
+                   'H', atoms, comfile)
+        change_def([C_i, Ca_i, Cb_i, Cg_i],
+                   'C', atoms, comfile)
+        change_def([O_i, C_i, Ca_i, Cb_i],
+                   'O', atoms, comfile)
+    elif starting == 'C':
+        change_def([C_i, previous[0], previous[1], previous[2]],
+                   'C', atoms, comfile)
+        change_def([O_i, C_i, previous[0], previous[1]],
+                   'O', atoms, comfile)
+        change_def([Ca_i, C_i, previous[0], previous[1]],
+                   'C', atoms, comfile)
+        change_def([HA_i, Ca_i, C_i, previous[0]],
+                   'H', atoms, comfile)
+        change_def([Cb_i, Ca_i, C_i, previous[0]],
+                   'C', atoms, comfile)
+        change_def([HB1_i, Cb_i, Ca_i, C_i],
+                   'H', atoms, comfile)
+        change_def([HB2_i, Cb_i, Ca_i, C_i],
+                   'H', atoms, comfile)
+        change_def([Cg_i, Cb_i, Ca_i, C_i],
+                   'C', atoms, comfile)
+        change_def([HG1_i, Cg_i, Cb_i, Ca_i],
+                   'H', atoms, comfile)
+        change_def([HG2_i, Cg_i, Cb_i, Ca_i],
+                   'H', atoms, comfile)
+        change_def([Cd_i, Cg_i, Cb_i, Ca_i],
+                   'C', atoms, comfile)
+        change_def([HD1_i, Cd_i, Cg_i, Cb_i],
+                   'H', atoms, comfile)
+        change_def([HD2_i, Cd_i, Cg_i, Cb_i],
+                   'H', atoms, comfile)
+        change_def([N_i, Cd_i, Cg_i, Cb_i],
+                   'N', atoms, comfile)

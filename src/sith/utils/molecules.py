@@ -314,7 +314,7 @@ class MoleculeSetter:
 
         return new_positions
 
-    def create_gaussian_input(self, out=None, charge=0, xc='bmk',
+    def create_gaussian_input(self, out=None, charge=0, mult=1, xc='bmk',
                               basis='6-31+g', mem='10GB'):
         """
         Creates a gaussian .com file without specifing the kind of calculus to
@@ -328,6 +328,8 @@ class MoleculeSetter:
             chemical formula.
         charge: int. Default=0
             charge of the molecule in electron units. Default 0.
+        mult: int. Default=1
+            spin multiplicity of the molecule. Default 1.
         xc: str. Default='bmk'
             exchange correlation functional used in gaussian. Default bmk
         basis: str. Default='6-31+g'
@@ -347,7 +349,7 @@ class MoleculeSetter:
                               chk=out,
                               xc=xc,
                               basis=basis,
-                              mult=1,
+                              mult=int(mult),
                               charge=int(charge))
 
         calculator.write_input(self.atoms)

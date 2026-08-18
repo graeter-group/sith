@@ -27,12 +27,14 @@ to execute it locally. Consider the next options:
   -M  <method=0> Index of stretching method. To see the options, use
       'sith change_distance -h' to see the order.
   -n  <n_processors=1> number of processors per gaussian job.
+  -q  <charge=0> charge of the molecule in electron units.
   -r  restart. In this case, run from the directory of the pre-created
       stretched molecule.
   -s  <size[A]=0.2> of the step that increases the distances.
   -S  <job_options=''> options for submitting a new job. This flag only makes
       sense in slurm cluster. Please, do not include a name and add the options
       as in the next example: \"--partition=cpu --nice\".
+  -u  <multiplicity=1> spin multiplicity of the molecule.
 
   -v  verbose.
   -h  prints this message.
@@ -52,9 +54,11 @@ resubmit () {
     -m "$molecule" \
     -M "$method" \
     -n "$n_processors" \
+    -q "$charge" \
     -r \
     -s "$size" \
     -S "$job_options" \
+    -u "$multiplicity" \
     $verbose || fail "Resubmission of the job failed"
 }
 
@@ -66,6 +70,8 @@ breakages=1
 cluster=''
 indexes=''
 level="bmk,6-31+g"
+charge=0
+multiplicity=1
 method=0
 n_processors=''
 restart=''
@@ -73,7 +79,7 @@ size=0.2
 job_options=""
 
 verbose=''
-while getopts 'b:ci:l:m:M:n:rs:S:vh' flag;
+while getopts 'b:ci:l:m:M:n:q:rs:S:u:vh' flag;
 do
   case "${flag}" in
     b) breakages=${OPTARG} ;;
@@ -83,9 +89,11 @@ do
     m) molecule=${OPTARG} ;;
     M) method=${OPTARG} ;;
     n) n_processors=${OPTARG} ;;
+    q) charge=${OPTARG} ;;
     r) restart='-r' ;;
     s) size=${OPTARG} ;;
     S) job_options=${OPTARG} ;;
+    u) multiplicity=${OPTARG} ;;
 
     v)  verbose='-v' ;;
     h) print_help ;;
@@ -132,7 +140,8 @@ verbose "execute stretching"
 
 sith stretching -b "$breakages" $cluster -e "$method" -i "'$indexes'" \
                 -l "$level" \
-                -m "$molecule" -p "$n_processors" $restart -s "$size" \
+                -m "$molecule" -p "$n_processors" -q "$charge" $restart \
+                -s "$size" -u "$multiplicity" \
                 $verbose || fail "Stretching of $molecule failed"
 
 # TODO: add Classical energies

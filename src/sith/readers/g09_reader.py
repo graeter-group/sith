@@ -273,7 +273,7 @@ class FileReader:
         """
         dofs, ith_line = self._fill_array(ith_line, dtype=float)
         assert len(dofs) == self.dims[0], "unexpected number of DOFs while " +\
-            "trying to extract DOFs values"
+            f"trying to extract DOFs values ({len(dofs)}, {self.dims[0]}) for {self._name}"
         dofs[:self.dims[1]] *= Bohr
         self.geometry.dof = dofs
 
@@ -356,7 +356,8 @@ class FileReader:
         """
         forces, ith_line = self._fill_array(ith_line, dtype=float)
         assert len(forces) == self.dims[0], "unexpected number of DOFs " +\
-            "while trying to extract DOFs values"
+            f"({len(forces)}, {self.dims[0]})while trying to extract DOFs " +\
+            f"values for {self._name}"
         self.geometry.internal_forces = forces
         self.geometry.internal_forces[:self.dims[1]] /= Bohr
 

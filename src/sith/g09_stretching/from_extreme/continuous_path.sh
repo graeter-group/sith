@@ -21,12 +21,14 @@ refers to these subjobs)
       *<name>*.xyz files to that subdirectory first.
   -p  <processors=1> number of processors per gaussian job. See description of
       flag -c.
+  -q  <charge=0> charge of the molecule in electron units.
   -S  <job_options=''> options for submitting a new job. This flag only makes
       sense in slurm cluster. Please, do not include a name (-J), nor the
       number of cores (-n, use -p for this). The input should be as in the next
       example: \"--partition=cpu --nice\".
   -t  <template.pdb> pdb file used to read the indexes if -i is not
       used.
+  -u  <multiplicity=1> spin multiplicity of the molecule.
 
   -v  verbose
   -h  prints this message.
@@ -41,10 +43,12 @@ exit 0
 cluster='false'
 indexes=''
 level="bmk,6-31+g"
+charge=0
+multiplicity=1
 n_processors=''
 job_options=''
 verbose=''
-while getopts 'ci:l:n:p:P:S:t:vh' flag;
+while getopts 'ci:l:n:p:P:q:S:t:u:vh' flag;
 do
   case "${flag}" in
     c) cluster='true' ;;
@@ -53,8 +57,10 @@ do
     n) name=${OPTARG} ;;
     p) n_processors=${OPTARG} ;;
     P) pattern=${OPTARG} ;;
+    q) charge=${OPTARG} ;;
     S) job_options=${OPTARG} ;;
     t) template=${OPTARG} ;;
+    u) multiplicity=${OPTARG} ;;
 
     v) verbose='-v' ;;
     h) print_help ;;
@@ -205,8 +211,9 @@ do
   sed -i "2i Coordinates Extracted from zmatrix with newzmat" $struct_name.xyz
 
   # create again com from xyz
-  sith change_distance "$struct_name.xyz" "$struct_name" no_frozen_dofs 0 0 \
-    "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \
+  sith change_distance "$struct_name.xyz" "$struct_name" no_frozen_dofs 0 \
+    "$charge" "scale_distance" --xc "'$xc_functional'" --basis "'$basis_set'" \
+    --mult "$multiplicity" \
     > /dev/null || fail "Preparating the input of gaussian"
   sed -i "1a %NProcShared=$n_processors" "$struct_name.com"
   sed -i "/#P/a opt(modredun,calcfc)" "$struct_name.com"
