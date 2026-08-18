@@ -35,6 +35,7 @@ class EnergiesVMol(VMolecule):
     kwargs:
         other arguments for VMolecule.
     """
+
     def __init__(self, sith_info: SITH,
                  dofs: list = None,
                  idef: int = 0,
@@ -169,8 +170,8 @@ class EnergiesVMol(VMolecule):
                                      absolute=True,
                                      div=self.kwargs_edofs['div'],
                                      decimals=self.kwargs_edofs['deci'],
-                                     respect_to_total_energy=\
-                                        respect_to_total_energy)
+                                     respect_to_total_energy=(
+                                         respect_to_total_energy))
 
         # Colorbar
         # Note that this colorbar

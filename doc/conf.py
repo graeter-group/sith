@@ -1,3 +1,5 @@
+from docutils.parsers.rst import roles
+from docutils import nodes
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../src/'))
@@ -33,7 +35,7 @@ exclude_patterns = ['html', 'Thumbs.db', '.DS_Store']
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-#remote_theme: rundocs/jekyll-rtd-theme
+# remote_theme: rundocs/jekyll-rtd-theme
 html_static_path = ['_static']
 html_favicon = '_static/favicon.ico'
 html_title = "sith"
@@ -42,8 +44,8 @@ html_logo = '_static/favicon.ico'
 html_theme_options = {
     "style_nav_header_background": "#3434348D",
     'logo_only': True,
-    'display_version' : True,
-    'style_external_links' : True
+    'display_version': True,
+    'style_external_links': True
 }
 
 # Add custom CSS file
@@ -52,12 +54,13 @@ html_css_files = [
 ]
 
 # Add bash documentation
-from docutils import nodes
-from docutils.parsers.rst import roles
 
-def bashscript_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+
+def bashscript_role(name, rawtext, text, lineno,
+                    inliner, options={}, content=[]):
     """
-    Custom role :bashscript:`display <target-label>` to render a boxed ref link.
+    Custom role :bashscript:`display <target-label>` to render a boxed
+    ref link.
     """
     env = inliner.document.settings.env
 
@@ -67,7 +70,6 @@ def bashscript_role(name, rawtext, text, lineno, inliner, options={}, content=[]
     ref = ref.replace('_', '-')
     display_text = text.replace('.', '/') + '.sh'
 
-
     # Generate relative URI correctly using positional args
     refuri = env.app.builder.get_relative_uri(env.docname, target) + ref
 
@@ -76,6 +78,7 @@ def bashscript_role(name, rawtext, text, lineno, inliner, options={}, content=[]
     refnode['classes'].append('bashscript')
 
     return [refnode], []
+
 
 # Register the role
 roles.register_local_role('bashscript', bashscript_role)

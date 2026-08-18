@@ -12,6 +12,7 @@ class MoleculeSetter:
     atoms: ase.Atoms
         molecule to be analyzed.
     """
+
     def __init__(self, atoms):
         self.atoms = atoms
 
@@ -367,6 +368,7 @@ class Alignment:
     atoms: ase.Atoms
         molecule to be aligned.
     """
+
     def __init__(self, atoms):
         self.atoms = atoms
         self.ms = MoleculeSetter(self.atoms)
@@ -468,6 +470,7 @@ class PCAMatcher:
     to_compare: ase.Atoms
         molecule to be compared to the reference.
     """
+
     def __init__(self, reference, to_compare):
         assert len(reference) == len(to_compare), "The reference and the " + \
             "structure to compare have to have the same number of atoms"

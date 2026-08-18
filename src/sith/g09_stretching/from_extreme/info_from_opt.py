@@ -39,11 +39,11 @@ def info_from_opt(logfile, pattern):
     try:
         energies = [conf.get_potential_energy() for conf in atoms]
         energies = np.array(energies)
-    except:
+    except BaseException:
         # read energies
         energies = output_terminal("grep 'SCF Done:' " + logfile
-                                + " | awk '{print $5}'",
-                                print_output=False)
+                                   + " | awk '{print $5}'",
+                                   print_output=False)
         energies = np.array(energies.split('\n')[:-1], dtype=float)
 
     # remove configurations that goes up in energy. keep those that goes
@@ -238,7 +238,7 @@ def reduce_structs(dir, pattern, print_reduced=False):
         j += 1
     if new_set[-1] != len(all_files) - 1:
         new_set.append(len(all_files) - 1)
-    
+
     if print_reduced:
         for i in new_set:
             print(all_files[i])

@@ -67,7 +67,7 @@ def plot_averages_per_pos(ener_per_pos, mean_per_pos, stdr_per_pos, aminos,
         props = dict(boxstyle='round', facecolor='white', lw=0.5)
         factor = 0.92
         sp.ax[i].text(-0.5, ylim[-1] * factor + (1 - factor) * ylim[0],
-                      f"Position {i+1}", fontsize=8, va='top',
+                      f"Position {i + 1}", fontsize=8, va='top',
                       weight='bold', color=[0.4, 0.4, 0.4], bbox=props)
         sp.ax[i].spines[['right', 'top']].set_visible(False)
 
@@ -182,8 +182,6 @@ def plot_matrix2(matrix, labels, cbar_label, sp=None, subspace=None):
     ====
     Usually applied to show p-values.
     """
-    
-
 
     if sp is None:
         sp = StandardPlotter(figwidth=8.9, figheight=8.9 / 1.3,
@@ -223,11 +221,11 @@ def plot_matrix2(matrix, labels, cbar_label, sp=None, subspace=None):
     left = -0.005
     bottom = -0.04
     subspace.locate_ax([[left + 0.0, bottom + (1 - side) / 2],
-                            [left + side, bottom + side]],
-                           ax=sp.ax[0])
+                        [left + side, bottom + side]],
+                       ax=sp.ax[0])
     # ColorBar
     subspace.locate_ax([[0.76, bottom + (1 - side) / 2], [0.82, 0.912]],
-                           ax=sp.ax[1])
+                       ax=sp.ax[1])
 
     return sp
 
@@ -298,6 +296,7 @@ class SithPlotter(PepSetter, SithAnalysis):
     """
     Object that plots the main graphs to analyze sith outcomes.
     """
+
     def __init__(self, sith: SITH, pdb_template: str):
         """
         Parameters

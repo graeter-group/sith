@@ -15,6 +15,7 @@ class WriteSITH:
     geometry:
         Geometry containing the info requiered for energy analysis.
     """
+
     def __init__(self, geometry):
         self.geometry = geometry
 

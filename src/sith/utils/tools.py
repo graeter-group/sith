@@ -222,7 +222,7 @@ def conf2pdb(confile, pdbtemplate, pdboutput=None, write_new_pdb=True):
     atoms_xyz.arrays['residuenumbers'] = atoms_ref.arrays['residuenumbers']
     atoms_xyz.arrays['atomtypes'] = atoms_ref.arrays['atomtypes']
     if write_new_pdb:
-       write(pdboutput, atoms_ref)
+        write(pdboutput, atoms_ref)
 
     return atoms_ref
 

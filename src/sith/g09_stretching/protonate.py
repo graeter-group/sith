@@ -15,6 +15,7 @@ class Protonize:
     pdb: str.
         pdb file of the peptide.
     """
+
     def __init__(self, pdb):
         self.pepset = PepSetter(pdb)
         self.atoms = self.pepset.atoms

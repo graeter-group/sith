@@ -85,7 +85,8 @@ sh_executers = {
     'simplify_path': './g09_stretching/simplify_path.sh',
     'restart_g09': './g09_stretching/restart_g09.sh',
     'proline_mod': './g09_stretching/proline_mod.sh',
-    'workflow_from_extreme': './g09_stretching/from_extreme/workflow_from_extreme.sh',
+    'workflow_from_extreme':
+        './g09_stretching/from_extreme/workflow_from_extreme.sh',
     'opt_and_forces': './g09_stretching/from_extreme/opt_and_forces.sh',
     'extr_dofs': './g09_stretching/from_extreme/extr_dofs.sh',
     'continuous_path': './g09_stretching/from_extreme/continuous_path.sh',
@@ -129,7 +130,7 @@ def _read_arguments():
         args_dict[argument] = eval(values)
     args = args_dict['_reader_args']
     del args_dict['_reader_args']
-    
+
     if '--' == sys.argv[1][:2]:
         args = ()
 
@@ -201,7 +202,7 @@ def main():
     # own path
     elif sys.argv[1] == 'path':
         print(str(Path(__file__).parent)[:-3])
-    
+
     # open documentation
     elif sys.argv[1] == 'doc':
         command = "xdg-open " + str(Path(__file__).parent)[:-3] + \

@@ -43,6 +43,7 @@ class FileReader:
     create other readers. Readers should assign the values to the attributes of
     the class :mod:`~sith.Utilities.Geometry`.
     """
+
     def __init__(self, path: Union[Path, str], extract_data: bool = True):
         if isinstance(path, (Path, str)):
             path = Path(path)
@@ -272,8 +273,9 @@ class FileReader:
         values of the DOFs for the given configuration with shape (#DOFs).
         """
         dofs, ith_line = self._fill_array(ith_line, dtype=float)
-        assert len(dofs) == self.dims[0], "unexpected number of DOFs while " +\
-            f"trying to extract DOFs values ({len(dofs)}, {self.dims[0]}) for {self._name}"
+        assert len(dofs) == self.dims[0], (
+            "unexpected number of DOFs while trying to extract DOFs "
+            f"values ({len(dofs)}, {self.dims[0]}) for {self._name}")
         dofs[:self.dims[1]] *= Bohr
         self.geometry.dof = dofs
 
@@ -383,9 +385,10 @@ class G09Reader:
     inputfiles: list[Path]
         paths to the fchk files.
     structures: list[Geometry]
-        list of :mod:`sith.Utilities.Geometry`\s for each deformed
+        list of :mod:`sith.Utilities.Geometry`\\s for each deformed
         configuration.
     """
+
     def __init__(self, inputfiles: Union[list, str]):
         if isinstance(inputfiles, (str, Path)):
             master_path = Path(inputfiles)
@@ -422,6 +425,6 @@ class G09Reader:
         # print("Validating input files...")
         for file in files_paths:
             assert file.exists(), \
-                   "Path to reference geometry data does not exist."
+                "Path to reference geometry data does not exist."
 
         return True

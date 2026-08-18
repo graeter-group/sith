@@ -52,6 +52,7 @@ class Geometry:
 
     Note: All quantities are in units of Hartrees, Angstrom, radians
     """
+
     def __init__(self, name: str = ''):
         # region Basic Attributes
 
@@ -150,7 +151,8 @@ def color_distribution(sith: SITH,
                        absolute: bool = False,
                        div: int = 5,
                        decimals: int = 3,
-                       respect_to_total_energy: bool = False) -> tuple[np.ndarray, BoundaryNorm]:
+                       respect_to_total_energy: bool = False
+                       ) -> tuple[np.ndarray, BoundaryNorm]:
     """
     Extract the energies of the specified DOFs and deformation structure, and
     the normalization according to a cmap.
@@ -189,8 +191,8 @@ def color_distribution(sith: SITH,
     energies = []
     dof_ind = sith.dim_indices
     components = np.full(sith.dims[0], False, dtype=bool)
-    
-    energies = [] 
+
+    energies = []
     if respect_to_total_energy:
         energies = sith.dofs_energies
     else:
@@ -199,11 +201,11 @@ def color_distribution(sith: SITH,
             components = np.logical_or(dofindofs, components)
         energies = sith.dofs_energies[:, components]
 
-        assert len(dofs) == len(energies[idef]), "The energy of at least one DOF" \
-          "is missing."
+        assert len(dofs) == len(energies[idef]), \
+            "The energy of at least one DOF is missing."
 
     if len(energies) == 0:
-        energies = np.array([0,  1])
+        energies = np.array([0, 1])
 
     if absolute:
         minval = min(energies.flatten())
@@ -216,7 +218,6 @@ def color_distribution(sith: SITH,
     if minval == maxval:
         minval = 0
         maxval = 1
-
 
     boundaries = np.linspace(0, round(maxval - minval, decimals), div + 1)
     normalize = BoundaryNorm(boundaries, cmap.N)
@@ -263,7 +264,7 @@ def create_colorbar(normalize: BoundaryNorm, label: str, cmap: Colormap = None,
 
     if width is None:
         width = (3 + deci) * fontsize_inches
-    
+
     if ax is None:
         fig, ax = plt.subplots(figsize=(width, height), dpi=dpi)
     else:

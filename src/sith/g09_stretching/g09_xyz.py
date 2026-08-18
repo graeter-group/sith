@@ -185,6 +185,8 @@ def log2xyz(finput, foutput=None, indexes=None):
     return atoms
 
 # add2executable
+
+
 def log2xyz2(finput, foutput=None, indexes=None, frame=-1):
     """
     Extract a single frame from a gaussian log file (or any file format

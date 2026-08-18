@@ -13,6 +13,7 @@ class PepSetter(MoleculeSetter):
     pdb_file: str or path
         path to the pdb file containing the information of the protein.
     """
+
     def __init__(self, pdb_file):
         self.atoms = read(pdb_file)
         self.name = pdb_file

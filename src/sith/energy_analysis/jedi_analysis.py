@@ -11,6 +11,7 @@ class JediAnalysis:
     structures_info: :class:`sith.SITH`
         object containing the necessary information for the energy analysis.
     """
+
     def __init__(self, structures_info):
         self.structures_info = structures_info
         self.structures_info.delta_q = self.get_jedi_dq()

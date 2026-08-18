@@ -28,6 +28,7 @@ class MoleculeNGL:
         the arc drawn when representing angles and dihedrals (see
         add_angle and add_dihedral).
     """
+
     def __init__(self, atoms, alignment=None, axis=False,
                  xsize: int = 500, ysize: int = 500, n=5):
         try:
@@ -884,6 +885,7 @@ class EnergiesNGL(MoleculeNGL):
     kwargs:
         kwargs of MoleculeNGL
     """
+
     def __init__(self, sith_info, idef='all', alignment=None, axis=False,
                  background='#FFFFFF', **kwargs):
         self.idef = idef

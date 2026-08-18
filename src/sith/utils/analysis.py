@@ -486,6 +486,7 @@ class SithAnalysis:
         Information of the peptide. Like amino acids, atoms, and so. It is an
         attribute of sith.utils.peptides.PepSetter.
     """
+
     def __init__(self, sith, pepinfo):
         self.sith = sith
         self.pep_info = pepinfo
@@ -745,7 +746,9 @@ class DataSetAnalysis:
                     print(f"\nError also in subdir:", e2)
                     self.pep_infos.pop(-1)
                     errors.append(pep.stem)
-            assert len(self.pep_infos[-1].atoms)   == len(self.outcomes[-1].structures[0].atoms), f"Atom count mismatch for {pep.stem}"
+            assert len(self.pep_infos[-1].atoms) == len(
+                self.outcomes[-1].structures[0].atoms), \
+                f"Atom count mismatch for {pep.stem}"
 
             if n_pep % 20 == 0:
                 print()
@@ -780,9 +783,9 @@ class DataSetAnalysis:
 
         Parameters
         ==========
-        sith: 
+        sith:
             SITH object containing the information of the current peptide.
-        analysis: 
+        analysis:
             Analysis object containing the information of the current peptide.
 
         Return
@@ -956,7 +959,9 @@ class DataSetAnalysis:
                 try:
                     dist = struc.atoms.get_distance(index1 - 1, index2 - 1)
                 except IndexError:
-                    print(f"Error getting distance for {sith.name} setting distance to 0.0")
+                    print(
+                        f"Error getting distance for {sith.name} "
+                        "setting distance to 0.0")
                     continue
                 x.append(dist)
             sp.plot_data(x, y, ax=ax, lw=lw, markersize=ms)

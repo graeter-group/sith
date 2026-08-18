@@ -26,10 +26,10 @@ def permute_atoms(atoms, indexes):
     indexes.sort()
 
     atoms = (atoms[:indexes[0] - 1]
-            + atoms[indexes[1] - 1]
-            + atoms[indexes[0]: indexes[1] - 1]
-            + atoms[indexes[0] - 1]
-            + atoms[indexes[1]:])
+             + atoms[indexes[1] - 1]
+             + atoms[indexes[0]: indexes[1] - 1]
+             + atoms[indexes[0] - 1]
+             + atoms[indexes[1]:])
 
     return atoms
 
@@ -84,17 +84,17 @@ def test_dofs(atoms, index, file):
     do not
     """
     indexes = output_terminal(f"grep ',R{index},' {file} | " +
-                            "awk -F ',' '{print $2, $4, $6}'").split()
+                              "awk -F ',' '{print $2, $4, $6}'").split()
     indexes = [int(i) for i in indexes]
     indexes = [index] + indexes
 
     dist, angl, dihe = extract_dofs(np.array(indexes), atoms)
     old_dist = float(output_terminal(f'sed -n "/R{indexes[0]}=/p" {file}'
-                                    + ' | cut -d = -f 2', print_output=False))
+                                     + ' | cut -d = -f 2', print_output=False))
     old_angl = float(output_terminal(f'sed -n "/A{indexes[0]}=/p" {file}'
-                                    + ' | cut -d = -f 2', print_output=False))
+                                     + ' | cut -d = -f 2', print_output=False))
     old_dihe = float(output_terminal(f'sed -n "/D{indexes[0]}=/p" {file}'
-                                    + ' | cut -d = -f 2', print_output=False))
+                                     + ' | cut -d = -f 2', print_output=False))
 
     assert old_dist == approx(dist, abs=3e-2), f"R{indexes[0]}({old_dist}) " +\
         f"does not correspond to the expected from the xyz file({dist})"
@@ -156,7 +156,7 @@ def change_def(new_i, element, atoms, file):
     for i in new_i[1:]:
         if new_i[0] < i:
             print("At least two atoms have to be swaped. You are trying to "
-                + f"redefine {new_i}.")
+                  + f"redefine {new_i}.")
 
     # Create new and old lines
     new_line = def_line(new_i, element)
@@ -167,10 +167,10 @@ def change_def(new_i, element, atoms, file):
     dist, angl, dihe = extract_dofs(new_i, atoms)
 
     # Change value
-    output_terminal(f'sed -i "/,R{tochange},/c\ {new_line}" {file}')
-    output_terminal(f'sed -i "/R{tochange}=/c\ R{tochange}={dist}" {file}')
-    output_terminal(f'sed -i "/A{tochange}=/c\ A{tochange}={angl}" {file}')
-    output_terminal(f'sed -i "/D{tochange}=/c\ D{tochange}={dihe}" {file}')
+    output_terminal(f'sed -i "/,R{tochange},/c\\ {new_line}" {file}')
+    output_terminal(f'sed -i "/R{tochange}=/c\\ R{tochange}={dist}" {file}')
+    output_terminal(f'sed -i "/A{tochange}=/c\\ A{tochange}={angl}" {file}')
+    output_terminal(f'sed -i "/D{tochange}=/c\\ D{tochange}={dihe}" {file}')
 
 
 def extract_proline_atoms(pep_set, i_pro):
@@ -291,11 +291,12 @@ def reorder_prolines_atoms(comfile, molecule, pdb_template, option):
         reorder = np.array(backbone + side)
 
         new_atoms = conf2pdb(molecule, pdb_template, write_new_pdb=False)
-        assert len(reorder) == max(reorder) - min(reorder) + 1, "The number of atoms in the " +\
-            "pdb template and in the xyz file do not match."
-        new_atoms = new_atoms[: min(reorder) - 1]  + new_atoms[reorder - 1] \
-                    + new_atoms[max(reorder):]
-        
+        assert len(reorder) == max(reorder) - min(reorder) + 1, \
+            "The number of atoms in the pdb template and in the xyz " \
+            "file do not match."
+        new_atoms = new_atoms[: min(reorder) - 1] + new_atoms[reorder - 1] \
+            + new_atoms[max(reorder):]
+
         original_order = np.arange(min(reorder), max(reorder) + 1)
         print("finding permutations")
         permitations = swaps_to_transform(reorder,
@@ -307,7 +308,7 @@ def reorder_prolines_atoms(comfile, molecule, pdb_template, option):
 
             original_order[swap[0]], original_order[swap[1]] = b, a
 
-            output_terminal(f"sith swap_atoms_in_com -a {a} " +\
+            output_terminal(f"sith swap_atoms_in_com -a {a} " +
                             f"-b {b} -f {comfile}")
 
         # save the new order
@@ -315,6 +316,7 @@ def reorder_prolines_atoms(comfile, molecule, pdb_template, option):
         write(pdb_template, new_atoms)
 
     return pdb_template
+
 
 def swaps_to_transform(initial, final):
     """
@@ -391,7 +393,7 @@ def change_prolines_dofs(comfile, molecule, pdb_template, option):
         # extract the new definition of atoms
         N_i, Cd_i, Cg_i, Cb_i, Ca_i, HA_i, C_i, O_i, HB1_i, HB2_i, HG1_i, \
             HG2_i, HD1_i, HD2_i = extract_proline_atoms(pep_set, i_pro)
-        
+
         if N_i < C_i:
             starting = 'N'
             previous = [amino_prev['C'], amino_prev['CA'], amino_prev['N']]
@@ -417,7 +419,7 @@ def change_prolines_dofs(comfile, molecule, pdb_template, option):
         elif option == '5':
             set5(N_i, Ca_i, HA_i, C_i, O_i,
                  Cd_i, Cg_i, Cb_i, HB1_i, HB2_i, HG1_i,
-                 HG2_i, HD1_i, HD2_i,  previous, starting, atoms, comfile)
+                 HG2_i, HD1_i, HD2_i, previous, starting, atoms, comfile)
         else:
             raise ValueError("Option should be '1', '2', '3', '4' or '5'.")
 
@@ -476,6 +478,7 @@ def set_backbone(N_i, Ca_i, HA_i, C_i, O_i, previous, atoms, comfile,
                    'H', atoms, comfile)
         change_def([N_i, Ca_i, C_i, previous[0]],
                    'N', atoms, comfile)
+
 
 def set1(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
          HG2_i, HD1_i, HD2_i, atoms, comfile):
@@ -548,6 +551,7 @@ def set2(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
     change_def([HG1_i, Cg_i, Cd_i, N_i], 'H', atoms, comfile)
     change_def([HG2_i, Cg_i, Cd_i, N_i], 'H', atoms, comfile)
 
+
 def set3(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
          HG2_i, HD1_i, HD2_i, atoms, comfile):
     """
@@ -618,9 +622,10 @@ def set4(Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
     change_def([HD1_i, Cd_i, Cg_i, Cb_i], 'H', atoms, comfile)
     change_def([HD2_i, Cd_i, Cg_i, Cb_i], 'H', atoms, comfile)
 
+
 def set5(N_i, Ca_i, HA_i, C_i, O_i,
          Cd_i, Cg_i, Cb_i, HB1_i, HB2_i, HG1_i,
-         HG2_i, HD1_i, HD2_i,  previous, starting, atoms, comfile):
+         HG2_i, HD1_i, HD2_i, previous, starting, atoms, comfile):
     """
     Redefine the z-matrix definitions of the whole proline (backbone and
     ring side-chain atoms) in the gaussian comfile for option '5', where

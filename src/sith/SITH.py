@@ -138,7 +138,8 @@ class SITH:
         for deformn in self.structures:
             assert (deformn.dim_indices == ref.dim_indices).all(), \
                 f"Incompatible dimensions ({deformn.name}), " +\
-                f"{np.where(np.all(deformn.dim_indices != ref.dim_indices, axis=0))[0]}"
+                f"{np.where(np.all(deformn.dim_indices != ref.dim_indices,
+                                   axis=0))[0]}"
         return True
     # endregion
 
@@ -377,8 +378,8 @@ class SITH:
 
     def delta_angles_continuous(self, d_ij, nrs):
         """
-        Make the difference of the angles continuous considering the periodicity of
-        them.
+        Make the difference of the angles continuous considering the
+        periodicity of them.
 
         Parameters
         ==========

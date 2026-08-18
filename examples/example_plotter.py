@@ -112,7 +112,7 @@ def hessian_blocks(hessian, dims, decis=[2, 2, 2, 2], orientation='vertical',
     plot_hessian(hessian[:dims[1], :dims[1]], ax=ax[0][0],
                  orientation='vertical', cbar=True, ticks=ticks, deci=decis[0])
     range_bonds = np.arange(1,
-                            dims[1]+1,
+                            dims[1] + 1,
                             deltas[0])
     ax[0][0].set_xticks(range_bonds - 1)
     ax[0][0].set_xticklabels(range_bonds)
@@ -120,7 +120,7 @@ def hessian_blocks(hessian, dims, decis=[2, 2, 2, 2], orientation='vertical',
     ax[0][0].set_yticklabels(range_bonds)
 
     ax[0][1].set_title('Angles')
-    plot_hessian(hessian[dims[1]:dims[2]+dims[1], dims[1]:dims[2]+dims[1]],
+    plot_hessian(hessian[dims[1]:dims[2] + dims[1], dims[1]:dims[2] + dims[1]],
                  ax=ax[0][1], orientation='vertical', cbar=True, ticks=ticks,
                  deci=decis[1])
     range_angles = np.arange(dims[1] + 1,
@@ -132,7 +132,7 @@ def hessian_blocks(hessian, dims, decis=[2, 2, 2, 2], orientation='vertical',
     ax[0][1].set_yticklabels(range_angles)
 
     ax[0][2].set_title('Dihedrals')
-    plot_hessian(hessian[dims[2]+dims[1]:, dims[2]+dims[1]:], ax=ax[0][2],
+    plot_hessian(hessian[dims[2] + dims[1]:, dims[2] + dims[1]:], ax=ax[0][2],
                  orientation='vertical', cbar=True, ticks=ticks, deci=decis[2])
     range_dihedrals = np.arange(dims[1] + dims[2] + 1,
                                 dims[1] + dims[2] + dims[3] + 1,
@@ -149,29 +149,29 @@ def hessian_blocks(hessian, dims, decis=[2, 2, 2, 2], orientation='vertical',
 
     [[ax[i][j].set_visible(False) for i in range(1, 4)] for j in range(1, 3)]
     im = plot_hessian(hessian, ax=ax[1][0], cbar=False)
-    ax[1][0].plot([dims[1]-0.5, dims[1]-0.5, -0.5, -0.5, dims[1]-0.5],
-                  [-0.5, dims[1]-0.5, dims[1]-0.5, -0.5, -0.5], color='black',
-                  lw=1)
-    range_total = np.arange(1, dims[0]+1, deltas[3])
+    ax[1][0].plot([dims[1] - 0.5, dims[1] - 0.5, -0.5, -0.5, dims[1] - 0.5],
+                  [-0.5, dims[1] - 0.5, dims[1] - 0.5, -0.5, -0.5],
+                  color='black', lw=1)
+    range_total = np.arange(1, dims[0] + 1, deltas[3])
     ax[1][0].set_xticks(range_total - 1)
     ax[1][0].set_xticklabels(range_total)
     ax[1][0].set_yticks(range_total - 1)
     ax[1][0].set_yticklabels(range_total)
 
-    ax[1][0].plot([dims[2]-0.5 + dims[1], dims[2]-0.5 + dims[1],
-                   dims[1]-0.5, dims[1]-0.5,
-                   dims[2]-0.5 + dims[1]],
-                  [dims[1]-0.5, dims[2]-0.5 + dims[1],
-                   dims[2]-0.5 + dims[1], dims[1]-0.5,
-                   dims[1]-0.5], color='black', lw=1)
+    ax[1][0].plot([dims[2] - 0.5 + dims[1], dims[2] - 0.5 + dims[1],
+                   dims[1] - 0.5, dims[1] - 0.5,
+                   dims[2] - 0.5 + dims[1]],
+                  [dims[1] - 0.5, dims[2] - 0.5 + dims[1],
+                   dims[2] - 0.5 + dims[1], dims[1] - 0.5,
+                   dims[1] - 0.5], color='black', lw=1)
 
-    ax[1][0].plot([dims[3]-0.5 + dims[1] + dims[2],
-                   dims[3]-0.5 + dims[1] + dims[2],
-                   dims[2]-0.5 + dims[1], dims[2]-0.5 + dims[1],
-                   dims[3]-0.5 + dims[1]+dims[2]],
-                  [dims[2]-0.5 + dims[1], dims[3]-0.5 + dims[1]+dims[2],
-                   dims[3]-0.5 + dims[1]+dims[2], dims[2]-0.5 + dims[1],
-                   dims[2]-0.5 + dims[1]], color='black', lw=1)
+    ax[1][0].plot([dims[3] - 0.5 + dims[1] + dims[2],
+                   dims[3] - 0.5 + dims[1] + dims[2],
+                   dims[2] - 0.5 + dims[1], dims[2] - 0.5 + dims[1],
+                   dims[3] - 0.5 + dims[1] + dims[2]],
+                  [dims[2] - 0.5 + dims[1], dims[3] - 0.5 + dims[1] + dims[2],
+                   dims[3] - 0.5 + dims[1] + dims[2], dims[2] - 0.5 + dims[1],
+                   dims[2] - 0.5 + dims[1]], color='black', lw=1)
 
     cbar = fig.colorbar(im, cax=ax[3][2], format='%1.{}f'.format(decis[3]),
                         orientation=orientation, pad=pad, shrink=shrink)
