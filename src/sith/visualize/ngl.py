@@ -23,6 +23,10 @@ class MoleculeNGL:
         Horizontal size of the visualization windows.
     ysize: int. Default=500.
         Vertical size of the visualization windows.
+    n: int. Default=5
+        Default number of intermediate points used to discretize
+        the arc drawn when representing angles and dihedrals (see
+        add_angle and add_dihedral).
     """
     def __init__(self, atoms, alignment=None, axis=False,
                  xsize: int = 500, ysize: int = 500, n=5):
@@ -866,7 +870,7 @@ class EnergiesNGL(MoleculeNGL):
     sith_info:
         sith object or sith.utilities.ReadSummary object
     idef: int. Default='all'
-        number of the deformation to be analized. Default=None, that means,
+        number of the deformation to be analized. Default='all', that means,
         all the structures are displayed as a trajectory.
     alignment: list. Default=None
         3 indexes to fix the correspondig atoms in the xy plane.

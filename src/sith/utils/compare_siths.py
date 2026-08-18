@@ -9,7 +9,7 @@ def index_dof(sith, target: tuple):
     ==========
     sith: sith.SITH
         SITH object.
-    target: np.ndarray
+    target: tuple
         degree of freedom.
 
     Return
@@ -31,9 +31,8 @@ def index_dof(sith, target: tuple):
 
 def organize_lengths(sith1, sith2):
     """
-    sort the distances in sith1 such that they fit with sith2.
-    # TODO: confirm that the description is correct and it is
-    # not the other way arround
+    Compute the indexes that reorder the distances of sith2 so that they
+    match the order of the distances in sith1.
 
     Parameters
     ==========

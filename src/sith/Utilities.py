@@ -42,6 +42,9 @@ class Geometry:
         values of the DOFs for the given configuration with shape (#DOFs).
     hessian: np.array
         Hessian matrix associated with the geometry in units of
+        Hartree/Angstrom^2 for bond-length DOFs, Hartree/radian^2 for angle
+        (bond and dihedral) DOFs, and the corresponding mixed units for the
+        cross terms between them.
     internal_forces: np.array
         Forces in DOFs.
     atoms: ase.Atoms

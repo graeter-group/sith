@@ -174,6 +174,28 @@ def change_def(new_i, element, atoms, file):
 
 
 def extract_proline_atoms(pep_set, i_pro):
+    """
+    Extract the atom indices of a proline residue that are needed to
+    redefine its ring degrees of freedom.
+
+    Parameters
+    ==========
+    pep_set: PepSetter
+        object containing the peptide information, including
+        amino_info with the atom indices of each residue.
+    i_pro: int
+        index (1-based, as used in pep_set.amino_info) of the proline
+        residue to extract.
+
+    Return
+    ======
+    (tuple) N_i, Cd_i, Cg_i, Cb_i, Ca_i, HA_i, C_i, O_i, HB1_i, HB2_i,
+    HG1_i, HG2_i, HD1_i, HD2_i: indices of the backbone and ring atoms of
+    the proline (N, Cdelta, Cgamma, Cbeta, Calpha, HA, C, O and the two
+    hydrogens each on Cbeta, Cgamma and Cdelta). The hydrogen names are
+    looked up as '1HB'/'2HB'/... first, falling back to 'HB1'/'HB2'/...
+    if the former are not present in amino_info.
+    """
     amino = pep_set.amino_info[i_pro]
 
     N_i = amino['N']
@@ -404,6 +426,34 @@ def change_prolines_dofs(comfile, molecule, pdb_template, option):
 
 def set_backbone(N_i, Ca_i, HA_i, C_i, O_i, previous, atoms, comfile,
                  starting):
+    """
+    Redefine the z-matrix definitions (distance, angle, dihedral) of the
+    proline backbone atoms (N, Ca, HA, C, O) in the gaussian comfile,
+    referencing them to the atoms of the previous residue.
+
+    Parameters
+    ==========
+    N_i, Ca_i, HA_i, C_i, O_i: int
+        indices of the proline backbone atoms N, Calpha, HA, C and O.
+    previous: list of int
+        indices of the three atoms of the previous residue used as
+        reference to redefine the first backbone atom (order depends on
+        `starting`).
+    atoms: ase.Atoms
+        atoms of the current configuration.
+    comfile: str
+        gaussian input comfile to modify. Be sure to back up the
+        original file.
+    starting: str
+        'N' if the backbone is defined starting from N (N, Ca, HA, C, O
+        order), 'C' if it is defined starting from C (C, O, Ca, HA, N
+        order).
+
+    Return
+    ======
+    (None) However, it changes comfile. Be sure to back up the original
+    file.
+    """
     if starting == 'N':
         change_def([N_i, previous[0], previous[1], previous[2]],
                    'N', atoms, comfile)
@@ -429,6 +479,29 @@ def set_backbone(N_i, Ca_i, HA_i, C_i, O_i, previous, atoms, comfile,
 
 def set1(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
          HG2_i, HD1_i, HD2_i, atoms, comfile):
+    """
+    Redefine the z-matrix definitions of the proline ring side-chain atoms
+    (Cb, Cg, Cd and their hydrogens) in the gaussian comfile for option
+    '1' (the Cgamma-Cdelta bond is the missing ring bond): Cb/Cg are
+    defined from the backbone (Ca, C, O) side, and Cd is defined
+    independently from the backbone (N, Ca, C) side.
+
+    Parameters
+    ==========
+    N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i, HG2_i,
+    HD1_i, HD2_i: int
+        indices of the proline backbone and ring atoms.
+    atoms: ase.Atoms
+        atoms of the current configuration.
+    comfile: str
+        gaussian input comfile to modify. Be sure to back up the
+        original file.
+
+    Return
+    ======
+    (None) However, it changes comfile. Be sure to back up the original
+    file.
+    """
     change_def([Cb_i, Ca_i, C_i, O_i], 'C', atoms, comfile)
     change_def([HB1_i, Cb_i, Ca_i, C_i], 'H', atoms, comfile)
     change_def([HB2_i, Cb_i, Ca_i, C_i], 'H', atoms, comfile)
@@ -442,6 +515,29 @@ def set1(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
 
 def set2(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
          HG2_i, HD1_i, HD2_i, atoms, comfile):
+    """
+    Redefine the z-matrix definitions of the proline ring side-chain atoms
+    (Cb, Cd, Cg and their hydrogens) in the gaussian comfile for option
+    '2' (the Cbeta-Cgamma bond is the missing ring bond): Cb is defined
+    from the backbone (Ca, C, O) side, and Cd/Cg are defined
+    independently from the backbone (N, Ca, C) side.
+
+    Parameters
+    ==========
+    N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i, HG2_i,
+    HD1_i, HD2_i: int
+        indices of the proline backbone and ring atoms.
+    atoms: ase.Atoms
+        atoms of the current configuration.
+    comfile: str
+        gaussian input comfile to modify. Be sure to back up the
+        original file.
+
+    Return
+    ======
+    (None) However, it changes comfile. Be sure to back up the original
+    file.
+    """
     change_def([Cb_i, Ca_i, C_i, O_i], 'C', atoms, comfile)
     change_def([HB1_i, Cb_i, Ca_i, C_i], 'H', atoms, comfile)
     change_def([HB2_i, Cb_i, Ca_i, C_i], 'H', atoms, comfile)
@@ -454,6 +550,29 @@ def set2(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
 
 def set3(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
          HG2_i, HD1_i, HD2_i, atoms, comfile):
+    """
+    Redefine the z-matrix definitions of the proline ring side-chain atoms
+    (Cd, Cg, Cb and their hydrogens) in the gaussian comfile for option
+    '3' (the Calpha-Cbeta bond is the missing ring bond): the whole
+    Cd-Cg-Cb chain is defined independently from the backbone (N, Ca, C)
+    side, without referencing Ca directly.
+
+    Parameters
+    ==========
+    N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i, HG2_i,
+    HD1_i, HD2_i: int
+        indices of the proline backbone and ring atoms.
+    atoms: ase.Atoms
+        atoms of the current configuration.
+    comfile: str
+        gaussian input comfile to modify. Be sure to back up the
+        original file.
+
+    Return
+    ======
+    (None) However, it changes comfile. Be sure to back up the original
+    file.
+    """
     change_def([Cd_i, N_i, Ca_i, C_i], 'C', atoms, comfile)
     change_def([HD1_i, Cd_i, N_i, Ca_i], 'H', atoms, comfile)
     change_def([HD2_i, Cd_i, N_i, Ca_i], 'H', atoms, comfile)
@@ -467,6 +586,28 @@ def set3(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
 
 def set4(Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
          HG2_i, HD1_i, HD2_i, atoms, comfile):
+    """
+    Redefine the z-matrix definitions of the proline ring side-chain atoms
+    (Cb, Cg, Cd and their hydrogens) in the gaussian comfile for option
+    '4' (the Cdelta-N bond is the missing ring bond): the whole
+    Cb-Cg-Cd chain is defined from the backbone (Ca, C, O) side.
+
+    Parameters
+    ==========
+    Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i, HG2_i, HD1_i,
+    HD2_i: int
+        indices of the proline backbone and ring atoms.
+    atoms: ase.Atoms
+        atoms of the current configuration.
+    comfile: str
+        gaussian input comfile to modify. Be sure to back up the
+        original file.
+
+    Return
+    ======
+    (None) However, it changes comfile. Be sure to back up the original
+    file.
+    """
     change_def([Cb_i, Ca_i, C_i, O_i], 'C', atoms, comfile)
     change_def([HB1_i, Cb_i, Ca_i, C_i], 'H', atoms, comfile)
     change_def([HB2_i, Cb_i, Ca_i, C_i], 'H', atoms, comfile)
@@ -480,6 +621,37 @@ def set4(Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
 def set5(N_i, Ca_i, HA_i, C_i, O_i,
          Cd_i, Cg_i, Cb_i, HB1_i, HB2_i, HG1_i,
          HG2_i, HD1_i, HD2_i,  previous, starting, atoms, comfile):
+    """
+    Redefine the z-matrix definitions of the whole proline (backbone and
+    ring side-chain atoms) in the gaussian comfile for option '5', where
+    the ring is defined as a single chain starting from the atom of type
+    `starting` and running through N/C, Cd, Cg, Cb, Ca, HA, C/N and O (in
+    that order), referenced to the previous residue's atoms.
+
+    Parameters
+    ==========
+    N_i, Ca_i, HA_i, C_i, O_i, Cd_i, Cg_i, Cb_i, HB1_i, HB2_i, HG1_i,
+    HG2_i, HD1_i, HD2_i: int
+        indices of the proline backbone and ring atoms.
+    previous: list of int
+        indices of the three atoms of the previous residue used as
+        reference to redefine the first atom of the chain (order depends
+        on `starting`).
+    starting: str
+        'N' if the chain is defined starting from N (N, Cd, Cg, Cb, Ca,
+        HA, C, O order), 'C' if it is defined starting from C (C, O, Ca,
+        HA, Cb, Cg, Cd, N order).
+    atoms: ase.Atoms
+        atoms of the current configuration.
+    comfile: str
+        gaussian input comfile to modify. Be sure to back up the
+        original file.
+
+    Return
+    ======
+    (None) However, it changes comfile. Be sure to back up the original
+    file.
+    """
     if starting == 'N':
         change_def([N_i, previous[0], previous[1], previous[2]],
                    'N', atoms, comfile)

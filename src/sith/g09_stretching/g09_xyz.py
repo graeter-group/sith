@@ -39,7 +39,8 @@ def _getEnergy(structure):
     Parameters
     ==========
     structure: str
-        info of the structure # TODO: check this, I don't know.
+        block of text (lines) corresponding to a single structure from a
+        gaussian log file, as accumulated by log2xyz.
 
     Return
     ======
@@ -54,18 +55,19 @@ def _getEnergy(structure):
 
 def _findInList(dataList, target):
     """
-    Find something in a list # TODO: correct this, I put something random
+    Find the first element of a list that contains a given substring.
 
     Parameters
     ==========
-    dataList:
-        List of data
-    target:
-        target
+    dataList: list of str
+        List of strings to search through.
+    target: str
+        Substring to look for in each element of dataList.
 
     Return
     ======
-    (float?) target in the list.
+    (int) index of the first element in dataList that contains target.
+    If no element contains target, -1 is returned.
     """
     for i in range(0, len(dataList)):
         if dataList[i].find(target) != -1:
@@ -75,16 +77,21 @@ def _findInList(dataList, target):
 
 def _getCoordinates(dataList):
     """
-    # TODO: Add definition
+    Extract the atomic coordinate lines from the "Standard orientation"
+    block of a gaussian structure.
 
     Parameters
     ==========
-    dataList:
-        # TODO: add documentation of this parameter
+    dataList: list of str
+        Lines of a single structure block from a gaussian log file (as
+        produced by splitting the text returned by _getEnergy's input on
+        newlines).
 
     Return
     ======
-    # TODO: add return information
+    (list of str) the lines listing the atoms and their coordinates found
+    right after the "Standard orientation" header (skipping the 5 header
+    lines) and before the following line of dashes.
     """
     start = _findInList(dataList, "Standard orientation")
     dataList = dataList[start + 5:]
@@ -102,12 +109,14 @@ def log2xyz(finput, foutput=None, indexes=None):
     ==========
     finput: str
         path to the log file.
-    foutput: str. Default=None # TODO: check default value
+    foutput: str. Default=None
         name of the output file without extension.
 
     Return
     ======
-    # TODO: add return information
+    (ase.Atoms) the extracted (and, if indexes is given, xy-aligned)
+    optimized structure. The same structure is also written to the
+    .xyz output file.
 
     Note: if foutput is not given, the name output will be the same than the
     input but with xyz extension.
@@ -177,6 +186,29 @@ def log2xyz(finput, foutput=None, indexes=None):
 
 # add2executable
 def log2xyz2(finput, foutput=None, indexes=None, frame=-1):
+    """
+    Extract a single frame from a gaussian log file (or any file format
+    supported by ase.io.read) and write it as a .xyz file.
+
+    Parameters
+    ==========
+    finput: str
+        path to the input file.
+    foutput: str. Default=None
+        name of the output file without extension. If not given, the
+        output name will be the same as the input but with xyz extension.
+    indexes: list. Default=None
+        indexes of up to 3 atoms used to align the structure on the xy
+        plane via MoleculeSetter.xy_alignment. If None, no alignment is
+        performed.
+    frame: int. Default=-1
+        index of the frame/structure to read from finput.
+
+    Return
+    ======
+    (ase.Atoms) the extracted (and, if indexes is given, xy-aligned)
+    structure. The same structure is also written to the .xyz output file.
+    """
     atoms = read(finput, index=frame)
 
     ms = MoleculeSetter(atoms)

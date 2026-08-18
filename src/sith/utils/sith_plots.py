@@ -242,9 +242,6 @@ def plot_matrix3(matrix, labels, cbar_label):
         squared matrix as a shape of matrix of dimension 2.
     labels: list
         label of the components of the matrix.
-    n_per_ele: numpy.array
-        value to be displayed on the box of the matrix. For example, the number
-        of samples.
     cbar_label: str
         label of the color bar.
 
@@ -326,6 +323,9 @@ class SithPlotter(PepSetter, SithAnalysis):
         ==========
         steps: list. Default=[1, 1, 1, 1]
             size of steps separating the labels of the degrees of freedom.
+        jump_stretching: int. Default=1
+            jumps from one stretching to the other starting from the optimized
+            one.
         **kwargs:
             SithPlotter.plot_data arguments.
 
@@ -413,6 +413,8 @@ class SithPlotter(PepSetter, SithAnalysis):
             .
         xlabel: str
             label of the xlabel indicating the represented DOFS.
+        ax: plt.Axes or int. Default=0
+            axis (or its index in sp.ax) where the plot is drawn.
         sp: StandardPlotter
             plotter object. if not given. It creates a new object with one
             graph.
@@ -433,6 +435,11 @@ class SithPlotter(PepSetter, SithAnalysis):
             True to show the name of the aminoacids painting the background.
         ax_pref: dict
             axes preferences. See StandardPlotter.
+        sp_pref: dict
+            keyword arguments passed to StandardPlotter when creating a new
+            plotter object (used only if `sp` is not given).
+        pad_cbar: int or float. Default=10
+            padding of the color bar label.
 
         Return
         ======
@@ -558,6 +565,25 @@ class SithPlotter(PepSetter, SithAnalysis):
         return dof_per_amino
 
     def create_blocks(self, classified, key):
+        """
+        Group the (assumed sorted) DOF indices belonging to a given amino
+        acid into contiguous blocks, so consecutive indices are merged into a
+        single [start, end] range.
+
+        Parameters
+        ==========
+        classified: dict
+            mapping from amino acid index to an array of DOF indices, as
+            returned by SithPlotter._dof_classificator.
+        key:
+            key of `classified` (amino acid index) whose DOF indices should
+            be grouped into blocks.
+
+        Return
+        ======
+        (list) list of [start, end] pairs, each describing a contiguous
+        block of DOF indices belonging to `key`.
+        """
         blocks = [[classified[key][0], classified[key][0]]]
         for i in classified[key][1:]:
             if i == blocks[-1][-1] + 1:
@@ -675,8 +701,10 @@ class SithPlotter(PepSetter, SithAnalysis):
         classical: array-like
             set of classical energies of each deformation computed with
             amber99.
-        sp_pref:
-
+        sp_pref: dict
+            keyword arguments passed to StandardPlotter when creating the
+            plotter object (e.g. 'figheight', which defaults to 10 if not
+            given).
 
         Return
         ======
@@ -759,8 +787,6 @@ class SithPlotter(PepSetter, SithAnalysis):
 
         Parameters
         ==========
-        hessian: NxN numpy.array
-            matrix to be ploted
         ax: plt.Axes
             Axis to add the plot. Default: None, in this case, the function
             creates a new Axis.
@@ -827,6 +853,14 @@ class SithPlotter(PepSetter, SithAnalysis):
 
         Parameters
         ==========
+        step: int. Default=1
+            steps between radius ticks in the polar plots.
+        marker_size_polar: int or float. Default=5
+            marker size of the dots in the polar (phi and psi) plots.
+        marker_size_rama: int or float. Default=20
+            marker size of the dots in the Ramachandran plot.
+        label_dots: str. Default='Amino\\nAcids'
+            title of the legend identifying each amino acid by index.
         """
         rama_angles = self.rama_phi_psi([struct.atoms
                                          for struct in self.sith.structures])

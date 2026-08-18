@@ -612,8 +612,11 @@ class DataSetAnalysis:
     ==========
     inner_steps: function. Default=None
         function with the operations to apply to every sith object -its
-        unique argument- after initialized. Note that it has to have the
-        analysis you want to apply. For example,
+        unique argument- after initialized. It has to accept a sith object
+        as its only argument, apply the analysis you want to it, and return
+        the resulting sith object. For example, a function that removes the
+        first and last structure and then runs the sith analysis (see the
+        note below for the complete example).
     data_dir: str. Default='./'
         directory containing the directories of the molecules.
     subdir: str. Default=''

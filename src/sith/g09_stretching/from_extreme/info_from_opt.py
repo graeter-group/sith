@@ -92,8 +92,11 @@ def continuous_e2e(pattern, index1, index2, dir_output='e2e_continuous'):
 
     Return
     ======
-    (ase.Atoms) new trajectory with continuous distance between index1 and
-    index2. It creates the xyz files in dir_output.
+    (list of ase.Atoms) the input configurations after alignment with
+    index1, index2 and index3, i.e. before the intermediate structures are
+    interpolated in. The continuous trajectory (with the interpolated
+    intermediate structures included) is not returned; it is only written
+    as xyz files to dir_output.
     """
     all_atoms = []
     files = glob("*{pattern}*.xyz")
@@ -188,6 +191,9 @@ def reduce_structs(dir, pattern, print_reduced=False):
     pattern: str
         pattern for the output files, all of them will be then
         <pattern><i>.dat
+    print_reduced: bool. Default=False
+        if True, print the file names of the structures that were kept
+        after the reduction.
 
     Return
     ======

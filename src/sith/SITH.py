@@ -332,6 +332,9 @@ class SITH:
 
         Parameters
         ==========
+        new_dir: str. Default=None
+            If given, path to a directory where the files corresponding to the
+            reduced set of structures are copied. If None, no files are copied.
 
         Return
         ======
@@ -413,8 +416,9 @@ class SITH:
 
         Return
         ======
-        (float, np.array) energy predicted by the method summing up the
-        energies of each DOF
+        (np.array, np.array) energy predicted by the method summing up the
+        energies of each DOF (per structure), and the energies per DOF
+        (per structure)
         """
         # Jedi Analysis (ja)
         ja = JediAnalysis(self)
@@ -435,8 +439,9 @@ class SITH:
 
         Return
         ======
-        (float, np.array) energy predicted by the method summing up the
-        energies of each DOF
+        (np.array, np.array) energy predicted by the method summing up the
+        energies of each DOF (per structure), and the energies per DOF
+        (per structure)
         """
         # SITH Analysis (sa)
         sa = SithAnalysis(self)

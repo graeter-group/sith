@@ -14,19 +14,16 @@ def shake_except(xyz_file, file_cons, modify_input=True, stdev=0.05):
 
     Parameters
     ==========
-    xyz_file: int
+    xyz_file: str
         original xyz file to be modified.
     file_cons:
         file containing the atoms (1-based indices) to avoid to be modified by
         the shaking.
     modify_input: bool. Default=True
         True to modify the input file.
-    scale: float. Default=0.05
-        max magnitud of the noise to be added in each coordinate of each atom
-        in Angstrom.
     stdev: float. Default=0.05
-        standard deviation of the normal distribution used to generate the
-        random noise.
+        standard deviation, in Angstrom, of the normal distribution used to
+        generate the random noise added to each coordinate of each atom.
 
     Return
     ======
@@ -141,7 +138,7 @@ def diff_bonds(conf1, conf2, frozen_dofs='frozen_dofs.dat'):
 
     Parameters
     ==========
-    conf11: str
+    conf1: str
         first configuration file to be compared.
     conf2: str
         second configuration file to be compared.
@@ -238,7 +235,7 @@ def all_xyz2pdb(template, output_patern=None, xyzdir=''):
 
     Parameters
     ==========
-    pdbtemplate: str
+    template: str
         path to the pdb template for the output.
     output_patern: str. Default=None
         the name of the output will be <this string>-<n>.pdb, where is is an

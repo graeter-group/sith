@@ -167,7 +167,7 @@ class MoleculeSetter:
         index3: int. Default=None
             The atom with index 3 would be in the xy plane in case to be given.
             1-based numbering.
-        Center: int. Default=None
+        center: int. Default=None
             It must be index1 or index2, that means the atom with this index
             will be placed in the origin. In case center=None (default), the
             origin would be in the geometrical center between atoms with index1
