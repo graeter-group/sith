@@ -48,6 +48,7 @@ breakages=1
 method=0
 restart='false'
 size=0.2
+max_restarts=5
 verbose=''
 indexes=''
 level="bmk,6-31+g"
@@ -255,7 +256,8 @@ do
     "$mol-stretched${nameiplusone}.com"  
   fi
   sed -i "1a %NProcShared=$n_processors" "$mol-stretched${nameiplusone}.com"
-  sed -i "/#P/a opt(modredun,calcfc)" "$mol-stretched${nameiplusone}.com"
+  sed -i "/#P/a opt(modredun,calcfc,maxcycles=100)" \
+    "$mol-stretched${nameiplusone}.com"
 
   # run gaussian
   verbose "Running optmization of stretching ${nameiplusone}"
@@ -266,46 +268,50 @@ do
             -eq 1 ]; then fail "Atoms too close for ${nameiplusone}" ; \
       fi ; }
 
-  # check convergence from output
+  # check convergence from output. The optimization is limited to 100 steps
+  # (see maxcycles above); if it did not converge in that many steps,
+  # restart it from the last configuration reached, up to $max_restarts
+  # times.
+  restart_trial=0
   output=$(grep -i optimized "$mol-stretched${nameiplusone}.log" | \
            grep -c -i Non )
-  if [ "$output" -ne 0 ]
-  then
-    # If the code enters here is because, in a first optimization, it
-    # didn't converge so it has to run again to get the optimized 
-    # structure. As a second chance to converge.
+  while [ "$output" -ne 0 ] && [ "$restart_trial" -lt "$max_restarts" ]
+  do
+    restart_trial=$(( restart_trial + 1 ))
     verbose "Optimization did not converge with distance $(( i + 1 )) *
-      $size . Then, a new trial will start now"
+      $size . Restarting from the last configuration (trial $restart_trial
+      of $max_restarts)"
     sith log2xyz "$mol-stretched${nameiplusone}.log" \
       --indexes "[$indexes]" || fail "
-      Transforming log file to xyz in second trial of optimization"
+      Transforming log file to xyz in trial $restart_trial of optimization"
     sith change_distance \
             "$mol-stretched${nameiplusone}.xyz" \
             "$mol-stretched${nameiplustwo}" frozen_dofs.dat 0 "$charge" "$method" \
             --xc "'$xc_functional'" --basis "'$basis_set'" --mult "$multiplicity" \
             || fail "changing distance"
-    # save the failed files in ...-stretched<number>a.*
+    # save the failed files in ...-stretched<number>a.*, ...b.*, and so on
     create_bck "$mol-stretched${nameiplusone}"*
     # then restart the optimization
     mv "$mol-stretched${nameiplustwo}.com" "$mol-stretched${nameiplusone}.com"
     sed -i "s/stretched${nameiplustwo}/stretched${nameiplusone}/g" \
       "$mol-stretched${nameiplusone}.com"
     sed -i "1a %NProcShared=$n_processors" "$mol-stretched${nameiplusone}.com"
-    sed -i "/#P/a opt(modredun,calcfc)" "$mol-stretched${nameiplusone}.com"
+    sed -i "/#P/a opt(modredun,calcfc,maxcycles=100)" \
+      "$mol-stretched${nameiplusone}.com"
     sed -i '$d' "$mol-stretched${nameiplusone}.com"
     cat frozen_dofs.dat >> \
       "$mol-stretched${nameiplusone}.com"
     # run optimization
-    verbose "Re-running optimization"
+    verbose "Re-running optimization (trial $restart_trial of $max_restarts)"
     gaussian "$mol-stretched${nameiplusone}.com" \
         "$mol-stretched${nameiplusone}.log"
-  fi
+    output=$(grep -i optimized "$mol-stretched${nameiplusone}.log" | \
+             grep -c -i Non )
+  done
 
-  # check the output again
-  output=$(grep -i optimized "$mol-stretched${nameiplusone}.log" | \
-           grep -c -i Non )
   [ "$output" -ne 0 ] && fail "Optimization when the stretched distance was
-      $(( i + 1 ))*0.2 didn't converge. No more stretching will be applied"
+      $(( i + 1 ))*0.2 didn't converge after $max_restarts restarts. No more
+      stretching will be applied"
 
   # creating fchk file
   formchk -3 "$mol-stretched${nameiplusone}.chk" || fail "Creating fchk file"

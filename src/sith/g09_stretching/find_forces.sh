@@ -48,6 +48,8 @@ compute_forces () {
     }
   sed -i "1i %NProcShared=$n_processors" $for_name.com
   sed -i "1i %chk=$for_name" $for_name.com
+  sed -i "s/opt(modredun,calcfc,maxcycles=100)/force/g" $for_name.com
+  # next line is deprecated: old version.
   sed -i "s/opt(modredun,calcfc)/force/g" $for_name.com
   # remove unnecessary keywords, they are added sometimes to restart failed
   # processes of optimization:

@@ -216,7 +216,7 @@ do
     --mult "$multiplicity" \
     > /dev/null || fail "Preparating the input of gaussian"
   sed -i "1a %NProcShared=$n_processors" "$struct_name.com"
-  sed -i "/#P/a opt(modredun,calcfc)" "$struct_name.com"
+  sed -i "/#P/a opt(modredun,calcfc,maxcycles=100)" "$struct_name.com"
   sed -i "\$c$index1 $index2 F" $struct_name.com
 
   # and then submits the jobs

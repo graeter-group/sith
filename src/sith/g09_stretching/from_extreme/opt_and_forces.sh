@@ -34,6 +34,24 @@ output to compute the forces.
 exit 0
 }
 
+# restarts the given gaussian job by reading the geometry from its
+# checkpoint file (i.e. from the last configuration reached), instead of
+# redefining the z-matrix from scratch.
+restart_from_checkpoint() {
+  com_file=$1
+  cp "$com_file.com" "tmp-$com_file.com" && create_bck "$com_file.com" && \
+    sleep 1 && mv "tmp-$com_file.com" "$com_file.com" || \
+    fail "creating copy of com file"
+
+  if ! grep -q "Geom=Check" "$com_file.com"
+  then
+    sed -i "/#/a Guess=Read Geom=Check" "$com_file.com"
+    n_i=$(grep -n "^$" "$com_file.com" | cut -d : -f 1 | sed -n '2p')
+    n_j=$(grep -n "^$" "$com_file.com" | cut -d : -f 1 | sed -n '3p')
+    sed -i "$(( n_i + 2 )),$(( n_j - 1 ))d" "$com_file.com"
+  fi
+}
+
 # ---- set up -----------------------------------------------------------------
 cluster='false'
 force_calc='true'
@@ -42,6 +60,7 @@ job_options=''
 verbose=''
 restart='false'
 pattern='conopt'
+max_restarts=5
 while getopts 'cf:Fp:P:rS:vh' flag; do
   case "${flag}" in
     c) cluster='true' ;;
@@ -89,23 +108,35 @@ fi
 verbose "submit constrained optimization $file"
 if [[ "$restart" == "true" ]]
 then
-  cp "$file.com" "tmp-$file.com" && create_bck "$file.com" && \
-    sleep 1 && mv "tmp-$file.com" "$file.com" || \
-    fail "creating copy of com file"
-
-  if ! grep -q "Geom=Check" "$file.com"
-  then
-    sed -i "/#/a Guess=Read Geom=Check" "$file.com"
-    n_i=$(grep -n "^$" "$file.com" | cut -d : -f 1 | sed -n '2p')
-    n_j=$(grep -n "^$" "$file.com" | cut -d : -f 1 | sed -n '3p')
-    sed -i "$(( n_i + 2 )),$(( n_j - 1 ))d" "$file.com"
-  fi
+  restart_from_checkpoint "$file"
 fi
 
 gaussian "$file.com" "$file.log"
 
 grep -q "Normal termination of Gaussian" "$file.log" || \
   fail "Optimization did not work for $file"
+
+# check convergence from output. The optimization is limited to 100 steps
+# (see the maxcycles keyword set when the .com file was created); if it did
+# not converge in that many steps, restart it from the last configuration
+# reached (read from the checkpoint file), up to $max_restarts times.
+restart_trial=0
+output=$(grep -i optimized "$file.log" | grep -c -i Non )
+while [ "$output" -ne 0 ] && [ "$restart_trial" -lt "$max_restarts" ]
+do
+  restart_trial=$(( restart_trial + 1 ))
+  verbose "Optimization of $file did not converge. Restarting from the last
+    configuration (trial $restart_trial of $max_restarts)"
+  restart_from_checkpoint "$file"
+
+  gaussian "$file.com" "$file.log"
+  grep -q "Normal termination of Gaussian" "$file.log" || \
+    fail "Optimization did not work for $file"
+  output=$(grep -i optimized "$file.log" | grep -c -i Non )
+done
+
+[ "$output" -ne 0 ] && fail "Optimization of $file didn't converge after
+  $max_restarts restarts"
 
 if $force_calc
 then

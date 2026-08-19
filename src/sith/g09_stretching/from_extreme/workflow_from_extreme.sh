@@ -70,6 +70,7 @@ restart='false'
 restart='false'
 job_options=''
 index3=None
+max_restarts=5
 
 verbose=''
 while getopts 'a:ci:l:m:p:q:rS:t:u:vh' flag;
@@ -193,18 +194,48 @@ then
     --mult "$multiplicity" \
     > /dev/null || fail "Preparating the input of gaussian"
   sed -i "1a %NProcShared=$n_processors" "$name-optext.com"
-  sed -i "/#P/a opt(modredun,calcfc)" "$name-optext.com"
+  sed -i "/#P/a opt(modredun,calcfc,maxcycles=100)" "$name-optext.com"
 
   gaussian "$name-optext.com" "$name-optext.log" || \
     { if [ "$(grep -c "Atoms too close." \
            "$name-optext.com")" \
-           -eq 1 ]; then fail "Atoms too close for ${nameiplusone}" ; \
+           -eq 1 ]; then fail "Atoms too close for $name-optext" ; \
       fi ; } || fail "running gaussian optimization"
-  # check convergence from output
-  output=$(grep -i optimized "$name-optext.log" | \
-           grep -c -i Non )
 
-  [ "$output" -ne 0 ] && fail "Optimization didn't converged"
+  # check convergence from output. The optimization is limited to 100 steps
+  # (see maxcycles above); if it did not converge in that many steps,
+  # restart it from the last configuration reached, up to $max_restarts
+  # times.
+  restart_trial=0
+  output=$(grep -i optimized "$name-optext.log" | grep -c -i Non )
+  while [ "$output" -ne 0 ] && [ "$restart_trial" -lt "$max_restarts" ]
+  do
+    restart_trial=$(( restart_trial + 1 ))
+    verbose -t "Optimization did not converge. Restarting from the last
+      configuration (trial $restart_trial of $max_restarts)"
+    sith log2xyz "$name-optext.log" --indexes "[$indexes]" > /dev/null || \
+      fail "extracting coordinates from $name-optext.log"
+    sith change_distance "$name-optext.xyz" "tmp-$name-optext" \
+      no_frozen_dofs 0 "$charge" "scale_distance" --xc "'$xc_functional'" \
+      --basis "'$basis_set'" --mult "$multiplicity" \
+      > /dev/null || fail "Preparating the input of gaussian"
+    # save the failed files in $name-optext-bck_00N.*
+    create_bck "$name-optext"*
+    mv "tmp-$name-optext.com" "$name-optext.com"
+    sed -i "s/tmp-$name-optext/$name-optext/g" "$name-optext.com"
+    sed -i "1a %NProcShared=$n_processors" "$name-optext.com"
+    sed -i "/#P/a opt(modredun,calcfc,maxcycles=100)" "$name-optext.com"
+
+    gaussian "$name-optext.com" "$name-optext.log" || \
+      { if [ "$(grep -c "Atoms too close." \
+             "$name-optext.com")" \
+             -eq 1 ]; then fail "Atoms too close for $name-optext" ; \
+        fi ; } || fail "running gaussian optimization"
+    output=$(grep -i optimized "$name-optext.log" | grep -c -i Non )
+  done
+
+  [ "$output" -ne 0 ] && fail "Optimization didn't converge after
+    $max_restarts restarts"
 fi
 
 if [[ $(ls *optext*.log | wc -l ) -gt 1 ]];
