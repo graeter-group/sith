@@ -491,9 +491,10 @@ def set1(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
 
     Parameters
     ==========
-    N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i, HG2_i,
-    HD1_i, HD2_i: int
-        indices of the proline backbone and ring atoms.
+    N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i: int
+        indices of the proline backbone and ring heavy atoms.
+    HB1_i, HB2_i, HG1_i, HG2_i, HD1_i, HD2_i: int
+        indices of the hydrogen atoms of the proline ring.
     atoms: ase.Atoms
         atoms of the current configuration.
     comfile: str
@@ -527,9 +528,10 @@ def set2(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
 
     Parameters
     ==========
-    N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i, HG2_i,
-    HD1_i, HD2_i: int
-        indices of the proline backbone and ring atoms.
+    N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i: int
+        indices of the proline backbone and ring heavy atoms.
+    HB1_i, HB2_i, HG1_i, HG2_i, HD1_i, HD2_i: int
+        indices of the hydrogen atoms of the proline ring.
     atoms: ase.Atoms
         atoms of the current configuration.
     comfile: str
@@ -563,9 +565,10 @@ def set3(N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
 
     Parameters
     ==========
-    N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i, HG2_i,
-    HD1_i, HD2_i: int
-        indices of the proline backbone and ring atoms.
+    N_i, Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i: int
+        indices of the proline backbone and ring heavy atoms.
+    HB1_i, HB2_i, HG1_i, HG2_i, HD1_i, HD2_i: int
+        indices of the hydrogen atoms of the proline ring.
     atoms: ase.Atoms
         atoms of the current configuration.
     comfile: str
@@ -598,9 +601,10 @@ def set4(Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i,
 
     Parameters
     ==========
-    Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i, HB1_i, HB2_i, HG1_i, HG2_i, HD1_i,
-    HD2_i: int
-        indices of the proline backbone and ring atoms.
+    Cd_i, Cg_i, Cb_i, Ca_i, C_i, O_i: int
+        indices of the proline backbone and ring heavy atoms.
+    HB1_i, HB2_i, HG1_i, HG2_i, HD1_i, HD2_i: int
+        indices of the hydrogen atoms of the proline ring.
     atoms: ase.Atoms
         atoms of the current configuration.
     comfile: str
@@ -635,9 +639,11 @@ def set5(N_i, Ca_i, HA_i, C_i, O_i,
 
     Parameters
     ==========
-    N_i, Ca_i, HA_i, C_i, O_i, Cd_i, Cg_i, Cb_i, HB1_i, HB2_i, HG1_i,
-    HG2_i, HD1_i, HD2_i: int
-        indices of the proline backbone and ring atoms.
+    N_i, Ca_i, HA_i, C_i, O_i, Cd_i, Cg_i, Cb_i: int
+        indices of the proline backbone atoms (including HA) and ring heavy
+        atoms.
+    HB1_i, HB2_i, HG1_i, HG2_i, HD1_i, HD2_i: int
+        indices of the hydrogen atoms of the proline ring.
     previous: list of int
         indices of the three atoms of the previous residue used as
         reference to redefine the first atom of the chain (order depends

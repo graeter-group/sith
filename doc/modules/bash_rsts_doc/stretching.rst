@@ -1,9 +1,6 @@
-
 ==========
 stretching
 ==========
-
-
 
 .. container:: bash-script-title
 
@@ -12,10 +9,10 @@ stretching
 .. container:: bash-script-doc
 
    .. line-block::
-      
+
       This tool obtains the stretched configurations of a molecule by increasing the
       distance between two atoms, constraining and optimizing at every step.
-      
+
         -b  <number_of_breakages=1> The simulation will run until get this number of
             ruptures.
         -c  Use this flag to run in a cluster. When -p is not defined, and you run in
@@ -28,14 +25,15 @@ stretching
             If this flag is not used and 'molecule' (flag -m) is a pdb, indexes 1 and
             2 will correspond to the CH3 atoms in ACE and NME residues defined in the
             pdb if they exist.
-        -l  <xc,base=bmk,6-31+g> evel of DFT theory.
+        -l  <xc,base="bmk,6-31+g"> evel of DFT theory.
         -m  <molecule> molecule name. In this directory, a file called
             <molecule>-stretched00.pdb must exist.
         -p  <processors=1> number of processors per gaussian job.
+        -q  <charge=0> charge of the molecule in electron units.
         -r  restart stretching. In this case, this code must be executed from
             the molecule's directory.
         -s  <size[A]=0.2> Size of the step that increases the distances at each step.
-      
+        -u  <multiplicity=1> spin multiplicity of the molecule.
+
         -v  verbose
         -h  prints this message.
-      

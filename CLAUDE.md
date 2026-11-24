@@ -108,10 +108,17 @@ documents its flags in a `print_help()` heredoc, reachable with `-h`.
   (`.github/workflows/jekyll-gh-pages.yml`) rebuilds on push to `main`. It also
   installs `PlottingTool` and `vmol` from GitHub, plus `nglview`, `ipywidgets`
   and `vpython`.
-- `doc/modules/bash_rsts_doc/*.rst` mirror each script's `print_help()` text, and
-  `bash_rsts_scripts/*.rst` `literalinclude` the script source. If you change a
-  script's flags, update the matching `bash_rsts_doc` page; no generator
-  script lives in this repo.
+- `doc/modules/bash_rsts_doc/*.rst` (the `print_help()` text of each script)
+  and `bash_rsts_scripts/*.rst` (a `literalinclude` of its source) are
+  **generated** by `doc/generate_bash_docs.py`, which `conf.py` runs on every
+  build.
+  - Don't hand-edit those pages. Edit the script's `print_help()`, then rebuild
+    or run `python doc/generate_bash_docs.py`.
+  - The help text is parsed statically from the source, never by running
+    `-h`, so `:bashscript:` roles inside help text survive.
+  - The generator warns when a script isn't included in any
+    `doc/modules/sith*.rst` page. For a new script, add a label and an
+    `.. include:: bash_rsts_doc/<name>.rst` to its package page.
 - `doc/workflow/*.rst` (extraction, analysis, output, visualization) are mostly
   empty stubs. The real user docs are `install.rst` and the two tutorials in
   `doc/tutorials/`.

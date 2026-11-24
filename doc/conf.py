@@ -4,6 +4,12 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../src/'))
 
+# Regenerate the pages of the bash scripts (modules/bash_rsts_doc and
+# modules/bash_rsts_scripts) from the print_help functions of the scripts.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import generate_bash_docs  # noqa: E402
+generate_bash_docs.main()
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:

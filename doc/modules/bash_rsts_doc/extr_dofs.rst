@@ -1,9 +1,6 @@
-
 =========
 extr_dofs
 =========
-
-
 
 .. container:: bash-script-title
 
@@ -12,12 +9,11 @@ extr_dofs
 .. container:: bash-script-doc
 
    .. line-block::
-      
+
       This tool extract the dofs of a set of xyz files using the gaussian tool
-      'newzmat'. The ouput are files called <xyz file with *pattern*>-dofs.dat, where
+      'newzmat'. The ouput are files called <xyz file with \*pattern\*>-dofs.dat, where
       pattern comes from -f flag.
-      
-        -f  <xyz files pattern>. The code will look for *<pattern>*.xyz
-      
+
+        -f  <xyz files pattern>. The code will look for \*<pattern>\*.xyz
+
         -h  prints this message.
-      

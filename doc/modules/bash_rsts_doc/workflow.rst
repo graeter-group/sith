@@ -1,9 +1,6 @@
-
 ========
 workflow
 ========
-
-
 
 .. container:: bash-script-title
 
@@ -12,11 +9,11 @@ workflow
 .. container:: bash-script-doc
 
    .. line-block::
-      
+
       This tool creates all the stretched structures for a molecule and computes the
       needed quantities for sith. You can use this code to submit a Job in cluster or
       to execute it locally. Consider the next options:
-      
+
         -b  <number of breakages=1> The simulation will run until getting this number
             of ruptures in the bonds.
         -c  run in cluster (see the documentation of the installation of sith
@@ -25,18 +22,19 @@ workflow
             If this flag is not used and 'molecule' (flag -m) is a pdb, indexes 1 and
             2 will correspond to the CH3 atoms in ACE and NME residues defined in the
             pdb if they exist.
-        -l  <xc,base=bmk,6-31+g> evel of DFT theory.
+        -l  <xc,base="bmk,6-31+g"> evel of DFT theory.
         -m  <molecule> definition of the molecule (xyz, pdb, ...).
         -M  <method=0> Index of stretching method. To see the options, use
             'sith change_distance -h' to see the order.
         -n  <n_processors=1> number of processors per gaussian job.
+        -q  <charge=0> charge of the molecule in electron units.
         -r  restart. In this case, run from the directory of the pre-created
             stretched molecule.
         -s  <size[A]=0.2> of the step that increases the distances.
         -S  <job_options=''> options for submitting a new job. This flag only makes
             sense in slurm cluster. Please, do not include a name and add the options
             as in the next example: "--partition=cpu --nice".
-      
+        -u  <multiplicity=1> spin multiplicity of the molecule.
+
         -v  verbose.
         -h  prints this message.
-      

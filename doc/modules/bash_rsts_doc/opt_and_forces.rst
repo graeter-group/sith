@@ -1,9 +1,6 @@
-
 ==============
 opt_and_forces
 ==============
-
-
 
 .. container:: bash-script-title
 
@@ -12,10 +9,10 @@ opt_and_forces
 .. container:: bash-script-doc
 
    .. line-block::
-      
+
       This code submits a gaussian job (typically an optimization) and uses the
       output to compute the forces.
-      
+
         -c  Use this flag to run in a cluster. When -p is not defined, and you run in
             a slurm job manager system, the number of processors is equal to the
             number of cores asked in the submission of the job.
@@ -30,8 +27,7 @@ opt_and_forces
             sense in slurm cluster. Please, do not include a name and add the options
             as in the next example: "--partition=cpu --nice".
         -r  if the optimization did not converge, restart it from the last
-            geometry. 
-      
+            geometry.
+
         -v  verbose.
         -h  prints this message.
-      

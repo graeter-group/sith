@@ -34,3 +34,9 @@ Submodules
    :members:
    :undoc-members:
    :show-inheritance:
+
+
+.. automodule:: sith.cli.main
+   :members:
+   :undoc-members:
+   :show-inheritance:

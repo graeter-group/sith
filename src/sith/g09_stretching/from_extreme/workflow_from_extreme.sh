@@ -29,8 +29,10 @@ to these subjobs).
       atoms in ACE and NME residues defined in the pdb if they exist.
   -l  <xc,base="bmk,6-31+g"> level of DFT theory.
   -m  <molecule> directory or coordinates file of configuration to be relaxed.
-      For example, \"./AAA/\" a trialanine configuration ('last' after
-      organizing all xyz files alphabetically all AAA*.xyz files in ./AAA/).
+      The coordinates file can be an xyz file, for example. 
+      For the case it is a directory, for example, \"./AAA/\" a trialanine
+      configuration ('last' after organizing all xyz files alphabetically all
+      AAA*.xyz files in ./AAA/).
   -p  <processors=1> number of processors per gaussian job. See description of
       flag -c.
   -q  <charge=0> charge of the molecule in electron units.
