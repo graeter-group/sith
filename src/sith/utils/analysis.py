@@ -147,6 +147,49 @@ def reduce_data(xs, ys):
 
     return new_x, new_y
 
+def chop_at_comm_min(xs, ys):
+    """
+    Reduces the data to the range of maximum minimum xs (highest of the lowest)
+    and minumim maximum xs (lowest of the highest). Returns a new list of xs
+    and ys where all the minum/maximum xs are the same and the ys of the
+    minumum/maximum xs are found by interpolation. Also makes the
+    transformation new_y -= new_y[:, 0]
+
+    Parameters
+    ==========
+    xs: list of arrays
+        set of xs data.
+    ys: list of arrays
+        set of xs data.
+
+    Return
+    ======
+    (tuple) list of new xs and new ys
+
+    Note
+    ----
+    if defmin/defmax is higher/lower than the real minimum/maximum, this code
+    would not recognize the proper values. Be sure that defmin/defmax is
+    lower/higher than the lowest/highest of xs.
+    """
+    minx = -np.inf
+
+    for i, x in enumerate(xs):
+        # maximum minimum 
+        if x[0] > minx:
+            minx = x[0]
+
+    new_x = []
+    new_y = []
+    for i, x in enumerate(xs):
+        miny = cross_val(ys[i], x, minx)
+        condition = x > minx
+        conca_x = np.insert(x[condition], 0, minx)
+        conca_y = np.insert(ys[i][condition] - miny, 0, 0)
+        new_x.append(conca_x)
+        new_y.append(conca_y)
+
+    return new_x, new_y
 
 def construct_neigh_dic(dsa, es):
     """
