@@ -160,7 +160,9 @@ def plot_matrix(matrix, labels, n_per_ele, cbar_label):
     return sp
 
 
-def plot_matrix2(matrix, labels, cbar_label, sp=None, subspace=None):
+def plot_matrix2(matrix, labels, cbar_label, sp=None,
+                 subspace=None,
+                 ax=0):
     """
     Plot a matrix as a heatmap. The colormap is plt.get_cmap('coolwarm') and is
     divergent, with 0.05 in the middle.
@@ -195,17 +197,17 @@ def plot_matrix2(matrix, labels, cbar_label, sp=None, subspace=None):
     # Plot the heatmap
     cmap = plt.get_cmap('coolwarm')
     norm = TwoSlopeNorm(vmin=0, vcenter=0.05, vmax=1)
-    im = sp.ax[0].imshow(matrix, cmap=cmap, norm=norm)
+    im = sp.ax[ax].imshow(matrix, cmap=cmap, norm=norm)
 
     # Setting matrix plot
-    sp.ax[0].set_yticks(np.arange(matrix.shape[0]), labels=labels)
-    sp.ax[0].tick_params(top=True, bottom=False, labeltop=True,
+    sp.ax[ax].set_yticks(np.arange(matrix.shape[0]), labels=labels)
+    sp.ax[ax].tick_params(top=True, bottom=False, labeltop=True,
                          labelbottom=False)
-    sp.ax[0].set_xticks(np.arange(matrix.shape[1] + 1) - 0.5, minor=True)
-    sp.ax[0].set_yticks(np.arange(matrix.shape[0] + 1) - 0.5, minor=True)
-    sp.ax[0].grid(which="minor", color=[0.4, 0.4, 0.4], linestyle='--',
+    sp.ax[ax].set_xticks(np.arange(matrix.shape[1] + 1) - 0.5, minor=True)
+    sp.ax[ax].set_yticks(np.arange(matrix.shape[0] + 1) - 0.5, minor=True)
+    sp.ax[ax].grid(which="minor", color=[0.4, 0.4, 0.4], linestyle='--',
                   linewidth=0.3)
-    sp.ax[0].tick_params(which="minor", bottom=False, left=False)
+    sp.ax[ax].tick_params(which="minor", bottom=False, left=False)
 
     # Create colorbar
     sp.add_axes()
@@ -222,15 +224,17 @@ def plot_matrix2(matrix, labels, cbar_label, sp=None, subspace=None):
     bottom = -0.04
     subspace.locate_ax([[left + 0.0, bottom + (1 - side) / 2],
                         [left + side, bottom + side]],
-                       ax=sp.ax[0])
+                       ax=sp.ax[ax])
     # ColorBar
     subspace.locate_ax([[0.76, bottom + (1 - side) / 2], [0.82, 0.912]],
-                       ax=sp.ax[1])
+                       ax=sp.ax[-1])
 
     return sp
 
 
-def plot_matrix3(matrix, labels, cbar_label):
+def plot_matrix3(matrix, labels, cbar_label, sp=None,
+                 subspace=None,
+                 ax=0):
     """
     Plot a matrix as a heatmap and show a value per combination.
 
@@ -247,11 +251,14 @@ def plot_matrix3(matrix, labels, cbar_label):
     ======
     (StandardPlot) sith.plotters.StandardPlot object.
     """
-    sp = StandardPlotter(figwidth=8.9, figheight=8.9 / 1.3,
-                         ax_pref={'xticks': np.arange(matrix.shape[1]),
-                                  'xticklabels': labels,
-                                  'yticks': np.arange(matrix.shape[0]),
-                                  'yticklabels': labels})
+    if sp is None:
+        sp = StandardPlotter(figwidth=8.9, figheight=8.9 / 1.3,
+                             ax_pref={'xticks': np.arange(matrix.shape[1]),
+                                      'xticklabels': labels,
+                                      'yticks': np.arange(matrix.shape[0]),
+                                      'yticklabels': labels})
+    if subspace is None:
+        subspace = sp.spaces[0]
 
     # Plot the heatmap
     try:
@@ -259,35 +266,35 @@ def plot_matrix3(matrix, labels, cbar_label):
         cmap = cmo.cm.algae
     except ImportError:
         cmap = mpl.get_cmap['viridis']
-    im = sp.ax[0].imshow(matrix, cmap=cmap)
+    im = sp.ax[ax].imshow(matrix, cmap=cmap)
     # Setting matrix plot
-    sp.ax[0].set_yticks(np.arange(matrix.shape[0]), labels=labels)
-    sp.ax[0].tick_params(top=True, bottom=False, labeltop=True,
+    sp.ax[ax].set_yticks(np.arange(matrix.shape[0]), labels=labels)
+    sp.ax[ax].tick_params(top=True, bottom=False, labeltop=True,
                          labelbottom=False)
-    sp.ax[0].set_xticks(np.arange(matrix.shape[1] + 1) - 0.5, minor=True)
-    sp.ax[0].set_yticks(np.arange(matrix.shape[0] + 1) - 0.5, minor=True)
-    sp.ax[0].grid(which="minor", color=[0.4, 0.4, 0.4], linestyle='--',
+    sp.ax[ax].set_xticks(np.arange(matrix.shape[1] + 1) - 0.5, minor=True)
+    sp.ax[ax].set_yticks(np.arange(matrix.shape[0] + 1) - 0.5, minor=True)
+    sp.ax[ax].grid(which="minor", color=[0.4, 0.4, 0.4], linestyle='--',
                   linewidth=0.3)
-    sp.ax[0].tick_params(which="minor", bottom=False, left=False)
+    sp.ax[ax].tick_params(which="minor", bottom=False, left=False)
 
     # Create colorbar
     sp.add_axes()
 
-    plt.colorbar(im, cax=sp.ax[1])
-    sp.axis_setter(ax=sp.ax[1], ylabel=cbar_label, reset=True)
-    sp.ax[1].yaxis.get_offset_text().set_x(1.55)
+    plt.colorbar(im, cax=sp.ax[-1])
+    sp.axis_setter(ax=sp.ax[-1], ylabel=cbar_label, reset=True)
+    sp.ax[-1].yaxis.get_offset_text().set_x(1.55)
 
     # ==== Location of axis
     # Matrix:
     side = 0.87
     left = -0.005
     bottom = -0.04
-    sp.spaces[0].locate_ax([[left + 0.0, bottom + (1 - side) / 2],
+    subspace.locate_ax([[left + 0.0, bottom + (1 - side) / 2],
                             [left + side, bottom + side]],
-                           ax=sp.ax[0])
+                           ax=sp.ax[ax])
     # ColorBar
-    sp.spaces[0].locate_ax([[0.76, bottom + (1 - side) / 2], [0.82, 0.912]],
-                           ax=sp.ax[1])
+    subspace.locate_ax([[0.76, bottom + (1 - side) / 2], [0.82, 0.912]],
+                           ax=sp.ax[-1])
 
     return sp
 
@@ -390,6 +397,7 @@ class SithPlotter(PepSetter, SithAnalysis):
                   show_amino_legends: bool = False, ax_pref: dict = {},
                   sp_pref={},
                   pad_cbar=10,
+                  skip_first=0,
                   **kwargs) -> Tuple[plt.Figure, plt.Axes]:
         r"""
         This function plots the energies per degrees of freedom from
@@ -439,6 +447,8 @@ class SithPlotter(PepSetter, SithAnalysis):
             plotter object (used only if `sp` is not given).
         pad_cbar: int or float. Default=10
             padding of the color bar label.
+        skip_first: int. Default=0
+            number of first stretchings to ignore
 
         Return
         ======
@@ -448,7 +458,7 @@ class SithPlotter(PepSetter, SithAnalysis):
             dofs = np.arange(1, self.sith.dims[0] + 1)
         if e_dofs is None:
             e_dofs = self.sith.dofs_energies
-        e_dofs = e_dofs[::jump_stretching]
+        e_dofs = e_dofs[skip_first::jump_stretching]
 
         # Setup default
         if cmap is None:
@@ -469,7 +479,7 @@ class SithPlotter(PepSetter, SithAnalysis):
         fig = sp.fig
 
         # Color bar
-        boundaries = np.arange(0, len(e_dofs) + 1)
+        boundaries = np.arange(0, len(e_dofs)+ 1 ) 
         normalize = mpl.colors.BoundaryNorm(boundaries - 0.5, cmap.N)
         if cbar:
             ax_bar = sp.add_axes()
@@ -480,8 +490,9 @@ class SithPlotter(PepSetter, SithAnalysis):
                                    cax=ax_bar,
                                    orientation='vertical')
             cbar.set_ticks(boundaries[:-1],
-                           labels=boundaries[:-1] * jump_stretching)
-            cbar.set_label(label="Stretched",
+                           labels=boundaries[:-1] * jump_stretching + skip_first,
+                           fontsize= mpl.rcParams['font.size']* sp.ax_pref['ticks_scale'])
+            cbar.set_label(label="k-th Stretching",
                            fontsize=mpl.rcParams['font.size']
                            * sp.ax_pref['labels_scale'],
                            rotation=90,
@@ -490,8 +501,7 @@ class SithPlotter(PepSetter, SithAnalysis):
             space_bar.locate_ax(borders=[[0, 0.13], [0.2, 0.95]])
 
         sp.axis_setter(ax=ax, xlabel=xlabel, ylabel=ylabel,
-                       xticks=np.arange(dofs[0], dofs[-1] + 1, step),
-                       **ax_pref)
+                       xticks=np.arange(dofs[0], dofs[-1] + 1, step))
 
         [sp.plot_data(dofs, e_dofs[i], ax=ax, pstyle=pstyle,
                       color_plot=cmap(normalize(i)),

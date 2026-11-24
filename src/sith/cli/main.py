@@ -70,7 +70,6 @@ pymodules = {
     'log2xyz2': 'sith.g09_stretching.g09_xyz',
     'log2xyz': 'sith.g09_stretching.g09_xyz',
     'reduce_structs': 'sith.g09_stretching.from_extreme.info_from_opt',
-    'continuous_e2e': 'sith.g09_stretching.from_extreme.info_from_opt',
     'info_from_opt': 'sith.g09_stretching.from_extreme.info_from_opt',
     'change_prolines_dofs': 'sith.g09_stretching.change_dofs',
 }
